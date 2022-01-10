@@ -19,6 +19,9 @@
 ## 4.2 删除线  
 &bsim;&bsim;波浪&bsim;&bsim;波浪 ~~波浪~~波浪  
 ## 4.3 下划线
-&lt;u&gt;下划线&lt;/u&gt; <u>下划线</u>  
+&lt;u&gt;下划线&lt;/u&gt; <u>下划线</u> 
 ## 4.4 脚注
-创建脚注&lsqb;^脚注&rsqb; 创建脚注[^脚注]
+使用脚注 &lsqb;^footnote&rsqb;  
+创建脚注 &lsqb;^footnote&rsqb; : I'm Jf  
+使用脚注[^footnote]  
+[^footnote]: I'm Jf    
