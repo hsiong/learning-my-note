@@ -149,14 +149,14 @@ markdown加载图片
 例如, ![image](https://user-images.githubusercontent.com/37357447/148873182-b2cd94fb-434e-40be-a402-3e2406e28006.png)
 ## 11.4 转义
 ### 11.4.1 使用转义字符
-![image](https://user-images.githubusercontent.com/37357447/148873285-4cf28fd4-5428-4607-86ee-3346e2eed0f3.png)
+![image](https://user-images.githubusercontent.com/37357447/148873285-4cf28fd4-5428-4607-86ee-3346e2eed0f3.png)  
 \*\* 这是一个标题测试
 ** 列表1
 ### 11.4.2 使用html转义字符
 [w3c-html转义字符](https://dev.w3.org/html5/html-author/charref)
 ## 11.5 公式
-Markdown Preview Enhanced 使用 KaTeX 或者 MathJax 来渲染数学表达式。
-[markdown支持公式-KaTeX](https://github.com/KaTeX/KaTeX)
+Markdown Preview Enhanced 使用 KaTeX 或者 MathJax 来渲染数学表达式。  
+[markdown支持公式-KaTeX](https://github.com/KaTeX/KaTeX)  
 [markdown支持公式-MathJax](https://github.com/mathjax/MathJax)
 ## 11.6 流程图
 [如何在Markdown文本中添加流程图，附支持github的方法](https://github.com/DenryDu/DenryDu.github.io/issues/4)
