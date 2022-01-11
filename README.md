@@ -1,6 +1,5 @@
 # This is a brief introduction about MarkDown .  
 
-- [This is a brief introduction about MarkDown .](#this-is-a-brief-introduction-about-markdown-)
 - [1. 标题](#1-标题)
 - [&num; 标题1](#-标题1)
   - [&num;&num; 标题2](#-标题2)
@@ -45,8 +44,9 @@
 ...
 
 # 2. 换行  
-![image](https://user-images.githubusercontent.com/37357447/148748222-78c71677-b4bc-4fa1-b96e-06fc0beb1f40.png)
-![image](https://user-images.githubusercontent.com/37357447/148746940-ae44ccab-3f75-4b61-8207-258ba73d450a.png)
+![image](https://user-images.githubusercontent.com/37357447/148874925-1b6c44c0-0e36-4e84-b203-ffeedbca97ea.png)
+![image](https://user-images.githubusercontent.com/37357447/148875011-c76f9415-e4fa-419b-9673-dac3f3275aa0.png)
+
 
 # 3. 粗斜体  
 &ast;斜体&ast; *斜体*  
