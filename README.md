@@ -1,6 +1,5 @@
 # This is a brief introduction about MarkDown .  
 
-- [This is a brief introduction about MarkDown .](#this-is-a-brief-introduction-about-markdown-)
 - [1. 标题](#1-标题)
 - [&num; 标题1](#-标题1)
   - [&num;&num; 标题2](#-标题2)
