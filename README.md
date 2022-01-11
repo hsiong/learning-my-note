@@ -142,7 +142,8 @@ markdown加载图片
 # 11. 高级技巧
 ## 11.1 锚点 
 锚点用于目录, 亦可使用vscode-Markdown All in One一键生成目录  
-[markdown的锚点](https://www.jianshu.com/p/6571d37c8060)
+[markdown的锚点](https://www.jianshu.com/p/6571d37c8060)  
+[vscode-Markdown All in One一键生成目录](https://blog.csdn.net/sculpta/article/details/104173014)
 ## 11.2 vscode-markdown实时预览
 [vscode开启markdown实时预览](https://www.cnblogs.com/yourstars/p/15246477.html)
 ## 11.3 html
