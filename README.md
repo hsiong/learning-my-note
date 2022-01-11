@@ -162,3 +162,6 @@ Markdown Preview Enhanced 使用 KaTeX 或者 MathJax 来渲染数学表达式�
 [markdown支持公式-MathJax](https://github.com/mathjax/MathJax)
 ## 11.6 流程图
 [如何在Markdown文本中添加流程图，附支持github的方法](https://github.com/DenryDu/DenryDu.github.io/issues/4)
+## 11.7 css样式
+与html引入方式一样
+[HTML引入CSS的方式](https://www.runoob.com/w3cnote/html-import-css-method.html)
