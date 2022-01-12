@@ -73,7 +73,7 @@
 + 第二项  &plus; 第二项  
 - 第三项  &boxh; 第三项  
 ## 5.2  列表嵌套
-![image](https://user-images.githubusercontent.com/37357447/148867730-ba2c2c95-1162-4857-9730-5cdd784fd60f.png)
+![image](https://user-images.githubusercontent.com/37357447/148867730-ba2c2c95-1162-4857-9730-5cdd784fd60f.png)  
 或者序号后两个空格, 下一行前空3格(操作复杂, 不建议使用)
 1. 第一列表
     + 第一项
