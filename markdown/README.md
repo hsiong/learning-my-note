@@ -168,4 +168,8 @@ Markdown Preview Enhanced 使用 KaTeX 或者 MathJax 来渲染数学表达式�
 与html引入方式一样, 注意, github link和style标签不生效
 [github-css禁用标签](https://www.coder.work/article/7293953)
 [HTML引入CSS的方式](https://www.runoob.com/w3cnote/html-import-css-method.html)
-
+[github-改变字体颜色](https://github.com/guodongxiaren/README/issues/21)
+```diff
++ this will be highlighted in green
+- this will be highlighted in red
+```
