@@ -106,6 +106,7 @@
 
 # 7. 代码
 ![image](https://user-images.githubusercontent.com/37357447/148870199-6b7be645-41d2-4647-8776-2157cb78ea75.png)
+<b>注意: </b>代码两段三个单引号前的缩进需一致, 否则vscode的自动目录生成功能可能会出现问题
 ```
 public void test() {
   system.out.println("this is a test");
