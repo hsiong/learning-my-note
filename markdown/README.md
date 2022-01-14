@@ -1,4 +1,4 @@
-# This is a brief introduction about MarkDown .  
+# This is a brief introduction about MarkDown .
 
 - [1. 标题](#1-标题)
 - [&num; 标题1](#-标题1)
@@ -29,53 +29,53 @@
   - [10.2 设置对齐](#102-设置对齐)
 - [11. 高级技巧](#11-高级技巧)
   - [11.1 锚点](#111-锚点)
-  - [11.2 vscode-markdown实时预览](#112-vscode-markdown实时预览)
+  - [11.2 css样式](#112-css样式)
   - [11.3 html](#113-html)
   - [11.4 转义](#114-转义)
     - [11.4.1 使用转义字符](#1141-使用转义字符)
     - [11.4.2 使用html转义字符](#1142-使用html转义字符)
   - [11.5 公式](#115-公式)
   - [11.6 流程图](#116-流程图)
-  - [11.7 css样式](#117-css样式)
+  - [11.7 vscode集成](#117-vscode集成)
 
-# 1. 标题 
-# &num; 标题1   
-## &num;&num; 标题2 
-### &num;&num;&num; 标题3 
+# 1. 标题
+# &num; 标题1
+## &num;&num; 标题2
+### &num;&num;&num; 标题3
 ...
 
-# 2. 换行  
+# 2. 换行
 ![image](https://user-images.githubusercontent.com/37357447/148874925-1b6c44c0-0e36-4e84-b203-ffeedbca97ea.png)
 ![image](https://user-images.githubusercontent.com/37357447/148875011-c76f9415-e4fa-419b-9673-dac3f3275aa0.png)
 
 
-# 3. 粗斜体  
-&ast;斜体&ast; *斜体*  
-&ast;&ast;粗体&ast;&ast; **粗体**  
-&ast;&ast;&ast;粗斜体&ast;&ast;&ast; ***粗斜体***  
+# 3. 粗斜体
+&ast;斜体&ast; *斜体*
+&ast;&ast;粗体&ast;&ast; **粗体**
+&ast;&ast;&ast;粗斜体&ast;&ast;&ast; ***粗斜体***
 
-# 4. 线  
-## 4.1 分隔线   
-&ast;&ast;&ast; ***  
-## 4.2 删除线  
-&bsim;&bsim;波浪&bsim;&bsim;波浪 ~~波浪波浪波浪波浪波浪~~波浪  
+# 4. 线
+## 4.1 分隔线
+&ast;&ast;&ast; ***
+## 4.2 删除线
+&bsim;&bsim;波浪&bsim;&bsim;波浪 ~~波浪波浪波浪波浪波浪~~波浪
 ## 4.3 下划线
-&lt;u&gt;下划线&lt;/u&gt; <u>下划线</u> 
+&lt;u&gt;下划线&lt;/u&gt; <u>下划线</u>
 ## 4.4 脚注
-使用脚注 &lsqb;^footnote&rsqb;  
-创建脚注 &lsqb;^footnote&rsqb; : I'm Jf  
-使用脚注[^footnote]  
-[^footnote]: I'm Jf    
+使用脚注 &lsqb;^footnote&rsqb;
+创建脚注 &lsqb;^footnote&rsqb; : I'm Jf
+使用脚注[^footnote]
+[^footnote]: I'm Jf
 
 # 5. 段落标记
 ## 5.1 列表
-* 第一项  &ast; 第一项 
-+ 第二项  &plus; 第二项  
-- 第三项  &boxh; 第三项  
+* 第一项  &ast; 第一项
++ 第二项  &plus; 第二项
+- 第三项  &boxh; 第三项
 <b>注意：</b>vscode在受限模式不会自动添加标号，需要信任相关文件
 
 ## 5.2  列表嵌套
-![image](https://user-images.githubusercontent.com/37357447/148867730-ba2c2c95-1162-4857-9730-5cdd784fd60f.png)  
+![image](https://user-images.githubusercontent.com/37357447/148867730-ba2c2c95-1162-4857-9730-5cdd784fd60f.png)
 ~~或者序号后两个空格, 下一行前空3格(操作复杂, 不建议使用)~~
 1. 第一列表
     + 第一项
@@ -86,9 +86,9 @@
 
 # 6. 区块
 ## 6.1 区块引用
-&gt; 区块引用  
-&gt;&gt; 第一层  
-&gt;&gt;&gt; 第二层  
+&gt; 区块引用
+&gt;&gt; 第一层
+&gt;&gt;&gt; 第二层
 > 区块引用
 > > 第一层
 > > > 第二层
@@ -103,11 +103,11 @@
 ![image](https://user-images.githubusercontent.com/37357447/148869958-1cabf8ae-c0f1-42fa-bd6d-6e2b9c6bb425.png)
 + 第一列表
     > 第一区块
-    > > 第二区块  
+    > > 第二区块
 + 第二列表
 
 # 7. 代码
-![image](https://user-images.githubusercontent.com/37357447/148870199-6b7be645-41d2-4647-8776-2157cb78ea75.png)  
+![image](https://user-images.githubusercontent.com/37357447/148870199-6b7be645-41d2-4647-8776-2157cb78ea75.png)
 <b>注意: </b>代码两段三个单引号前的缩进需一致, 否则vscode的自动目录生成功能可能会出现问题
 ```
 public void test() {
@@ -116,16 +116,16 @@ public void test() {
 ```
 
 # 8. 链接
-![image](https://user-images.githubusercontent.com/37357447/148870401-bf5b7ce2-33cc-49fe-882d-10fbb62bfafc.png)  
+![image](https://user-images.githubusercontent.com/37357447/148870401-bf5b7ce2-33cc-49fe-882d-10fbb62bfafc.png)
 
 你好, 这是一个链接[google](https://www.google.com.hk/)
-## 8.2 高级链接(不常用, 可不记) 
+## 8.2 高级链接(不常用, 可不记)
 ![image](https://user-images.githubusercontent.com/37357447/148870563-ab85d41d-3ce1-4583-aa3f-f1a254b749c1.png)
 
 # 9. 图片
 ## 9.1 常用方案
-markdown加载图片  
-!&lsqb;替换文本&rsqb;&lpar;链接地址 "可选标题"&rpar;  
+markdown加载图片
+!&lsqb;替换文本&rsqb;&lpar;链接地址 "可选标题"&rpar;
 ![图片不存在](test.com "测试地址")
 ## 9.2 替换方案(可不记)
 ![image](https://user-images.githubusercontent.com/37357447/148871232-610b2de6-1fb1-4ac9-9489-6ecf494068cc.png)
@@ -145,34 +145,38 @@ markdown加载图片
 |单元|单元|单元|
 
 # 11. 高级技巧
-## 11.1 锚点 
-锚点用于目录, 亦可使用vscode-Markdown All in One一键生成目录  
-[markdown的锚点](https://www.jianshu.com/p/6571d37c8060)  
+## 11.1 锚点
+锚点用于目录, 亦可使用vscode-Markdown All in One一键生成目录
+[markdown的锚点](https://www.jianshu.com/p/6571d37c8060)
 [vscode-Markdown All in One一键生成目录](https://blog.csdn.net/sculpta/article/details/104173014)
-## 11.2 vscode-markdown实时预览
-[vscode开启markdown实时预览](https://www.cnblogs.com/yourstars/p/15246477.html)
+## 11.2 css样式
+与html引入方式一样, 注意, github link和style标签不生效
+[github-css禁用标签](https://www.coder.work/article/7293953)
+[HTML引入CSS的方式](https://www.runoob.com/w3cnote/html-import-css-method.html)
+[github-改变字体颜色](https://github.com/guodongxiaren/README/issues/21)
+```diff
++ this will be highlighted in green
+- this will be highlighted in red
+```
 ## 11.3 html
-不在markdown语法内的html标签, 都可直接在文档内使用,   
+不在markdown语法内的html标签, 都可直接在文档内使用,
 例如, ![image](https://user-images.githubusercontent.com/37357447/148873182-b2cd94fb-434e-40be-a402-3e2406e28006.png)
 ## 11.4 转义
 ### 11.4.1 使用转义字符
-![image](https://user-images.githubusercontent.com/37357447/148873285-4cf28fd4-5428-4607-86ee-3346e2eed0f3.png)  
+![image](https://user-images.githubusercontent.com/37357447/148873285-4cf28fd4-5428-4607-86ee-3346e2eed0f3.png)
 \*\* 这是一个标题测试
 ** 列表1
 ### 11.4.2 使用html转义字符
 [w3c-html转义字符](https://dev.w3.org/html5/html-author/charref)
 ## 11.5 公式
-Markdown Preview Enhanced 使用 KaTeX 或者 MathJax 来渲染数学表达式。  
-[markdown支持公式-KaTeX](https://github.com/KaTeX/KaTeX)  
+Markdown Preview Enhanced 使用 KaTeX 或者 MathJax 来渲染数学表达式。
+[markdown支持公式-KaTeX](https://github.com/KaTeX/KaTeX)
 [markdown支持公式-MathJax](https://github.com/mathjax/MathJax)
 ## 11.6 流程图
 [如何在Markdown文本中添加流程图，附支持github的方法](https://github.com/DenryDu/DenryDu.github.io/issues/4)
-## 11.7 css样式
-与html引入方式一样, 注意, github link和style标签不生效  
-[github-css禁用标签](https://www.coder.work/article/7293953)  
-[HTML引入CSS的方式](https://www.runoob.com/w3cnote/html-import-css-method.html)  
-[github-改变字体颜色](https://github.com/guodongxiaren/README/issues/21)  
-```diff
-+ this will be highlighted in green
-- this will be highlighted in red
-```
+## 11.7 vscode集成
+[vscode修改快捷键为idea的快捷键](https://blog.csdn.net/liujucai/article/details/107714285)
++ 表情: ctrl + ~ + blank
++ markdown快捷格式: ctrl + blank
+[vscode-Markdown All in One一键生成目录](https://blog.csdn.net/sculpta/article/details/104173014)
+[vscode开启markdown实时预览](https://www.cnblogs.com/yourstars/p/15246477.html)
