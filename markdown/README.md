@@ -65,9 +65,9 @@
 &lt;u&gt;下划线&lt;/u&gt; <u>下划线</u>
 ## 4.4 脚注
 使用脚注 &lsqb;^footnote&rsqb;
-创建脚注 &lsqb;^footnote&rsqb; : I'm Jf
+创建脚注 &lsqb;^footnote&rsqb; : I'm hsiong
 使用脚注[^footnote]
-[^footnote]: I'm Jf
+[^footnote]: I'm hsiong
 
 # 5. 段落标记
 ## 5.1 列表
