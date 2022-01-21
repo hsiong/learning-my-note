@@ -35,7 +35,7 @@
   - [11.4 转义](#114-转义)
     - [11.4.1 使用转义字符](#1141-使用转义字符)
     - [11.4.2 使用html转义字符](#1142-使用html转义字符)
-      - [11.4.3 如何在markdown中打空行](#1143-如何在markdown中打空行)
+    - [11.4.3 如何在markdown中打空行](#1143-如何在markdown中打空行)
   - [11.5 公式](#115-公式)
   - [11.6 流程图](#116-流程图)
   - [11.7 vscode集成](#117-vscode集成)
@@ -65,9 +65,9 @@
 &lt;u&gt;下划线&lt;/u&gt; <u>下划线</u>
 ## 4.4 脚注
 使用脚注 &lsqb;^footnote&rsqb;
-创建脚注 &lsqb;^footnote&rsqb; : I'm hsiong
+创建脚注 &lsqb;^footnote&rsqb; : I'm Jf
 使用脚注[^footnote]
-[^footnote]: I'm hsiong
+[^footnote]: I'm Jf
 
 # 5. 段落标记
 ## 5.1 列表
