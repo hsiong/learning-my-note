@@ -1,10 +1,10 @@
-- [一.常见问题](#一常见问题)
-  - [1. git pull/push提示443错误](#1-git-pullpush提示443错误)
-    - [1.1 方法1](#11-方法1)
-    - [1.2 方法2](#12-方法2)
-  - [2. git提示Please use a personal access token instead](#2-git提示please-use-a-personal-access-token-instead)
+- [1. git pull/push提示443错误](#1-git-pullpush提示443错误)
+  - [1.1 方法1](#11-方法1)
+  - [1.2 方法2](#12-方法2)
+  - [1.3 unset-all-proxy](#13-unset-all-proxy)
+- [2. git提示Please use a personal access token instead](#2-git提示please-use-a-personal-access-token-instead)
 
-# 一.常见问题
+<!-- # 一.常见问题 -->
 
 ## 1. git pull/push提示443错误
 ### 1.1 方法1
@@ -12,7 +12,7 @@
 ```
  git config --global https.proxy http://127.0.0.1:1080
  git config --global http.proxy http://127.0.0.1:1080
- ```
+```
 
 ### 1.2 方法2
 如未生效
@@ -22,6 +22,13 @@ git config --global --unset http.proxy
 ```
 再按照如下方法
 [GitHub无法访问、443 Operation timed out的解决办法](https://juejin.cn/post/6844904193170341896)
+
+### 1.3 unset-all-proxy
+```
+export ALL_PROXY=socks5://127.0.0.1:1080
+
+unset ALL_PROXY
+```
 
 
 ## 2. git提示Please use a personal access token instead
