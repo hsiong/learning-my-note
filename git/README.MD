@@ -33,3 +33,5 @@ unset ALL_PROXY ###
 
 ## 2. git提示Please use a personal access token instead
 [[Solved] remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead](https://exerror.com/remote-support-for-password-authentication-was-removed-on-august-13-2021-please-use-a-personal-access-token-instead/)
+
+> 方法2：在vs-code或idea中，登陆github账户，使用普通的http-github链接即可
