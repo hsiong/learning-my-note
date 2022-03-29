@@ -116,6 +116,8 @@ public void test() {
   system.out.println("this is a test");
 }
 ```
+> 常见问题:
+> 1. 如代码块出现 \<style>xxxx样式, 检查代码\```是否封闭
 
 # 8. 链接
 ![image](https://user-images.githubusercontent.com/37357447/148870401-bf5b7ce2-33cc-49fe-882d-10fbb62bfafc.png)
