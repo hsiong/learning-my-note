@@ -1,8 +1,5 @@
-- [1. git pull/push提示443错误](#1-git-pullpush提示443错误)
-  - [1.1 方法1](#11-方法1)
-  - [1.2 方法2](#12-方法2)
-  - [1.3 unset-all-proxy](#13-unset-all-proxy)
 - [2. git提示Please use a personal access token instead](#2-git提示please-use-a-personal-access-token-instead)
+- [](#)
 
 <!-- # 一.常见问题 -->
 
@@ -31,7 +28,9 @@ unset ALL_PROXY ###
 ```
 
 
-## 2. git提示Please use a personal access token instead
+# 2. git提示Please use a personal access token instead
 [[Solved] remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead](https://exerror.com/remote-support-for-password-authentication-was-removed-on-august-13-2021-please-use-a-personal-access-token-instead/)
 
 > 方法2：在vs-code或idea中，登陆github账户，使用普通的http-github链接即可
+
+# 
