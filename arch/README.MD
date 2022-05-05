@@ -5,6 +5,8 @@
 - [刷新字体缓存](#刷新字体缓存)
 - [搜索历史输入过的命令](#搜索历史输入过的命令)
 - [arch 设置全局代理](#arch-设置全局代理)
+- [kde 预览所有应用](#kde-预览所有应用)
+- [linux 清空所有文件](#linux-清空所有文件)
 
 # 一. pacman
 pacman -Ss xxx 搜索包
@@ -53,3 +55,10 @@ fc-cache
 /etc/profile   export xxxx_proxy=xxxx
 
 source xxx
+
+# kde 预览所有应用
+ctrl + f10
+ctrl + f12  展示桌面
+
+# linux 清空所有文件
+rm -rf ./*
