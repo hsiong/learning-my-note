@@ -1,5 +1,5 @@
 - [2. git提示Please use a personal access token instead](#2-git提示please-use-a-personal-access-token-instead)
-- [](#)
+- [生成 ssh](#生成-ssh)
 
 <!-- # 一.常见问题 -->
 
@@ -33,4 +33,5 @@ unset ALL_PROXY ###
 
 > 方法2：在vs-code或idea中，登陆github账户，使用普通的http-github链接即可
 
-# 
+# 生成 ssh
+ ssh-keygen -m PEM -t rsa -C "email"  
