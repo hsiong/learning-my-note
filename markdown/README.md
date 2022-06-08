@@ -39,6 +39,10 @@
   - [11.5 公式](#115-公式)
   - [11.6 流程图](#116-流程图)
   - [11.7 vscode集成](#117-vscode集成)
+  - [11.8 在markdown中如何加入上标、下标](#118-在markdown中如何加入上标下标)
+  - [11.9 分割线](#119-分割线)
+  - [\---](#---)
+  - [11.10](#1110)
 
 # 1. 标题
 # &num; 标题1
@@ -187,3 +191,16 @@ Markdown Preview Enhanced 使用 KaTeX 或者 MathJax 来渲染数学表达式�
 + markdown快捷格式: ctrl + blank
 [vscode-Markdown All in One一键生成目录](https://blog.csdn.net/sculpta/article/details/104173014)
 [vscode开启markdown实时预览](https://www.cnblogs.com/yourstars/p/15246477.html)
+
+## 11.8 在markdown中如何加入上标、下标
+Markdown Language is a superset of HTML, so you can use html tag sub,sup to achieve this.
+```
+H<sub>2</sub>O  CO<sub>2</sub>
+爆米<sup>TM</sup>
+```
+
+## 11.9 分割线 
+\---
+---
+
+## 11.10 

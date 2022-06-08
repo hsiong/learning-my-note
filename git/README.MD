@@ -1,5 +1,6 @@
 - [2. git提示Please use a personal access token instead](#2-git提示please-use-a-personal-access-token-instead)
 - [生成 ssh](#生成-ssh)
+- [回退 git 版本](#回退-git-版本)
 
 <!-- # 一.常见问题 -->
 
@@ -35,3 +36,6 @@ unset ALL_PROXY ###
 
 # 生成 ssh
  ssh-keygen -m PEM -t rsa -C "email"  
+
+# 回退 git 版本
+git reset --soft HEAD~1

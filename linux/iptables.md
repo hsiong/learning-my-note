@@ -57,4 +57,5 @@ iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables-Dropped
 iptables -A LOGGING -j DROP
 ```
 
-
+# config dns
+vim /etc/resolv.conf  

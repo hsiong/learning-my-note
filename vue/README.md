@@ -21,3 +21,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arro
 h => {
     return xxx(h)
 }
+
+# 语法
+## v-decorator
+vue 表单验证
