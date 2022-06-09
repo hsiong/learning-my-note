@@ -25,8 +25,8 @@ use the command 3a!<Esc>, then you could see that vim typed !!! in the text
 |desc|type|
 |:-:|:-:|
 |forward word|n`w`|
-|jump line|n`j`|
 |backward word|n`b`<sup><br /> `4b`  moves back four words</sup>|
+|jump line|n`j`|
 |backward line|n`k`|
 |Moving to the Line End|n`$`|
 |Moving to the Start|`gg`|
