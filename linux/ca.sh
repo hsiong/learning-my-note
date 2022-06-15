@@ -3,6 +3,8 @@
 # @tip PEM_do_header:bad decrypt:../crypto/pem/pem_lib.c:461: 密码出错
 # @refer https://cloud.tencent.com/developer/article/1657953
 # @refer https://www.1024sky.cn/blog/article/55079
+# @refer https://docs.docker.com/engine/security/https/
+# @refer https://blog.csdn.net/lr131425/article/details/112828240
 # $1 路径
 # $2 ip/dns
 
@@ -88,6 +90,12 @@ echo "key $key"
 if [ $key = 'y' ] || [ $key = 'yes' ]; then
     vim /lib/systemd/system/docker.service
 fi
+
+# 刷新配置，重启Docker
+systemctl daemon-reload && systemctl restart docker
+
+## 重启后查看服务状态
+systemctl status docker
 
 echo 'complete'
 exit 0
