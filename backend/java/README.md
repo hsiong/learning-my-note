@@ -993,3 +993,6 @@ nop rl dl slam
 10. 制定代码规范和接口规范
     + 分页接口必须返回以下字段: 分页结果, 当前页, 总结果数, 总页数
     + 彻底废弃代码必须删除, 或者注释后并标记 @Deprecated
+    + 前端项目名 frontend 结尾, 后端 backend 结尾
+    + 数据库严禁使用 enum, 因为 enum 默认存入数据库的值为该 enum 在枚举类中的排序; 实在需要使用时, 需要使用 @Enumerated(EnumType.STRING) 之类的注解, 指定存储为 string
+    + 后端必须在接口文档中明确返回类以及返回值的描述
