@@ -10,19 +10,23 @@
       - [Dependency](#dependency)
       - [Association](#association)
       - [Generalization](#generalization)
+      - [Realization](#realization)
     - [UML Diagrams](#uml-diagrams)
       - [Stuctural Modeling](#stuctural-modeling)
       - [Behavioral Modeling](#behavioral-modeling)
       - [Architectural Modeling](#architectural-modeling)
       - [Additions in UML 2.0 –](#additions-in-uml-20-)
-- [Basic Notations](#basic-notations)
+- [Things - Basic Notation](#things---basic-notation)
   - [Structural Things](#structural-things)
     - [Class Notation](#class-notation)
     - [Object Notation](#object-notation)
     - [Interface Notation](#interface-notation)
     - [Collaboration Notation](#collaboration-notation)
     - [Use Case Notation](#use-case-notation)
-    - [Actor Notation](#actor-notation)
+      - [Actor Notation](#actor-notation)
+    - [Process State Notation](#process-state-notation)
+      - [Initial State Notation](#initial-state-notation)
+      - [Final State Notation](#final-state-notation)
 
 # Reference
 https://www.tutorialspoint.com/uml/uml_overview.htm  
@@ -46,6 +50,7 @@ A picture is worth a thousand words.
 
 + Encapsulation − Encapsulation is the mechanism of binding the data together and hiding them from the outside world.
 > Encapsulation<sup>封装</sup>
+> mechanism <sup>机制</sup>
 
 + Inheritance − Inheritance is the mechanism of making new classes from existing ones.
 
@@ -57,7 +62,7 @@ The conceptual model of UML can be mastered by learning the following three majo
 
 + UML building blocks  
 + Rules to connect the building blocks  
-+ Common mechanisms<sup>结构</sup> of UML  
++ Common mechanisms of UML  
 
 ## Building Blocks
 
@@ -77,7 +82,7 @@ Things are the most important building blocks of UML. Things can be −
 
 ### Relationship
 Relationship shows how the elements are associated with each other and this association describes the functionality of an application.  
-There are four kinds of relationships available.
+There are ***four kinds of relationships*** available.
 
 #### Dependency
 Dependency is a relationship between two things in which change in one element also affects the other.
@@ -85,21 +90,27 @@ Dependency is a relationship between two things in which change in one element a
 
 #### Association
 Association is basically a set of links that connects the elements of a UML model. It also describes how many objects are taking part in that relationship.
-![](https://www.tutorialspoint.com/uml/images/uml_association.jpg)
+![](https://www.tutorialspoint.com/uml/images/uml_generalization.jpg)
 
 #### Generalization
 Generalization basically describes the inheritance relationship in the world of objects.
+![](https://www.tutorialspoint.com/uml/images/uml_association.jpg)
 
-> Generalization<sup>泛化</sup>
-> inheritance<sup>继承</sup>
+> Generalization<sup>泛化</sup>  
+> inheritance<sup>继承</sup>  
+
+#### Realization
+![](https://www.tutorialspoint.com/uml/images/uml_generalization.jpg)
+
+> Realization <sup>n 认识; 实现</sup>
 
 ### UML Diagrams
 
 #### Stuctural Modeling
 
 Structural model represents the framework for the system and this framework is the place where all other components exist. They all represent the elements and the mechanism to assemble them.  
-> Hence <sup>因此</sup>
-> machanism <sup>机制</sup>
+> Hence <sup>因此</sup>  
+> machanism <sup>机制</sup>  
 > assemble <sup>v.组合</sup>
 
 + Classes diagrams
@@ -127,7 +138,7 @@ Software development methodologies like agile have been incorporated and scope o
 Originally UML specified 9 diagrams. UML 2.x has increased the number of diagrams from 9 to 13. The four diagrams that were added are : timing diagram, communication diagram, interaction overview diagram and composite structure diagram. UML 2.x renamed statechart diagrams to state machine diagrams.  
 UML 2.x added the ability to decompose software system into components and sub-components.
 
-# Basic Notations
+# Things - Basic Notation
 UML is popular for its diagrammatic notations. We all kown that UML is for visualizing, specifying, constructing and documenting the components of software and non-software systems.
 
 > specify <sup>v. 详细说明</sup>
@@ -187,7 +198,7 @@ Use case is represented as an eclipse with a name inside it. It may contain addi
 
 Use case is used to capture high level functionalities of a system.
 
-### Actor Notation
+#### Actor Notation
 An actor can be defined as some internal entity that interacts with the system.
 
 > actor <sup>n. 角色</sup>
@@ -196,3 +207,12 @@ An actor can be defined as some internal entity that interacts with the system.
 
 An actor is used in a use case diagram to describe the internal or external entities.
 
+### Process State Notation
+#### Initial State Notation 
+Initial state is defined to show the start of a process. This notation is uesd in almost all diagrams.
+![](https://www.tutorialspoint.com/uml/images/notation_initialstate.jpg)
+
+The usage of Initial State Notation is to show the starting point of a process.
+
+#### Final State Notation
+Final state is used to show the end of a process. This notation is also used in almost all diagrams to describe the end.
