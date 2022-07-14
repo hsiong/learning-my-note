@@ -5,18 +5,7 @@
 - [Overview](#overview)
   - [Object-Oriented Concepts](#object-oriented-concepts)
   - [Building Blocks](#building-blocks)
-    - [Things](#things)
-    - [Relationship](#relationship)
-      - [Dependency](#dependency)
-      - [Association](#association)
-      - [Generalization](#generalization)
-      - [Realization](#realization)
-    - [UML Diagrams](#uml-diagrams)
-      - [Stuctural Modeling](#stuctural-modeling)
-      - [Behavioral Modeling](#behavioral-modeling)
-      - [Architectural Modeling](#architectural-modeling)
-      - [Additions in UML 2.0 –](#additions-in-uml-20-)
-- [Things - Basic Notation](#things---basic-notation)
+- [Things](#things)
   - [Structural Things](#structural-things)
     - [Class Notation](#class-notation)
     - [Object Notation](#object-notation)
@@ -27,6 +16,16 @@
     - [Process State Notation](#process-state-notation)
       - [Initial State Notation](#initial-state-notation)
       - [Final State Notation](#final-state-notation)
+  - [Relationship](#relationship)
+    - [Dependency](#dependency)
+    - [Association](#association)
+    - [Generalization](#generalization)
+    - [Realization](#realization)
+  - [UML Diagrams](#uml-diagrams)
+    - [Stuctural Modeling](#stuctural-modeling)
+    - [Behavioral Modeling](#behavioral-modeling)
+    - [Architectural Modeling](#architectural-modeling)
+    - [Additions in UML 2.0 –](#additions-in-uml-20-)
 
 # Reference
 https://www.tutorialspoint.com/uml/uml_overview.htm  
@@ -38,7 +37,7 @@ UML is a standard language for specifying, visualizing, constructing, and docume
 
 > specifying<sup>详细说明</sup>
 
-A picture is worth a thousand words.
+A picture is worth a thousand words. 
 
 ## Object-Oriented Concepts
 + Objects − Objects represent an entity and the basic building block.
@@ -72,84 +71,19 @@ The building blocks of UML can be defined as −
 + Relationships  
 + Diagrams
 
-### Things
+UML notations are the most important elements in modeling. Efficient and appropiate use of notations is very important for making a complete and meaningful model.
+
+Different notations are available for **things** and **relationships**. UML diagrams are made using the notations of things and relationships.
+
+# Things
 Things are the most important building blocks of UML. Things can be −
 
-+ Structural  
++ Structural Things (Represent the physical and conceptual elements)
 + Behavioral  
 + Grouping  
 + Annotational  
 
-### Relationship
-Relationship shows how the elements are associated with each other and this association describes the functionality of an application.  
-There are ***four kinds of relationships*** available.
-
-#### Dependency
-Dependency is a relationship between two things in which change in one element also affects the other.
-![](https://www.tutorialspoint.com/uml/images/uml_dependency.jpg)
-
-#### Association
-Association is basically a set of links that connects the elements of a UML model. It also describes how many objects are taking part in that relationship.
-![](https://www.tutorialspoint.com/uml/images/uml_generalization.jpg)
-
-#### Generalization
-Generalization basically describes the inheritance relationship in the world of objects.
-![](https://www.tutorialspoint.com/uml/images/uml_association.jpg)
-
-> Generalization<sup>泛化</sup>  
-> inheritance<sup>继承</sup>  
-
-#### Realization
-![](https://www.tutorialspoint.com/uml/images/uml_generalization.jpg)
-
-> Realization <sup>n 认识; 实现</sup>
-
-### UML Diagrams
-
-#### Stuctural Modeling
-
-Structural model represents the framework for the system and this framework is the place where all other components exist. They all represent the elements and the mechanism to assemble them.  
-> Hence <sup>因此</sup>  
-> machanism <sup>机制</sup>  
-> assemble <sup>v.组合</sup>
-
-+ Classes diagrams
-+ Objects diagrams
-+ Deployment diagrams
-+ Package diagrams
-+ Composite structure diagram
-+ Component diagram
-
-> Composite <sup>组合</sup>
-
-#### Behavioral Modeling
-Behavioral model describes the interaction in the system. It represents the interaction among the structural diagrams.
-+ Activity diagrams
-+ Interaction diagrams
-+ Use case diagrams
-
-#### Architectural Modeling
-Architectural model represents the overall framework of the system. It contains both structural and behavioral elements of the system. ***Package diagram*** comes under architectural modeling.
-
-> architectrual <sup>adj. 建筑的</sup>
-
-#### Additions in UML 2.0 –
-Software development methodologies like agile have been incorporated and scope of original UML specification has been broadened.  
-Originally UML specified 9 diagrams. UML 2.x has increased the number of diagrams from 9 to 13. The four diagrams that were added are : timing diagram, communication diagram, interaction overview diagram and composite structure diagram. UML 2.x renamed statechart diagrams to state machine diagrams.  
-UML 2.x added the ability to decompose software system into components and sub-components.
-
-# Things - Basic Notation
-UML is popular for its diagrammatic notations. We all kown that UML is for visualizing, specifying, constructing and documenting the components of software and non-software systems.
-
-> specify <sup>v. 详细说明</sup>
-> notation <sup>n. 记号; 注解</sup>
-
-UML notations are the most important elements in modeling. Efficient and appropiate use of notations is very important for making a complete and meaningful model.
-
-Different notations are available for things and relationships. UML diagrams are made using the notations of things and relationships.
-
 ## Structural Things
-Structural things represent the physical and conceptual elements
 + Classes
 + Object
 + Interface
@@ -216,3 +150,78 @@ The usage of Initial State Notation is to show the starting point of a process.
 
 #### Final State Notation
 Final state is used to show the end of a process. This notation is also used in almost all diagrams to describe the end.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+xxxxxxxxxxxxxxx
+
+## Relationship
+Relationship shows how the elements are associated with each other and this association describes the functionality of an application.  
+There are ***four kinds of relationships*** available.
+
+### Dependency
+Dependency is a relationship between two things in which change in one element also affects the other.
+![](https://www.tutorialspoint.com/uml/images/uml_dependency.jpg)
+
+### Association
+Association is basically a set of links that connects the elements of a UML model. It also describes how many objects are taking part in that relationship.
+![](https://www.tutorialspoint.com/uml/images/uml_generalization.jpg)
+
+### Generalization
+Generalization basically describes the inheritance relationship in the world of objects.
+![](https://www.tutorialspoint.com/uml/images/uml_association.jpg)
+
+> Generalization<sup>泛化</sup>  
+> inheritance<sup>继承</sup>  
+
+### Realization
+![](https://www.tutorialspoint.com/uml/images/uml_generalization.jpg)
+
+> Realization <sup>n 认识; 实现</sup>
+
+## UML Diagrams
+
+### Stuctural Modeling
+
+Structural model represents the framework for the system and this framework is the place where all other components exist. They all represent the elements and the mechanism to assemble them.  
+> Hence <sup>因此</sup>  
+> machanism <sup>机制</sup>  
+> assemble <sup>v.组合</sup>
+
++ Classes diagrams
++ Objects diagrams
++ Deployment diagrams
++ Package diagrams
++ Composite structure diagram
++ Component diagram
+
+> Composite <sup>组合</sup>
+
+### Behavioral Modeling
+Behavioral model describes the interaction in the system. It represents the interaction among the structural diagrams.
++ Activity diagrams
++ Interaction diagrams
++ Use case diagrams
+
+### Architectural Modeling
+Architectural model represents the overall framework of the system. It contains both structural and behavioral elements of the system. ***Package diagram*** comes under architectural modeling.
+
+> architectrual <sup>adj. 建筑的</sup>
+
+### Additions in UML 2.0 –
+Software development methodologies like agile have been incorporated and scope of original UML specification has been broadened.  
+Originally UML specified 9 diagrams. UML 2.x has increased the number of diagrams from 9 to 13. The four diagrams that were added are : timing diagram, communication diagram, interaction overview diagram and composite structure diagram. UML 2.x renamed statechart diagrams to state machine diagrams.  
+UML 2.x added the ability to decompose software system into components and sub-components.
+
+
