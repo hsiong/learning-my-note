@@ -6,15 +6,13 @@ This is a proj from Docker base learning to Docker practice.
   - [安装 Docker](#安装-docker)
     - [mac OS 安装 Docker](#mac-os-安装-docker)
     - [arch 安装 Docker](#arch-安装-docker)
-  - [设置 Docker镜像](#设置-docker镜像)
+    - [修改 Docker 配置 (镜像路径, DNS, 硬盘占用)](#修改-docker-配置-镜像路径-dns-硬盘占用)
 - [第一章 Docker容器操作](#第一章-docker容器操作)
   - [1.1 Docker Hello World](#11-docker-hello-world)
-  - [1.2 使用Docker](#12-使用docker)
-  - [1.3 导入导出删除 Docker 容器](#13-导入导出删除-docker-容器)
-  - [1.4 运行一个 Docker 应用](#14-运行一个-docker-应用)
-  - [1.5 容器链接](#15-容器链接)
-    - [1.5.1 容器网络端口映射](#151-容器网络端口映射)
-    - [1.5.2 容器互联](#152-容器互联)
+  - [1.2 Docker 初始化](#12-docker-初始化)
+  - [1.3 其他操作](#13-其他操作)
+    - [1.3.1 容器互联](#131-容器互联)
+  - [1.4 常见问题](#14-常见问题)
 - [第二章 Docker镜像操作](#第二章-docker镜像操作)
   - [2.1 管理和使用本地镜像](#21-管理和使用本地镜像)
   - [2.2 创建个人镜像](#22-创建个人镜像)
@@ -36,21 +34,18 @@ This is a proj from Docker base learning to Docker practice.
 - [修改 docker 存储路径](#修改-docker-存储路径)
 
 # 序言
-本项目基于 mac OS 系统, 在开始本项目之前, 假设您已经做好了一切基于 mac OS homebrew/git 等相关的准备工作. 
-
-本课程前半部分基于菜鸟教程编写, 因为菜鸟有一些结构混乱/表述不清甚至是错误的地方, 在菜鸟基础上重新优化, 便于使用和总结. 
-
-后半部分主要参考资料: 
+本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
+主要参考资料: 
 1. [Docker — 从入门到实践](https://yeasy.gitbook.io/docker_practice/)
-2. [Postgres with Docker and Docker compose a step-by-step guide for beginners](https://geshan.com.np/blog/2021/12/docker-postgres/)
-3. [Dockerfile 指令详解](http://www.ityouknow.com/docker/2018/03/15/docker-dockerfile-command-introduction.html)
+2. [菜鸟 - Docker 教程](https://www.runoob.com/docker/docker-tutorial.html)
+3. [Postgres with Docker and Docker compose a step-by-step guide for beginners](https://geshan.com.np/blog/2021/12/docker-postgres/)
+4. [Dockerfile 指令详解](http://www.ityouknow.com/docker/2018/03/15/docker-dockerfile-command-introduction.html)
 
 ## 安装 Docker
 ### mac OS 安装 Docker
 ```
 brew install --cask --appdir=/Applications docker
 ```
-在载入 Docker app 后，点击 Next，可能会询问你的 macOS 登陆密码，你输入即可。之后会弹出一个 Docker 运行的提示窗口，状态栏上也有有个小鲸鱼的图标（）。
 
 使用```docker --version```检查是否安装成功
 
@@ -73,209 +68,132 @@ sudo systemctl start docker.service && sudo systemctl enable docker.service
 4. 更改 docker 缓存路径
 [修改Docker数据目录位置，包含镜像位置](https://blog.51cto.com/u_15061951/3975869)
 
-## 设置 Docker镜像
-1. 获取阿里云镜像地址: [https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors](https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors)
+### 修改 Docker 配置 (镜像路径, DNS, 硬盘占用) 
+```
+vim /etc/docker/daemon.json
 
-2. mac设置: 
-任务栏点击 Docker for mac 应用图标-> Perferences -> Docker Engine
-在配置json中新增 "registry-mirrors":["镜像地址"],
+{
+  "registry-mirrors": ["http://hub-mirror.c.163.com"],
+  "builder": {
+    "gc": {
+      "defaultKeepStorage": "1GB",
+      "enabled": true
+    }
+  },
+  "features": {
+    "buildkit": true
+  },
+  "experimental": false,
+  "dns": ["119.29.29.29", "223.5.5.5"]
+}
+```
 
-3. 验证
-输入```docker info```, 观察 **Registry Mirrors** 一栏, 出现**您输入的镜像地址**即可
-
-4. 参数调整
-因为本项目是学习目的, 故此无需占用太多资源.  
-任务栏点击 Docker for mac 应用图标-> Perferences -> Resource -> ADVANCED.  
-将各资源占用调到最低, 保存并重启即可
-
-> 其他平台参考: [https://www.runoob.com/docker/docker-mirror-acceleration.html](https://www.runoob.com/docker/docker-mirror-acceleration.html)
+> 注意: 请不要配置 iptables: FALSE 等, 胡乱配置防火墙会导致容器网络异常  
+> 其他平台配置参考: [https://www.runoob.com/docker/docker-mirror-acceleration.html](https://www.runoob.com/docker/docker-mirror-acceleration.html)
 
 
 # 第一章 Docker容器操作
 ## 1.1 Docker Hello World
-1. Docker 允许您在容器内运行应用程序, 使用 docker run 命令来在容器内运行一个应用程序。
 ```
 docker run ubuntu:15.10 /bin/echo "Hello world"
 ```
-> 命令解析
+> Docker 允许您在容器内运行应用程序, 使用 docker run 命令来在容器内运行一个应用程序。
 > + docker: Docker 的执行文件。
 > + docker run: 运行一个容器。
 > + ubuntu:15.10 指定要运行的镜像，Docker 首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像。如果你不指定一个镜像的版本标签，例如你只使用 ubuntu，docker 将默认使用 ubuntu:latest 镜像。
 > + /bin/echo "Hello world": 在启动的容器里执行的命令
 
-2. 运行交互式的容器
-您通过 docker 的两个参数 -i -t，让 docker 运行的容器实现"对话"的能力：
-```
-docker run -i -t ubuntu:15.10 /bin/bash
-```
-> 命令解析
-> + -t: 在新容器内指定一个伪终端或终端。
-> + -i: 允许你对容器内的标准输入 (STDIN) 进行交互。
++ `**root@8829940xxxxxxxxx:/#**`, 说明进入了系统的容器, 可以键入一些常用命令, 例如```ls``` ```pwd```等进行测试, 使用```exit```退出容器
 
-注意 **root@8829940xxxxxxxxx:/#**, 说明此时您已进入一个 ubuntu15.10 系统的容器, 您可以键入一些常用命令, 例如```ls``` ```pwd```等进行测试, 使用```exit```退出容器
-
-3. 启动容器(后台模式)
-```
-docker run -d ubuntu:15.10 /bin/sh -c "while true; do echo hello world; sleep 1; done"
-```
-> 命令解析  
-> + ```/bin/sh -c  while true; do echo hello world; sleep 1; done``` 在容器中运行一个循环命令  
-> + -d 后台运行
-
-## 1.2 使用Docker 
-1. 拉取远程镜像```docker pull xxxContainer```
-2. 启动容器```docker -it xxxContainer xxxCommand```
-3. 启动已停止运行的容器
-   + 前面您已经使用过```docker ps```这个命令, 该命令会展示所有存活的容器; 现在请您使用```docker ps -a```, 将展示所有的容器, 包括已停止的
-   + 启动已停止的容器```docker start ContainerID```
-4. 重启容器`docker restart ContainerId`
-5. 进入容器`docker attach ContainerId`或`docker exec ContainerId`指令, 推荐使用后者, 因为`exec`退出终端也不会导致容器停止. 在生产环境, 容器停止容易导致事故. 
-> 注意: 在实际使用中, 我们常使用 `run -d` 来运行容器(运行虚拟化系统, 例如ubuntu, 依然需要使用`run -itd`), `exec -it` 来执行具体的命令
-```
-docker exec -it 243c32535da7 /bin/bash
-```
-
-## 1.3 导入导出删除 Docker 容器
-1. 导出容器`docker export ContainerID > ExportPath/filename.tar`
-2. 导入容器`docker import Url/ImportPathFileName newContainerName:newVersion`
-3. 删除容器`docker rm -f ContainerID`
-> 注意: 在终端删除容器, 容器需要是停止状态, 在 Dashborad 则无此限制
-
-## 1.4 运行一个 Docker 应用
-前面您运行的容器并没有一些什么特别的用处。接下来请您尝试使用 docker 构建一个 web 应用程序。
-1. 在docker容器中运行一个 Python Flask 应用来运行一个web应用。
-```
-# 载入镜像
-docker pull training/webapp  
-docker run -d -P training/webapp python app.py
-```
->参数说明:
-> + -d:让容器在后台运行。加了 -d 参数默认不会进入容器，想要进入容器需要使用指令`docker exec`
-> + -P:将容器内部使用的网络端口随机映射到您使用的主机上。
-
-终端输入`docker ps`, 您可以找到映射的端口信息, 可以发现 docker 将本机的51000端口映射到了5000
-```
-PORTS
-0.0.0.0:51000->5000/tcp
-```
-
-这时, 终端输入`curl 127.0.0.1:51000`, 输出 **Hello World**, 这时, 您成功启动了您的第一个 Docker 应用
-
-2. 您也可以使用 run -p 来指定映射的端口, 注意 -P 大写是随机, -p 小写是指定端口
-```
-docker run -d -p 5000:5000 training/webapp python app.py
-```
-
-3. 快捷查看某个容器的端口映射`docker port containerID/containName`
-
-4. 查看容器内部的进程`docker top containerID`
-
-5. 重启容器`docker restart containerID`
+## 1.2 Docker 初始化 
++ `docker pull xxxContainer` 拉取远程镜像
++ `docker run xxxContainer xxxCommand` 启动容器
+  + `run -d` 后台运行容器  (-it不常用)
+  + `-p ActualPort:ContainerPort` 将指定的主机端口绑定到容器内部端口, 注意 -P 大写是随机端口, -p 小写是指定端口, 使用同一端口即可
+  + `-v severPath: ContainerPath` 配置将指定的主机路径绑定到容器内部端口路径映射, 可以是一个文件夹, 也可以是某个具体的文件
+  + `-e` 配置启动参数
+  + `--name `标识来命名容器
+  + `-h HOSTNAME 或者 --hostname=HOSTNAME` 设定容器的主机名, 写到容器内的 /etc/hostname 和 /etc/hosts 
+  + `--dns=ip` 指定某容器的DNS, 如果在容器启动时没有指定 --dns 和 --dns-search，Docker 会默认用宿主主机上的 /etc/resolv.conf 来配置容器的 DNS
++ `docker start ContainerID`启动已停止运行的容器
+   + `docker ps`这个命令, 展示所有存活的容器; 
+   + ```docker ps -a```, 展示所有的容器, 包括已停止的
+      + CONTAINER ID: 容器 ID。
+      + IMAGE: 使用的镜像。
+      + COMMAND: 启动容器时运行的命令。
+      + CREATED: 容器的创建时间。
+      + STATUS: 容器状态。状态有7种：
+        + created（已创建）
+        + restarting（重启中）
+        + running 或 Up（运行中）
+        + removing（迁移中）
+        + paused（暂停）
+        + exited（停止）
+        + dead（死亡）
+      + PORTS: 容器的端口信息和使用的连接类型（tcp\udp）。
+      + NAMES: 自动分配的容器名称。
 
 
-6. 输入```docker ps```来查看容器运行状态
-```
-CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
-1f752b10ae30   ubuntu:15.10   "/bin/sh -c 'while t…"   13 seconds ago   Up 13 seconds             epic_wilson
-```
-> 运行状态介绍
-> + CONTAINER ID: 容器 ID。
-> + IMAGE: 使用的镜像。
-> + COMMAND: 启动容器时运行的命令。
-> + CREATED: 容器的创建时间。
-> + STATUS: 容器状态。状态有7种：
->   + created（已创建）
->   + restarting（重启中）
->   + running 或 Up（运行中）
->   + removing（迁移中）
->   + paused（暂停）
->   + exited（停止）
->   + dead（死亡）
-> + PORTS: 容器的端口信息和使用的连接类型（tcp\udp）。
-> + NAMES: 自动分配的容器名称。
++ `docker exec ContainerId` 进入容器
+  + 推荐使用`exec`进入容器, 退出终端也不会导致容器停止. 容器停止会导致事故. 
+    + `-u xxx` 以 xxx 用户登录
+  + `attach` 会导致生产事故
 
-7. 输入```docker logs 容器ID或容器名```查看容器内标准输出
-```
-docker logs 1f752b10ae30
-docker logs epic_wilson
-```
+在实际使用中, 常使用 `docker run -d` 初始化容器, `docker exec -it ContainerID /bin/bash` 进入容器进行具体的配置;   
+所有支持 `ContainerId` 的操作, 也支持 `ContainerName`
 
-8. 停止容器```docker stop 容器ID或容器名```
+## 1.3 其他操作
++ `docker export ContainerID > ExportPath/filename.tar` 导出容器
++ `docker import Url/ImportPathFileName newContainerName:newVersion` 导入容器
++ `docker inspect nginx` 查看容器配置
++ `docker stop ContainerID` 停止容器
++ `docker rm -f ContainerID` 删除容器
++ `docker restart ContainerId` 重启容器
+> 注意: 在 Linux 系统中删除容器, 需要先停止容器再删除
++ `docker port containerID` 查看某个容器的端口映射
++ `docker top containerID` 查看容器内部的进程
++ `docker logs ContainerId` 查看容器标准输出
++ `docker` 查看帮助, 或`docker xxxCommand --help`来查看某条命令的帮助
 
-9. 可以使用```docker```命令来查看帮助, 或```docker xxxCommand --help```来查看某条命令的帮助
-
-10. 容器命名
-当您创建一个容器的时候，docker 会自动对它进行命名。另外，您也可以使用 `--name `标识来命名容器
-
-
-
-## 1.5 容器链接
-### 1.5.1 容器网络端口映射
-1. 基础操作
-之前您已经介绍过了`docker run -P`和`docker run -p`以及`docker port`指令, 想必您已经熟悉了这三个指令的基本用法
-```
-# -P :是容器内部端口随机映射到主机的端口。
-docker run -d -P training/webapp python app.py 
-
-# -p : 将指定的主机端口绑定到容器内部端口。
-# 注意: 这里菜鸟表述的有问题
-docker run -d -p ActualPort:ContainerPort training/webapp python app.py
-
-# 可以指定容器绑定的网络地址，比如绑定 127.0.0.1。
-docker run -d -p 127.0.0.1:5001:5000 training/webapp python app.py
-
-# 查看容器所有端口的实际映射情况
-docker port adoring_stonebraker
-
-# 查看容器某个端口的实际映射情况
-docker port adoring_stonebraker 5000
-
-```
-
-2. 修改运行中容器的端口映射
-+ 老版mac: https://www.xihrni.com/post/macos-yi-yun-xing-de-docker-rong-qi-tian-jia-xiu-gai-duan-kou-ying-she/
-+ 新版mac(Big Sur 11.3 版本): 直接参考上文的 <b>如果出现没有 tty 文件无法登陆到容器</b>
-
-> 注意: 修改运行中容器的端口代价非常高, 强烈建议您在镜像运行时即使用 `-p macPort:containerPort` 来指定端口
-
-### 1.5.2 容器互联
+###  1.3.1 容器互联
 端口映射并不是唯一把 docker 连接到另一个容器的方法。  
-docker 有一个连接系统允许将多个容器连接在一起，共享连接信息。  
-docker 连接会创建一个父子关系，其中父容器可以看到子容器的信息。
+docker 有一个连接系统`允许将多个容器连接在一起`，共享连接信息。创建一个父子关系，其中父容器可以看到子容器的信息。  
+步骤如下: 
 
-1. 新建网络
-`$ docker network create -d bridge test-net`
+1. 新建网络 test-net `$ docker network create -d bridge test-net`
 > 参数说明：
-> + -d：参数指定 Docker 网络类型，有 bridge、overlay。其中 overlay 网络类型用于 Swarm mode，在本小节中你可以忽略它。
+> + -d：参数指定 Docker 网络类型，有 bridge、overlay。其中 overlay 网络类型用于 Swarm mode，目前可以忽略它。
 
 2. 连接容器
++ 运行一个容器并连接到新建的 test-net 网络:  
 ```
-# 运行一个容器并连接到新建的 test-net 网络:
-$ docker run -itd --name test1 --network test-net ubuntu
+$ docker run -d --name test1 --network test-net ubuntu
+```
++ 再运行一个容器并加入到 test-net 网络:
+```
 
-# 再运行一个容器并加入到 test-net 网络:
-$ docker run -itd --name test2 --network test-net ubuntu
+$ docker run -d --name test2 --network test-net ubuntu
 ```
 
-3. 测试链接
+3. 通过 ping 测试 test1 容器和 test2 容器建立了互联关系。
 ```
-# 通过 ping 来证明 test1 容器和 test2 容器建立了互联关系。
 docker exec -it test1 ping test2  
 docker exec -it test2 ping test1  
 ```
-> 如果 test1、test2 容器内中无 ping 命令，则在容器内执行以下命令安装 ping。  
-> (请参考 [2.2 创建个人镜像](#22-创建个人镜像) 尝试在一个容器里安装好，提交容器到镜像，在以新的镜像重新运行以上俩个容器)
-> 如果有多个容器之间需要互相连接，推荐使用 Docker Compose
+
+  +  如果 test1、test2 容器内中无 ping 命令，则在容器内执行以下命令安装 ping。参考 [2.2 创建个人镜像](#22-创建个人镜像) 在一个容器里安装好 ping 指令，提交容器到镜像，再以新的镜像运行多个容器, 避免重复安装
 ```
 apt-get update
 apt install iputils-ping
 ```
 
-4. 其他指令
-+ 设定容器的主机名, 写到容器内的 /etc/hostname 和 /etc/hosts `-h HOSTNAME 或者 --hostname=HOSTNAME`
-+ 指定某容器的DNS `--dns=ip`
-> 如果在容器启动时没有指定 --dns 和 --dns-search，Docker 会默认用宿主主机上的 /etc/resolv.conf 来配置容器的 DNS
+> 实际开发中, 如果有多个容器之间需要互相连接，推荐使用 Docker Compose
 
+## 1.4 常见问题
+1. 修改运行中容器的端口映射
++ 老版mac: https://www.xihrni.com/post/macos-yi-yun-xing-de-docker-rong-qi-tian-jia-xiu-gai-duan-kou-ying-she/
++ 新版mac(高于 Big Sur 11.3): 参考 https://www.xihrni.com/post/macos-yi-yun-xing-de-docker-rong-qi-tian-jia-xiu-gai-duan-kou-ying-she/ 中的 <b>如果出现没有 tty 文件无法登陆到容器</b>
+> 注意: 修改运行中容器的端口代价非常高, 强烈建议您在镜像运行时即使用 `-p macPort:containerPort` 来指定端口
 
 # 第二章 Docker镜像操作
 镜像作为 Docker 交流的介质, 镜像操作是重中之重。
@@ -287,9 +205,33 @@ apt install iputils-ping
 > + IMAGE ID：镜像ID
 > + CREATED：镜像创建时间
 > + SIZE：镜像大小
-2. 查找镜像
-+ 使用网址搜索 [https://hub.docker.com/search?type=image](https://hub.docker.com/search?type=image)
-+ 使用命令`docker search ImageName`
++ `docker image ls ContainId[:Version]` 根据仓库名列出镜像
++ `docker image ls `还支持强大的过滤器参数 --filter，或者简写 -f。之前我们已经看到了使用过滤器来列出虚悬镜像的用法，它还有更多的用法。比如，我们希望看到在 mongo:3.2 之后建立的镜像，可以用下面的命令：
+```
+$ docker image ls -f since=mongo:3.2
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+redis               latest              5f515359c7f8        5 days ago          183 MB
+nginx               latest              05a60462f8ba        5 days ago          181 MB
+
+# 想查看某个位置之前的镜像也可以，只需要把 since 换成 before 即可。
+```
++ `docker image ls -q` 以特定格式显示, --filter 配合 -q 产生出指定范围的 ID 列表，然后送给另一个 docker 命令作为参数，从而针对这组实体成批的进行某种操作的做法在 Docker 命令行使用过程中非常常见，不仅仅是镜像，将来我们会在各个命令中看到这类搭配以完成很强大的功能。因此每次在文档看到过滤器后，可以多注意一下它们的用法。
++ `docker image ls --format` 对表格的结构不满意，希望自己组织列；或者不希望有标题，这样方便其它程序解析结果等，这就用到了 Go 的模板语法。
+```
+$ docker image ls --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}"
+IMAGE ID            REPOSITORY          TAG
+5f515359c7f8        redis               latest
+05a60462f8ba        nginx               latest
+fe9198c04d62        mongo               3.2
+00285df0df87        <none>              <none>
+329ed837d508        ubuntu              18.04
+329ed837d508        ubuntu              bionic
+```
+
+
+1. 查找镜像
++ [https://hub.docker.com/search?type=image](https://hub.docker.com/search?type=image) 使用网址搜索
++ `docker search ImageName` 使用命令
   + > 参数说明
   + > + NAME: 镜像仓库源的名称
   + > + DESCRIPTION: 镜像的描述

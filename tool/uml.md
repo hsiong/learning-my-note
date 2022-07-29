@@ -53,7 +53,8 @@ A picture is worth a thousand words.
 
 + Inheritance − Inheritance is the mechanism of making new classes from existing ones.
 
-+ Polymorphism − It defines the mechanism to exists in different forms.
++ Polymorphism − he provision of a single interface to entities of different types or the use of a single symbol to represent multiple different types.
+
 
 ```OO Analysis → OO Design → OO implementation using OO languages```
 

@@ -59,3 +59,6 @@ iptables -A LOGGING -j DROP
 
 # config dns
 vim /etc/resolv.conf  
+
+# docker cann't connect to domain
+"iptables": false 删除即可

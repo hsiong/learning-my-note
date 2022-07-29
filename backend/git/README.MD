@@ -1,6 +1,7 @@
 - [2. git提示Please use a personal access token instead](#2-git提示please-use-a-personal-access-token-instead)
 - [生成 ssh](#生成-ssh)
 - [回退 git 版本](#回退-git-版本)
+- [vscode commit msg](#vscode-commit-msg)
 
 <!-- # 一.常见问题 -->
 
@@ -39,3 +40,6 @@ unset ALL_PROXY ###
 
 # 回退 git 版本
 git reset --soft HEAD~1
+
+# vscode commit msg
+![image](https://user-images.githubusercontent.com/37357447/180382244-bafdc0a8-af43-4cb0-a908-abae03ccdb31.png)
