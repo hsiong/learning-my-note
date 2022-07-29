@@ -1,3 +1,5 @@
+
+
 # This is a brief introduction about MarkDown .
 
 - [This is a brief introduction about MarkDown .](#this-is-a-brief-introduction-about-markdown-)
@@ -42,7 +44,7 @@
   - [11.8 在markdown中如何加入上标、下标](#118-在markdown中如何加入上标下标)
   - [11.9 分割线](#119-分割线)
   - [\---](#---)
-  - [11.10](#1110)
+- [数学公式](#数学公式)
 
 # 1. 标题
 # &num; 标题1
@@ -203,4 +205,84 @@ H<sub>2</sub>O  CO<sub>2</sub>
 \---
 ---
 
-## 11.10 
+# 12. 数学公式
+
+## 12.1 基础
+
++ 行内公示起止符
+
+  ```latex
+  	$a$
+  ```
+
++ 块级公式
+
+  ```latex
+  $$a$$
+  ```
+
+## 12.2 符号
+
++ 上标 ^   
+
+  `$$a^2$$` a^2$$
+
++ 下标 _   
+
+  `$$a_2$$` $$a_2$$
+
++ 根号 \sqrt[指数]{表达式}
+
+  `$$\sqrt[2]{a+b}$$` $$\sqrt[2]{a+b}$$
+
++ 分式 \frac{dy}{dx}
+
+  `$$\frac{dx}{dy}$$` $$\frac{dx}{dy}$$
+
++ 求和 \sum_{下限}^{上限}
+
+  `$$\sum_{i=1}^{i=10}a_i$$` $$\sum_{i=1}^{i=10}a_i$$
+
++ 积分 \int_{下限}^{上限}
+
+  `$$\int_{i=1}^{i=10}a_i$$` $$\int_{i=1}^{i=10}a_i$$
+
++ 负无穷 -\infty 正无穷 +\infty
+
+  `$$\int_{-\infty}^{0}\frac{1}{x}dx$$` $$\int_{-\infty}^0\frac{1}{x}dx$$
+
++ 块级公式末尾添加公式号 \tag{编号}
+
+  `$$\int_{-\infty}^0\frac{1}{x}dx \tag{1000}$$` $$\int_{-\infty}^0\frac{1}{x}dx \tag{1}$$
+
+  
+
+## 12.3 矩阵
+
++ 上下起止符 \begin{matrix} \end{matrix}
++ 空格 &
++ 换行 `\\`
++ 左右 \left \right
+
+```latex
+\left[
+\begin{matrix}
+	1 & 0 & 0 \\
+	0 & 1 & 1 \\
+	0 & 0 & 0
+\end{matrix}
+\right]
+```
+
+$$
+\left[
+\begin{matrix}
+	1 & 0 & 0 \\
+	0 & 1 & 1 \\
+	0 & 0 & 0
+\end{matrix}
+\right]
+$$
+
+
+

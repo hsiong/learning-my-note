@@ -1,6 +1,6 @@
 
 **Reference**  
-http://www.truth.sk/vim/vimbook-OPL.pdf
+[./vimboot-OPL.pdf](vimbook-OPL.pdf): http://www.truth.sk/vim/vimbook-OPL.pdf
 
 # Basic Editing 
 |desc|type|
