@@ -15,9 +15,10 @@ This is a proj from Docker base learning to Docker practice.
   - [1.4 常见问题](#14-常见问题)
 - [第二章 Docker镜像操作](#第二章-docker镜像操作)
   - [2.1 管理和使用本地镜像](#21-管理和使用本地镜像)
-  - [2.2 创建个人镜像](#22-创建个人镜像)
-    - [2.2.1 更新镜像](#221-更新镜像)
-    - [2.2.2 构建一个全新的镜像](#222-构建一个全新的镜像)
+  - [2.2 查找和操作镜像](#22-查找和操作镜像)
+  - [2.3 创建个人镜像](#23-创建个人镜像)
+    - [2.3.1 通过更新镜像创建个人镜像](#231-通过更新镜像创建个人镜像)
+  - [2.3.2 通过 Dockerfile 构建一个全新的镜像, 详见第三章](#232-通过-dockerfile-构建一个全新的镜像-详见第三章)
 - [第三章 Dockerfile详解](#第三章-dockerfile详解)
   - [3.1 新建 Dockerfile](#31-新建-dockerfile)
   - [3.2 构建对象](#32-构建对象)
@@ -37,9 +38,8 @@ This is a proj from Docker base learning to Docker practice.
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
 主要参考资料: 
 1. [Docker — 从入门到实践](https://yeasy.gitbook.io/docker_practice/)
-2. [菜鸟 - Docker 教程](https://www.runoob.com/docker/docker-tutorial.html)
-3. [Postgres with Docker and Docker compose a step-by-step guide for beginners](https://geshan.com.np/blog/2021/12/docker-postgres/)
-4. [Dockerfile 指令详解](http://www.ityouknow.com/docker/2018/03/15/docker-dockerfile-command-introduction.html)
+2. [Postgres with Docker and Docker compose a step-by-step guide for beginners](https://geshan.com.np/blog/2021/12/docker-postgres/)
+3. [Dockerfile 指令详解](http://www.ityouknow.com/docker/2018/03/15/docker-dockerfile-command-introduction.html)
 
 ## 安装 Docker
 ### mac OS 安装 Docker
@@ -65,7 +65,7 @@ sudo pacman -Ss docker
 sudo systemctl start docker.service && sudo systemctl enable docker.service
 ```
 
-4. 更改 docker 缓存路径
+4. 更改 docker 缓存路径  
 [修改Docker数据目录位置，包含镜像位置](https://blog.51cto.com/u_15061951/3975869)
 
 ### 修改 Docker 配置 (镜像路径, DNS, 硬盘占用) 
@@ -88,7 +88,7 @@ vim /etc/docker/daemon.json
 }
 ```
 
-> 注意: 请不要配置 iptables: FALSE 等, 胡乱配置防火墙会导致容器网络异常  
+> 注意: 请不要配置 iptables: FALSE 等, 配置防火墙会导致容器网络异常  
 > 其他平台配置参考: [https://www.runoob.com/docker/docker-mirror-acceleration.html](https://www.runoob.com/docker/docker-mirror-acceleration.html)
 
 
@@ -108,7 +108,7 @@ docker run ubuntu:15.10 /bin/echo "Hello world"
 ## 1.2 Docker 初始化 
 + `docker pull xxxContainer` 拉取远程镜像
 + `docker run xxxContainer xxxCommand` 启动容器
-  + `run -d` 后台运行容器  (-it不常用)
+  + `run -d` 后台运行容器  (-it 在 `exec` 中使用)
   + `-p ActualPort:ContainerPort` 将指定的主机端口绑定到容器内部端口, 注意 -P 大写是随机端口, -p 小写是指定端口, 使用同一端口即可
   + `-v severPath: ContainerPath` 配置将指定的主机路径绑定到容器内部端口路径映射, 可以是一个文件夹, 也可以是某个具体的文件
   + `-e` 配置启动参数
@@ -117,7 +117,7 @@ docker run ubuntu:15.10 /bin/echo "Hello world"
   + `--dns=ip` 指定某容器的DNS, 如果在容器启动时没有指定 --dns 和 --dns-search，Docker 会默认用宿主主机上的 /etc/resolv.conf 来配置容器的 DNS
 + `docker start ContainerID`启动已停止运行的容器
    + `docker ps`这个命令, 展示所有存活的容器; 
-   + ```docker ps -a```, 展示所有的容器, 包括已停止的
+   + `docker ps -a`, 展示所有的容器, 包括已停止的
       + CONTAINER ID: 容器 ID。
       + IMAGE: 使用的镜像。
       + COMMAND: 启动容器时运行的命令。
@@ -131,25 +131,26 @@ docker run ubuntu:15.10 /bin/echo "Hello world"
         + exited（停止）
         + dead（死亡）
       + PORTS: 容器的端口信息和使用的连接类型（tcp\udp）。
-      + NAMES: 自动分配的容器名称。
-
+      + NAMES: 分配的容器名称。
 
 + `docker exec ContainerId` 进入容器
   + 推荐使用`exec`进入容器, 退出终端也不会导致容器停止. 容器停止会导致事故. 
+    + `-it xxx` 进入容器并执行命令
     + `-u xxx` 以 xxx 用户登录
-  + `attach` 会导致生产事故
+  + `attach` 会导致生产事故, 严禁使用
 
 在实际使用中, 常使用 `docker run -d` 初始化容器, `docker exec -it ContainerID /bin/bash` 进入容器进行具体的配置;   
+
 所有支持 `ContainerId` 的操作, 也支持 `ContainerName`
 
 ## 1.3 其他操作
 + `docker export ContainerID > ExportPath/filename.tar` 导出容器
 + `docker import Url/ImportPathFileName newContainerName:newVersion` 导入容器
-+ `docker inspect nginx` 查看容器配置
++ `docker inspect ContainerID` 查看容器配置
 + `docker stop ContainerID` 停止容器
 + `docker rm -f ContainerID` 删除容器
+  + 注意: 在 Linux 系统中删除容器, 需要先停止容器再删除
 + `docker restart ContainerId` 重启容器
-> 注意: 在 Linux 系统中删除容器, 需要先停止容器再删除
 + `docker port containerID` 查看某个容器的端口映射
 + `docker top containerID` 查看容器内部的进程
 + `docker logs ContainerId` 查看容器标准输出
@@ -169,9 +170,9 @@ docker 有一个连接系统`允许将多个容器连接在一起`，共享连�
 ```
 $ docker run -d --name test1 --network test-net ubuntu
 ```
+
 + 再运行一个容器并加入到 test-net 网络:
 ```
-
 $ docker run -d --name test2 --network test-net ubuntu
 ```
 
@@ -181,10 +182,9 @@ docker exec -it test1 ping test2
 docker exec -it test2 ping test1  
 ```
 
-  +  如果 test1、test2 容器内中无 ping 命令，则在容器内执行以下命令安装 ping。参考 [2.2 创建个人镜像](#22-创建个人镜像) 在一个容器里安装好 ping 指令，提交容器到镜像，再以新的镜像运行多个容器, 避免重复安装
++  如果 test1、test2 容器内中无 ping 命令，则在容器内执行以下命令安装 ping。参考 [2.2 创建个人镜像](#22-创建个人镜像) 在一个容器里安装好 ping 指令，提交容器到镜像，再以新的镜像运行多个容器, 避免重复安装
 ```
-apt-get update
-apt install iputils-ping
+apt-get update & apt install iputils-ping
 ```
 
 > 实际开发中, 如果有多个容器之间需要互相连接，推荐使用 Docker Compose
@@ -228,30 +228,47 @@ fe9198c04d62        mongo               3.2
 329ed837d508        ubuntu              bionic
 ```
 
-
+## 2.2 查找和操作镜像
 1. 查找镜像
-+ [https://hub.docker.com/search?type=image](https://hub.docker.com/search?type=image) 使用网址搜索
++ 使用网址搜索: [https://hub.docker.com/search?type=image](https://hub.docker.com/search?type=image) 
 + `docker search ImageName` 使用命令
-  + > 参数说明
-  + > + NAME: 镜像仓库源的名称
-  + > + DESCRIPTION: 镜像的描述
-  + > + OFFICIAL: 是否 docker 官方发布
-  + > + stars: 类似 Github 的 star
-  + > + AUTOMATED: 自动构建。
+  + 参数说明
+  + NAME: 镜像仓库源的名称
+  + DESCRIPTION: 镜像的描述
+  + OFFICIAL: 是否 docker 官方发布
+  + stars: 类似 Github 的 star
+  + AUTOMATED: 自动构建。
 
-3. 拉取镜像`docker pull ImageName:Version`
-4. 删除镜像`docker rmi ImageName`
-> 注意: 删除容器是`docker rm ContainerName`
+2. 拉取镜像`docker pull ImageName:Version`
+3. 删除镜像`docker image rm ImageName` 或 `docker rmi ImageName`
+  + 注意: 删除容器是`docker rm ContainerName`
+  + 我们可以用镜像的完整 ID，也称为 长 ID，来删除镜像。使用脚本的时候可能会用长 ID，但是人工输入就太累了，所以更多的时候是用 短 ID 来删除镜像。docker image ls 默认列出的就已经是短 ID 了，一般取前3个字符以上，只要足够区分于别的镜像就可以了。 
+  + 比如，我们需要删除所有仓库名为 redis 的镜像：`$ docker image rm $(docker image ls -q redis)`
+  + 或者删除所有在 mongo:3.2 之前的镜像：`$ docker image rm $(docker image ls -q -f before=mongo:3.2)`
 
-5. 设置镜像标签 `docker tag 860c279d2fec runoob/centos:dev`
-> 为镜像id为860c279d2fec的镜像设置一个新的标签
+4. 设置镜像标签 `docker tag 860c279d2fec runoob/centos:dev`
+ + 为镜像id为860c279d2fec的镜像设置一个新的标签
 
-## 2.2 创建个人镜像
+5. 通过 `docker system df` 命令来便捷的查看镜像、容器、数据卷所占用的空间
+
+6. 虚悬镜像: 随着官方镜像维护，发布了新版本后，重新 docker pull mongo:3.2 时，mongo:3.2 这个镜像名被转移到了新下载的镜像身上，而旧的镜像上的这个名称则被取消，从而成为了 <none>。除了 docker pull 可能导致这种情况，docker build 也同样可以导致这种现象。由于新旧镜像同名，旧镜像名称被取消，从而出现仓库名、标签均为 <none> 的镜像。这类无标签镜像也被称为 虚悬镜像(dangling image) , 一般来说，虚悬镜像已经失去了存在的价值，是可以随意删除的。 可以用下面的命令专门显示这类镜像：
+```
+$ docker image ls -f dangling=true
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+<none>              <none>              00285df0df87        5 days ago          342 MB
+
+# 删除虚悬镜像 
+$ docker image prune
+```
+
+
+
+## 2.3 创建个人镜像
 创建镜像有两种方式
 + 从已经创建的容器中更新镜像，并且提交这个镜像
 + 使用 Dockerfile 指令来创建一个新的镜像
 
-### 2.2.1 更新镜像
+### 2.3.1 通过更新镜像创建个人镜像
 1. 更新镜像之前, 需要在指定的镜像的容器中进行相关操作
 ```
 docker exec -it ContainerID xxxCommand
@@ -275,9 +292,9 @@ docker run -it test/ubuntu:v2 /bin/bash
 ls /home
 ```
 
-### 2.2.2 构建一个全新的镜像
-1. 创建 Dockerfile 文件
-使用`docker build`构建, 为此, 需要创建一个 Dockerfile 文件, 来告诉 Docker 如何构建您的镜像
+## 2.3.2 通过 Dockerfile 构建一个全新的镜像, 详见第三章
+1. 创建 Dockerfile 文件  
+先创建一个 Dockerfile 文件, 来告诉 Docker 如何构建您的镜像
 
 ```
 touch Dockerfile
@@ -296,20 +313,18 @@ EXPOSE  22
 EXPOSE  80
 # 指定启动容器时执行的命令，每个 Dockerfile 只能有一条 CMD 命令。如果指定了多条 CMD 命令，只有最后一条会被执行。如果用户在启动容器时指定了要运行的命令，则会覆盖掉 CMD 指定的命令。
 CMD     /usr/sbin/sshd -D 
-
 ```
 
-2. 构建镜像
+2. 使用`docker build`构建镜像   
+`docker build -t ImageName:Version DockerfilePath`
 ```
 # 利用当前目录的Dockerfile创建镜像
 docker build -t runoob/centos:6.7 .
-
-# docker build -t ImageName:Version DockerfilePath
 ```
-> 参数详解
-> + -t 指定镜像名
-> + ImageName:Version 
-> + DockerfilePath: 指定Dockerfile目录
+参数详解
++ -t 指定镜像名
++ ImageName:Version 
++ DockerfilePath: 指定Dockerfile目录
 
 # 第三章 Dockerfile详解
 在上文您已经使用 Dockerfile 定制了一个镜像, 本章将详述 Dockerfile 的各个指令
@@ -325,15 +340,16 @@ vim Dockerfile
 FROM nginx
 RUN echo '这是一个本地构建的nginx镜像' > /usr/share/nginx/html/index.html
 ```
-> 指令详解:
-> + FROM：定制的镜像都是基于 FROM 的镜像，这里的 nginx 就是定制需要的基础镜像。后续的操作都是基于 nginx。  
-> + RUN：用于执行后面跟着的命令行命令。有以下俩种格式：  
-```
+指令详解:
++ FROM：定制的镜像都是基于 FROM 的镜像，这里的 nginx 就是定制需要的基础镜像。后续的操作都是基于 nginx。除了选择现有镜像为基础镜像外，Docker 还存在一个特殊的镜像，名为 scratch。这个镜像是虚拟的概念，并不实际存在，它表示一个空白的镜像。如果你以 scratch 为基础镜像的话，意味着你不以任何镜像为基础，接下来所写的指令将作为镜像第一层开始存在。
++ RUN：用于执行后面跟着的命令行命令。有以下俩种格式：  
 1. shell格式
+```
 # <命令行命令> 等同于，在终端操作的 shell 命令。
 RUN <命令行命令>
-
+```
 2. exec格式
+```
 # 例如：RUN ["./test.php", "dev", "offline"] 等价于 RUN ./test.php dev offline
 RUN ["可执行文件", "参数1", "参数2"]
 ```
@@ -341,19 +357,23 @@ RUN ["可执行文件", "参数1", "参数2"]
 &nbsp;
 
 > 注意: Dockerfile 的 `RUN` 指令每执行一次都会在 docker 上新建一层。所以过多无意义的层，会造成镜像膨胀过大。例如以下命令执行会创建 3 层镜像。
-> ``` 
-> FROM centos
-> RUN yum -y install wget
-> RUN wget -O redis.tar.gz "http://download.redis.io/releases/redis-5.0.3.tar.gz"
-> RUN tar -xvf redis.tar.gz
-> ```
-> 所以请您简化成以下格式。以 `&&` 符号连接命令，这样执行后，只会创建 1 层镜像。
-> ```
-> FROM centos
-> RUN yum -y install wget \
->     && wget -O redis.tar.gz "http://download.redis.io/releases/redis-5.0.3.tar.gz" \
->     && tar -xvf redis.tar.gz
-> ```
+``` 
+FROM centos
+RUN yum -y install wget
+RUN wget -O redis.tar.gz "http://download.redis.io/releases/redis-5.0.3.tar.gz"
+RUN tar -xvf redis.tar.gz
+```
+
+> 所以请您简化成以下格式。以 `&&` 符号连接命令，这样执行后，只会创建 1 层镜像。   
+   + Dockerfile 支持 Shell 类的行尾添加 \ 的命令换行方式，以及行首 # 进行注释的格式。良好的格式，比如换行、缩进、注释等，会让维护、排障更为容易，这是一个比较好的习惯。 
+   + 此外，还可以看到这一组命令的最后添加了清理工作的命令，删除了为了编译构建所需要的软件，清理了所有下载、展开的文件，并且还清理了 apt 缓存文件。这是很重要的一步，我们之前说过，镜像是多层存储，每一层的东西并不会在下一层被删除，会一直跟随着镜像。因此镜像构建时，一定要确保每一层只添加真正需要添加的东西，任何无关的东西都应该清理掉。
+```
+FROM centos
+RUN yum -y install wget \
+    && wget -O redis.tar.gz "http://download.redis.io/releases/redis-5.0.3.tar.gz" \
+    && tar -xvf redis.tar.gz \
+    && apt-get purge -y --auto-remove $buildDeps
+```
 
 ## 3.2 构建对象
 
