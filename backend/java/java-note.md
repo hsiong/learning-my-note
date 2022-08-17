@@ -326,7 +326,7 @@ case LBRACE:
                 JSONObject object = new JSONObject(lexer.isEnabled(Feature.OrderedField));
                 return parseObject(object, fieldName);
 ```
-将所有{ } 识别成 JSONObject ; java可以有泛型, [Doge]阿里的fastjson 不可有
+将所有{ } 识别成 JSONObject
 
 ## 1.x Java经验
 1. refDefine-class的问题如果来自于引用, 可能是jar包冲突; 本地的class找不到再确定是不是maven-compile出了问题
@@ -342,7 +342,8 @@ case LBRACE:
 3. 对象必须做非空判断, 避免NPE
 4. list或分页不要使用copyproperties方法, 在一定数量的时候, copyproperties会导致查询很慢; 建议使用mapper查询直接返回vo, 在vo中直接set值
 5. Restful本地调用127.0.0.1:xxxx, 但是这种的问题在于, 一个服务依赖于一个服务, 而不是分布式服务集群; (所以引入Feign解耦)
-6. 
+6. 引入代码规范的意义, 实现风险可控
+7. 学会做差异化设计, 产品差异化, 服务差异化
 ```
 import static com.xxx.xxxStaticFinal.*;
 直接引用所有常量
@@ -980,7 +981,7 @@ KMP
 nop rl dl slam
 
 # 
-1. 作为架构师  要有统一版本管理
+1. 作为架构师  要有统一版本管理 <= Github: dependBot
   + [spring 2.4 config change](https://spring.io/blog/2020/08/14/config-file-processing-in-spring-boot-2-4)
 2. 学会 github ci/cd 
 3. 学会 github pr/cr
