@@ -23,7 +23,6 @@ java-review-for-audition
     - [1.5.4 Java 线程池工作过程](#154-java-线程池工作过程)
     - [1.5.5 常用的线程池类型(cache, fixed, single, schedule)](#155-常用的线程池类型cache-fixed-single-schedule)
   - [1.x3 FastJson](#1x3-fastjson)
-  - [1.x Java经验](#1x-java经验)
   - [1.xx 问题](#1xx-问题)
     - [抽象类和接口的区别有哪些](#抽象类和接口的区别有哪些)
 - [第二章 Mysql](#第二章-mysql)
@@ -77,6 +76,7 @@ java-review-for-audition
   - [14.1 OSI七层模型](#141-osi七层模型)
   - [14.2 网络协议](#142-网络协议)
 - [](#)
+  - [1.x Java经验](#1x-java经验)
 
 # 第一章 Java
 ## 1.1 基础类型
@@ -328,26 +328,7 @@ case LBRACE:
 ```
 将所有{ } 识别成 JSONObject
 
-## 1.x Java经验
-1. refDefine-class的问题如果来自于引用, 可能是jar包冲突; 本地的class找不到再确定是不是maven-compile出了问题
-2. 
-```/**
-         * enum类自带一个values()方法, 获取该类中的所有enum
-         * 
-         * enum变量自带两属性
-         * name: 即变量名toString 如RequestMethod.GET.name()即为"name"
-         * ordinal: 在enum类中的顺序, 从0开始
-         */
-```
-3. 对象必须做非空判断, 避免NPE
-4. list或分页不要使用copyproperties方法, 在一定数量的时候, copyproperties会导致查询很慢; 建议使用mapper查询直接返回vo, 在vo中直接set值
-5. Restful本地调用127.0.0.1:xxxx, 但是这种的问题在于, 一个服务依赖于一个服务, 而不是分布式服务集群; (所以引入Feign解耦)
-6. 引入代码规范的意义, 实现风险可控
-7. 学会做差异化设计, 产品差异化, 服务差异化
-```
-import static com.xxx.xxxStaticFinal.*;
-直接引用所有常量
-```
+
 
 ## 1.xx 问题
 ### 抽象类和接口的区别有哪些
@@ -1006,3 +987,26 @@ nop rl dl slam
     + 必须逻辑删除, 严禁物理删除
     + 接口必须 public 声明
 11. ci 出错考虑代码异常导致的回退
+
+## 1.x Java经验
+1. refDefine-class的问题如果来自于引用, 可能是jar包冲突; 本地的class找不到再确定是不是maven-compile出了问题
+2. 
+```/**
+         * enum类自带一个values()方法, 获取该类中的所有enum
+         * 
+         * enum变量自带两属性
+         * name: 即变量名toString 如RequestMethod.GET.name()即为"name"
+         * ordinal: 在enum类中的顺序, 从0开始
+         */
+```
+3. 对象必须做非空判断, 避免NPE
+4. list或分页不要使用copyproperties方法, 在一定数量的时候, copyproperties会导致查询很慢; 建议使用mapper查询直接返回vo, 在vo中直接set值
+5. Restful本地调用127.0.0.1:xxxx, 但是这种的问题在于, 一个服务依赖于一个服务, 而不是分布式服务集群; (所以引入Feign解耦)
+6. 引入代码规范的意义, 实现风险可控
+7. 学会做差异化设计, 产品差异化, 服务差异化
+```
+import static com.xxx.xxxStaticFinal.*;
+直接引用所有常量
+```
+8. 抛出异常必须精准报错, 知道是哪个方法, 哪个字段报错
+9. 第三方接口数据必须全部保存, 尤其是涉及到支付
