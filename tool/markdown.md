@@ -3,6 +3,7 @@
 # This is a brief introduction about MarkDown .
 
 - [This is a brief introduction about MarkDown .](#this-is-a-brief-introduction-about-markdown-)
+- [Before You Start](#before-you-start)
 - [1. 标题](#1-标题)
 - [&num; 标题1](#-标题1)
   - [&num;&num; 标题2](#-标题2)
@@ -48,6 +49,11 @@
   - [12.1 基础](#121-基础)
   - [12.2 符号](#122-符号)
   - [12.3 矩阵](#123-矩阵)
+
+# Before You Start  
+***Reference***  
+1. https://github.com/toviLau/readme
+2. https://www.jianshu.com/p/0d5b9c5d5741
 
 # 1. 标题
 # &num; 标题1
