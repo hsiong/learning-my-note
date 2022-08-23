@@ -35,3 +35,6 @@ gpg: signing failed: Screen or window too small
 
 ##  Deployment failed: repository element was not specified in the POM inside distributionManagement element or in -DaltDeploymentRepository=id::layout::url parameter  
 http://www.javawenti.com/?post=6783
+
+## Already released in Sonatype, but not found in Maven repository
+Sync Sonatype to Maven repository would cost 5 ~ 20 minutes.
