@@ -22,6 +22,8 @@ java-review-for-audition
     - [1.5.3 线程池组成](#153-线程池组成)
     - [1.5.4 Java 线程池工作过程](#154-java-线程池工作过程)
     - [1.5.5 常用的线程池类型(cache, fixed, single, schedule)](#155-常用的线程池类型cache-fixed-single-schedule)
+  - [1.6 对象, 反射, 泛型](#16-对象-反射-泛型)
+  - [1.7](#17)
   - [1.x3 FastJson](#1x3-fastjson)
   - [1.xx 问题](#1xx-问题)
     - [抽象类和接口的区别有哪些](#抽象类和接口的区别有哪些)
@@ -319,6 +321,18 @@ public ThreadPoolExecutor(int corePoolSize,
     + 工作线程数量指定
     + 支持定时及周期性任务执行
 
+
+## 1.6 对象, 反射, 泛型
+Reference: 
+* https://blog.csdn.net/cnds123321/article/details/119655880
+* https://www.liaoxuefeng.com/wiki/1252599548343744/1265104600263968
+* https://blog.csdn.net/Sife_007/article/details/80308517
+* https://www.cnblogs.com/baiqiantao/p/7460580.html
+
+jad; jclasslib;  type erase 
+
+## 1.7 
+
 ## 1.x3 FastJson
 1. 在 fastJson DefaultJSONParser.parse() 中              
 ```
@@ -327,6 +341,9 @@ case LBRACE:
                 return parseObject(object, fieldName);
 ```
 将所有{ } 识别成 JSONObject
+
+2. SerializerFeature 与 Feature 什么关系 ? 
+没有关系; 重载方法
 
 
 
@@ -1010,3 +1027,4 @@ import static com.xxx.xxxStaticFinal.*;
 ```
 8. 抛出异常必须精准报错, 知道是哪个方法, 哪个字段报错
 9. 第三方接口数据必须全部保存, 尤其是涉及到支付
+10.         // 不可用 clazz.getDeclaredConstructor().newInstance(); 因为这样不会加载 spring - autowired   this.factory = SpringUtils.getBean(clazz);

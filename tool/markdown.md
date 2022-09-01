@@ -192,7 +192,7 @@ markdown加载图片
 \&nbsp; 但是只能空一行  
 \<br/> 无限空行
 ## 11.5 公式
-Markdown Preview Enhanced 使用 KaTeX 或者 MathJax 来渲染数学表达式。
+Markdown Preview Enhanced 使用 Latex, KaTeX 或者 MathJax 来渲染数学表达式。
 [markdown支持公式-KaTeX](https://github.com/KaTeX/KaTeX)
 [markdown支持公式-MathJax](https://github.com/mathjax/MathJax)
 ## 11.6 流程图
