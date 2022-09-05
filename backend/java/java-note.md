@@ -323,11 +323,20 @@ public ThreadPoolExecutor(int corePoolSize,
 
 
 ## 1.6 对象, 反射, 泛型
+
 Reference: 
-* https://blog.csdn.net/cnds123321/article/details/119655880
-* https://www.liaoxuefeng.com/wiki/1252599548343744/1265104600263968
-* https://blog.csdn.net/Sife_007/article/details/80308517
-* https://www.cnblogs.com/baiqiantao/p/7460580.html
+* Java通过反射获取泛型类型信息 
+  https://blog.csdn.net/cnds123321/article/details/119655880
+* 擦拭法 
+  https://www.liaoxuefeng.com/wiki/1252599548343744/1265104600263968
+* java泛型--创建类型实例的几种方法 
+  https://blog.csdn.net/Sife_007/article/details/80308517
+  
+* Type 类型 泛型 反射 Class ParameterizedType [MD] 
+  https://www.cnblogs.com/baiqiantao/p/7460580.html
+  
+* 打个赌你可能不知道如何获取Java泛型的Class对象 
+  https://cloud.tencent.com/developer/article/1851247
 
 jad; jclasslib;  type erase 
 
@@ -1028,3 +1037,4 @@ import static com.xxx.xxxStaticFinal.*;
 8. 抛出异常必须精准报错, 知道是哪个方法, 哪个字段报错
 9. 第三方接口数据必须全部保存, 尤其是涉及到支付
 10.         // 不可用 clazz.getDeclaredConstructor().newInstance(); 因为这样不会加载 spring - autowired   this.factory = SpringUtils.getBean(clazz);
+11. 数据库建议关闭 5432 对外端口, 需要连接时, ssh 连过去    然后再写 postgres sql; 并且使用内网端口, 可以节省外网 io 
