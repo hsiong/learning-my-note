@@ -33,11 +33,17 @@
       - [How to Draw a Class Diagram?](#how-to-draw-a-class-diagram)
       - [Where to Use Class Diagrams?](#where-to-use-class-diagrams)
     - [Object Diagram](#object-diagram)
+      - [Purpose of Object Diagrams](#purpose-of-object-diagrams)
       - [How to Draw an Object Diagram?](#how-to-draw-an-object-diagram)
+      - [Where to Use Object Diagrams?](#where-to-use-object-diagrams)
     - [Component Diagrams](#component-diagrams)
+      - [Purpose of Component Diagrams](#purpose-of-component-diagrams)
       - [How to Draw a Component Diagram?](#how-to-draw-a-component-diagram)
+      - [Where to Use Component Diagrams?](#where-to-use-component-diagrams)
     - [Deployment Diagrams](#deployment-diagrams)
+      - [Purpose of Deployment Diagrams](#purpose-of-deployment-diagrams)
       - [How to Draw a Deployment Diagram?](#how-to-draw-a-deployment-diagram)
+      - [Where to Use Deployment Diagrams?](#where-to-use-deployment-diagrams)
   - [Behavioral diagrams in UML](#behavioral-diagrams-in-uml)
   - [Interaction diagrams in UML](#interaction-diagrams-in-uml)
 
@@ -436,7 +442,14 @@ Object diagrams are a set of objects and their relationship is just like class d
 
 The usage of object diagrams is similar to class diagrams but they are used to build prototype of a system from a practical perspective.
 
+#### Purpose of Object Diagrams
 
+The purpose of the object diagram can be summarized as −
+
+- Forward and reverse engineering.
+- Object relationships of a system
+- Static view of an interaction.
+- Understand object behaviour and their relationship from practical perspective
 
 #### How to Draw an Object Diagram?
 
@@ -489,11 +502,34 @@ The following object diagram has been drawn considering all the points mentioned
 
 
 
+#### Where to Use Object Diagrams?
+
+These diagrams are used to describe the physical components (hardware), their distribution, and association.
+
+In a nutshell, it can be said that object diagrams are used for −
+
+- Making the prototype of a system.
+- Reverse engineering.
+- Modeling complex data structures.
+- Understanding the system from practical perspective.
+
 ### Component Diagrams
 
 Component diagrams are different in terms of nature and behavior. Component diagrams are used to model the physical aspects of a system. Now the question is, what are these physical aspects? Physical aspects are the elements such as executables, libraries, files, documents, etc. which reside in a node.
 
 Component diagrams are used to visualize the organization and relationships among components in a system. These diagrams are also used to make executable systems.
+
+
+
+#### Purpose of Component Diagrams
+
+A single component diagram cannot represent the entire system but a collection of diagrams is used to represent the whole.
+
+The purpose of the component diagram can be summarized as −
+
+- Visualize the components of a system.
+- Construct executables by using forward and reverse engineering.
+- Describe the organization and relationships of the components.
 
 
 
@@ -525,7 +561,14 @@ The following component diagram has been drawn considering all the points mentio
 
 ![image](https://user-images.githubusercontent.com/37357447/189320133-21231360-62b9-4458-a32c-875990ade7a6.png)
 
+#### Where to Use Component Diagrams?
 
+Component diagrams can be used to −
+
+- Model the components of a system.
+- Model the database schema.
+- Model the executables of an application.
+- Model the system's source code.
 
 ### Deployment Diagrams
 
@@ -533,21 +576,37 @@ Deployment diagrams are used to visualize the topology of the physical component
 
 Deployment diagrams are used to describe the static deployment view of a system. Deployment diagrams consist of nodes and their relationships.
 
+
+
+#### Purpose of Deployment Diagrams
+
+Component diagrams and deployment diagrams are closely related. Component diagrams are used to describe the components and deployment diagrams shows how they are deployed in hardware, while these two diagrams are special diagrams used to focus on software and hardware components.
+
+The purpose of deployment diagrams can be described as −
+
+- Visualize the hardware topology of a system.
+- Describe the hardware components used to deploy software components.
+- Describe the runtime processing nodes.
+
+
+
 #### How to Draw a Deployment Diagram?
 
-Deployment diagram represents the deployment view of a system. It is related to the component diagram because the components are deployed using the deployment diagrams. A deployment diagram consists of nodes. Nodes are nothing but physical hardware used to deploy the application.
+Deployment diagram represents the deployment view of a system. It is related to the component diagram because the components are deployed using the deployment diagrams. A deployment diagram consists of nodes. Nodes are nothing but physical hardware used to deploy the application.Deployment diagrams are useful for system engineers. 
 
-Deployment diagrams are useful for system engineers. An efficient deployment diagram is very important as it controls the following parameters −
 
-- Performance
-- Scalability
-- Maintainability
-- Portability
 
-Before drawing a deployment diagram, the following artifacts should be identified −
+1. An efficient deployment diagram is very important as it controls the following parameters −
 
-- Nodes
-- Relationships among nodes
+- ***Performance***
+- ***Scalability***
+- ***Maintainability***
+- ***Portability***
+
+2. Before drawing a deployment diagram, the following artifacts should be identified −
+
+- ***Nodes***
+- ***Relationships among nodes***
 
 Following is a sample deployment diagram to provide an idea of the deployment view of order management system. Here, we have shown nodes as −
 
@@ -561,6 +620,20 @@ Following is a sample deployment diagram to provide an idea of the deployment vi
 The application is assumed to be a web-based application, which is deployed in a clustered environment using server 1, server 2, and server 3. The user connects to the application using the Internet. The control flows from the caching server to the clustered environment.
 
 The following deployment diagram has been drawn considering all the points mentioned above.
+
+![image](https://user-images.githubusercontent.com/37357447/189344211-ec834ebe-0aeb-43d2-9c33-0f040da9e6f7.png)
+
+
+
+#### Where to Use Deployment Diagrams?
+
+Deployment diagrams can be used −
+
+- To model the hardware topology of a system.
+- To model the embedded system.
+- To model the hardware details for a client/server system.
+- To model the hardware details of a distributed application.
+- For Forward and Reverse engineering.
 
 ## Behavioral diagrams in UML
 
