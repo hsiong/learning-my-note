@@ -20,17 +20,18 @@
   - [Annotational Things](#annotational-things)
     - [Note](#note)
 - [Relationship](#relationship)
-  - [Dependency](#dependency)
   - [Association](#association)
     - [Aggregation](#aggregation)
       - [Composition](#composition)
   - [Inheritance(or Generalization)](#inheritanceor-generalization)
   - [Realization](#realization)
+  - [Dependency](#dependency)
 - [What is UML Diagram?](#what-is-uml-diagram)
   - [Structural diagrams in UML](#structural-diagrams-in-uml)
     - [Class diagram](#class-diagram)
       - [How to Draw a Class Diagram?](#how-to-draw-a-class-diagram)
     - [Object Diagram](#object-diagram)
+      - [How to Draw an Object Diagram?](#how-to-draw-an-object-diagram)
   - [Behavioral diagrams in UML](#behavioral-diagrams-in-uml)
   - [Interaction diagrams in UML](#interaction-diagrams-in-uml)
 
@@ -254,23 +255,9 @@ This notation is shown in the following figure. These notations are used to prov
 
 Relationship is another most important building block of UML. It shows how the elements are associated with each other and this association describes the functionality of an application.
 
-There are four kinds of relationships available: 
+There are six kinds of relationships available: 
 
-## Dependency
-
-Dependency is an important aspect in UML elements. It describes the dependent elements and the direction of dependency.
-
-Dependency is represented by a dotted arrow as shown in the following figure. The arrow head represents the independent element and the other end represents the dependent element.
-
-![image](https://user-images.githubusercontent.com/37357447/189072103-b23fb680-3e79-4e78-91bf-4098f40eb12f.png)
-
-Dependency is used to represent the dependency between two elements of a systemAssociation
-
-Association is basically a set of links that connects the elements of a UML model. It also describes how many objects are taking part in that relationship. 
-
-
-
-
+![image](https://user-images.githubusercontent.com/37357447/189287006-99f6d5bd-c575-4c4b-b3d8-caea4c0a5e24.png)
 
 ## Association
 
@@ -278,11 +265,22 @@ Association describes how the elements in a UML diagram are associated. In simpl
 
 Association is represented by a dotted line with (without) arrows on both sides. The two ends represent two associated elements as shown in the following figure. The multiplicity is also mentioned at the ends (1, *, etc.) to show how many objects are associated.
 
-![image](https://user-images.githubusercontent.com/37357447/189072249-0310998e-b84e-4770-9948-3fced27b44a5.png)
+![image](https://user-images.githubusercontent.com/37357447/189287811-19a21df2-115a-48fe-a455-534e4dc5587f.png)
 
 Association is used to represent the relationship between two elements of a system.
 
 ### Aggregation
+
+A special type of association.
+
+- It represents a "part of" relationship.
+- Class2 is part of Class1.
+- Many instances (denoted by the *) of Class2 can be associated with Class1.
+- Objects of Class1 and Class2 have separate lifetimes.
+
+The figure below shows an example of aggregation. The relationship is displayed as a solid line with a unfilled diamond at the association end, which is connected to the class that represents the aggregate.
+
+![image](https://user-images.githubusercontent.com/37357447/189286964-e2806fca-fdbc-4e2f-b772-054335376137.png)
 
 #### Composition
 
@@ -295,6 +293,9 @@ The figure below shows an example of composition. The relationship is displayed 
 ![Composition](https://cdn-images.visual-paradigm.com/guide/uml/uml-class-diagram-tutorial/13-composition.png)
 
 
+
+
+
 ## Inheritance(or Generalization)
 
 Generalization describes the inheritance relationship of the object-oriented world. It is a parent and child relationship.
@@ -305,11 +306,25 @@ Generalization is represented by an arrow with a hollow arrow head as shown in t
 
 Generalization is used to describe parent-child relationship of two elements of a system.
 
+
+
 ## Realization
 
 Realization can be defined as a relationship in which two elements are connected. One element describes some responsibility, which is not implemented and the other one implements them. This relationship exists in case of interfaces.
 
 ![image](https://user-images.githubusercontent.com/37357447/189072793-2dccf621-d640-4ca8-9f4f-818b542966c6.png)
+
+## Dependency
+
+Dependency is an important aspect in UML elements. It describes the dependent elements and the direction of dependency.
+
+Dependency is represented by a dotted arrow as shown in the following figure. The arrow head represents the independent element and the other end represents the dependent element.
+
+![image](https://user-images.githubusercontent.com/37357447/189072103-b23fb680-3e79-4e78-91bf-4098f40eb12f.png)
+
+Dependency is used to represent the dependency between two elements of a systemAssociation
+
+Association is basically a set of links that connects the elements of a UML model. It also describes how many objects are taking part in that relationship. 
 
 
 
@@ -365,26 +380,30 @@ Class diagram represents the object orientation of a system. Hence, it is genera
 
 #### How to Draw a Class Diagram?
 
-Class diagrams are the most popular UML diagrams used for construction of software applications. It is very important to learn the drawing procedure of class diagram.
-
-Class diagrams have a lot of properties to consider while drawing but here the diagram will be considered from a top level view.
+Class diagrams are the most popular UML diagrams used for construction of software applications. 
 
 Class diagram is basically a graphical representation of the static view of the system and represents different aspects of the application. A collection of class diagrams represent the whole system.
 
 The following points should be remembered while drawing a class diagram −
 
-- The name of the class diagram should be meaningful to describe the aspect of the system.
-- Each element and their relationships should be identified in advance.
-- Responsibility (attributes and methods) of each class should be clearly identified
-- For each class, minimum number of properties should be specified, as unnecessary properties will make the diagram complicated.
-- Use notes whenever required to describe some aspect of the diagram. At the end of the drawing it should be understandable to the developer/coder.
-- Finally, before making the final version, the diagram should be drawn on plain paper and reworked as many times as possible to make it correct.
+- The ***name*** of the class diagram should be meaningful to describe the aspect of the system.
+- Each element and their ***relationships*** should be identified in advance.
+- ***Responsibility*** (attributes and methods) of each class should be clearly identified
+- For each class, ***minimum number of properties*** should be specified, as unnecessary properties will make the diagram complicated.
+- Use ***notes*** whenever required to describe some aspect of the diagram. At the end of the drawing it should be understandable to the developer/coder.
+- Finally, before making the final version, the diagram should be drawn on plain paper and ***reworked*** as many times as possible to make it correct.
 
-The following diagram is an example of an **Order System** of an application. It describes a particular aspect of the entire application.
+
+
+
+
+The following diagram is an example of an Order System of an application. It describes a particular aspect of the entire application.
 
 - First of all, Order and Customer are identified as the two elements of the system. They have a one-to-many relationship because a customer can have multiple orders.
 - Order class is an abstract class and it has two concrete classes (inheritance relationship) SpecialOrder and NormalOrder.
 - The two inherited classes have all the properties as the Order class. In addition, they have additional functions like dispatch () and receive ().
+
+<img src="https://user-images.githubusercontent.com/37357447/189291508-d97d63c5-7c12-4660-a0e1-937fd21edfe0.png" alt="image" style="zoom:50%;" />
 
 ### Object Diagram
 
@@ -394,7 +413,56 @@ Object diagrams are a set of objects and their relationship is just like class d
 
 The usage of object diagrams is similar to class diagrams but they are used to build prototype of a system from a practical perspective.
 
-![image](https://user-images.githubusercontent.com/37357447/189079232-9d6021f0-414f-4472-8507-837fa5788096.png)
+
+
+#### How to Draw an Object Diagram?
+
+Class Diagrams & Object Diagram are both made of same basic elements but in different form. In class diagram elements are in abstract form to represent the blue print and in object diagram the elements are in concrete form to represent the real world object.
+
+To capture a particular system, numbers of class diagrams are limited. However, if we consider <u>object diagrams then we can have unlimited number of instances</u>, which are unique in nature. Only those instances are considered, which have an impact on the system.
+
+1. From the above discussion, it is clear that a single object diagram cannot capture all the necessary instances or rather cannot specify all the objects of a system. Hence, the solution is −
+
+- First, ***decide instances*** - Analyze the system and decide which instances have important data and association.
+- Second, ***consider instantces & function*** - Consider only those instances, which will cover the functionality.
+- Third, ***optimize*** - Make some optimization as the number of instances are unlimited.
+
+2. Before drawing an object diagram, the following things should be remembered and understood clearly −
+
+- ***Objects and links*** are the two elements used to construct an object diagram.
+
+- Same as Class Diagram: 
+
+  - The object diagram should have a ***meaningful name*** to indicate its purpose.
+
+  - The ***most important elements*** are to be identified.
+
+  - The ***association*** among objects should be clarified.
+
+  - Values of ***different elements*** need to be captured to include in the object diagram.
+
+  - Add ***proper notes*** at points where more clarity is required.
+
+
+
+The following diagram is an example of an object diagram. It represents the Order management system which we have discussed in the chapter Class Diagram. The following diagram is an instance of the system at a particular time of purchase. It has the following objects.
+
+- Customer
+- Order
+- SpecialOrder
+- NormalOrder
+
+Now the customer object (C) is associated with three order objects (O1, O2, and O3). These order objects are associated with special order and normal order objects (S1, S2, and N1). The customer has the following three orders with different numbers (12, 32 and 40) for the particular time considered.
+
+The customer can increase the number of orders in future and in that scenario the object diagram will reflect that. If order, special order, and normal order objects are observed then you will find that they have some values.
+
+For orders, the values are 12, 32, and 40 which implies that the objects have these values for a particular moment (here the particular time when the purchase is made is considered as the moment) when the instance is captured
+
+The same is true for special order and normal order objects which have number of orders as 20, 30, and 60. If a different time of purchase is considered, then these values will change accordingly.
+
+The following object diagram has been drawn considering all the points mentioned above
+
+![image](https://user-images.githubusercontent.com/37357447/189292039-3d61cb4d-7937-49fe-9a37-e0be57b821f4.png)
 
 ## Behavioral diagrams in UML
 Any real-world system can be represented in either a static form or a dynamic form. A system is said to be complete if it is expressed in both the static and dynamic ways. The behavioral diagram represents the functioning of a system.
