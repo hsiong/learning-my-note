@@ -1,13 +1,15 @@
-
 - [Before you start](#before-you-start)
 - [Things](#things)
-  - [Structural things](#structural-things)
+  - [Structural things & Notation](#structural-things--notation)
     - [Class](#class)
+      - [Active Class Notation](#active-class-notation)
     - [Object](#object)
     - [Interface](#interface)
     - [Collaboration](#collaboration)
     - [Use case](#use-case)
     - [Actor](#actor)
+    - [Initial State Notation](#initial-state-notation)
+    - [Final State Notation](#final-state-notation)
     - [Component](#component)
     - [Node](#node)
   - [Behavioral Things](#behavioral-things)
@@ -20,11 +22,15 @@
 - [Relationship](#relationship)
   - [Dependency](#dependency)
   - [Association](#association)
-  - [Generalization](#generalization)
+    - [Aggregation](#aggregation)
+      - [Composition](#composition)
+  - [Inheritance(or Generalization)](#inheritanceor-generalization)
   - [Realization](#realization)
-  - [Aggregation](#aggregation)
 - [What is UML Diagram?](#what-is-uml-diagram)
   - [Structural diagrams in UML](#structural-diagrams-in-uml)
+    - [Class diagram](#class-diagram)
+      - [How to Draw a Class Diagram?](#how-to-draw-a-class-diagram)
+    - [Object Diagram](#object-diagram)
   - [Behavioral diagrams in UML](#behavioral-diagrams-in-uml)
   - [Interaction diagrams in UML](#interaction-diagrams-in-uml)
 
@@ -34,6 +40,9 @@
 + https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/
 + https://www.tutorialspoint.com/uml/uml_building_blocks.htm
 + https://www.guru99.com/uml-tutorial.html
++ https://www.softwaretestinghelp.com/uml-diagram-tutorial/
+
+
 
 Following object-oriented concepts are required to begin with UML:
 
@@ -44,7 +53,10 @@ Following object-oriented concepts are required to begin with UML:
 + Polymorphism: It is a mechanism of representing an object having multiple forms which are used for different purposes.
 + Encapsulation: It is a method of binding the object and the data together as a single unit. It ensures tight coupling between the object and the data.
 
+
+
 # Things
+
 Things are the most important building blocks of UML. Things can be −
 
 + Structural
@@ -52,62 +64,143 @@ Things are the most important building blocks of UML. Things can be −
 + Grouping
 + Annotational
 
-## Structural things 
+## Structural things & Notation
 Structural things define the static part of the model. They represent the physical and conceptual elements. Following are the brief descriptions of the structural things: 
 
 ### Class
 
-Class represents a set of objects having similar responsibilities.
+A class represent a concept which encapsulates state (**attributes**) and behavior (**operations**). Each attribute has a type. Each **operation** has a **signature**. *The class name is the **only mandatory information***.
 
-![class](https://www.guru99.com/images/1/041519_1219_UMLNotation1.png)
+![image](https://user-images.githubusercontent.com/37357447/189065154-2998486e-8a09-4a2c-898f-af458c22718c.png)
+
+
+
+**Class Name:**
+
+- The name of the class appears in the first partition.
+
+**Class Attributes:**
+
+- Attributes are shown in the second partition.
+- The attribute type is shown after the colon.
+- Attributes map onto member variables (data members) in code.
+
+**Class Operations (Methods):**
+
+- Operations are shown in the third partition. They are services the class provides.
+- The return type of a method is shown after the colon at the end of the method signature.
+- The return type of method parameters are shown after the colon following the parameter name. Operations map onto class methods in code.
+
+
+
+![image](https://user-images.githubusercontent.com/37357447/189064978-1849db8f-b407-4f78-8f7f-59d23ac57997.png)
+
+
+
+**Class Visibility**:
+
+The +, - and # symbols before an attribute and operation name in a class denote the visibility of the attribute and operation.
+
+- \+ denotes public attributes or operations
+- \- denotes private attributes or operations
+- \# denotes protected attributes or operations
+
+![image](https://user-images.githubusercontent.com/37357447/189064885-c848eac8-e537-4ee2-8217-8ec43d38bd98.png)
+
+**Parameter Directionality**
+
+Each parameter in an operation (method) may be denoted as in, **out** or **inout** which specifies its direction with respect to the caller. This directionality is shown before the parameter name.
+
+![image](https://user-images.githubusercontent.com/37357447/189064812-27ca42ba-1eaf-4b14-995a-f88f39ee5a30.png)
+
+
+
+![image](https://user-images.githubusercontent.com/37357447/189064750-c5997116-6623-40a4-8f7a-9e24545a6fdc.png)
+
+
+
+#### Active Class Notation
+
+Active class looks similar to a class with a solid border. Active class is generally used to describe the concurrent behavior of a system.
+
+![image](https://user-images.githubusercontent.com/37357447/189064550-e715a3f5-f66a-4bd2-917b-097c174ff9f4.png)
+
+Active class is used to represent the concurrency in a system.
+
+
 
 ### Object
 
-An object is an entity which is used to describe the behavior and functions of a system. The class and object have the same notations. The only difference is that an object name is always underlined in UML.
+The *object* is represented in the same way as the class. The only difference is the *name* which is underlined as shown in the following figure.
 
-The UML notation of any object is given below.
+![image](https://user-images.githubusercontent.com/37357447/189063705-ae7c9f8d-f5b3-4253-9d15-5de5973bd84d.png)
 
-![1234](https://www.guru99.com/images/1/041519_1219_UMLNotation2.png)
+As the object is an actual implementation of a class, which is known as the instance of a class. Hence, it has the same usage as the class.
 
 
 ### Interface
 
-Interface defines a set of operations, which specify the responsibility of a class.
+Interface is represented by a circle as shown in the following figure. It has a name which is generally written below the circle.
 
-![Interface](https://www.tutorialspoint.com/uml/images/uml_interface.jpg)
+![image](https://user-images.githubusercontent.com/37357447/189063926-8e76ddc9-1532-4147-8743-4c3b22db40a3.png)
 
-
+Interface is used to describe the functionality without implementation. Interface is just like a template where you define different functions, not the implementation. When a class implements the interface, it also implements the functionality as per requirement.
 
 ### Collaboration
 
-Collaboration defines an interaction between elements.
+Collaboration is represented by a dotted eclipse as shown in the following figure. It has a name written inside the eclipse.
 
-![Collaboration](https://www.guru99.com/images/1/041519_1219_UMLNotation4.png)
+![image](https://user-images.githubusercontent.com/37357447/189063848-72662cd8-7cb2-4cee-af20-a1903377fed2.png)
+
+Collaboration represents responsibilities. Generally, responsibilities are in a group.
 
 ### Use case
 
-Use case represents a set of actions performed by a system for a specific goal.
+Use case is represented as an eclipse with a name inside it. It may contain additional responsibilities.
 
-![Use case](https://www.tutorialspoint.com/uml/images/uml_usecase.jpg)
+![image](https://user-images.githubusercontent.com/37357447/189063985-a24e8634-7e5a-426e-8af4-0f842d80c4be.png)
+
+Use case is used to capture high level functionalities of a system.
 
 ### Actor
-It is used inside use case diagrams. The Actor notation is used to denote an entity that interacts with the system. A user is the best example of an actor. The actor notation in UML is given below.  
-![1234](https://www.guru99.com/images/1/041519_1219_UMLNotation6.png)
 
+An actor can be defined as some internal or external entity that interacts with the system.
+
+![image](https://user-images.githubusercontent.com/37357447/189064329-47e38785-e407-459a-b380-5a4818136a69.png)
+
+An actor is used in a use case diagram to describe the internal or external entities.
+
+### Initial State Notation
+
+Initial state is defined to show the start of a process. This notation is used in almost all diagrams.
+
+![image](https://user-images.githubusercontent.com/37357447/189064385-5b9d4e00-6bb8-4f72-acb8-d32d510d3634.png)
+
+The usage of Initial State Notation is to show the starting point of a process.
+
+### Final State Notation
+
+Final state is used to show the end of a process. This notation is also used in almost all diagrams to describe the end.
+
+![image](https://user-images.githubusercontent.com/37357447/189064484-34c5f13f-98bb-44f8-80cb-3394c46780c0.png)
+
+The usage of Final State Notation is to show the termination point of a process.
 
 ### Component
 
-Component describes the physical part of a system.
+A component in UML is shown in the following figure with a name inside. Additional elements can be added wherever required.
 
-![Component](https://www.tutorialspoint.com/uml/images/uml_component.jpg)
+![image](https://user-images.githubusercontent.com/37357447/189065286-c841d90a-6889-4200-8418-77f962146646.png)
+
+Component is used to represent any part of a system for which UML diagrams are made.
 
 ### Node 
 
-A node can be defined as a physical element that exists at run time.
+A node in UML is represented by a square box as shown in the following figure with a name. A node represents the physical component of the system.
 
-![Node](https://www.tutorialspoint.com/uml/images/uml_node.jpg)
+![image](https://user-images.githubusercontent.com/37357447/189065323-49edfde4-d64a-4ebc-ab55-54a04b3ca8cb.png)
 
-
+Node is used to represent the physical part of a system such as the server, network, etc.
 
 ## Behavioral Things
 
@@ -117,17 +210,21 @@ A behavioral thing consists of the dynamic parts of UML models. Following are th
 
 ### Interaction  
 
-Interaction is defined as a behavior that consists of a group of messages exchanged among elements to accomplish a specific task.
+Interaction is basically a message exchange between two UML components. The following diagram represents different notations used in an interaction.
 
-![Interaction](https://www.tutorialspoint.com/uml/images/uml_message.jpg)
+![image](https://user-images.githubusercontent.com/37357447/189066892-92acae6a-ad99-4bbd-8354-902f923e596a.png)
+
+Interaction is used to represent the communication among the components of a system.
+
+
 
 ### State machine 
 
-State machine is useful when the state of an object in its life cycle is important. It defines the sequence of states an object goes through in response to events. Events are external factors responsible for state change
+State machine describes the different states of a component in its life cycle. The notations are described in the following diagram.
 
-![State machine](https://www.guru99.com/images/1/041519_1219_UMLNotation10.png)
+![image](https://user-images.githubusercontent.com/37357447/189067489-3450711d-dd66-4a90-b56b-4a388867659b.png)
 
-
+State machine is used to describe different states of a system component. The state can be active, idle, or any other depending upon the situation.
 
 ## Grouping Things
 
@@ -135,9 +232,11 @@ Grouping things can be defined as a mechanism to group elements of a UML model t
 
 ### Package  
 
-Package is the only one grouping thing available for gathering structural and behavioral things.
+Package notation is shown in the following figure and is used to wrap the components of a system.
 
-![Package](https://www.tutorialspoint.com/uml/images/uml_package.jpg)
+![image](https://user-images.githubusercontent.com/37357447/189069805-cb8713de-60a4-4ddb-a317-5c6187de41aa.png)
+
+
 
 ## Annotational Things
 
@@ -145,9 +244,9 @@ Annotational things can be defined as a mechanism to capture remarks, descriptio
 
 ### Note  
 
-It is the only one Annotational thing available. A note is used to render comments, constraints, etc. of an UML element.
+This notation is shown in the following figure. These notations are used to provide necessary information of a system.
 
-![Note](https://www.tutorialspoint.com/uml/images/uml_note.jpg)
+![image](https://user-images.githubusercontent.com/37357447/189071203-f211a830-8833-4e9b-b6c6-736c6524fff3.png)
 
 
 
@@ -159,32 +258,60 @@ There are four kinds of relationships available:
 
 ## Dependency
 
-Dependency is a relationship between two things in which change in one element also affects the other.
+Dependency is an important aspect in UML elements. It describes the dependent elements and the direction of dependency.
 
-![Dependency](https://www.tutorialspoint.com/uml/images/uml_dependency.jpg)
+Dependency is represented by a dotted arrow as shown in the following figure. The arrow head represents the independent element and the other end represents the dependent element.
+
+![image](https://user-images.githubusercontent.com/37357447/189072103-b23fb680-3e79-4e78-91bf-4098f40eb12f.png)
+
+Dependency is used to represent the dependency between two elements of a systemAssociation
+
+Association is basically a set of links that connects the elements of a UML model. It also describes how many objects are taking part in that relationship. 
+
+
+
+
 
 ## Association
 
-Association is basically a set of links that connects the elements of a UML model. It also describes how many objects are taking part in that relationship.
+Association describes how the elements in a UML diagram are associated. In simple words, it describes how many elements are taking part in an interaction.
 
-![Association](https://www.guru99.com/images/1/041519_1219_UMLNotation15.png)   
+Association is represented by a dotted line with (without) arrows on both sides. The two ends represent two associated elements as shown in the following figure. The multiplicity is also mentioned at the ends (1, *, etc.) to show how many objects are associated.
+
+![image](https://user-images.githubusercontent.com/37357447/189072249-0310998e-b84e-4770-9948-3fced27b44a5.png)
+
+Association is used to represent the relationship between two elements of a system.
+
+### Aggregation
+
+#### Composition
+
+- A special type of aggregation where parts are destroyed when the whole is destroyed.
+- Objects of Class2 live and die with Class1.
+- Class2 cannot stand by itself.
+
+The figure below shows an example of composition. The relationship is displayed as a solid line with a filled diamond at the association end, which is connected to the class that represents the whole or composite.
+
+![Composition](https://cdn-images.visual-paradigm.com/guide/uml/uml-class-diagram-tutorial/13-composition.png)
 
 
-## Generalization
+## Inheritance(or Generalization)
 
-Generalization can be defined as a relationship which connects a specialized element with a generalized element. It basically describes the inheritance relationship in the world of objects.
+Generalization describes the inheritance relationship of the object-oriented world. It is a parent and child relationship.
 
-![Generalization](https://www.tutorialspoint.com/uml/images/uml_generalization.jpg)
+Generalization is represented by an arrow with a hollow arrow head as shown in the following figure. One end represents the parent element and the other end represents the child element.
 
+![image](https://user-images.githubusercontent.com/37357447/189072392-9fcf8553-8174-4079-9e37-62cc9e442e74.png)
 
+Generalization is used to describe parent-child relationship of two elements of a system.
 
 ## Realization
 
 Realization can be defined as a relationship in which two elements are connected. One element describes some responsibility, which is not implemented and the other one implements them. This relationship exists in case of interfaces.
 
-![Realization](https://www.tutorialspoint.com/uml/images/uml_realization.jpg)
+![image](https://user-images.githubusercontent.com/37357447/189072793-2dccf621-d640-4ca8-9f4f-818b542966c6.png)
 
-## Aggregation
+
 
 
 
@@ -211,6 +338,63 @@ Following are the various structural diagrams in UML:
 + Component diagram
 + Deployment diagram
 + Composite structure diagram
+
+
+
+### Class diagram
+
+Class diagrams are the most common diagrams used in UML. Class diagram consists of classes, interfaces, associations, and collaboration. Class diagrams basically represent the object-oriented view of a system, which is static in nature.
+
+Active class is used in a class diagram to represent the concurrency of the system.
+
+Class diagram represents the object orientation of a system. Hence, it is generally used for development purpose. This is the most widely used diagram at the time of system construction.
+
+
+
++ Example: Order System
+
+![image](https://user-images.githubusercontent.com/37357447/189074935-05cf66fb-3c40-427a-be9e-c00cad0c7457.png)
+
+
+
++ Example: GUI
+
+![image](https://user-images.githubusercontent.com/37357447/189075395-abfdc446-0a34-400b-883d-17d35a4439c5.png)
+
+
+
+#### How to Draw a Class Diagram?
+
+Class diagrams are the most popular UML diagrams used for construction of software applications. It is very important to learn the drawing procedure of class diagram.
+
+Class diagrams have a lot of properties to consider while drawing but here the diagram will be considered from a top level view.
+
+Class diagram is basically a graphical representation of the static view of the system and represents different aspects of the application. A collection of class diagrams represent the whole system.
+
+The following points should be remembered while drawing a class diagram −
+
+- The name of the class diagram should be meaningful to describe the aspect of the system.
+- Each element and their relationships should be identified in advance.
+- Responsibility (attributes and methods) of each class should be clearly identified
+- For each class, minimum number of properties should be specified, as unnecessary properties will make the diagram complicated.
+- Use notes whenever required to describe some aspect of the diagram. At the end of the drawing it should be understandable to the developer/coder.
+- Finally, before making the final version, the diagram should be drawn on plain paper and reworked as many times as possible to make it correct.
+
+The following diagram is an example of an **Order System** of an application. It describes a particular aspect of the entire application.
+
+- First of all, Order and Customer are identified as the two elements of the system. They have a one-to-many relationship because a customer can have multiple orders.
+- Order class is an abstract class and it has two concrete classes (inheritance relationship) SpecialOrder and NormalOrder.
+- The two inherited classes have all the properties as the Order class. In addition, they have additional functions like dispatch () and receive ().
+
+### Object Diagram
+
+Object diagrams can be described as an instance of class diagram. Thus, these diagrams are more close to real-life scenarios where we implement a system.
+
+Object diagrams are a set of objects and their relationship is just like class diagrams. They also represent the static view of the system.
+
+The usage of object diagrams is similar to class diagrams but they are used to build prototype of a system from a practical perspective.
+
+![image](https://user-images.githubusercontent.com/37357447/189079232-9d6021f0-414f-4472-8507-837fa5788096.png)
 
 ## Behavioral diagrams in UML
 Any real-world system can be represented in either a static form or a dynamic form. A system is said to be complete if it is expressed in both the static and dynamic ways. The behavioral diagram represents the functioning of a system.

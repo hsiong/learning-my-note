@@ -230,7 +230,7 @@ H<sub>2</sub>O  CO<sub>2</sub>
 
 + 行内公示起止符
 
-  ```latex
+  ```latex 
   	$a$
   ```
 
