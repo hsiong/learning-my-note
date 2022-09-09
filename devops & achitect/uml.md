@@ -29,15 +29,22 @@
 - [What is UML Diagram?](#what-is-uml-diagram)
   - [Structural diagrams in UML](#structural-diagrams-in-uml)
     - [Class diagram](#class-diagram)
+      - [Purpose of Class Diagrams](#purpose-of-class-diagrams)
       - [How to Draw a Class Diagram?](#how-to-draw-a-class-diagram)
+      - [Where to Use Class Diagrams?](#where-to-use-class-diagrams)
     - [Object Diagram](#object-diagram)
       - [How to Draw an Object Diagram?](#how-to-draw-an-object-diagram)
+    - [Component Diagrams](#component-diagrams)
+      - [How to Draw a Component Diagram?](#how-to-draw-a-component-diagram)
+    - [Deployment Diagrams](#deployment-diagrams)
+      - [How to Draw a Deployment Diagram?](#how-to-draw-a-deployment-diagram)
   - [Behavioral diagrams in UML](#behavioral-diagrams-in-uml)
   - [Interaction diagrams in UML](#interaction-diagrams-in-uml)
 
 # Before you start
 
 ***Reference***
+
 + https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/
 + https://www.tutorialspoint.com/uml/uml_building_blocks.htm
 + https://www.guru99.com/uml-tutorial.html
@@ -66,6 +73,7 @@ Things are the most important building blocks of UML. Things can be −
 + Annotational
 
 ## Structural things & Notation
+
 Structural things define the static part of the model. They represent the physical and conceptual elements. Following are the brief descriptions of the structural things: 
 
 ### Class
@@ -267,7 +275,7 @@ Association is represented by a dotted line with (without) arrows on both sides.
 
 ![image](https://user-images.githubusercontent.com/37357447/189287811-19a21df2-115a-48fe-a455-534e4dc5587f.png)
 
-Association is used to represent the relationship between two elements of a system.
+Association is used to represent the relationship between two elements of a system & basically a set of links that connects the elements of a UML model. It also describes how many objects are taking part in that relationship. 
 
 ### Aggregation
 
@@ -322,9 +330,7 @@ Dependency is represented by a dotted arrow as shown in the following figure. Th
 
 ![image](https://user-images.githubusercontent.com/37357447/189072103-b23fb680-3e79-4e78-91bf-4098f40eb12f.png)
 
-Dependency is used to represent the dependency between two elements of a systemAssociation
-
-Association is basically a set of links that connects the elements of a UML model. It also describes how many objects are taking part in that relationship. 
+Dependency is used to represent the dependency between two elements of a systemAssociation.
 
 
 
@@ -343,15 +349,16 @@ UML diagrams are divided into three different categories such as,
 + Interaction diagram
 
 ## Structural diagrams in UML
+
 Structural diagrams are used to represent a static view of a system. It represents a part of a system that makes up the structure of a system. A structural diagram shows various objects within the system.
 
 Following are the various structural diagrams in UML:
 
 + Class diagram
 + Object diagram
-+ Package diagram
 + Component diagram
 + Deployment diagram
++ Package diagram
 + Composite structure diagram
 
 
@@ -376,7 +383,14 @@ Class diagram represents the object orientation of a system. Hence, it is genera
 
 ![image](https://user-images.githubusercontent.com/37357447/189075395-abfdc446-0a34-400b-883d-17d35a4439c5.png)
 
+#### Purpose of Class Diagrams
 
+The purpose of the class diagram can be summarized as −
+
+- Analysis and design of the static view of an application.
+- Describe responsibilities of a system.
+- Base for component and deployment diagrams.
+- Forward and reverse engineering.
 
 #### How to Draw a Class Diagram?
 
@@ -404,6 +418,15 @@ The following diagram is an example of an Order System of an application. It des
 - The two inherited classes have all the properties as the Order class. In addition, they have additional functions like dispatch () and receive ().
 
 <img src="https://user-images.githubusercontent.com/37357447/189291508-d97d63c5-7c12-4660-a0e1-937fd21edfe0.png" alt="image" style="zoom:50%;" />
+
+#### Where to Use Class Diagrams?
+
+In a nutshell it can be said, class diagrams are used for −
+
+- Describing the static view of the system.
+- Showing the collaboration among the elements of the static view.
+- Describing the functionalities performed by the system.
+- Construction of software applications using object oriented languages.
 
 ### Object Diagram
 
@@ -464,7 +487,83 @@ The following object diagram has been drawn considering all the points mentioned
 
 ![image](https://user-images.githubusercontent.com/37357447/189292039-3d61cb4d-7937-49fe-9a37-e0be57b821f4.png)
 
+
+
+### Component Diagrams
+
+Component diagrams are different in terms of nature and behavior. Component diagrams are used to model the physical aspects of a system. Now the question is, what are these physical aspects? Physical aspects are the elements such as executables, libraries, files, documents, etc. which reside in a node.
+
+Component diagrams are used to visualize the organization and relationships among components in a system. These diagrams are also used to make executable systems.
+
+
+
+#### How to Draw a Component Diagram?
+
+Component diagrams are used to describe the physical artifacts of a system. This artifact includes files, executables, libraries, etc. Component diagrams are used during the implementation phase of an application & in advance to visualize the implementation details & get an idea of the implementation. A well-prepared component diagram is also important for other aspects such as application performance, maintenance, etc.
+
+
+
+1. Before drawing a component diagram, the following artifacts are to be identified clearly −
+
+- ***Files*** used in the system.
+- ***Libraries and other artifacts*** relevant to the application.
+- ***Relationships*** among the artifacts.
+
+2. After identifying the artifacts, the following points need to be kept in mind.
+
+- Use a ***meaningful name*** to identify the component for which the diagram is to be drawn.
+- Prepare a ***mental layout*** before producing the using tools.
+- Use ***notes*** for clarifying important points.
+
+
+
+Following is a component diagram for order management system. Here, the artifacts are files. The diagram shows the files in the application and their relationships. In actual, the component diagram also contains dlls, libraries, folders, etc.
+
+In the following diagram, four files are identified and their relationships are produced. Component diagram cannot be matched directly with other UML diagrams discussed so far as it is drawn for completely different purpose.
+
+The following component diagram has been drawn considering all the points mentioned above.
+
+![image](https://user-images.githubusercontent.com/37357447/189320133-21231360-62b9-4458-a32c-875990ade7a6.png)
+
+
+
+### Deployment Diagrams
+
+Deployment diagrams are used to visualize the topology of the physical components of a system, where the software components are deployed.
+
+Deployment diagrams are used to describe the static deployment view of a system. Deployment diagrams consist of nodes and their relationships.
+
+#### How to Draw a Deployment Diagram?
+
+Deployment diagram represents the deployment view of a system. It is related to the component diagram because the components are deployed using the deployment diagrams. A deployment diagram consists of nodes. Nodes are nothing but physical hardware used to deploy the application.
+
+Deployment diagrams are useful for system engineers. An efficient deployment diagram is very important as it controls the following parameters −
+
+- Performance
+- Scalability
+- Maintainability
+- Portability
+
+Before drawing a deployment diagram, the following artifacts should be identified −
+
+- Nodes
+- Relationships among nodes
+
+Following is a sample deployment diagram to provide an idea of the deployment view of order management system. Here, we have shown nodes as −
+
+- Monitor
+- Modem
+- Caching server
+- Server
+
+
+
+The application is assumed to be a web-based application, which is deployed in a clustered environment using server 1, server 2, and server 3. The user connects to the application using the Internet. The control flows from the caching server to the clustered environment.
+
+The following deployment diagram has been drawn considering all the points mentioned above.
+
 ## Behavioral diagrams in UML
+
 Any real-world system can be represented in either a static form or a dynamic form. A system is said to be complete if it is expressed in both the static and dynamic ways. The behavioral diagram represents the functioning of a system.
 
 UML diagrams that deals with the static part of a system are called structural diagrams. UML diagrams that deals with the moving or dynamic parts of the system are called behavioral diagrams.
@@ -476,6 +575,7 @@ Following are the various behavioral diagrams in UML:
 + State machine diagram
 
 ## Interaction diagrams in UML
+
 Interaction diagram is nothing but a subset of behavioral diagrams. It is used to visualize the flow between various use case elements of a system. Interaction diagrams are used to show an interaction between two entities and how data flows within them.
 
 Following are the various interaction diagrams in UML:
