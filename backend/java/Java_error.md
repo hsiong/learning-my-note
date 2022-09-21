@@ -7,6 +7,14 @@
 3. vscode can't commit
 -> stage -> stash -> push
 
-4. how to make generics class implements a interface ? 
-<? extends xxxClass>
-generics class don't distinguish interface or 
+4. how to make generics class implements a interface ?   
+`<? extends xxxClass>` generics class don't distinguish interface or   
+
+5.  module java.base does not "opens java.lang" to unnamed module
+--add-opens java.base/java.lang=ALL-UNNAMED
+
+6. No provider available from registry localhost:9090
+相应的服务没有启动
+
+7. Could not write JSON Infinite recursion
+无限递归
