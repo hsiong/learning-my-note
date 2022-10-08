@@ -4,7 +4,7 @@
 - [第一章 程序设计思想](#第一章-程序设计思想)
   - [1.1 程序设计目标](#11-程序设计目标)
   - [1.2 通用设计原则](#12-通用设计原则)
-- [第二章 面向对象设计原则](#第二章-面向对象设计原则)
+- [第二章 面向对象的 7 大设计原则](#第二章-面向对象的-7-大设计原则)
   - [开闭原则（Open Closed Principle，OCP）](#开闭原则open-closed-principleocp)
   - [里氏替换原则（Liskov Substitution Principle，LSP）](#里氏替换原则liskov-substitution-principlelsp)
   - [合成复用原则（Composite Reuse Principle，CRP）](#合成复用原则composite-reuse-principlecrp)
@@ -116,25 +116,24 @@ private TestClass tClass;
 
 ## 1.2 通用设计原则
 
-1. KISS
+1. KISS  
    所谓KISS原则，即：Keep It Simple,Stupid，指设计时要坚持`简约`原则，避免不必要的复杂化，并且易于修改。
-2. DRY
+2. DRY  
    所谓DRY原则，即：Don't Repeat Yourself，`不重复`。重复代码是软件程序变烂的万恶之首。
-3. Maximize Cohesion， Minimize Coupling
+3. Maximize Cohesion， Minimize Coupling  
    即：`高内聚低耦合`。这是判断设计好坏的标准，主要是看模块内的内聚性是否高，模块间的耦合度是否低。
-4. SOC
+4. SOC  
    所谓SOC原则，即：关注点分离（Separation of Concerns）。不同领域的功能，应该由不同的代码和最小重迭的模块组成。
-5. YAGNI
+5. YAGNI  
    所谓YAGNI原则，即：You Ain’t Gonna Need It，你不需要它。它是一种极限编程（XP）实践，表示程序员不应为目前还不需要的功能编写代码。
-6. Boy-Scout Rule
+6. Boy-Scout Rule  
    Boy-Scout Rule，译为：童子军规则。童子军规则告诉我们在对现有代码库进行更改时，代码质量往往会降低，从而积累技术债务。所以需要始终保持代码整洁。不管原作者是谁，如果我们努力去改进代码模块，不管是多么小的改进，我们的软件系统就再也不会持续变坏了。
    </br>
 
 具体详见参考链接: [软件程序设计原则](https://blinkfox.github.io/2018/11/24/ruan-jian-she-ji/ruan-jian-cheng-xu-she-ji-yuan-ze/), 大佬文章写得真的很有味道
 
-&nbsp;
 
-# 第二章 面向对象设计原则
+# 第二章 面向对象的 7 大设计原则
 
 [参考链接](http://c.biancheng.net/view/1322.html): http://c.biancheng.net/view/1322.html
 
@@ -157,7 +156,7 @@ private TestClass tClass;
 4. 实现方法  
    可以通过“抽象约束、封装变化”来实现开闭原则，即通过接口或者抽象类为软件实体定义一个相对稳定的抽象层，而将相同的可变因素封装在相同的具体实现类中。  
    因为抽象灵活性好，适应性广，只要抽象的合理，可以基本保持软件架构的稳定。而软件中易变的细节可以从抽象派生来的实现类来进行扩展，当软件需要发生变化时，只需要根据需求重新派生一个实现类来扩展就可以了。
-5. 总结
+5. 总结  
    在不修改软件实体的源代码或者二进制代码的前提下，可以扩展模块的功能，使其满足新的需求。具体通过**里氏替换原则**和**依赖倒置原则**实现。
 
 ## 里氏替换原则（Liskov Substitution Principle，LSP）
@@ -231,7 +230,7 @@ private TestClass tClass;
    + 任何类都不应该从具体类派生。
    + 使用继承时尽量遵循里氏替换原则。
 5. 总结  
-   面向接口编程。
+   面向抽象(接口)编程, 而不是面向实现编程。
 
 ## 单一职责原则（Single Responsibility Principle，SRP）
 
@@ -250,8 +249,8 @@ private TestClass tClass;
    + 变更引起的风险降低。变更是必然的，如果单一职责原则遵守得好，当修改一个功能时，可以显著降低对其他功能的影响。
 4. 实现方法  
    单一职责原则是最简单但又最难运用的原则，需要设计人员发现类的不同职责并将其分离，再封装到不同的类或模块中。而发现类的多重职责需要设计人员具有较强的分析设计能力和相关重构经验。
-5. 总结
-   
+5. 总结  
+   就是一个类应该只负责实现一个特定的功能。
    
 
 ## 接口隔离原则（Interface Segregation Principle，ISP）
