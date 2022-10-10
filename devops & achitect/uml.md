@@ -53,7 +53,6 @@
 
 + https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/
 + https://www.tutorialspoint.com/uml/uml_building_blocks.htm
-+ https://www.guru99.com/uml-tutorial.html
 + https://www.softwaretestinghelp.com/uml-diagram-tutorial/
 
 
@@ -99,34 +98,25 @@ A class represent a concept which encapsulates state (**attributes**) and behavi
 - Attributes are shown in the second partition.
 - The attribute type is shown after the colon.
 - Attributes map onto member variables (data members) in code.
+- Class Visibility: The +, - and # symbols before an attribute and operation name in a class denote the visibility of the attribute and operation.
+  - \+ denotes public attributes or operations
+  - \- denotes private attributes or operations
+  - \# denotes protected attributes or operations
+
+![image](https://user-images.githubusercontent.com/37357447/189064885-c848eac8-e537-4ee2-8217-8ec43d38bd98.png)
 
 **Class Operations (Methods):**
 
 - Operations are shown in the third partition. They are services the class provides.
 - The return type of a method is shown after the colon at the end of the method signature.
 - The return type of method parameters are shown after the colon following the parameter name. Operations map onto class methods in code.
-
-
-
 ![image](https://user-images.githubusercontent.com/37357447/189064978-1849db8f-b407-4f78-8f7f-59d23ac57997.png)
 
-
-
-**Class Visibility**:
-
-The +, - and # symbols before an attribute and operation name in a class denote the visibility of the attribute and operation.
-
-- \+ denotes public attributes or operations
-- \- denotes private attributes or operations
-- \# denotes protected attributes or operations
-
-![image](https://user-images.githubusercontent.com/37357447/189064885-c848eac8-e537-4ee2-8217-8ec43d38bd98.png)
-
-**Parameter Directionality**
-
-Each parameter in an operation (method) may be denoted as in, **out** or **inout** which specifies its direction with respect to the caller. This directionality is shown before the parameter name.
-
+- Parameter Directionality: Each parameter in an operation (method) may be denoted as **in**, **out** or **inout** which specifies its direction with respect to the caller. This directionality is shown before the parameter name. 
+> but generally, you don't need to write so.
 ![image](https://user-images.githubusercontent.com/37357447/189064812-27ca42ba-1eaf-4b14-995a-f88f39ee5a30.png)
+
+
 
 
 

@@ -59,3 +59,7 @@ void someMethod(PersonRepository people) {
   Collection<NamesOnly> aggregates =
     people.findByLastname("Matthews", NamesOnly.class);
 }
+
+
+rewrite jpa delete method please use native-sql , not deleteAll ; 
+`deleteAll` would cause `Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1` in some case because of foreign key
