@@ -493,5 +493,8 @@ sudo systemctl restart docker
 https://blog.csdn.net/xhtchina/article/details/119876054
 
 
-ca 证书 
+> ca 证书 
 https://www.cnblogs.com/-wenli/p/13555833.html
+
+> docker 文件无法映射
+https://codeantenna.com/a/sG54XRlW2Z

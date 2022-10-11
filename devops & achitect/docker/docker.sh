@@ -15,3 +15,9 @@ docker info
 
 # 使用 Docker
 ## 
+
+## docker - nginx
+docker run --name nginx -p 80:80 \
+-v /root/config/docker/:/etc/nginx/conf.d/ \
+-v /root/download:/usr/share/nginx/download \
+-d nginx
