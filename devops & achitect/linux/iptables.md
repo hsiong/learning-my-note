@@ -6,8 +6,11 @@ iptables -P OUTPUT DROP
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --sport 22,53 -j ACCEPT
 # 禁止访问除22端口以外的所有端口
-iptables -F
 # 允许通过tcp协议访问22端口(先配置,否则无法使用ssh连接)
+
+
+# 禁止所有端口
+iptables -F
 
 
 iptables -A INPUT -p tcp --dport 7000 -j ACCEPT

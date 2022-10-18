@@ -33,6 +33,8 @@ This is a proj from Docker base learning to Docker practice.
   - [x.x Docker 部署 nginx](#xx-docker-部署-nginx)
 - [配置守护进程](#配置守护进程)
 - [修改 docker 存储路径](#修改-docker-存储路径)
+- [SpringBoot 使用SSH 通过A服务器跳板机 连接B服务器Mysql(安全策略)](#springboot-使用ssh-通过a服务器跳板机-连接b服务器mysql安全策略)
+  - [Reference:](#reference)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -498,3 +500,16 @@ https://www.cnblogs.com/-wenli/p/13555833.html
 
 > docker 文件无法映射
 https://codeantenna.com/a/sG54XRlW2Z
+
+
+# SpringBoot 使用SSH 通过A服务器跳板机 连接B服务器Mysql(安全策略)
+## Reference: 
+https://blog.csdn.net/weixin_40461281/article/details/103695882
+
++ 先设置 ssh 免密登录
++ ssh-keygen -t rsa
++ cat ~/.ssh/id_rsa.pub 
++ vim ~/.ssh/authorized_keys
++ ssh -fN -L5433:localhost:5432 -p22 root@localhost
+
+
