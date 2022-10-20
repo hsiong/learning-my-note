@@ -21,3 +21,9 @@ docker run --name nginx -p 80:80 \
 -v /root/config/docker/:/etc/nginx/conf.d/ \
 -v /root/download:/usr/share/nginx/download \
 -d nginx
+
+## docker - postgres 
+docker exec -it -u postgres postgres psql -U postgres
+
+## docker - redis 
+docker run -d --name myredis -p 6379:6379 redis --requirepass "mypassword"
