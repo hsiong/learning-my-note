@@ -16,3 +16,5 @@ exit
 ^]
 q
 
+# update remote file
+scp -r $localFilePath $remoteUser@$remoteAddress:$remoteFilePath
