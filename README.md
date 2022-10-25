@@ -164,13 +164,13 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 <br/>
 <br/>
 
-<!-- table - In Process -->
+<!-- table - In Planning -->
 
 <table style="width:100%">
 
 <thead>
 <tr>
-    <th colspan="3">Table - In Process</th>
+    <th colspan="3">Table - In Planning</th>
 </tr>
 <tr>
 <td style="width:400px">Plan</td>
