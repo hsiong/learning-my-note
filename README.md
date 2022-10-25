@@ -53,7 +53,11 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 
 </table>
 
-<!-- table - Completed -->
+<br/>
+<br/>
+<br/>
+
+<!--     table - Completed      -->
 
 <table style="width:100%">
 
@@ -156,6 +160,9 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 </tbody>
 </table>
 
+<br/>
+<br/>
+<br/>
 
 <!-- table - In Process -->
 
