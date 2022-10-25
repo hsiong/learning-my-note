@@ -11,7 +11,7 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 
 <tr>
 <td style="width:400px">Plan</td>
-<td style="width:200px">Note</td>
+<td >Note</td>
 <td >Status</td>
 </tr>
 </thead>
@@ -63,7 +63,7 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 </tr>
 <tr>
 <td style="width:400px">Plan</td>
-<td style="width:200px">Note</td>
+<td >Note</td>
 <td >Status</td>
 </tr>
 </thead>
@@ -167,7 +167,7 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 </tr>
 <tr>
 <td style="width:400px">Plan</td>
-<td style="width:200px">Note</td>
+<td >Note</td>
 <td >Status</td>
 </tr>
 </thead>
