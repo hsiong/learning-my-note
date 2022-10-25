@@ -2,12 +2,17 @@
 Share my learning note for your guys, to be a achitect as soon as possible ! 
 
 # Learning Plan - 2022
-<table  style="width:100%">
+<table style="width:100%">
+
 <thead>
 <tr>
-<td style="width:50%">Plan</td>
-<td style="width:20%">Note</td>
-<td style="width:30%">Status</td>
+    <th colspan="3">Table - In Progress</th>
+</tr>
+
+<tr>
+<td style="width:400px">Plan</td>
+<td style="width:200px">Note</td>
+<td >Status</td>
 </tr>
 </thead>
 
@@ -50,13 +55,16 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 
 <!-- table - Completed -->
 
-<table  style="width:100%">
+<table style="width:100%">
 
 <thead>
 <tr>
-<td style="width:50%">Plan</td>
-<td style="width:20%">Note</td>
-<td style="width:30%">Status</td>
+    <th colspan="3">Table - Completed</th>
+</tr>
+<tr>
+<td style="width:400px">Plan</td>
+<td style="width:200px">Note</td>
+<td >Status</td>
 </tr>
 </thead>
 
@@ -155,9 +163,12 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 
 <thead>
 <tr>
-<td style="width:50%">Plan</td>
-<td style="width:20%">Note</td>
-<td style="width:30%">Status</td>
+    <th colspan="3">Table - In Process</th>
+</tr>
+<tr>
+<td style="width:400px">Plan</td>
+<td style="width:200px">Note</td>
+<td >Status</td>
 </tr>
 </thead>
 
