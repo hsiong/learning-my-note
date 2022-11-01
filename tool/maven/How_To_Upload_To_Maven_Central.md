@@ -17,20 +17,22 @@ https://www.zhihu.com/question/60520344
 
 ## Unable to build Maven project due to Javadoc error?
 https://stackoverflow.com/questions/23542876/unable-to-build-maven-project-due-to-javadoc-error
-`-Dmaven.javadoc.skip=true` u can't use, or else 'Missing: no javadoc jar found in folder'
+`-Dmaven.javadoc.skip=true` 
+
+u can't use, or else 'Missing: no javadoc jar found in folder'
 
 ## Received status code 403 from server: Forbidden
 https://www.jianshu.com/p/8b7a54b69e24
 
 ## MojoExecutionException: Exit code: 2
++ gpg key expire 
 ```
-gpg key expire 
 regenerate key & delete old key
 ```
-```
-gpg: signing failed: Screen or window too small
-gpg: signing failed: Screen or window too small
 
++ gpg: signing failed: Screen or window too small
+```
+expand windows size
 ```
 
 ##  Deployment failed: repository element was not specified in the POM inside distributionManagement element or in -DaltDeploymentRepository=id::layout::url parameter  
