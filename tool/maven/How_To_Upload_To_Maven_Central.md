@@ -40,3 +40,6 @@ http://www.javawenti.com/?post=6783
 
 ## Already released in Sonatype, but not found in Maven repository
 Sync Sonatype to Maven repository would cost 5 ~ 20 minutes.
+
+## Beware this, you cant remove a artifact which already realeased to maven central
+https://stackoverflow.com/questions/9789611/removing-an-artifact-from-maven-central
