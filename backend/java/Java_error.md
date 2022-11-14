@@ -18,3 +18,6 @@
 
 7. Could not write JSON Infinite recursion
 无限递归
+
+8. Property 'spring.profiles.include' imported from location 'class path resource [config/application-test.yml]' is invalid in a profile specific resource
+https://blog.csdn.net/key_xyes/article/details/111935074
