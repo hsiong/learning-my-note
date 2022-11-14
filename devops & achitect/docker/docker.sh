@@ -36,7 +36,11 @@ docker run --name nginx -p 80:80 \
 -d nginx
 
 ## docker - postgres 
+docker run -d --name postgres -p 5432:5432 -e POSTGRES_USER=usr -e POSTGRES_PASSWORD=pwd kartoza/postgis
 docker exec -it -u postgres postgres psql -U postgres
 
 ## docker - redis 
 docker run -d --name myredis -p 6379:6379 redis --requirepass "mypassword"
+
+## docker - show log
+docker logs containerName
