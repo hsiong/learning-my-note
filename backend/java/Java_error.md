@@ -21,3 +21,6 @@
 
 8. Property 'spring.profiles.include' imported from location 'class path resource [config/application-test.yml]' is invalid in a profile specific resource
 https://blog.csdn.net/key_xyes/article/details/111935074
+
+9. get frontend null -> emptyString
+https://blog.csdn.net/fzy629442466/article/details/113625509

@@ -25,7 +25,8 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 </tr>
 
 <tr>
-<td><a href='https://github.com/hsiong/Learning-Data-Structures-And-Algorithm-And-Design-Pattern/blob/main/uml.md'>UML</a></td>
+<td><a href='https://github.com/hsiong/Learning-Data-Structures-And-Algorithm-And-Design-Pattern
+'>Learning Algorithm & DataStructure & Leetcode</a></td>
 <td></td>
 <td>In Progress</td>
 </tr>
@@ -36,17 +37,13 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 <td>In Progress</td>
 </tr>
 
+
 <tr>
-<td>Passing Qualification Certificate of Computer and Software Technology Proficiency - System Architect</td>
+<td><a href='https://github.com/hsiong/Senior-Architect-Exam-Note'>Learning Qualification Certificate of Computer and Software Technology Proficiency - System Architect</a></td>
 <td></td>
 <td>In Progress</td>
 </tr>
 
-<tr>
-<td>Learning Jekins & Docker & Kubernetes & Cloud Sourcing</td>
-<td></td>
-<td>In Progress</td>
-</tr>
 
 
 </tbody>
@@ -75,31 +72,32 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 <tbody>
 
 <tr>
-<td>Learning Linux common command & Generate ca certificate & Iptables & Nginx </td>
+<td><a href='https://github.com/hsiong/learning-my-note/tree/main/devops%20%26%20achitect/linux'>Learning Linux common command & Generate ca certificate & Iptables & Nginx</a> </td>
 <td></td>
 <td>Completed</td>
 </tr>
 
 <tr>
-<td>Markdown & Latex</td>
+<td><a href='https://github.com/hsiong/learning-my-note/blob/main/tool/markdown.md'>Markdown & Latex</a></td>
+<td></td>
+<td>Completed</td>
+</tr>
+
+
+<tr>
+<td><a href='https://github.com/hsiong/learning-my-note/blob/main/tool/maven/How_To_Upload_To_Maven_Central.md'>Release Jar To Maven Central</a></td>
 <td></td>
 <td>Completed</td>
 </tr>
 
 <tr>
-<td>Release Jar To Maven Central</td>
+<td><a href='https://github.com/ynfy-tech/ynfy-tool-httpconnect'>A Http Client For Java Based On HttpURLConnection</a></td>
 <td></td>
 <td>Completed</td>
 </tr>
 
 <tr>
-<td><a href='https://github.com/ynfy-tech/ynfy-tool-httpconnect'>ynfy-tool-httpconnect</a></td>
-<td></td>
-<td>Completed</td>
-</tr>
-
-<tr>
-<td><a href='https://github.com/ynfy-tech/base-backend'>base-backend
+<td><a href='https://github.com/ynfy-tech/base-backend'>Team Base Backend Framework
 </a></td>
 <td></td>
 <td>Completed</td>
@@ -155,6 +153,29 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 <td>Completed</td>
 </tr>
 
+<tr>
+<td><a href='https://github.com/ynfy-tech/ynfy-tool-jdbc'>A Java Sql Util based on JdbcTemplate & Spring Context</a> </td>
+<td></td>
+<td>Completed</td>
+</tr>
+
+<tr>
+<td><a href='https://github.com/hsiong/project-china-company-blacklist'>Project About Initializing Ubuntu 20</a> </td>
+<td></td>
+<td>Completed</td>
+</tr>
+
+<tr>
+<td><a href='https://github.com/hsiong/project-init-ubuntu'>Arranging China Company Blacklist & Edit Tool</a></td>
+<td></td>
+<td>Completed</td>
+</tr>
+
+<tr>
+<td><a href='https://github.com/hsiong/Learning-Data-Structures-And-Algorithm-And-Design-Pattern/blob/main/uml.md'>UML</a></td>
+<td></td>
+<td>Completed</td>
+</tr>
 
 
 </tbody>
@@ -200,18 +221,6 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 </tr>
 
 <tr>
-<td>Learning Algorithm & DataStructure</td>
-<td></td>
-<td>In Planning</td>
-</tr>
-
-<tr>
-<td>Arranging China Company Blacklist & Edit Tool</td>
-<td></td>
-<td>In Planning</td>
-</tr>
-
-<tr>
 <td><a href='https://github.com/hsiong/project-resume-lowcode'>Lowcode Resume</a></td>
 <td></td>
 <td>In Planning</td>
@@ -225,6 +234,12 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 
 <tr>
 <td><a href='https://github.com/ynfy-tech/loads-mobile-script'>Loads Mobile Script</a></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>Learning Jekins & Docker & Kubernetes & Cloud Sourcing</td>
 <td></td>
 <td>In Planning</td>
 </tr>
