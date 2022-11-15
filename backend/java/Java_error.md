@@ -39,3 +39,9 @@ https://www.yisu.com/zixun/609055.html
         converters.add(fastConverter());
     }
 ```
+
+12. class.getClassLoader().getResource("") couldn't get resource Dir Path
+```
+~/.m2/repository/org/junit/platform/junit-platform-commons/1.9.1/junit-platform-commons-1.9.1.jar!/META-INF/versions/9/
+```
+may caused by `JUnit 5`, try to replace it with `JUnit 4`
