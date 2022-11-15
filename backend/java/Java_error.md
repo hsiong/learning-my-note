@@ -24,3 +24,6 @@ https://blog.csdn.net/key_xyes/article/details/111935074
 
 9. get frontend null -> emptyString
 https://blog.csdn.net/fzy629442466/article/details/113625509
+
+10. get JAVA VM Home
+`/usr/libexec/java_home -V`
