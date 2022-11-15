@@ -27,3 +27,15 @@ https://blog.csdn.net/fzy629442466/article/details/113625509
 
 10. get JAVA VM Home
 `/usr/libexec/java_home -V`
+
+11. Already config converter Long to String in Spring Boot Configure, but not working
+https://www.yisu.com/zixun/609055.html
+```java
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        // 会导致其他全局 json 不生效
+//        converters.clear();
+        converters.add(stringConverter());
+        converters.add(fastConverter());
+    }
+```
