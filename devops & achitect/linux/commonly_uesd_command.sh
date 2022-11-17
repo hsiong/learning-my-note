@@ -1,6 +1,7 @@
-# kill process by name
+# kill process
+## kill process by name
 ps aux|grep $name|grep -v grep|awk '{print $2}'|xargs kill
-# kill process by port
+## kill process by port
 lsof -i:$port|awk '{if(NR>=2) print $2}'|xargs kill
 
 # start java
@@ -16,7 +17,8 @@ exit
 ^]
 q
 
-# update remote file
+# scp
+## update remote file
 scp -r $localFilePath $remoteUser@$remoteAddress:$remoteFilePath
 
 # Shell 传递参数
@@ -25,3 +27,7 @@ https://www.runoob.com/linux/linux-shell-passing-arguments.html
 
 ## 按参数
 -a --along: getopt/getopts
+
+# system
+## show user 
+awk -F: '{ print $1}' /etc/passwd
