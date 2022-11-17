@@ -1,0 +1,1 @@
+https://www.tutorialspoint.com/ansible/ansible_ad_hoc_commands.htm
