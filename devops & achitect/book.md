@@ -6,7 +6,8 @@ https://zhuanlan.zhihu.com/p/382448010
 + 野猪书 Design Data Intensive Application
 + 巫师书/魔法书 计算机程序的构造和解释
 + CLRS 算法导论
-+ GOF Design Pattern
++ GOF Design Pattern: Design Patterns_Elements of Reusable Object-Oriented Software
++ design patterns best practices in java
 + 龙书 编译原理
 + TAOCP 计算机程序设计艺术
 + Clean Code 代码整洁之道
