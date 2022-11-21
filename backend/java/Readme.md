@@ -77,8 +77,15 @@ java-review-for-audition
 - [第十四章 网络开发](#第十四章-网络开发)
   - [14.1 OSI七层模型](#141-osi七层模型)
   - [14.2 网络协议](#142-网络协议)
-- [](#)
+  - [](#)
+- [](#-1)
   - [1.x Java经验](#1x-java经验)
+
++ Object & class
++ Encapsulation
++ Abstraction 
++ Inheritance
++ Polymorphism
 
 # 第一章 Java
 ## 1.1 基础类型
