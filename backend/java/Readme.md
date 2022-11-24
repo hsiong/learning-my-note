@@ -80,12 +80,14 @@ java-review-for-audition
   - [](#)
 - [](#-1)
   - [1.x Java经验](#1x-java经验)
+  - [保持好的对接习惯](#保持好的对接习惯)
 
 + Object & class
 + Encapsulation
 + Abstraction 
 + Inheritance
 + Polymorphism
++ Generic
 
 # 第一章 Java
 ## 1.1 基础类型
@@ -1045,3 +1047,11 @@ import static com.xxx.xxxStaticFinal.*;
 9. 第三方接口数据必须全部保存, 尤其是涉及到支付
 10.         // 不可用 clazz.getDeclaredConstructor().newInstance(); 因为这样不会加载 spring - autowired   this.factory = SpringUtils.getBean(clazz);
 11. 数据库建议关闭 5432 对外端口, 需要连接时, ssh 连过去    然后再写 postgres sql; 并且使用内网端口, 可以节省外网 io 
+12.
+
+ ##  保持好的对接习惯
++ 保持代码规范
++ 时刻思考软件工程
+
++ 做好单元测试
++ 接口以 swagger 地址的形式给到前端, 具备完整的测试用例和接口文档说明; 如使用到网关, 另给出网关调用形式
