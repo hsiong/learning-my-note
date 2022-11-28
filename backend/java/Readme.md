@@ -1048,6 +1048,7 @@ import static com.xxx.xxxStaticFinal.*;
 10.         // 不可用 clazz.getDeclaredConstructor().newInstance(); 因为这样不会加载 spring - autowired   this.factory = SpringUtils.getBean(clazz);
 11. 数据库建议关闭 5432 对外端口, 需要连接时, ssh 连过去    然后再写 postgres sql; 并且使用内网端口, 可以节省外网 io 
 12. 测试/生产与本地环境共用 redis, 会导致断点调试异常
+13. fileter
 
  ##  保持好的对接习惯
 + 保持代码规范
