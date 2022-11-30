@@ -136,6 +136,11 @@ SELECT json_object_agg(t.name, t.num) FROM table_name t
 -- json string
 SELECT cast(json_object_agg(t.name, t.num) as varchar) FROM table_name t
 
+-- json build object
+-- t.list_id: the second
+-- json_agg(t.*): the third
+SELECT json_build_object(t.list_id, json_agg(t.*)) FROM table_name t
+
 -- window function
 SELECT DISTINCT s.name, coalesce(avg(s.value) OVER (PARTITION BY s.name,s.time ), 0) AS amount, s.time
 FROM (
