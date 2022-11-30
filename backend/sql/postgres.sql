@@ -126,3 +126,27 @@ select position('aa' in 'abcd');
 
 -- check null
 SELECT coalesce(column1, 0) FROM table1
+
+-- json obj 
+ SELECT json_agg(b.*) FROM table_name b
+
+-- json obj demo 2
+SELECT json_object_agg(t.name, t.num) FROM table_name t
+
+-- json string
+SELECT cast(json_object_agg(t.name, t.num) as varchar) FROM table_name t
+
+-- window function
+SELECT DISTINCT s.name, coalesce(avg(s.value) OVER (PARTITION BY s.name,s.time ), 0) AS amount, s.time
+FROM (
+         SELECT t.value, t.name, to_char(t.create_time, ':dateFormat') AS time
+         FROM table_name t
+         WHERE t.device_id IN (
+             SELECT d.id
+             FROM table_name2 d
+             WHERE d.type = ''
+         )
+           AND t.create_time > to_timestamp(':startTime', ':dateFormat')
+           AND t.create_time <= to_timestamp(':endTime', ':dateFormat')
+     ) s
+ORDER BY s.time desc
