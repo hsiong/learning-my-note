@@ -155,3 +155,9 @@ FROM (
            AND t.create_time <= to_timestamp(':endTime', ':dateFormat')
      ) s
 ORDER BY s.time desc
+
+-- add column not null
+ALTER TABLE table_name
+    add column label varchar(32) not null default '';
+ALTER TABLE table_name
+    alter column label drop default ;
