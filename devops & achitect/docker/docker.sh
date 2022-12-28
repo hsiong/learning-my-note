@@ -44,3 +44,6 @@ docker run -d --name myredis -p 6379:6379 redis --requirepass "mypassword"
 
 ## docker - show log
 docker logs containerName
+
+## docker - searchgit tag
+## https://www.jeremysong.cn/cn/all-docker-tags/
