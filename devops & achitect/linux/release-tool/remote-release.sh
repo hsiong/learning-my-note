@@ -9,11 +9,14 @@
 export localFilePath='/local/auth.jar'
 
 scp -r $localFilePath $remoteUser@$remoteAddress:$remoteFilePath
-ssh $remoteUser@$remoteAddress << remotessh
+ssh -T $remoteUser@$remoteAddress << remotessh
 
 # auth服务, 最后注册
 sh /path/start.sh
 
 exit
 remotessh
+
+# Pseudo-terminal will not be allocated because stdin is not a terminal
+# https://www.linuxtutorials.org/Pseudo-terminal-will-not-be-allocated-because-stdin-is-not-a-terminal/
 
