@@ -36,3 +36,7 @@ cmake
 -D INSTALL_C_EXAMPLES=OFF \
 -D OPENCV_ENABLE_NONFREE=OFF \
 -D BUILD_EXAMPLES=ON
+```
+
+# m1 slim compatity
+docker hub 找 支持 linux/arm64 的镜像即可
