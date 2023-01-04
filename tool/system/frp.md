@@ -1,5 +1,7 @@
 
-> Referce: https://juejin.cn/post/7023751648644169759
+> Referce: 
++ https://juejin.cn/post/7023751648644169759
++ https://www.ucloud.cn/yun/63313.html
 
 # 域名解析
 *.frp A 111.122.233.44(云端服务器ip)
