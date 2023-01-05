@@ -6,6 +6,7 @@ This is a proj from Docker base learning to Docker practice.
   - [安装 Docker](#安装-docker)
     - [mac OS 安装 Docker](#mac-os-安装-docker)
     - [arch 安装 Docker](#arch-安装-docker)
+    - [unbuntu install docker](#unbuntu-install-docker)
     - [修改 Docker 配置 (镜像路径, DNS, 硬盘占用)](#修改-docker-配置-镜像路径-dns-硬盘占用)
 - [第一章 Docker容器操作](#第一章-docker容器操作)
   - [1.1 Docker Hello World](#11-docker-hello-world)
@@ -69,6 +70,26 @@ sudo systemctl start docker.service && sudo systemctl enable docker.service
 
 4. 更改 docker 缓存路径  
 [修改Docker数据目录位置，包含镜像位置](https://blog.51cto.com/u_15061951/3975869)
+
+### unbuntu install docker
+> 阿里云安装 docker
+```
+# 更新 apt
+sudo apt-get update
+# 安装必要的 ca 工具
+sudo apt-get install ca-certificates curl gnupg lsb-release
+# 添加GPG密钥
+curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+# 添加docker软件源
+sudo add-apt-repository "deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
+# 下载并安装docker
+sudo apt install docker-ce
+# 配置docker-mirror为阿里源
+sudo touch /etc/docker/daemon.json
+sudo echo '{ "registry-mirrors": ["https://ra9q5uam.mirror.aliyuncs.com"] }' > /etc/docker/daemon.json
+# 重启docker服务
+sudo service docker restart
+```
 
 ### 修改 Docker 配置 (镜像路径, DNS, 硬盘占用) 
 ```
