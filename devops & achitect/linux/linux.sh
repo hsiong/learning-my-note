@@ -35,3 +35,6 @@ awk -F: '{ print $1}' /etc/passwd
 # 详解linux下查看系统版本号信息的方法（总结）
 # https://cloud.tencent.com/developer/article/1721171
 cat /proc/version
+
+# LAN detecter
+nmap -sP 192.168.1.0/24　
