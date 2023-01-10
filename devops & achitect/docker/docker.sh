@@ -26,9 +26,10 @@ docker info
 #         proxy_pass  http://106.13.203.73:8001/url-shortcut/redirect$request_uri; 
 #     }
 # }
-
-docker run --name nginx -p 80:80 \
--v /root/config/docker/:/etc/nginx/conf.d/ \
+sudo docker stop nginx
+sudo docker rm nginx
+sudo docker run --name nginx -p 80:80 \
+-v /root/config/nginx/:/etc/nginx/conf.d/ \
 -v /root/download:/usr/share/nginx/download \
 -d nginx
 
@@ -61,3 +62,6 @@ docker logs containerName
 
 ## docker - searchgit tag
 ## https://www.jeremysong.cn/cn/all-docker-tags/
+
+## docker - delete image by name 
+docker images | grep "registry-center" | awk '{print $1":"$2}' | xargs docker rmi
