@@ -38,3 +38,12 @@ cat /proc/version
 
 # LAN detecter
 nmap -sP 192.168.1.0/24　
+
+# remote ssh demo
+ssh -T $user@$ip  << remotessh
+(echo '$pwd' 
+sleep 1
+echo "y"
+) | sudo -S docker image prune
+exit
+remotessh
