@@ -268,13 +268,19 @@ fe9198c04d62        mongo               3.2
   + 我们可以用镜像的完整 ID，也称为 长 ID，来删除镜像。使用脚本的时候可能会用长 ID，但是人工输入就太累了，所以更多的时候是用 短 ID 来删除镜像。docker image ls 默认列出的就已经是短 ID 了，一般取前3个字符以上，只要足够区分于别的镜像就可以了。 
   + 比如，我们需要删除所有仓库名为 redis 的镜像：`$ docker image rm $(docker image ls -q redis)`
   + 或者删除所有在 mongo:3.2 之前的镜像：`$ docker image rm $(docker image ls -q -f before=mongo:3.2)`
+```
+# 删除名为 registry-center 的镜像
+docker images | grep "registry-center" | awk '{print $1":"$2}' | xargs docker rmi
+```
 
 4. 设置镜像标签 `docker tag 860c279d2fec runoob/centos:dev`
  + 为镜像id为860c279d2fec的镜像设置一个新的标签
 
 5. 通过 `docker system df` 命令来便捷的查看镜像、容器、数据卷所占用的空间
 
-6. 虚悬镜像: 随着官方镜像维护，发布了新版本后，重新 docker pull mongo:3.2 时，mongo:3.2 这个镜像名被转移到了新下载的镜像身上，而旧的镜像上的这个名称则被取消，从而成为了 <none>。除了 docker pull 可能导致这种情况，docker build 也同样可以导致这种现象。由于新旧镜像同名，旧镜像名称被取消，从而出现仓库名、标签均为 <none> 的镜像。这类无标签镜像也被称为 虚悬镜像(dangling image) , 一般来说，虚悬镜像已经失去了存在的价值，是可以随意删除的。 可以用下面的命令专门显示这类镜像：
+
+> 虚悬镜像: 随着官方镜像维护，发布了新版本后，重新 docker pull mongo:3.2 时，mongo:3.2 这个镜像名被转移到了新下载的镜像身上，而旧的镜像上的这个名称则被取消，从而成为了 <none>。除了 docker pull 可能导致这种情况，docker build 也同样可以导致这种现象。由于新旧镜像同名，旧镜像名称被取消，从而出现仓库名、标签均为 <none> 的镜像。这类无标签镜像也被称为 虚悬镜像(dangling image) , 一般来说，虚悬镜像已经失去了存在的价值，是可以随意删除的。 可以用下面的命令专门显示这类镜像：
+
 ```
 $ docker image ls -f dangling=true
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
