@@ -47,3 +47,7 @@ subdomain = test1
 # 后台启动
 nohup ./frpc -c frpc.ini >/dev/null 2>&1 &
 ```    
+
+```
+ps aux|grep frp|grep -v grep|awk '{print $2}'|xargs kill
+```
