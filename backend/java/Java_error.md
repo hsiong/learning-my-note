@@ -65,3 +65,42 @@ For compilers to find openjdk you may need to set:
 
 14. "at org.yaml.snakeyaml.reader.StreamReader.peek(StreamReader.java:136)"
 https://blog.csdn.net/Michelle_Zhong/article/details/122702144
+
+
+
+
+
+## jwt 
+1. Have you remembered to include the jjwt-impl.jar in your runtime classpath?
+```
+        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+```
+
+2. The specified key byte array is 40 bits which is not secure enough for any JWT HMAC-SHA algorithm.  The JWT JWA Specification (RFC 7518, Section 3.2)
+https://blog.csdn.net/Fine_Cui/article/details/124713766
+
+## swagger
+1. knife4j v3 add header (4.0.0 bug)
++ 文档管理 -> 全局参数设置 -> 参数名称: AUTH_HEADER
+
+
+## mybatis
+1. Invalid bound statement (not found)   ||   Property 'mapperLocations' was not specified.
+https://www.jianshu.com/p/6dc534bcc512
