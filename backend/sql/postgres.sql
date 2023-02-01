@@ -161,3 +161,6 @@ ALTER TABLE table_name
     add column label varchar(32) not null default '';
 ALTER TABLE table_name
     alter column label drop default ;
+
+-- change password
+ALTER USER postgres WITH PASSWORD 'postgres';

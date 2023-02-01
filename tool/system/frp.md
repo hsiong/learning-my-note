@@ -22,6 +22,8 @@ subdomain_host = frp.域名
 ./frps -c ./frps.ini  
 # 后台启动
 nohup ./frps -c frps.ini >/dev/null 2>&1 &
+# 杀死进程
+ps aux|grep frp|grep -v grep|awk '{print $2}'|xargs kill
 ```    
 
 # 客户端
