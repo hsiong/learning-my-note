@@ -104,3 +104,4 @@ https://blog.csdn.net/Fine_Cui/article/details/124713766
 ## mybatis
 1. Invalid bound statement (not found)   ||   Property 'mapperLocations' was not specified.
 https://www.jianshu.com/p/6dc534bcc512
+
