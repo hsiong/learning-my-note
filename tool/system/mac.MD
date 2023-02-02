@@ -40,3 +40,12 @@ cmake
 
 # m1 slim compatity
 docker hub 找 支持 linux/arm64 的镜像即可
+
+# m1 chip run windows11 
+https://kb.parallels.com/en/122702
+
+# fix “This Application cannot run under a Virtual Machine”
+https://securedstatus.com/how-to-fix-this-application-cannot-run-under-a-virtual-machine/
+
+# paralle desktop delete image
+https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&rsv_idx=1&tn=baidu&wd=parallels%20desktop%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%95%9C%E5%83%8F&fenlei=256&rsv_pq=0xb460e606000f381e&rsv_t=a28bZab9xE3KKEg04%2FhB2OAn81EaXiyAi1dx3Wb90kLaDNAjqEn%2FAxzS9h8Z&rqlang=en&rsv_enter=1&rsv_dl=is_8&rsv_sug3=2&rsv_sug1=3&rsv_sug7=100&rsv_sug2=0&rsv_btype=i&prefixsug=parallels%2520desktop%2520%25E9%2595%259C%25E5%2583%258F&rsp=8&inputT=5437&rsv_sug4=5436
