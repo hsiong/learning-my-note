@@ -105,3 +105,7 @@ https://blog.csdn.net/Fine_Cui/article/details/124713766
 1. Invalid bound statement (not found)   ||   Property 'mapperLocations' was not specified.
 https://www.jianshu.com/p/6dc534bcc512
 
+## 微信相关
+1. 删除测试号绑定
+https://developers.weixin.qq.com/community/develop/doc/000ee46d24ca4892bedd0464251400
+
