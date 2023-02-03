@@ -67,7 +67,11 @@ For compilers to find openjdk you may need to set:
 https://blog.csdn.net/Michelle_Zhong/article/details/122702144
 
 
-
+15. no fontmanager in system library path: /opt/homebrew/Cellar/openjdk/19.0.1/libexec/openjdk.jdk/Contents/Home/lib
+```
+# 重装 jdk  
+brew reinstall openjdk@19
+```
 
 
 ## jwt 
