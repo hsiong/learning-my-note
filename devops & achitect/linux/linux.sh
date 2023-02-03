@@ -47,3 +47,6 @@ echo "y"
 ) | sudo -S docker image prune
 exit
 remotessh
+
+# linus install redis-cli only
+https://stackoverflow.com/questions/21795340/linux-install-redis-cli-only
