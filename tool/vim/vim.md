@@ -54,3 +54,7 @@ echo 'set encoding=utf-8'  >> ~/.vimrc
 ```
 
 https://linuxize.com/post/how-to-copy-cut-paste-in-vim/
+
+## vim delete all
++ dddG   https://www.jianshu.com/p/7636cf4e0315
++ d100d
