@@ -36,6 +36,10 @@ This is a proj from Docker base learning to Docker practice.
 - [修改 docker 存储路径](#修改-docker-存储路径)
 - [SpringBoot 使用SSH 通过A服务器跳板机 连接B服务器Mysql(安全策略)](#springboot-使用ssh-通过a服务器跳板机-连接b服务器mysql安全策略)
   - [Reference:](#reference)
+  - [添加和修改 docker 容器端口映射的方法](#添加和修改-docker-容器端口映射的方法)
+  - [不使用sudo运行docker](#不使用sudo运行docker)
+  - [修复 docker postgres 重启后密码错误](#修复-docker-postgres-重启后密码错误)
+  - [Docker容器互访三种方式](#docker容器互访三种方式)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -488,7 +492,7 @@ docker run -d \
     -p 5000:5000 \
     -v /opt/data/registry:/var/lib/registry \
     registry
-```    
+```
 
 
 
@@ -525,9 +529,12 @@ https://blog.csdn.net/xhtchina/article/details/119876054
 > ca 证书 
 https://www.cnblogs.com/-wenli/p/13555833.html
 
-> docker 文件无法映射
+> docker 文件无法映射 
 https://codeantenna.com/a/sG54XRlW2Z
 
+> docker code=exited, status=1   
+可能是 /etc/docker/daemon.json 配置出错; 检查 daemon.json 且不能为空
+https://containerization-automation.readthedocs.io/zh_CN/latest/docker/faq/service%E5%90%AF%E5%8A%A8docker%E5%A4%B1%E6%95%88/
 
 # SpringBoot 使用SSH 通过A服务器跳板机 连接B服务器Mysql(安全策略)
 ## Reference: 
@@ -539,4 +546,62 @@ https://blog.csdn.net/weixin_40461281/article/details/103695882
 + vim ~/.ssh/authorized_keys
 + ssh -fN -L5433:localhost:5432 -p22 root@localhost
 
+## 添加和修改 docker 容器端口映射的方法
+https://cloud.tencent.com/developer/article/1833131
+```
+systemctl stop docker 
 
+cd /var/lib/docker/containers/363ff2d*
+
+# 修改 hostconfig.json
+"PortBindings":{"443/tcp":[{"HostIp":"","HostPort":"443"}],"80/tcp":[{"HostIp":"","HostPort":"80"}]},
+
+# 修改 config.v2.json
+"ExposedPorts":{"443/tcp":{},"80/tcp":{}}
+
+systemctl start docker 
+docker start nginx
+```
+
+## 不使用sudo运行docker
+> https://www.myfreax.com/how-to-install-and-use-docker-on-ubuntu-20-04/
+
+
+默认情况下，只有root用户，[具有sudo权限的用户](https://www.myfreax.com/how-to-create-a-sudo-user-on-ubuntu/)以及docker组成员可以执行docker命令。
+
+但是docker我们经常使用的命令，没有必须每次运行docker都使用或者切换docker用户。
+
+如果在要以非root用户或者docker用户运行Docker，您需要将您的用户添加到docker组中。
+
+docker组的成员可以运行docker，而不必每次使用sudo命令切换用户运行。你可使用`usermod`[命令](https://www.myfreax.com/usermod-command-in-linux/)将当前用户追加到docker组中。
+
+```shell
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
+`$USER`是保存您的用户名，`newgrp`命令使usermod命令更改在当前终端中生效。
+
+现在您可以在不添加[`sudo`](https://www.myfreax.com/sudo-command-in-linux/)的情况下执行`docker`命令，让我们将[运行](https://www.myfreax.com/docker-run-command/)Docker官方Hello-World测试容器`docker container run hello-world`以是否正确配置。
+
+该命令将下载测试镜像，然后运行它，它将打印Hello from Docker消息。由于没有长时间运行的进程，因此容器在打印完消息后将停止。
+
+## 修复 docker postgres 重启后密码错误
+```
+systemctl stop docker 
+
+cd /var/lib/docker/containers/363ff2d*
+
+# 修改 config.v2.json, env 修改
+"POSTGRES_PASSWORD=xxxx"
+
+systemctl start docker 
+docker start postgres
+```
+
+## Docker容器互访三种方式
+我们都知道docker容器之间是互相隔离的，不能互相访问，但如果有些依赖关系的服务要怎么办呢。下面介绍三种方法解决容器互访问题。
+
+用于处理在 docker-java 中访问 redis/posgres 以及 nginx 做反向代理等出现 localhost 127.0.0.1 不能访问的情况
+
+https://blog.csdn.net/junehappylove/article/details/107387362
