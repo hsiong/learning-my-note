@@ -73,6 +73,12 @@ https://blog.csdn.net/Michelle_Zhong/article/details/122702144
 brew reinstall openjdk@19
 ```
 
+16. Springboot 访问项目怎么不用加项目名?
+```
+    #应用的访问路径 不配置, 直接访问
+    context-path: /
+```
+
 
 ## jwt 
 1. Have you remembered to include the jjwt-impl.jar in your runtime classpath?
