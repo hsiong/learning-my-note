@@ -40,6 +40,7 @@ This is a proj from Docker base learning to Docker practice.
   - [不使用sudo运行docker](#不使用sudo运行docker)
   - [修复 docker postgres 重启后密码错误](#修复-docker-postgres-重启后密码错误)
   - [Docker容器互访三种方式](#docker容器互访三种方式)
+  - [Docker 指定时区](#docker-指定时区)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -605,3 +606,28 @@ docker start postgres
 用于处理在 docker-java 中访问 redis/posgres 以及 nginx 做反向代理等出现 localhost 127.0.0.1 不能访问的情况
 
 https://blog.csdn.net/junehappylove/article/details/107387362
+
+## Docker 指定时区
+https://cloud.tencent.com/developer/article/1626811
+
+运行时加入参数: -e TZ=Asia/Shanghai
+
+```
+docker run --name test -e TZ=Asia/Shanghai --rm -ti debian /bin/bash
+/# date
+Fri Nov 29 18:46:18 CST 2019
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
