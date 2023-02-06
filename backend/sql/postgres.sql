@@ -164,3 +164,15 @@ ALTER TABLE table_name
 
 -- change password
 ALTER USER postgres WITH PASSWORD 'postgres';
+
+-- Postgres 制定时区
+https://www.jianshu.com/p/8e8d201d7cef
+select * from pg_timezone_names;
+set time zone 'PRC';
+select now();
+
+
+-- JDBC 指定时区
+https://zhuanlan.zhihu.com/p/153460511
+TimeZone=Asia/Shanghai
+
