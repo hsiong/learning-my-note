@@ -16,3 +16,35 @@
   
 2. mvn clean package -T 1C -Dmaven.test.skip=true -Dmaven.compile.fork=true
 ```
+
+## note
+
+1. maven 打包不带版本号
+https://blog.csdn.net/fly910905/article/details/80276153
+```
+
+<build>
+  <!-- 产生的构件的文件名，默认值是${artifactId}-${version}。 -->  
+        <finalName>projectname</finalName>
+</build>
+
+```
+
+2. Maven项目依赖外部jar进行打包的两种方式
+https://blog.csdn.net/abcwanglinyong/article/details/90448497
+```
+<plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <includeSystemScope>true</includeSystemScope>
+            </configuration>
+        </plugin>
+```
+
+
+
+
+
+
+
