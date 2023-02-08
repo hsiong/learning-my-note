@@ -48,3 +48,38 @@ nginx -V
 Demo 参照 [ssl-demo.conf](.ssl-demo.conf)
 
 配置完后, 重启 nginx 容器, 访问 https://domain 测试
+
+## Nginx 配置多个二级 ssl 域名
+> Reference: https://cloud.tencent.com/developer/article/1818989
+1. 申请 二级域名.主域名 dv 证书 [免费]
+2. 下载 ssl 证书 for nginx 
+3. 上传 ssl 证书 到 nginx 目录
+4. 添加 nginx 配置如下
+```
+server {
+    # 静态页
+    listen      443;
+    server_name 二级域名.主域名;
+
+    location / {
+        proxy_set_header Host $host;   #nginx的变量$host，代表实际的host
+        proxy_set_header X-Real-IP $remote_addr;  #nginx的变量$host，代表实际的address
+        # 外网ip或域名, 443 不可填内网, 因为是先打到80端口做转发
+        proxy_pass  http://外网:8011; 
+    }
+
+    ssl_certificate /usr/share/nginx/download/ssl/二级域名.主域名.crt; #将domain.pem替换成您证书的文件名。
+    ssl_certificate_key /usr/share/nginx/download/ssl/二级域名.主域名.key; #将domain.key替换成您证书的密钥文件名。
+    
+    ssl_session_timeout 5m;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+    ssl_prefer_server_ciphers on;
+
+    client_max_body_size 1024m;
+    ssl on;   #设置为on启用SSL功能。
+
+}
+```
+> 注意: 443 反向代理, 填外网ip或域名, 443 不可填内网, 因为是先打到80端口做转发
+
