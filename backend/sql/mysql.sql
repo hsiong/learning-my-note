@@ -55,8 +55,24 @@ ALTER TABLE t_user DROP PRIMARY KEY;
 ALTER TABLE <表名> DROP <字段名>；
 
 ## mysql json json_agg
-https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_json-objectagg
-
+## https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_json-objectagg
+SELECT a.*,
+        (
+            SELECT JSON_ARRAYAGG(JSON_OBJECT(
+                    'create_time', i.create_time,
+                    'update_time', i.update_time,
+                    'id', i.id))
+            FROM plan_operate_item i
+            WHERE i.operate_id = a.id
+        ) AS itemList
+FROM plan_operate a
+    ${sql}
+ORDER BY a.create_time
+DESC
 
 ## 不识别mapper.xml文件中的sql的表名和字段，无法点击表名链接到数据源_VictoryVivan的博客-程序员宅基地
 https://www.cxyzjd.com/article/qq_24057133/105679794
+
+## mybatis donot support json_agg
+## https://blog.csdn.net/qq_44075194/article/details/126194672
+adding the annotation @InterceptorIgnore(tenantLine = "true") to the mapper may solve this problem .
