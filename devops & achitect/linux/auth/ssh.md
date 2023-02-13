@@ -22,5 +22,27 @@ scp <本地文件名> <用户名>@<ssh服务器地址>:<上传保存路径>
 scp  -r <本地文件夹名> <用户名>@<ssh服务器地址>:<上传保存路径> 
 ```
 
-# ssh 免密登录
+## ssh 免密登录
 https://www.jianshu.com/p/b294e9da09ad
+
+## ssh: root@domain 异常, root@ip 成功
+
+
+> 错误码: 
+>
+> kex_exchange_identification: Connection closed by remote host
+>
+> Connection closed by 127.0.0.1 port 7890 
+
++  https://www.zhihu.com/question/20023544, 根据文档, 注意到 Connection closed by 127.0.0.1 port 7890 
+  7890 是我的 vpn 的端口, 关闭 vpn 后重试  `ssh -v root@domain`
+
++ 提示: domain: nodename nor servname provided, or not known
+
+  考虑域名解析是否被停用, 发现 www 域名的确被停用了, 启用域名解析
+
+  ![image](https://user-images.githubusercontent.com/37357447/217993033-b3dd34c4-2c91-4a8b-b1f7-f19ceb982ca0.png)
+
++ 等待 5 分钟, 依然提示: nodename nor servname provided, or not known
+
+  `vim ~/.ssh/known_hosts`, 删除 domain 对应的记录
