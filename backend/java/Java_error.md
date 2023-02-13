@@ -79,6 +79,9 @@ brew reinstall openjdk@19
     context-path: /
 ```
 
+17. spring 允许值 正则
+https://blog.csdn.net/inthat/article/details/108843826
+@Pattern
 
 ## jwt 
 1. Have you remembered to include the jjwt-impl.jar in your runtime classpath?
