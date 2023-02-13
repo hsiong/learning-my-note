@@ -25,3 +25,15 @@ h => {
 # 语法
 ## v-decorator
 vue 表单验证
+
+
+## destroyOnClose 报错
+使用 destroyOnClose 或者 :destroyOnClose="true"
+
+## vite 构建生产版本
+https://cn.vitejs.dev/guide/build.html
+默认值:  
++ .env 所有都会调用
++ vite build => production  
++ vite => dev
++ test => --mode test
