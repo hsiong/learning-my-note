@@ -83,6 +83,12 @@ brew reinstall openjdk@19
 https://blog.csdn.net/inthat/article/details/108843826
 @Pattern
 
+18. swagger/knife4j 成功, 但是没有展示任何 api
+https://zhuanlan.zhihu.com/p/447338078
++ 需要解决 springboot2.6 和 springfox 不兼容问题  
++ Spring Boot 2.6+ 后映射匹配的默认策略已从 AntPathMatcher 更改为 PathPatternParser,需要手动指定为 ant-path-matcher
+
+
 ## jwt 
 1. Have you remembered to include the jjwt-impl.jar in your runtime classpath?
 ```
