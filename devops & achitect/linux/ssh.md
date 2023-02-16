@@ -26,8 +26,6 @@ scp  -r <本地文件夹名> <用户名>@<ssh服务器地址>:<上传保存路�
 https://www.jianshu.com/p/b294e9da09ad
 
 ## ssh: root@domain 异常, root@ip 成功
-
-
 > 错误码: 
 >
 > kex_exchange_identification: Connection closed by remote host
@@ -46,3 +44,10 @@ https://www.jianshu.com/p/b294e9da09ad
 + 等待 5 分钟, 依然提示: nodename nor servname provided, or not known
 
   `vim ~/.ssh/known_hosts`, 删除 domain 对应的记录
+
+
+## scp 指定端口上传文件
+scp -r -P port ./* videoai@$ip:~/docker/java
+
+## ssh 指定端口
+ssh -p port
