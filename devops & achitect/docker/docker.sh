@@ -65,3 +65,6 @@ docker logs containerName
 
 ## docker - delete image by name 
 docker images | grep "registry-center" | awk '{print $1":"$2}' | xargs docker rmi
+
+## 删除虚悬镜像 
+docker image prune
