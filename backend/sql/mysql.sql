@@ -76,3 +76,13 @@ https://www.cxyzjd.com/article/qq_24057133/105679794
 ## mybatis donot support json_agg
 ## https://blog.csdn.net/qq_44075194/article/details/126194672
 adding the annotation @InterceptorIgnore(tenantLine = "true") to the mapper may solve this problem .
+
+
+## case when 
+SELECT OrderID, Quantity,
+CASE
+    WHEN Quantity > 30 THEN "The quantity is greater than 30"
+    WHEN Quantity = 30 THEN "The quantity is 30"
+    ELSE "The quantity is under 30"
+END
+FROM OrderDetails;
