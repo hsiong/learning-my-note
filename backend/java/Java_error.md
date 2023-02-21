@@ -88,6 +88,10 @@ https://zhuanlan.zhihu.com/p/447338078
 + 需要解决 springboot2.6 和 springfox 不兼容问题  
 + Spring Boot 2.6+ 后映射匹配的默认策略已从 AntPathMatcher 更改为 PathPatternParser,需要手动指定为 ant-path-matcher
 
+19. spring cache
+https://www.cnblogs.com/coding-one/p/12401630.html
++ @Cacheable 提供两个参数来指定缓存名：value、cacheNames，二者选其一即可。
+
 
 ## jwt 
 1. Have you remembered to include the jjwt-impl.jar in your runtime classpath?
