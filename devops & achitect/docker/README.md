@@ -269,7 +269,7 @@ fe9198c04d62        mongo               3.2
 
 2. 拉取镜像`docker pull ImageName:Version`
 3. 删除镜像`docker image rm ImageId` 或 `docker rmi ImageId`
-  + 注意: 删除容器是`docker rm ContainerName`
+  + 注意: 删除容器是`docker rm ContainerId`
   + 我们可以用镜像的完整 ID，也称为 长 ID，来删除镜像。使用脚本的时候可能会用长 ID，但是人工输入就太累了，所以更多的时候是用 短 ID 来删除镜像。docker image ls 默认列出的就已经是短 ID 了，一般取前3个字符以上，只要足够区分于别的镜像就可以了。 
   + 比如，我们需要删除所有仓库名为 redis 的镜像：`$ docker image rm $(docker image ls -q redis)`
   + 或者删除所有在 mongo:3.2 之前的镜像：`$ docker image rm $(docker image ls -q -f before=mongo:3.2)`

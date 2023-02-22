@@ -68,3 +68,10 @@ docker images | grep "registry-center" | awk '{print $1":"$2}' | xargs docker rm
 
 ## 删除虚悬镜像 
 docker image prune
+
+## docker compose plugin
+> https://docs.docker.com/compose/install/linux/#install-using-the-repository
+ sudo apt-get update
+ sudo apt-get install docker-compose-plugin
+
+  docker compose version
