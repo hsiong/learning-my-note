@@ -1,3 +1,5 @@
+# Reference
+https://juejin.cn/post/6971630514742493197
 
 # uninstall jenkins
 docker stop jenkins 
