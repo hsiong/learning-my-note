@@ -87,3 +87,6 @@ https://stackoverflow.com/questions/21795340/linux-install-redis-cli-only
 
 # zip PASSWORD
 zip -P yule shop_20160303.zip /home/filesystem/haibo/output/shop/20160303.txt
+
+# rar password
+直接解压即可
