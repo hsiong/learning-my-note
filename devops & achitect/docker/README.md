@@ -41,6 +41,9 @@ This is a proj from Docker base learning to Docker practice.
   - [修复 docker postgres 重启后密码错误](#修复-docker-postgres-重启后密码错误)
   - [Docker容器互访三种方式](#docker容器互访三种方式)
   - [Docker 指定时区](#docker-指定时区)
+  - [docker 网桥](#docker-网桥)
+  - [docker 修改国内源](#docker-修改国内源)
+  - [](#)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -618,7 +621,47 @@ docker run --name test -e TZ=Asia/Shanghai --rm -ti debian /bin/bash
 Fri Nov 29 18:46:18 CST 2019
 ```
 
+## docker 网桥
+https://docs.docker.com.zh.xy2401.com/compose/networking/
+https://s1973.top/blog/001597819247602cb6a8f5c30624b868447f77b48d63fe5000
 
+如果您对服务进行配置更改并运行docker-compose up进行更新，则会删除旧容器，而新容器将使用其他IP地址但名称相同的网络加入网络。运行中的容器可以查找该名称并连接到新地址，但是旧地址会停止工作。
+
+如果有任何容器打开了到旧容器的连接，则它们将被关闭。检测这种情况，再次查找名称并重新连接是容器的责任。
+
+```
+version: "3"
+services:
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+  db:
+    image: postgres
+
+networks:
+  default:
+    # Use a custom driver
+    name: custom-driver-1
+```
+
+
+## docker 修改国内源 
+
+```
+"https://hub-mirror.c.163.com",
+"https://registry.aliyuncs.com",
+"https://registry.docker-cn.com",
+"https://docker.mirrors.ustc.edu.cn"
+```
+
+sudo service docker restart
+
+docker restart nginx, ...
+
+
+## 
 
 
 
