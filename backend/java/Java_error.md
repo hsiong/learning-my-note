@@ -102,7 +102,6 @@ DesensitizedUtil 5.6.2
 https://apidoc.gitee.com/dromara/hutool/cn/hutool/core/util/DesensitizedUtil.html
 
 
-
 ## jwt 
 1. Have you remembered to include the jjwt-impl.jar in your runtime classpath?
 ```
@@ -137,6 +136,18 @@ https://blog.csdn.net/Fine_Cui/article/details/124713766
 ## mybatis
 1. Invalid bound statement (not found)   ||   Property 'mapperLocations' was not specified.
 https://www.jianshu.com/p/6dc534bcc512
+
+2. mybatis-plus tableField
+https://baomidou.com/pages/6b03c5/
+https://www.tabnine.com/code/java/classes/com.baomidou.mybatisplus.annotation.TableLogic
+```
+	@TableLogic(value = "null", delval = "now()")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+	@Schema(description = "删除标志")
+	private LocalDateTime deleteAt;
+```
 
 ## 微信相关
 1. 删除测试号绑定
