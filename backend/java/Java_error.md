@@ -92,6 +92,16 @@ https://zhuanlan.zhihu.com/p/447338078
 https://www.cnblogs.com/coding-one/p/12401630.html
 + @Cacheable 提供两个参数来指定缓存名：value、cacheNames，二者选其一即可。
 
+20. obj -> jsonObj
+```
+JSONObject json = (JSONObject) JSON.toJSON(o);
+```
+
+21. 数据脱敏
+DesensitizedUtil 5.6.2  
+https://apidoc.gitee.com/dromara/hutool/cn/hutool/core/util/DesensitizedUtil.html
+
+
 
 ## jwt 
 1. Have you remembered to include the jjwt-impl.jar in your runtime classpath?
