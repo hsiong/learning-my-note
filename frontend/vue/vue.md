@@ -37,8 +37,8 @@ https://cn.vitejs.dev/guide/build.html
 + vite => dev
 + test => --mode test
 
-
-
+## 文本对齐
+<a-textarea :value=formData.spec :auto-size="{ minRows: 2, maxRows: 6 }" />
 
 
 
