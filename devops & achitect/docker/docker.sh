@@ -68,7 +68,7 @@ docker logs containerName
 ## https://www.jeremysong.cn/cn/all-docker-tags/
 
 ## docker - delete image by name 
-docker images | grep "registry-center" | awk '{print $1":"$2}' | xargs docker rmi
+docker images | grep "registry-center" | awk '{print $3}' | xargs docker rmi
 
 ## 删除虚悬镜像 
 docker image prune
@@ -79,3 +79,17 @@ docker image prune
  sudo apt-get install docker-compose-plugin
 
   docker compose version
+
+## docker awk/$ not working
+https://blog.csdn.net/liuxiao723846/article/details/55003662
+
+ssh -T videoai@$ip  << remotessh
+cd ~/docker/vue/dkyVue 
+docker stop dkyvue 
+docker rm dkyvue
+docker rmi \$(docker images | grep "dkyvue" | awk '{print \$3}')
+docker build -t dkyvue:0.1 . 
+docker run -d --name dkyvue -p 3100:80 dkyvue:0.1 
+docker ps
+exit
+remotessh
