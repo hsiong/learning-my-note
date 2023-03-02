@@ -3,7 +3,7 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 
 # Learning Plan - 2023
 
-<table style="width:100%">
+<table>
 <thead>
 <tr>
     <th colspan="3">Table - In Progress</th>
@@ -62,17 +62,12 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 </tr>
 
 </tbody>
-</table>
-
-<br/>
-<br/>
-<br/>
 
 
 
 <!--     table - Completed      -->
 
-<table style="width:100%">
+
 
 <thead>
 <tr>
@@ -112,16 +107,12 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 </tr>
 
 </tbody>
-</table>
 
-<br/>
-<br/>
-<br/>
+
+
 
 
 <!-- table - In Planning -->
-
-<table style="width:100%">
 
 <thead>
 <tr>
@@ -162,7 +153,7 @@ Share my learning note for your guys, to be a achitect as soon as possible !
 </table>
 
 # Early Plan
-+ [Learning Plan - 2022](./Readme - 2022.md)
++ [Learning Plan - 2022](./Readme-2022.md)
 
 
 
