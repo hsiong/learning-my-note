@@ -52,3 +52,6 @@ https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&rsv_idx=1&tn=baidu&wd=parallels%20
 
 # macOS 上 ⌘ W（关闭 Window）和 ⌘ Q (关闭应用 )
 https://www.zhihu.com/question/21143701
+
+# git idea local change 怎么打开
+https://blog.csdn.net/comeilmforever/article/details/107753783
