@@ -81,6 +81,7 @@ brew reinstall openjdk@19
 
 17. spring 允许值 正则
 https://blog.csdn.net/inthat/article/details/108843826
+https://www.cnblogs.com/404code/p/10569158.html
 @Pattern
 
 18. swagger/knife4j 成功, 但是没有展示任何 api
@@ -100,6 +101,9 @@ JSONObject json = (JSONObject) JSON.toJSON(o);
 21. 数据脱敏
 DesensitizedUtil 5.6.2  
 https://apidoc.gitee.com/dromara/hutool/cn/hutool/core/util/DesensitizedUtil.html
+
+22. bigdecimal 保留两位小数
+payUserAmountDecimal.setScale(2, RoundingMode.HALF_UP)
 
 
 ## jwt 
