@@ -105,6 +105,9 @@ https://apidoc.gitee.com/dromara/hutool/cn/hutool/core/util/DesensitizedUtil.htm
 22. bigdecimal 保留两位小数
 payUserAmountDecimal.setScale(2, RoundingMode.HALF_UP)
 
+23. spring 不出日志, 
+请考虑 老编译器 未在新代码上运行
+
 
 ## jwt 
 1. Have you remembered to include the jjwt-impl.jar in your runtime classpath?
