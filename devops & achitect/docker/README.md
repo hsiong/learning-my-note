@@ -185,6 +185,7 @@ docker run ubuntu:15.10 /bin/echo "Hello world"
 + `docker port containerID` 查看某个容器的端口映射
 + `docker top containerID` 查看容器内部的进程
 + `docker logs ContainerId` 查看容器标准输出
+  + docker 日志一般存放在 /var/lib/docker/containers/container_id/
 + `docker` 查看帮助, 或`docker xxxCommand --help`来查看某条命令的帮助
 
 ###  1.3.1 容器互联
