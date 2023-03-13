@@ -55,6 +55,10 @@ q
 ## update remote file
 scp -r $localFilePath $remoteUser@$remoteAddress:$remoteFilePath
 
+## download file
+scp username@servername:/path/filename /tmp/local_destination
+
+
 # Shell 传递参数
 ## 按位置
 https://www.runoob.com/linux/linux-shell-passing-arguments.html
