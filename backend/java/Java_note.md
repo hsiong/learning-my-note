@@ -108,6 +108,12 @@ payUserAmountDecimal.setScale(2, RoundingMode.HALF_UP)
 23. spring 不出日志, 
 请考虑 老编译器 未在新代码上运行
 
+24. java stream 排序
+https://blog.csdn.net/qq_38974638/article/details/113795827
+```
+list = list.stream().sorted(Comparator.comparing(Student::getAge).reversed()).collect(Collectors.toList());
+```
+
 
 ## jwt 
 1. Have you remembered to include the jjwt-impl.jar in your runtime classpath?
