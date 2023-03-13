@@ -1,1 +1,0 @@
-https://github.com/hsiong/project-china-company-blacklist/blob/main/index.html
