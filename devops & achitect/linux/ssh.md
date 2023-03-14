@@ -46,8 +46,32 @@ https://www.jianshu.com/p/b294e9da09ad
   `vim ~/.ssh/known_hosts`, 删除 domain 对应的记录
 
 
+## ssh remote connection refused
++ 检查 ssh 状态
+systemctl status ssh
+ssh localhost
+
++ 检查 ssh 端口
+netstat -ntlp
+
++ 检查 网路状态
+telnet ip port
+ping ip
+
++ 检查防火墙
+iptables -L 
+ufw status
+firewall-cmd --list-ports
+
+
+
+
+
 ## scp 指定端口上传文件
 scp -r -P port ./* videoai@$ip:~/docker/java
 
 ## ssh 指定端口
 ssh -p port
+
+## Remove key from known_hosts
+vim ~/.ssh/known_hosts
