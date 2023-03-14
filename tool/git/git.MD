@@ -3,6 +3,7 @@
 - [回退 git 版本](#回退-git-版本)
 - [vscode commit msg](#vscode-commit-msg)
 - [GIT push, HTTP code = 502 error](#git-push-http-code--502-error)
+- [idea新建项目上传到git](#idea新建项目上传到git)
 
 <!-- # 一.常见问题 -->
 
@@ -47,3 +48,13 @@ git reset --soft HEAD~1
 
 # GIT push, HTTP code = 502 error
 考虑 vpn 代理的问题
+
+# idea新建项目上传到git
+https://blog.csdn.net/woyizhizaizhaoni/article/details/90436721
++ VCS --> Import into Version Control --> Create Git Repository 
++ GIT-->Remotes-->添加一个git创建好的仓路径
++ pull main repo
++ if error check-out
++ then revert file local change
++ commit to github
++ push ~
