@@ -94,3 +94,21 @@ zip -P yule shop_20160303.zip /home/filesystem/haibo/output/shop/20160303.txt
 
 # rar password
 直接解压即可
+
+# append text to file
+https://blog.csdn.net/qq_41248471/article/details/102705857
+echo text >> text.txt
+
+# cd into directory without having permission
+sudo su
+cd directory
+
+# Linux终端如何显示上一屏的内容
+https://bbs.huaweicloud.com/blogs/309853
+执行命令的时候在后面加上”|less”，可以用上下方向键一点点查看。退出按q。
+
+# Centos7下安装netstat
+yum install net-tools
+https://blog.csdn.net/sky101010ws/article/details/50782475
+
+# 
