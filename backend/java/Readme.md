@@ -1022,6 +1022,8 @@ nop rl dl slam
     + 必须逻辑删除, 严禁物理删除
     + 接口必须 public 声明
 11. ci 出错考虑代码异常导致的回退
+12. [一篇带你了解OLTP vs. OLAP](https://www.51cto.com/article/701725.html)
+13. [Properties和Yml有什么区别](https://wangxiao.xisaiwang.com/ucenter2/zhibo/list.html)
 
 ## 1.x Java经验
 1. refDefine-class的问题如果来自于引用, 可能是jar包冲突; 本地的class找不到再确定是不是maven-compile出了问题
