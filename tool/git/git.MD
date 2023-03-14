@@ -2,6 +2,7 @@
 - [生成 ssh](#生成-ssh)
 - [回退 git 版本](#回退-git-版本)
 - [vscode commit msg](#vscode-commit-msg)
+- [GIT push, HTTP code = 502 error](#git-push-http-code--502-error)
 
 <!-- # 一.常见问题 -->
 
@@ -44,3 +45,5 @@ git reset --soft HEAD~1
 # vscode commit msg
 ![image](https://user-images.githubusercontent.com/37357447/180382244-bafdc0a8-af43-4cb0-a908-abae03ccdb31.png)
 
+# GIT push, HTTP code = 502 error
+考虑 vpn 代理的问题
