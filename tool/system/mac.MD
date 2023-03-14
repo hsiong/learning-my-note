@@ -55,3 +55,6 @@ https://www.zhihu.com/question/21143701
 
 # git idea local change 怎么打开
 https://blog.csdn.net/comeilmforever/article/details/107753783
+
+# idea新建项目上传到git
+https://blog.csdn.net/woyizhizaizhaoni/article/details/90436721
