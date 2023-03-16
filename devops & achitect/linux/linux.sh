@@ -111,4 +111,10 @@ https://bbs.huaweicloud.com/blogs/309853
 yum install net-tools
 https://blog.csdn.net/sky101010ws/article/details/50782475
 
-# 
+# decompress jar
+https://blog.csdn.net/caroline_wendy/article/details/42190743  
++ 压缩包：
+jar cvf filename.jar a.class b.class: 压缩指定文件；
+jar cvf weibosdkcore.jar *: 全部压缩；
++ 解压包：
+jar xvf test.jar
