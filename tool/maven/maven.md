@@ -42,9 +42,97 @@ https://blog.csdn.net/abcwanglinyong/article/details/90448497
         </plugin>
 ```
 
+3. jeecg maven 多环境 笔记
++ 设置 多环境
+```xml
 
+	<profiles>
+		<profile>
+			<!-- 开发环境 -->
+			<id>dev</id>
+			<properties>
+				<profiles.active>dev</profiles.active>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<!-- 测试环境 -->
+			<id>test</id>
+			<properties>
+				<profiles.active>test</profiles.active>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 生产环境 -->
+			<id>prod</id>
+			<properties>
+				<profiles.active>prod</profiles.active>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+		</profile>
+	</profiles>
 
+```
 
++ 扫描指定的配置文件
+```xml
+<resource>
+    <directory>src/main/resources</directory>
+    <includes>
+        <include>**/application.yml</include>
+        <include>**/application-common.yml</include>
+        <include>**/application-${profiles.active}.yml</include>
+        <include>**/*.xml</include>
+        <!-- 扫描 jeecg 的静态文件 -->
+        <include>jeecg/**/*</include>
+<!--					<include>static/**/*</include>-->
+        <include>templates/**/*</include>
+    </includes>
+    <!-- 这里要设置为true 否则不会扫描yml文件 -->
+    <filtering>true</filtering>
+</resource>
+```
 
++ 配置 mybatis-mapper 扫描
+``` xml
 
+<resource>
+    <directory>src/main/java</directory>
+    <filtering>true</filtering>
+    <includes>
+        <include>**/xml/*.xml</include>
+<!--					<include>**/json/*.json</include>-->
+    </includes>
+</resource>
+
+```
+
++ 如有其他模块使用 mybatis mapper, 则相应配置扫描
+```xml
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/xml/*.xml</include>
+                    <!--					<include>**/json/*.json</include>-->
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+```
+
++ dockerFile 中, 不再指定默认启动方式, 由 maven -p 来决定
+``` xml
+
+"--spring.profiles.active=dev"
+
+```
 
