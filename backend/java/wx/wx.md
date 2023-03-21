@@ -13,3 +13,8 @@
 3. 用户解密方法
 
    https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html
+
+
+## 微信相关
+1. 删除测试号绑定
+https://developers.weixin.qq.com/community/develop/doc/000ee46d24ca4892bedd0464251400
