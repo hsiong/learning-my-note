@@ -86,3 +86,7 @@ CASE
     ELSE "The quantity is under 30"
 END
 FROM OrderDetails;
+
+# index
+ALTER table plan_task_worker ADD INDEX plan_task_worker_index(worker_id, plan_id);
+DROP INDEX plan_task_worker_index ON plan_task_worker;
