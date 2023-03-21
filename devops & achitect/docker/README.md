@@ -493,6 +493,9 @@ docker run -d -p 5000:5000 --restart=always --name registry registry
 ```
 
 您可以通过 -v 参数来将镜像文件存放在本地的指定路径。例如下面的例子将上传的镜像放到本地的 /opt/data/registry 目录。
+
+> 注意, -v 参数需要映射到具体的文件夹, 不能映射到上一层, 否则会以外部已有的文件夹路径为准
+
 ```
 docker run -d \
     -p 5000:5000 \
