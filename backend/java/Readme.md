@@ -78,6 +78,7 @@ java-review-for-audition
   - [14.1 OSI七层模型](#141-osi七层模型)
   - [14.2 网络协议](#142-网络协议)
   - [](#)
+- [swagger](#swagger)
 - [](#-1)
   - [1.x Java经验](#1x-java经验)
   - [保持好的对接习惯](#保持好的对接习惯)
@@ -995,6 +996,10 @@ spring maven管理主要是两个标签 `scope` 与 `optional`
 KMP
 数据结构
 nop rl dl slam
+
+# swagger
+knife4j v3 add header (4.0.0 bug)
++ 文档管理 -> 全局参数设置 -> 参数名称: AUTH_HEADER
 
 # 
 1. 作为架构师  要有统一版本管理 <= Github: dependBot
