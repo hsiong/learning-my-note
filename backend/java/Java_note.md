@@ -159,6 +159,13 @@ registry.addResourceHandler("/static/**")
 
 ```
 
+29. springboot接口入参下划线转驼峰以及返回参数驼峰转下划线实现
+https://www.cnblogs.com/newAndHui/p/14767675.html
++ 响应结果的时候(驼峰转为下划线)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+
++ 传入参数, 不考虑
+
 # java reg
 > Referenece
 + online test: https://tool.oschina.net/regex/
