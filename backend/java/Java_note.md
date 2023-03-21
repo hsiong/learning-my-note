@@ -114,11 +114,16 @@ https://blog.csdn.net/qq_38974638/article/details/113795827
 list = list.stream().sorted(Comparator.comparing(Student::getAge).reversed()).collect(Collectors.toList());
 ```
 
-25. 
+25. "Couldn't find PersistentEntity for type class java.lang.Object"
+``` java
+@Repository
+public interface ImageEntityRepository extends CrudRepository<ImageEntity, Long> {
 
 
-## jwt 
-1. Have you remembered to include the jjwt-impl.jar in your runtime classpath?
+}
+```
+
+26. jwt - Have you remembered to include the jjwt-impl.jar in your runtime classpath?
 ```
         <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
         <dependency>
@@ -140,31 +145,28 @@ list = list.stream().sorted(Comparator.comparing(Student::getAge).reversed()).co
         </dependency>
 ```
 
-2. The specified key byte array is 40 bits which is not secure enough for any JWT HMAC-SHA algorithm.  The JWT JWA Specification (RFC 7518, Section 3.2)
+27. jwt - The specified key byte array is 40 bits which is not secure enough for any JWT HMAC-SHA algorithm.  The JWT JWA Specification (RFC 7518, Section 3.2)
 https://blog.csdn.net/Fine_Cui/article/details/124713766
 
-## swagger
-1. knife4j v3 add header (4.0.0 bug)
-+ 文档管理 -> 全局参数设置 -> 参数名称: AUTH_HEADER
+28. spring boot 静态文件映射
+```java 
+WebMvcConfiguration.java
 
+// 访问路径
+registry.addResourceHandler("/static/**")
+        // 文件路径
+        .addResourceLocations("file:" + neoPath + "//");
 
-## mybatis
-1. Invalid bound statement (not found)   ||   Property 'mapperLocations' was not specified.
-https://www.jianshu.com/p/6dc534bcc512
-
-2. mybatis-plus tableField
-https://baomidou.com/pages/6b03c5/
-https://www.tabnine.com/code/java/classes/com.baomidou.mybatisplus.annotation.TableLogic
-```
-	@TableLogic(value = "null", delval = "now()")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-	@Schema(description = "删除标志")
-	private LocalDateTime deleteAt;
 ```
 
-## 微信相关
-1. 删除测试号绑定
-https://developers.weixin.qq.com/community/develop/doc/000ee46d24ca4892bedd0464251400
+# java reg
+> Referenece
++ online test: https://tool.oschina.net/regex/
++ tutorial: http://www.regexlab.com/zh/regref.htm
+
+1. replaceLast
+```
+                String fileName = file.getName();
+                String newFileName = fileName.replaceAll("i$", "");
+```
 
