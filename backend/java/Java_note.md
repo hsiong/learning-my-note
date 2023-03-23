@@ -166,6 +166,11 @@ https://www.cnblogs.com/newAndHui/p/14767675.html
 
 + 传入参数, 不考虑
 
+30. java list 初始化赋值
+```
+List<String> stringList = Arrays.asList("a", "b", "c");
+```
+
 # java reg
 > Referenece
 + online test: https://tool.oschina.net/regex/
