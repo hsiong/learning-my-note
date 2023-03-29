@@ -1,5 +1,5 @@
 # Pre
-Share my learning note for your guys, to be a achitect as soon as possible ! 
+Share my learning note for your guys, to be an achitect as soon as possible ! 
 
 # Learning Plan - 2023
 
