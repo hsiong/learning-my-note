@@ -25,6 +25,8 @@ ALTER TABLE old_table_name RENAME TO new_table_name;
 
 ## rename column
 ALTER  TABLE 表名 CHANGE [column] 旧字段名 新字段名 新数据类型;	
+alter  table table1 change column1 column1 varchar(100) DEFAULT 1.2 COMMENT '注释'; -- 正常，此时字段名称没有改变，能修改字段类型、类型长度、默认值、注释
+
 
 ## change column default
 ALTER TABLE table2
