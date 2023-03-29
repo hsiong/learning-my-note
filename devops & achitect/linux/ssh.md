@@ -75,3 +75,7 @@ ssh -p port
 
 ## Remove key from known_hosts
 vim ~/.ssh/known_hosts
+
+## 解决ssh登录后闲置时间过长而断开连接
+https://blog.csdn.net/abld99/article/details/69388858
+
