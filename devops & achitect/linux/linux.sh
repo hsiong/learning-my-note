@@ -118,3 +118,10 @@ jar cvf filename.jar a.class b.class: 压缩指定文件；
 jar cvf weibosdkcore.jar *: 全部压缩；
 + 解压包：
 jar xvf test.jar
+
+# count file
+## count file this dir(including child dir)
+ls -lR| grep "^-" | wc -l
+
+## count file this dir(not including child dir)
+ls -l | grep "^-" | wc -l
