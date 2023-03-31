@@ -171,6 +171,8 @@ https://www.cnblogs.com/newAndHui/p/14767675.html
 List<String> stringList = Arrays.asList("a", "b", "c");
 ```
 
+31. java listener 中, 不会显示异常, 需要手动捕获异常
+
 # java reg
 > Referenece
 + online test: https://tool.oschina.net/regex/
