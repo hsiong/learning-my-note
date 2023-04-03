@@ -92,6 +92,9 @@ https://zhuanlan.zhihu.com/p/447338078
 19. spring cache
 https://www.cnblogs.com/coding-one/p/12401630.html
 + @Cacheable 提供两个参数来指定缓存名：value、cacheNames，二者选其一即可。
++ spring cache not null -  unless="#result == null"
+  Spring Cacheable注解不缓存null值 https://blog.csdn.net/difffate/article/details/64124272
++ 
 
 20. obj -> jsonObj
 ```
@@ -123,7 +126,27 @@ public interface ImageEntityRepository extends CrudRepository<ImageEntity, Long>
 }
 ```
 
-26. jwt - Have you remembered to include the jjwt-impl.jar in your runtime classpath?
+26. mybatis-plus incepter ignore mapper
+```
+// 用于在特定情况, mysql的特殊语句
+@InterceptorIgnore(tenantLine = "true")
+public interface ImageEntityRepository extends CrudRepository<ImageEntity, Long> {
+
+
+}
+
+```
+
+26. idea: Could not autowire. No beans of 'PlanOperateMapper' type found. 
+```
+@Repository
+public interface ImageEntityRepository extends CrudRepository<ImageEntity, Long> {
+
+
+}
+```
+
+27. jwt - Have you remembered to include the jjwt-impl.jar in your runtime classpath?
 ```
         <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
         <dependency>
@@ -145,10 +168,10 @@ public interface ImageEntityRepository extends CrudRepository<ImageEntity, Long>
         </dependency>
 ```
 
-27. jwt - The specified key byte array is 40 bits which is not secure enough for any JWT HMAC-SHA algorithm.  The JWT JWA Specification (RFC 7518, Section 3.2)
+1.  jwt - The specified key byte array is 40 bits which is not secure enough for any JWT HMAC-SHA algorithm.  The JWT JWA Specification (RFC 7518, Section 3.2)
 https://blog.csdn.net/Fine_Cui/article/details/124713766
 
-28. spring boot 静态文件映射
+1.  spring boot 静态文件映射
 ```java 
 WebMvcConfiguration.java
 
