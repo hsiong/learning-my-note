@@ -4,6 +4,7 @@
 - [vscode commit msg](#vscode-commit-msg)
 - [GIT push, HTTP code = 502 error](#git-push-http-code--502-error)
 - [idea新建项目上传到git](#idea新建项目上传到git)
+- [git change user-name](#git-change-user-name)
 
 <!-- # 一.常见问题 -->
 
@@ -58,3 +59,9 @@ https://blog.csdn.net/woyizhizaizhaoni/article/details/90436721
 + then revert file local change
 + commit to github
 + push ~
+
+# git change user-name
+1. show username   
+   git config --global user.name
+2. change username 
+   git config --global user.name "new name" 
