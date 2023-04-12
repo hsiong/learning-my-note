@@ -56,3 +56,19 @@ https://www.zhihu.com/question/21143701
 # git idea local change 怎么打开
 https://blog.csdn.net/comeilmforever/article/details/107753783
 
+# mac 彻底删除 idea
+```
+打开终端, 删除以下和 webstorm 以及 Jetbrain 相关的所有文件夹
+cd ~/Library/Preferences/
+ls 查看该目录下所有App文件夹,找到webstrom的文件夹(我的是WebStrom2018.3)
+rm -rf WebStrom2018.3
+cd ~/Library/Caches/
+ls 查看该目录下所有App文件夹,找到webstrom的文件夹(我的是WebStrom2018.3)
+rm -rf WebStrom2018.3
+cd ~/Library/Application Support/
+ls 查看该目录下所有App文件夹,找到webstrom的文件夹(我的是WebStrom2018.3)
+rm -rf WebStrom2018.3
+~/Library/Logs/
+ls 查看该目录下所有App文件夹,找到webstrom的文件夹(我的是WebStrom2018.3)
+rm -rf WebStrom2018.3
+```
