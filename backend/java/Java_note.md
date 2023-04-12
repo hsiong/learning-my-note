@@ -219,3 +219,10 @@ List<String> stringList = Arrays.asList("a", "b", "c");
 3. () 匹配一段话
 
 > [表达式 "(go\s*)+" 在匹配 "Let's go go go!" 时](http://www.regexlab.com/zh/workshop.htm?pat=(go\s*)%2B&txt=Let's go go go!)，匹配结果是：成功；匹配到内容是："go go go"；匹配到的位置是：开始于6，结束于14。
+
+4. 浅谈Java Matcher对象中find()与matches()的区别。
+https://zhuanlan.zhihu.com/p/142846161
+
+find()：是否存在与该模式匹配的下一个子序列。简单来说就是在字符某部分匹配上模式就会返回true，同时匹配位置会记录到当前位置，再次调用时从该处匹配下一个。
+
+matches()：整个字符串是否匹配上模式，匹配上则返回true，否则false。
