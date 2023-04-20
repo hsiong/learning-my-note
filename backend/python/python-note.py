@@ -26,3 +26,7 @@ if name == 'python':         # 判断变量是否为 python
     print 'welcome boss'     # 并输出欢迎信息
 else:
     print name               # 条件不成立时输出变量名称
+
+
+# check array not null
+if not X is None
