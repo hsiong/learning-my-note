@@ -119,6 +119,10 @@ jar cvf weibosdkcore.jar *: 全部压缩；
 + 解压包：
 jar xvf test.jar
 
+# unzip multi file
+cd dir
+unzip \*.zip
+
 # count file
 ## count file this dir(including child dir)
 ls -lR| grep "^-" | wc -l
