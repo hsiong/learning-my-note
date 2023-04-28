@@ -28,9 +28,12 @@ docker info
 # }
 sudo docker stop nginx
 sudo docker rm nginx
-sudo docker run --name nginx -p 80:80 \
--v /root/config/nginx/:/etc/nginx/conf.d/ \
--v /root/download:/usr/share/nginx/download \
+docker run --name nginx \
+-p 80:80 \
+-p 443:443 \
+-v ~/config/nginx/conf:/etc/nginx/conf.d/ \
+-v ~/download:/usr/share/nginx/download \
+-v ~/config/nginx/html:/usr/share/nginx/html/ \
 -d nginx
 
 ## docker - postgres 
