@@ -168,10 +168,10 @@ public interface ImageEntityRepository extends CrudRepository<ImageEntity, Long>
         </dependency>
 ```
 
-1.  jwt - The specified key byte array is 40 bits which is not secure enough for any JWT HMAC-SHA algorithm.  The JWT JWA Specification (RFC 7518, Section 3.2)
+28.  jwt - The specified key byte array is 40 bits which is not secure enough for any JWT HMAC-SHA algorithm.  The JWT JWA Specification (RFC 7518, Section 3.2)
 https://blog.csdn.net/Fine_Cui/article/details/124713766
 
-1.  spring boot 静态文件映射
+29.  spring boot 静态文件映射
 ```java 
 WebMvcConfiguration.java
 
@@ -182,19 +182,23 @@ registry.addResourceHandler("/static/**")
 
 ```
 
-29. springboot接口入参下划线转驼峰以及返回参数驼峰转下划线实现
+30. springboot接口入参下划线转驼峰以及返回参数驼峰转下划线实现
 https://www.cnblogs.com/newAndHui/p/14767675.html
 + 响应结果的时候(驼峰转为下划线)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 
+31. java JVM 优化
+ -Xms64m -Xmx256m -Xmn64m  -Xss64k 
+ + 
+
 + 传入参数, 不考虑
 
-30. java list 初始化赋值
+1.  java list 初始化赋值
 ```
 List<String> stringList = Arrays.asList("a", "b", "c");
 ```
 
-31. java listener 中, 不会显示异常, 需要手动捕获异常
+1.  java listener 中, 不会显示异常, 需要手动捕获异常
 
 # java reg
 > Referenece
