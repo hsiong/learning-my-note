@@ -33,16 +33,6 @@ https://www.ideaworks.club/?p=1483
 
 
 
-
-
-
-
-
-
-
-
-
-
 Example 89. A repository using a dynamic projection parameter
 interface PersonRepository extends Repository<Person, UUID> {
 
