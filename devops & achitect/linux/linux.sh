@@ -129,3 +129,7 @@ ls -lR| grep "^-" | wc -l
 
 ## count file this dir(not including child dir)
 ls -l | grep "^-" | wc -l
+
+# rank process by memory
+## USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+ps -aux | sort -k4nr | head -10
