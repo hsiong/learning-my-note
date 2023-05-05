@@ -130,6 +130,17 @@ ls -lR| grep "^-" | wc -l
 ## count file this dir(not including child dir)
 ls -l | grep "^-" | wc -l
 
-# rank process by memory
+# rank process
+## rank process by memory
 ## USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 ps -aux | sort -k4nr | head -10
+top M
+
+## rank process by cpu
+ps axu|sort -r -k3 |head -n 6
+
+# clean linux cache 
+su root
+echo 1 > /proc/sys/vm/drop_caches
+echo 2 > /proc/sys/vm/drop_caches
+echo 3 > /proc/sys/vm/drop_caches
