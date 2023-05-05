@@ -60,6 +60,9 @@ flush privileges;
 ### create database;
 CREATE DATABASE `name` CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+## docker - mysql5.7
+docker run -d -p 3306:3306 --name mysql5 --restart=always -e MYSQL_ROOT_PASSWORD=123456 -v ~/docker/mysql:/var/lib/mysql mysql:5.7.26
+
 ### mysql sync data ??? k8s 
 ansible ?
 
