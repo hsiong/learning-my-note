@@ -5,6 +5,7 @@
 - [GIT push, HTTP code = 502 error](#git-push-http-code--502-error)
 - [idea新建项目上传到git](#idea新建项目上传到git)
 - [git change user-name](#git-change-user-name)
+- [push exist file to new git repo](#push-exist-file-to-new-git-repo)
 
 <!-- # 一.常见问题 -->
 
@@ -65,3 +66,14 @@ https://blog.csdn.net/woyizhizaizhaoni/article/details/90436721
    git config --global user.name
 2. change username 
    git config --global user.name "new name" 
+
+# push exist file to new git repo
+idea git -> create repostory -> 选择当前项目
+项目下加入 .gitignore 文件
+项目右键  git -> add
+
+控制台命令(以epes为例)
+git commit -m "first commit"
+git remote add origin http://192.168.2.12:13000/KMBranch/Proj26-epes.git
+
+idea -> push
