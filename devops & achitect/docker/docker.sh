@@ -63,8 +63,21 @@ CREATE DATABASE `name` CHARACTER SET utf8 COLLATE utf8_general_ci;
 ### mysql sync data ??? k8s 
 ansible ?
 
+## docker - mongodb
+https://www.modb.pro/db/490157
+https://developer.aliyun.com/article/980637
 
-## docker - show log
+docker run --name mongodb \
+	-v ~/docker/mongodb:/data/db \
+	--restart=always \
+	-p 27017:27017 \
+	-e MONGO_INITDB_ROOT_USERNAME=root \
+	-e MONGO_INITDB_ROOT_PASSWORD=123456 \
+	-d mongo:4.0
+
+
+
+# docker - show log
 docker logs containerName
 
 ## docker - searchgit tag
