@@ -95,3 +95,39 @@ DROP INDEX plan_task_worker_index ON plan_task_worker;
 
 # show mysql version 
 show variables like '%version%' 
+
+# character set & COLLATE
+## "Incorrect string value" when trying to insert UTF-8 
+-- Change a database
+ALTER DATABASE [database_name] 
+  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci; 
+-- Change a table
+ALTER TABLE [table_name] 
+  CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+-- Change a column
+ALTER TABLE [table_name] 
+  CHANGE [column_name] [column_name] VARCHAR(255) 
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+## batch modify table collate
+### utf8mb4_unicode_ci or utf8mb4_general_ci
+1. first
+SELECT
+	CONCAT(
+		'ALTER TABLE ',
+		TABLE_NAME,
+		' CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;'
+	)
+FROM
+	information_schema.`TABLES`
+WHERE
+	TABLE_SCHEMA = 'DATABASE_NAME';
+
+2. paste and execute the code 
+
+## this is incompatible with DISTINCT
+## https://stackoverflow.com/questions/36829911/how-to-resolve-order-by-clause-is-not-in-select-list-caused-mysql-5-7-with-sel
+## http://xstarcd.github.io/wiki/MySQL/MySQL-sql-mode.html
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
