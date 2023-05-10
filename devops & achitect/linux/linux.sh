@@ -144,3 +144,9 @@ su root
 echo 1 > /proc/sys/vm/drop_caches
 echo 2 > /proc/sys/vm/drop_caches
 echo 3 > /proc/sys/vm/drop_caches
+
+# Get the Path of a Process By Process's name in Linux 
+for pid in $(ps -ef | grep 进程名称 | grep -v grep | awk '{print $2}')
+do
+    ls -l /proc/$pid/exe
+done
