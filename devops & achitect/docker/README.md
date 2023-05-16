@@ -146,7 +146,7 @@ docker run ubuntu:15.10 /bin/echo "Hello world"
   + `--name `标识来命名容器
   + `-h HOSTNAME 或者 --hostname=HOSTNAME` 设定容器的主机名, 写到容器内的 /etc/hostname 和 /etc/hosts 
   + `--dns=ip` 指定某容器的DNS, 如果在容器启动时没有指定 --dns 和 --dns-search，Docker 会默认用宿主主机上的 /etc/resolv.conf 来配置容器的 DNS
-  + `--restart=always imageName` 自动重启
+  + `--restart=always imageName` 自动重启; 如果已经启动了则可以使用如下命令： `docker update --restart=always <CONTAINER ID>`
   + `--privileged=true` 启动一个特权容器, 这样的容器可以访问主机的所有设备和文件系统，并能够执行一些需要较高权限的操作。
 + `docker start ContainerID`启动已停止运行的容器
    + `docker ps`这个命令, 展示所有存活的容器; 
