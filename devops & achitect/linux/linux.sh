@@ -66,8 +66,7 @@ https://www.runoob.com/linux/linux-shell-passing-arguments.html
 ## 按参数
 -a --along: getopt/getopts
 
-# system
-## show user 
+# system show user 
 awk -F: '{ print $1}' /etc/passwd
 
 # 详解linux下查看系统版本号信息的方法（总结）
@@ -145,8 +144,36 @@ echo 1 > /proc/sys/vm/drop_caches
 echo 2 > /proc/sys/vm/drop_caches
 echo 3 > /proc/sys/vm/drop_caches
 
-# Get the Path of a Process By Process's name in Linux 
-for pid in $(ps -ef | grep 进程名称 | grep -v grep | awk '{print $2}')
+# Get Process Path
+## Get the Path of a Process By its name
+for pid in $(ps -ef | grep process_name | grep -v grep | awk '{print $2}')
 do
     ls -l /proc/$pid/exe
 done
+
+## Get the Path of a Process By its port
+for pid in $(sudo lsof -i:process_port | awk '{print $2}')
+do
+    sudo ls -l /proc/$pid/exe
+done
+
+# apt
+## remove
+apt-get remove app
+
+## remove app & config
+apt-get purge app
+
+## remove all unused repo
+apt-get autoremove
+
+# service
+## stop/start/restart
+systemctl stop app
+
+## create a service
+https://medium.com/@benmorel/creating-a-linux-service-with-systemd-611b5c8b91d6
+
+## service path
+/usr/lib/systemd/system/ 
+/etc/systemd/system/
