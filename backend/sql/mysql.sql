@@ -111,7 +111,7 @@ ALTER TABLE [table_name]
 
 ## batch modify table collate
 ### utf8mb4_unicode_ci or utf8mb4_general_ci
-1. first
+### exec the code then paste & exec the result 
 SELECT
 	CONCAT(
 		'ALTER TABLE ',
@@ -123,11 +123,23 @@ FROM
 WHERE
 	TABLE_SCHEMA = 'DATABASE_NAME';
 
-2. paste and execute the code 
 
 ## this is incompatible with DISTINCT
 ## https://stackoverflow.com/questions/36829911/how-to-resolve-order-by-clause-is-not-in-select-list-caused-mysql-5-7-with-sel
 ## http://xstarcd.github.io/wiki/MySQL/MySQL-sql-mode.html
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
+# Mysql Thread
+# https://www.cnblogs.com/caoshousong/p/10845396.html
+## show thread
+show status like  'Threads%';
+
+## show max thread 
+show variables like '%max_connection%'; 
+
+## set max thread
+set global max_connections=1000;        重新设置最大连接数
+
+
 
