@@ -112,3 +112,7 @@ docker run -d --name dkyvue -p 3100:80 dkyvue:0.1
 docker ps
 exit
 remotessh
+
+## docker clear log 
+echo "" > $(docker inspect --format='{{.LogPath}}' container_name_or_id)
+docker restart container_name_or_id
