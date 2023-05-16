@@ -34,3 +34,6 @@ return 301 https://$host$request_uri;
     add_header Access-Control-Allow-Methods GET,POST,OPTIONS;
 ```
 
+# nginx config
+nginx -t
+
