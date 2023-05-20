@@ -141,5 +141,14 @@ show variables like '%max_connection%';
 ## set max thread
 set global max_connections=1000;        重新设置最大连接数
 
+## change password
+set PASSWORD=PASSWORD('newPwd');
+plush privileges;
 
+## remote connect
+use mysql;
+select host,user from user;
+create user 'root'@'%' identified by 'newPwd';
 
+## grant remote user db
+GRANT privileges[SELECT,INSERT,ALL...] ON databasename.tablename[or *] TO 'username'@'%'
