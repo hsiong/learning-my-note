@@ -43,7 +43,9 @@ This is a proj from Docker base learning to Docker practice.
   - [Docker 指定时区](#docker-指定时区)
   - [docker 网桥](#docker-网桥)
   - [docker 修改国内源](#docker-修改国内源)
-  - [](#)
+  - [docker 追加参数](#docker-追加参数)
+    - [追加自启动](#追加自启动)
+    - [利用docker commit新构镜像](#利用docker-commit新构镜像)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -195,7 +197,8 @@ docker run ubuntu:15.10 /bin/echo "Hello world"
 docker 有一个连接系统`允许将多个容器连接在一起`，共享连接信息。创建一个父子关系，其中父容器可以看到子容器的信息。  
 步骤如下: 
 
-1. 新建网络 test-net `$ docker network create -d bridge test-net`
+1. 新建网络 test-net 
+`$ docker network create -d bridge test-net`
 > 参数说明：
 > + -d：参数指定 Docker 网络类型，有 bridge、overlay。其中 overlay 网络类型用于 Swarm mode，目前可以忽略它。
 
@@ -674,10 +677,50 @@ sudo service docker restart
 docker restart nginx, ...
 
 
-## 
+## docker 追加参数
+### 追加自启动
+docker update container_name --restart=always
 
+### 利用docker commit新构镜像
++ 停止docker容器
+docker stop container01
 
++ commit该docker容器
+docker commit container01 new_image:tag
 
++ 删除原有容器 
+docker rm container01
+
++ 用前一步新生成的镜像重新起一个容器, 同时重写参数
+docker run -d --name container02 -p 80:80 new_image:tag
+
++ 删除原有镜像
+docker rmi old_image:tag
+> 注意: old_image与新镜像有冲突, 所以不可用 imageId 直接删除
+> 否则报错 Error response from daemon: conflict: unable to delete 33037edcac9b (cannot be forced) - image has dependent child images
+
+例子如下: 
+```
+docker stop mysql
+docker commit mysql mysql8:v2
+docker rm mysql
+docker run -d --name mysql \
+-p 3306:3306 \
+-e lower_case_table_names=1 \
+--network test-net \
+mysql8:v2
+> Error response from daemon: conflict: unable to delete 33037edcac9b (cannot be forced) - image has dependent child images
+docker rmi mysql8:v1
+
+docker stop redis
+docker commit redis redis:v2
+docker rm redis
+docker run -d --name redis \
+-p 6379:6379 \
+--network test-net \
+redis:v2
+docker rmi redis:v1
+```
 
 
 
