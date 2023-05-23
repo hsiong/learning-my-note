@@ -46,6 +46,10 @@ docker exec -it --user root <container id> /bin/bash
 
 ## docker - redis 
 docker run -d --name myredis -p 6379:6379 redis --requirepass "mypassword"
+###  redis change pwd
+docker exec -it myredis /bin/bash
+redis-cli -h 127.0.0.1 -p 6379 -a "mypassword"
+config set requirepass new_pwd
 
 ## docker - mysql
 docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql:8.0.29
