@@ -48,12 +48,11 @@ docker exec -it --user root <container id> /bin/bash
 docker run -d --name myredis -p 6379:6379 redis --requirepass "mypassword"
 
 ## docker - mysql
-SELECT version();
 docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql:8.0.29
 docker exec -it mysql /bin/bash
+mysql -h localhost -u root -p
 ### change pwd
-mysql -h localhost -u root -p 123456
-UPDATE user SET authentication_string = PASSWORD('newPwd') WHERE user = 'root';
+set password for root@% = password(‘newPwd’); 
 ### create user
 CREATE USER '用户名'@'%' IDENTIFIED BY '密码';
 flush privileges;
