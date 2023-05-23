@@ -7,6 +7,8 @@ sudo systemctl start docker.service && sudo systemctl enable docker.service
 
 vim /etc/docker/daemon.json
 
+docker network create -d bridge test-net
+
 ## 查看配置 
 docker info
 
@@ -34,29 +36,44 @@ docker run --name nginx \
 -v ~/config/nginx/conf:/etc/nginx/conf.d/ \
 -v ~/download:/usr/share/nginx/download \
 -v ~/config/nginx/html:/usr/share/nginx/html/ \
+--network test-net \
 -d nginx
 
 ## docker - postgres 
-docker run -d --name postgres -p 5432:5432 -e POSTGRES_USER=usr -e POSTGRES_PASSWORD=pwd kartoza/postgis
+docker run -d \
+--name postgres \
+-p 5432:5432 \
+-e POSTGRES_USER=usr \
+-e POSTGRES_PASSWORD=pwd \
+kartoza/postgis
 
 docker exec -it -u postgres postgres psql -U postgres
 
 docker exec -it --user root <container id> /bin/bash
 
-
 ## docker - redis 
-docker run -d --name myredis -p 6379:6379 redis --requirepass "mypassword"
+docker run -d \
+--name myredis \
+-p 6379:6379 \
+--network test-net \
+redis --requirepass "mypassword"
 ###  redis change pwd
 docker exec -it myredis /bin/bash
 redis-cli -h 127.0.0.1 -p 6379 -a "mypassword"
 config set requirepass new_pwd
 
-## docker - mysql
-docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql:8.0.29
+## docker - mysql 8.0
+docker run -d \
+--name mysql \
+-p 3306:3306 \
+-e MYSQL_ROOT_PASSWORD=123456 \
+-e lower_case_table_names=1 \
+--network test-net \
+mysql:8.0.29
 docker exec -it mysql /bin/bash
 mysql -h localhost -u root -p
 ### change pwd
-set password for root@% = password(‘newPwd’); 
+ALTER USER root@'%' IDENTIFIED BY 'newPwd';
 ### create user
 CREATE USER '用户名'@'%' IDENTIFIED BY '密码';
 flush privileges;
