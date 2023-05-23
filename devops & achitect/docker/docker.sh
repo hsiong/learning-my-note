@@ -63,6 +63,7 @@ redis-cli -h 127.0.0.1 -p 6379 -a "mypassword"
 config set requirepass new_pwd
 
 ## docker - mysql 8.0
+### e lower_case_table_names=1, Docker MySQL 容器中的数据库表名、列名等内容将不区分大小写。
 docker run -d \
 --name mysql \
 -p 3306:3306 \
