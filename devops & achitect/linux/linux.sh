@@ -177,3 +177,27 @@ https://medium.com/@benmorel/creating-a-linux-service-with-systemd-611b5c8b91d6
 ## service path
 /usr/lib/systemd/system/ 
 /etc/systemd/system/
+
+## apt install telnet
+apt-get update
+apt-get install telnet
+telnet ip port
+
+## apt install ping
+apt-get update & apt install iputils-ping
+
+## apt too slow(not support docker)
+echo > /etc/apt/sources.list
+
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >  /etc/apt/sources.list
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >>  /etc/apt/sources.list
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >>  /etc/apt/sources.list
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >>  /etc/apt/sources.list
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >>  /etc/apt/sources.list
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >>  /etc/apt/sources.list
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >>  /etc/apt/sources.list
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >>  /etc/apt/sources.list
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >>  /etc/apt/sources.list
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >>  /etc/apt/sources.list
+
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $your-miss-key
