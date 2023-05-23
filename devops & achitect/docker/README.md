@@ -215,11 +215,18 @@ $ docker run -d --name test2 --network test-net ubuntu
 docker exec -it test1 ping test2  
 docker exec -it test2 ping test1  
 ```
+搭建 名为 test-net  的 docker 网桥, 实现容器互联, 同理, 在容器内, 各容器互联通过 网络别名(容器名) 实现, 
+> The host [dky_edge:8083] is not valid: The character [_] is never valid in a domain name.
+> 容器名不能有下划线
+
+
+4. 查看已有网桥 `docker network ls`
 
 +  如果 test1、test2 容器内中无 ping 命令，则在容器内执行以下命令安装 ping。参考 [2.2 创建个人镜像](#22-创建个人镜像) 在一个容器里安装好 ping 指令，提交容器到镜像，再以新的镜像运行多个容器, 避免重复安装
 ```
 apt-get update & apt install iputils-ping
 ```
+
 
 > 实际开发中, 如果有多个容器之间需要互相连接，推荐使用 Docker Compose
 
