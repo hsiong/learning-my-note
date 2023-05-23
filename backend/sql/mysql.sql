@@ -152,3 +152,6 @@ create user 'root'@'%' identified by 'newPwd';
 
 ## grant remote user db
 GRANT privileges[SELECT,INSERT,ALL...] ON databasename.tablename[or *] TO 'username'@'%'
+
+
+## 
