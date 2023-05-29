@@ -866,6 +866,9 @@ spring maven管理主要是两个标签 `scope` 与 `optional`
   + false: 默认值, 子项目继承父项目依赖, 版本默认使用 spring boot 的自动版本仲裁机制, 或者手动指定版本
   + true: 子项目不继承父项目依赖且版本与当前项目保持一致
 
+3. 注意, 单体应用启动后, 同名依赖只会加载一个版本
+maven处理重复依赖不同版本的方式如链接所示, https://blog.csdn.net/lishe9452/article/details/119146586
+
 在实际使用中, 我推荐您使用以下三个组合
 ```
 <!--
@@ -896,6 +899,7 @@ spring maven管理主要是两个标签 `scope` 与 `optional`
 
 > 请您千万不要图省事, 使用 spring 的默认配置, 那样的直接后果就是
 > search `google.com` -> 3:00 am
+
 
 
 # 第六章 Spring-cloud-alibaba
