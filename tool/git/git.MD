@@ -6,6 +6,7 @@
 - [idea新建项目上传到git](#idea新建项目上传到git)
 - [git change user-name](#git-change-user-name)
 - [push exist file to new git repo](#push-exist-file-to-new-git-repo)
+- [git pr command](#git-pr-command)
 
 <!-- # 一.常见问题 -->
 
@@ -77,3 +78,9 @@ git commit -m "first commit"
 git remote add origin http://192.168.2.12:13000/KMBranch/Proj26-epes.git
 
 idea -> push
+
+# git pr command
+idea pull, idea commit
+
+git branch hsiong;
+git push origin hsiong;
