@@ -25,6 +25,7 @@ This is a proj from Docker base learning to Docker practice.
   - [3.2 构建对象](#32-构建对象)
   - [3.3 复制文件或者目录到容器里指定路径](#33-复制文件或者目录到容器里指定路径)
   - [3.4 ADD指令](#34-add指令)
+  - [WORKDIR \& VOLUME](#workdir--volume)
 - [第四章 Docker仓库管理](#第四章-docker仓库管理)
   - [4.1 推送镜像至 Docker 仓库或者阿里云仓库](#41-推送镜像至-docker-仓库或者阿里云仓库)
   - [4.2 搭建本地私有 Docker 仓库](#42-搭建本地私有-docker-仓库)
@@ -485,6 +486,10 @@ ADD ubuntu-xenial-core-cloudimg-amd64-root.tar.gz /
 > 
 > 另外需要注意的是，ADD 指令会令镜像构建缓存失效，从而可能会令镜像构建变得比较缓慢。
 
+## WORKDIR & VOLUME
++ VOLUME defines a path in the container that Docker exposes to the host system and mapped using the -v argument when running a container.
+
++ WORKDIR changes the active directory of the container to a specified location, in case you need to run commands from or in a particular location.
 
 
 # 第四章 Docker仓库管理
