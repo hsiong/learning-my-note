@@ -72,3 +72,8 @@ rm -rf WebStrom2018.3
 ls 查看该目录下所有App文件夹,找到webstrom的文件夹(我的是WebStrom2018.3)
 rm -rf WebStrom2018.3
 ```
+
+# mac 修改快捷键 
+https://www.zhihu.com/question/381319396
+
+System Preference -> Keyboard Shortcut -> App Shortcut -> 
