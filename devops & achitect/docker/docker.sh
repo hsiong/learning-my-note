@@ -53,12 +53,12 @@ docker exec -it --user root <container id> /bin/bash
 
 ## docker - redis 
 docker run -d \
---name myredis \
+--name redis \
 -p 6379:6379 \
 --network test-net \
 redis --requirepass "mypassword"
 ###  redis change pwd
-docker exec -it myredis /bin/bash
+docker exec -it redis /bin/bash
 redis-cli -h 127.0.0.1 -p 6379 -a "mypassword"
 config set requirepass new_pwd
 
@@ -68,10 +68,11 @@ docker run -d \
 --name mysql \
 -p 3306:3306 \
 -e MYSQL_ROOT_PASSWORD=123456 \
--e lower_case_table_names=1 \
 --network test-net \
-mysql:8.0.29
+mysql:8.0.29 --lower_case_table_names=1
+
 docker exec -it mysql /bin/bash
+
 mysql -h localhost -u root -p
 ### change pwd
 ALTER USER root@'%' IDENTIFIED BY 'newPwd';
@@ -82,7 +83,14 @@ flush privileges;
 CREATE DATABASE `name` CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 ## docker - mysql5.7
-docker run -d -p 3306:3306 --name mysql5 --restart=always -e MYSQL_ROOT_PASSWORD=123456 -v ~/docker/mysql:/var/lib/mysql mysql:5.7.26
+docker run -d \
+-p 3306:3306 \
+--name mysql5 \
+--restart=always \
+-e MYSQL_ROOT_PASSWORD=123456 \
+--network test-net \
+-v ~/docker/mysql:/var/lib/mysql \
+mysql:5.7.26 --lower_case_table_names=1
 
 ### mysql sync data ??? k8s 
 ansible ?
