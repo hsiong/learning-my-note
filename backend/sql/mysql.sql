@@ -154,4 +154,5 @@ create user 'root'@'%' identified by 'newPwd';
 GRANT privileges[SELECT,INSERT,ALL...] ON databasename.tablename[or *] TO 'username'@'%'
 
 
-## 
+## SHOW lower case
+show global variables like '%lower_case%';
