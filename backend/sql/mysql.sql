@@ -156,3 +156,18 @@ GRANT privileges[SELECT,INSERT,ALL...] ON databasename.tablename[or *] TO 'usern
 
 ## SHOW lower case
 show global variables like '%lower_case%';
+
+## MySQL 报Public Key Retrieval is not allowed 错误问题解决
+https://blog.csdn.net/qq_48234103/article/details/120769173
+
+docker exec -it mysql /bin/bash
+mysql -u root -p
+use mysql
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '密码';
+
+
+## MySQL数据库中删除not null约束的方法
+ALTER TABLE 表名 MODIFY COLUMN 字段名 column_type NULL
+
+
+
