@@ -42,6 +42,14 @@ local_ip = 127.0.0.1
 local_port = 8083
 # 二级域名名称
 subdomain = test1
+
+[test2]
+type = tcp
+# 本地 web server 端口
+local_ip = 127.0.0.1
+local_port = 8083
+# 自定义的访问内部ssh端口号
+remote_port = 6000      
 ```
 
 ```shell
