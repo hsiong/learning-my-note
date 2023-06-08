@@ -169,5 +169,6 @@ ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '密码';
 ## MySQL数据库中删除not null约束的方法
 ALTER TABLE 表名 MODIFY COLUMN 字段名 column_type NULL
 
-
+## delete foreign key
+alter table tableName drop foreign key foreignKeyName;
 
