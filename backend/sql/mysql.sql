@@ -172,3 +172,37 @@ ALTER TABLE 表名 MODIFY COLUMN 字段名 column_type NULL
 ## delete foreign key
 alter table tableName drop foreign key foreignKeyName;
 
+## multi structure
+SELECT *,
+       (
+           SELECT JSON_ARRAYAGG(JSON_OBJECT(
+                   'create_time', i.create_time,
+                   'create_by', i.create_by,
+                   'update_time', i.update_time,
+                   'update_by', i.update_by,
+                   'del_flag', i.del_flag,
+                   'tenant_id', i.tenant_id,
+                   'name', i.name,
+                   'sort', i.sort,
+                   'level', i.level,
+                   'id', i.id,
+                   'childrenList', (SELECT JSON_ARRAYAGG(JSON_OBJECT(
+                           'create_time', t.create_time,
+                           'create_by', t.create_by,
+                           'update_time', t.update_time,
+                           'update_by', t.update_by,
+                           'del_flag', t.del_flag,
+                           'tenant_id', t.tenant_id,
+                           'name', t.name,
+                           'sort', t.sort,
+                           'level', t.level,
+                           'id', t.id
+                       ))
+                                    FROM maintenance_catalog t
+                                    WHERE t.parent_id = i.id)
+               ))
+           FROM maintenance_catalog i
+           WHERE i.parent_id = g.id
+       ) AS childrenList
+FROM maintenance_catalog g
+WHERE g.level = 0;
