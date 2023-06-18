@@ -56,6 +56,7 @@ docker run -d \
 --name redis \
 -p 6379:6379 \
 --network test-net \
+--restart=always \
 redis --requirepass "mypassword"
 ###  redis change pwd
 docker exec -it redis /bin/bash
@@ -69,6 +70,7 @@ docker run -d \
 -p 3306:3306 \
 -e MYSQL_ROOT_PASSWORD=123456 \
 --network test-net \
+--restart=always \
 mysql:8.0.29 --lower_case_table_names=1
 
 docker exec -it mysql /bin/bash
@@ -91,6 +93,36 @@ docker run -d \
 --network test-net \
 -v ~/docker/mysql:/var/lib/mysql \
 mysql:5.7.26 --lower_case_table_names=1
+
+### docker mysql optimize memory
+https://blog.csdn.net/qq_39449880/article/details/125887603
+
++ planA: 
+docker container =>
+-v ~/config/mysql:/etc/mysql/conf.d
+cd ~/config/mysql
+vim docker.cnf
+[mysqld]
+performance_schema_max_table_instances=400  
+table_definition_cache=400    #缓存
+performance_schema=off    #用于监控MySQL server在一个较低级别的运行过程中的资源消耗、资源东西
+table_open_cache=64    #打开表的缓存
+innodb_buffer_pool_chunk_size=64M    #InnoDB缓冲池大小调整操作的块大小
+innodb_buffer_pool_size=64M    #InnoDB 存储引擎的表数据和索引数据的最大内存缓冲区大小
+
+docker restart mysql
+
++ planB:
+docker exec -it mysql /bin/bash
+cd /etc/mysql/conf.d
+touch docker.cnf
+echo `[mysqld]
+performance_schema_max_table_instances=400  
+table_definition_cache=400    #缓存
+performance_schema=off    #用于监控MySQL server在一个较低级别的运行过程中的资源消耗、资源东西
+table_open_cache=64    #打开表的缓存
+innodb_buffer_pool_chunk_size=64M    #InnoDB缓冲池大小调整操作的块大小
+innodb_buffer_pool_size=64M    #InnoDB 存储引擎的表数据和索引数据的最大内存缓冲区大小` >> docker.cnf
 
 ### mysql sync data ??? k8s 
 ansible ?
