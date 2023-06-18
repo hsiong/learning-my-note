@@ -23,7 +23,10 @@ java-review-for-audition
     - [1.5.4 Java 线程池工作过程](#154-java-线程池工作过程)
     - [1.5.5 常用的线程池类型(cache, fixed, single, schedule)](#155-常用的线程池类型cache-fixed-single-schedule)
   - [1.6 对象, 反射, 泛型](#16-对象-反射-泛型)
-  - [1.7](#17)
+  - [1.7 stream 流式操作](#17-stream-流式操作)
+    - [flatmap](#flatmap)
+  - [1.8 函数式编程](#18-函数式编程)
+  - [1.9 Predicate 断言](#19-predicate-断言)
   - [1.x3 FastJson](#1x3-fastjson)
   - [1.xx 问题](#1xx-问题)
     - [抽象类和接口的区别有哪些](#抽象类和接口的区别有哪些)
@@ -350,7 +353,23 @@ Reference:
 
 jad; jclasslib;  type erase 
 
-## 1.7 
+## 1.7 stream 流式操作
+### flatmap
++ https://www.geeksforgeeks.org/stream-flatmap-java-examples/  
++ https://openhome.cc/zh-tw/java/functional-api/flatmap/  
+```
+        List<String> violationList = sosInfoDTOS.stream()
+                                                .filter(i -> ObjectUtil.isNotEmpty(i.getMsgInfo()))
+                                                .flatMap(i -> Arrays.asList(i.getMsgInfo().split(",")).stream())
+                                                .distinct()
+                                                .collect(Collectors.toList());
+```
+
+## 1.8 函数式编程
+https://zyb0408.github.io/gitbooks/onjava8/docs/book/13-Functional-Programming.html#Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F
+
+## 1.9 Predicate 断言
+https://www.jianshu.com/p/5988b22f45dd
 
 ## 1.x3 FastJson
 1. 在 fastJson DefaultJSONParser.parse() 中              
@@ -1044,6 +1063,8 @@ knife4j v3 add header (4.0.0 bug)
          * name: 即变量名toString 如RequestMethod.GET.name()即为"name"
          * ordinal: 在enum类中的顺序, 从0开始
          */
+
+  enum 获取索引位置: ConstantEnum.values()[i].ordinal()
 ```
 3. 对象必须做非空判断, 避免NPE
 4. list或分页不要使用copyproperties方法, 在一定数量的时候, copyproperties会导致查询很慢; 建议使用mapper查询直接返回vo, 在vo中直接set值
