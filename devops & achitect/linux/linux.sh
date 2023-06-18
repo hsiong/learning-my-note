@@ -138,7 +138,7 @@ top M
 ## rank process by cpu
 ps axu|sort -r -k3 |head -n 6
 
-# clean linux cache 
+# clean linux buff/cache
 su root
 echo 1 > /proc/sys/vm/drop_caches
 echo 2 > /proc/sys/vm/drop_caches
