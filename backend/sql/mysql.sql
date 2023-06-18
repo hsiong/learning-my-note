@@ -54,7 +54,7 @@ ALTER TABLE t_user ADD CONSTRAINT PK_ID PRIMARY KEY(user_id);
 ALTER TABLE t_user DROP PRIMARY KEY;
 
 ## delete column
-ALTER TABLE <表名> DROP <字段名>；
+ALTER TABLE tableName DROP columnName；
 
 ## mysql json json_agg
 ## https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_json-objectagg
