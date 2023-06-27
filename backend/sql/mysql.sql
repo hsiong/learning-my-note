@@ -206,3 +206,9 @@ SELECT *,
        ) AS childrenList
 FROM maintenance_catalog g
 WHERE g.level = 0;
+
+# window function
+SELECT DISTINCT 
+       t.project_name, 
+MAX(t.type) OVER (PARTITION BY t.id)
+FROM tableName;
