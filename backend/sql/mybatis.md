@@ -31,7 +31,8 @@ https://www.tabnine.com/code/java/classes/com.baomidou.mybatisplus.annotation.Ta
 	private LocalDateTime deleteAt;
 ```
 
-
+3.cannot parse mysql column in JSON_OBJECT function 
+https://github.com/JSQLParser/JSqlParser/issues/1504
 
 
 
