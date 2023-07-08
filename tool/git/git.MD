@@ -7,6 +7,7 @@
 - [git change user-name](#git-change-user-name)
 - [push exist file to new git repo](#push-exist-file-to-new-git-repo)
 - [git pr command](#git-pr-command)
+- [not a git repository (or any of the parent directories): .git](#not-a-git-repository-or-any-of-the-parent-directories-git)
 
 <!-- # 一.常见问题 -->
 
@@ -84,3 +85,12 @@ idea pull, idea commit
 
 git branch hsiong;
 git push origin hsiong;
+
+# not a git repository (or any of the parent directories): .git
+If occurred this issue by mistakenly deleting the .git directory, I recommend run the code blow
+```shell 
+git clone <repo_path>
+
+# then copy the new .git dir to the old repository dir
+
+```
