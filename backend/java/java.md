@@ -8,6 +8,7 @@ java-review-for-audition
 - [第一章 Java](#第一章-java)
   - [1.1 基础类型](#11-基础类型)
   - [1.2 访问控制修饰符](#12-访问控制修饰符)
+  - [java使用this关键字调用本类重载构造器](#java使用this关键字调用本类重载构造器)
   - [1.3 Map](#13-map)
     - [1.3.1 Map的实现类](#131-map的实现类)
   - [1.4 Iterator](#14-iterator)
@@ -80,9 +81,10 @@ java-review-for-audition
 - [第十四章 网络开发](#第十四章-网络开发)
   - [14.1 OSI七层模型](#141-osi七层模型)
   - [14.2 网络协议](#142-网络协议)
-  - [](#)
+  - [排序/查找算法](#排序查找算法)
+  - [零拷贝/DMA](#零拷贝dma)
 - [swagger](#swagger)
-- [](#-1)
+- [](#)
   - [1.x Java经验](#1x-java经验)
   - [保持好的对接习惯](#保持好的对接习惯)
 
@@ -143,6 +145,11 @@ public class Test2 extends MyObject2 {
 ```
 对于(1)而言，clone()方法来自于类MyObject2本身，因此其可见性为包p2及MyObject2的子类，虽然Test2是MyObject2的子类，但在Test2中不能访问基类MyObject2的protected方法clone()，因此编译不通过;对于(2)而言，由于在Test2中访问的是其本身实例的从基类MyObject2继承来的的clone()，因此编译通过。
 
+## java使用this关键字调用本类重载构造器
+https://www.cnblogs.com/wanghongyun/p/6132083.html
+```java
+this(name,"男");
+```
 
 ## 1.3 Map
 ### 1.3.1 Map的实现类
@@ -1011,7 +1018,7 @@ maven处理重复依赖不同版本的方式如链接所示, https://blog.csdn.n
 |蓝牙BLE4.0|||
 ||||
 
-##
+## 排序/查找算法
 
 锁
 查找
@@ -1019,6 +1026,9 @@ maven处理重复依赖不同版本的方式如链接所示, https://blog.csdn.n
 KMP
 数据结构
 nop rl dl slam
+
+## 零拷贝/DMA
+https://juejin.cn/post/7016498891365302302
 
 # swagger
 knife4j v3 add header (4.0.0 bug)
