@@ -37,3 +37,5 @@ return 301 https://$host$request_uri;
 # nginx config
 nginx -t
 
+# stop nginx
+systemctl stop nginx
