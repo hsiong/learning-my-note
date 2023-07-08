@@ -20,6 +20,9 @@ CREATE TABLE table_name
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT ='table_comment';
 
+## rename database 
+dump data, then drop database, create new database
+
 ## rename table
 ALTER TABLE old_table_name RENAME TO new_table_name;
 
