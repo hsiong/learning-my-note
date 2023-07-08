@@ -201,3 +201,7 @@ echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted uni
 echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >>  /etc/apt/sources.list
 
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $your-miss-key
+
+# cp dir, not cp file
+find sourceDir -type d -exec mkdir aimDir/{} \; 
+
