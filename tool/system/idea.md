@@ -3,6 +3,9 @@ https://blog.51cto.com/u_15344989/4762223
 
 advanced setting -> Maximum number of results to show in Find in Path/Show Usages preview: 100 -> 10000
 
+## Code Completion
+https://www.cnblogs.com/javastack/p/11230120.html
+
 # Jrebel
 
 ## Jrebel 4.2 
@@ -16,3 +19,4 @@ rm -rf ~/.jrebel
 
 ## Jrebel Startup Guide
 update to Jrebel 4.2
+
