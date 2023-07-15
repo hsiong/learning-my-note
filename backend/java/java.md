@@ -360,6 +360,15 @@ Reference:
 
 jad; jclasslib;  type erase 
 
+* java根据类名反射创建对象 java通过反射创建对象
+https://blog.51cto.com/u_13259/6482348
+``` java
+      Constructor constructor = i.getClass().getConstructor();
+      constructor.setAccessible(true);
+      test = (Test) constructor.newInstance();
+```
+
+
 ## 1.7 stream 流式操作
 ### flatmap
 + https://www.geeksforgeeks.org/stream-flatmap-java-examples/  
@@ -851,6 +860,30 @@ Sorted Set
 14. 
 ![image](https://user-images.githubusercontent.com/37357447/150462539-dd732910-266a-4f9c-bb06-71924f43108d.png)
 15. shiro 如果想用全局异常捕获处理shiro异常, 在JwtFilter-executeLogin方法中使用try-catch-throw即可; 否则会自动抛出AuthenticationException异常, 而交给spring-filter容器处理
+16. 在代码中 获取项目名
+``` java
+    @Autowired
+    ServletContext servletContext;
+
+    @RequestMapping("/project-name")
+    public void getProjectName(HttpServletResponse response) throws IOException {
+        String projectName = servletContext.getContextPath();
+        response.getWriter().write("Project Name: " + projectName);
+    }
+  
+```
+17.  spring validation
+```
+https://blog.csdn.net/kylin_tam/article/details/116276610
+@Min => num
+
+@Max => num
+
+@Size(min=, max=) => list
+
+@Length(min=, max=) => String
+```
+18. java 实现断点传输: https://blog.csdn.net/u011250186/article/details/128322350
 
 
 ## 5.xx Spring 中的 maven 冲突与管理
@@ -925,7 +958,6 @@ maven处理重复依赖不同版本的方式如链接所示, https://blog.csdn.n
 
 > 请您千万不要图省事, 使用 spring 的默认配置, 那样的直接后果就是
 > search `google.com` -> 3:00 am
-
 
 
 # 第六章 Spring-cloud-alibaba
