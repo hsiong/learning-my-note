@@ -215,3 +215,15 @@ SELECT DISTINCT
        t.project_name, 
 MAX(t.type) OVER (PARTITION BY t.id)
 FROM tableName;
+
+# distinguish varchar/char/text
+https://joyohub.com/2020/07/04/mysql/mysql-string/
+
+Considering system performance, we do not suggest using text TYPE in mysql
+
+Query effiency: char > varchar > text
+
+
+
+
+
