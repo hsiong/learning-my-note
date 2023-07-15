@@ -9,6 +9,9 @@ vim /etc/docker/daemon.json
 
 docker network create -d bridge test-net
 
+## centOS docker
+https://yeasy.gitbook.io/docker_practice/install/centos
+
 ## 查看配置 
 docker info
 
