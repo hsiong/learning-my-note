@@ -183,6 +183,9 @@ apt-get update
 apt-get install telnet
 telnet ip port
 
+### centos install telnet
+yum install telnet
+
 ## apt install ping
 apt-get update & apt install iputils-ping
 
