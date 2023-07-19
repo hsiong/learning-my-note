@@ -36,3 +36,4 @@
 
 
 
++ rfc标准文档 https://www.rfc-editor.org/rfc/bcp/bcp47.txt
