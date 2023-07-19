@@ -32,8 +32,17 @@ alter  table table1 change column1 column1 varchar(100) DEFAULT 1.2 COMMENT '注
 
 
 ## change column default
-ALTER TABLE table2
-    ALTER COLUMN column2 SET DEFAULT 0;
+ALTER TABLE table2 ALTER COLUMN column2 SET DEFAULT 0;
+
+## change column type
+ALTER TABLE table2 ALTER COLUMN column2 column2_type;
+
+## delete column
+ALTER TABLE tableName DROP columnName；
+
+## add column
+ALTER TABLE tablename ADD columnName columnType constraints;
+
 
 ## change column constraints
 ### unique
@@ -55,9 +64,6 @@ ALTER TABLE t_user CHANGE user_id user_id INT(10) PRIMARY KEY;
 ALTER TABLE t_user ADD PRIMARY KEY(user_id);
 ALTER TABLE t_user ADD CONSTRAINT PK_ID PRIMARY KEY(user_id);
 ALTER TABLE t_user DROP PRIMARY KEY;
-
-## delete column
-ALTER TABLE tableName DROP columnName；
 
 ## mysql json json_agg
 ## https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_json-objectagg
