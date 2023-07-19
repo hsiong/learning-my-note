@@ -240,6 +240,22 @@ apt-get update & apt install iputils-ping
 + 新版mac(高于 Big Sur 11.3): 参考 https://www.xihrni.com/post/macos-yi-yun-xing-de-docker-rong-qi-tian-jia-xiu-gai-duan-kou-ying-she/ 中的 <b>如果出现没有 tty 文件无法登陆到容器</b>
 > 注意: 修改运行中容器的端口代价非常高, 强烈建议您在镜像运行时即使用 `-p macPort:containerPort` 来指定端口
 
+2. docker限制日志文件大小
+https://www.cnblogs.com/sxdcgaq8080/p/10689223.html
+```shell
+vim /etc/docker/daemon.json
+
+{
+  "log-driver":"json-file",
+  "log-opts": {"max-size":"500m", "max-file":"3"}
+}
+
+systemctl daemon-reload
+
+systemctl restart docker
+
+```
+
 # 第二章 Docker镜像操作
 镜像作为 Docker 交流的介质, 镜像操作是重中之重。
 ## 2.1 管理和使用本地镜像
