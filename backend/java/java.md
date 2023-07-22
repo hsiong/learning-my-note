@@ -15,6 +15,12 @@ java-review-for-audition
     - [1.4.1 Set](#141-set)
     - [1.4.2 List](#142-list)
       - [1.4.2.1 实现类](#1421-实现类)
+      - [list set array 互转](#list-set-array-互转)
+        - [List转数组](#list转数组)
+        - [数组转List](#数组转list)
+        - [Set转数组](#set转数组)
+        - [Set转List](#set转list)
+        - [List转Set](#list转set)
       - [1.4.2.2 移除元素](#1422-移除元素)
       - [1.4.2.3 去重](#1423-去重)
   - [1.5 线程池](#15-线程池)
@@ -31,6 +37,7 @@ java-review-for-audition
   - [1.x3 FastJson](#1x3-fastjson)
   - [1.xx 问题](#1xx-问题)
     - [抽象类和接口的区别有哪些](#抽象类和接口的区别有哪些)
+  - [1.x Java经验](#1x-java经验)
 - [第二章 Mysql](#第二章-mysql)
   - [2.1 基础类型](#21-基础类型)
   - [2.2 约束](#22-约束)
@@ -85,7 +92,6 @@ java-review-for-audition
   - [零拷贝/DMA](#零拷贝dma)
 - [swagger](#swagger)
 - [](#)
-  - [1.x Java经验](#1x-java经验)
   - [保持好的对接习惯](#保持好的对接习惯)
 
 + Object & class
@@ -493,6 +499,65 @@ case LBRACE:
 + 由于模块依赖于一个固定的抽象体，因此它可以是不允许修改的；同时，通过从这个抽象体派生，也可扩展此模块的行为功能
 + 为了能够实现面向对象设计的一个最核心的原则OCP(Open-Closed Principle)，抽象类是其中的关键所在
 
+## 1.x Java经验
+
+1. refDefine-class的问题如果来自于引用, 可能是jar包冲突; 本地的class找不到再确定是不是maven-compile出了问题
+2. 
+
+```/**
+         * enum类自带一个values()方法, 获取该类中的所有enum
+         * 
+         * enum变量自带两属性
+         * name: 即变量名toString 如RequestMethod.GET.name()即为"name"
+         * ordinal: 在enum类中的顺序, 从0开始
+         */
+
+  enum 获取索引位置: ConstantEnum.values()[i].ordinal()
+```
+
+3. 对象必须做非空判断, 避免NPE
+4. list或分页不要使用copyproperties方法, 在一定数量的时候, copyproperties会导致查询很慢; 建议使用mapper查询直接返回vo, 在vo中直接set值
+5. Restful本地调用127.0.0.1:xxxx, 但是这种的问题在于, 一个服务依赖于一个服务, 而不是分布式服务集群; (所以引入Feign解耦)
+6. 引入代码规范的意义, 实现风险可控
+7. 学会做差异化设计, 产品差异化, 服务差异化
+
+```
+import static com.xxx.xxxStaticFinal.*;
+直接引用所有常量
+```
+
+8. 抛出异常必须精准报错, 知道是哪个方法, 哪个字段报错
+
+9. 第三方接口数据必须全部保存, 尤其是涉及到支付
+
+10. // 不可用 clazz.getDeclaredConstructor().newInstance(); 因为这样不会加载 spring - autowired   this.factory = SpringUtils.getBean(clazz);
+
+11. 数据库建议关闭 5432 对外端口, 需要连接时, ssh 连过去    然后再写 postgres sql; 并且使用内网端口, 可以节省外网 io 
+
+12. 测试/生产与本地环境共用 redis, 会导致断点调试异常
+
+13. fileter
+
+14. 除了新增功能, 修改共用数据库之前必须通知 dba, 或者做好备份, 严禁直接修改数据库, 引起生产事故
+
+15. 自定义命令行参数  `--myParam='test'`
+
+16. Response 获取 byte[]
+
+    ```java
+    InputStream inputStream = response.body().asInputStream();
+    return IOUtils.toByteArray(inputStream);    
+    ```
+
+17. @Async 使用 https://blog.csdn.net/YoungLee16/article/details/88398045
+
+    + 在@SpringBootApplication启动类当中添加注解@EnableAsync注解。
+    + 异步方法使用注解@[Async](https://so.csdn.net/so/search?q=Async&spm=1001.2101.3001.7020)的返回值只能为void或者Future。
+    + 需要走Spring的代理类。因为@Transactional和@Async注解的实现都是基于Spring的AOP，而AOP的实现是基于动态代理模式实现的。那么注解失效的原因就很明显了，有可能因为调用方法的是对象本身而不是代理对象，因为没有经过Spring容器。
+
+18. 命名规范 https://www.jhelp.net/p/Dq0h3U69SZfAAGhP
+19. java使用HMAC-SHA256算法实现接口认证  https://www.jianshu.com/p/365c2b3811d9
+
 # 第二章 Mysql
 
 ## 2.1 基础类型
@@ -899,7 +964,7 @@ Sorted Set
 4. 快捷路径/usr/local/bin/redis-server; /usr/local/Cellar/dex2jar/2.0
 
 # 第五章 Spring-Boot
-## 5.x Spring-Boot经验
+## 5.1 Spring-Boot经验
 1. 如果Application类包所在的位置也很关键，SpringBoot项目的Bean装配默认规则是根据Application类所在的包位置从上往下扫描！Application类是指SpringBoot项目入口类。也就是我的Service层所在的包必须在com.example.mydemo或其子包下，否则Service层中的Bean不会被扫描到
 2. web-shiro原理是通过将userName封在jwt-token中, 然后在shiro-realm的doGetAuthenticationInfo()方法鉴权, 最后通过new SimpleAuthenticationInfo(loginUser, token, getName())将loginUser封在shiro-principal中
 3. @NotNull(message = "封面不能为空") 标签只能判断null值, 不能判断size为0的list
@@ -949,8 +1014,8 @@ https://blog.csdn.net/kylin_tam/article/details/116276610
 18. java 实现断点传输: https://blog.csdn.net/u011250186/article/details/128322350
 
 
-## 5.xx Spring 中的 maven 冲突与管理
-### 5.xxx SpringBoot 中的依赖管理和自动仲裁机制
+## 5.2 Spring 中的 maven 冲突与管理
+### 5.2.1 SpringBoot 中的依赖管理和自动仲裁机制
 
 ```
 <!-- example -->
@@ -1023,7 +1088,64 @@ maven处理重复依赖不同版本的方式如链接所示, https://blog.csdn.n
 > search `google.com` -> 3:00 am
 
 
+
+## Spring yml
+
+已知 spring boot yml 配置如下
+```yaml
+thread-pool:
+    # 最大线程数
+    max-size: 20
+    # 核心线程数
+    core-size: 10
+    # 存活时间
+    keep-alive: 60
+    # 队列大小
+    queue-capacity: 200
+    # 是否允许核心线程超时
+    allow-core-thread-timeout: true
+    # 线程名称前缀
+    thread-name-prefix: taskExecutor-
+    # 关闭进程前执行完线程
+    await-termination: true
+    # 等待时间
+    await-termination-period: 60
+    # 拒绝政策
+    rejected-execution-handle: 'java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy'
+```
+
+帮我生成 Configuration, 并使用 @Configuration 和 @Data 以及 @Value @ConfigurationProperties(prefix = "thread-pool.thread-oss") 注解, 各变量使用包装类型, 生成结果如下
+
+```java
+@Configuration
+@ConfigurationProperties(prefix = "thread-pool.thread-oss") //前缀
+@Data
+public class ThreadPoolOssConfig {
+
+    private Integer maxSize;
+
+    private Integer coreSize;
+
+    private Integer keepAlive;
+
+    private Integer queueCapacity;
+
+    private Boolean allowCoreThreadTimeout;
+
+    private String threadNamePrefix;
+
+    private Boolean awaitTermination;
+
+    private Integer awaitTerminationPeriod;
+
+    private String rejectedExecutionHandler;
+}
+```
+
+
+
 # 第六章 Spring-cloud-alibaba
+
 [相关链接](https://github.com/hsiong/spring-cloud-alibaba-base): https://github.com/hsiong/spring-cloud-alibaba-base
 
 # 第七章 数据结构与算法
@@ -1157,52 +1279,6 @@ knife4j v3 add header (4.0.0 bug)
 11. ci 出错考虑代码异常导致的回退
 12. [一篇带你了解OLTP vs. OLAP](https://www.51cto.com/article/701725.html)
 13. [Properties和Yml有什么区别](https://wangxiao.xisaiwang.com/ucenter2/zhibo/list.html)
-
-## 1.x Java经验
-1. refDefine-class的问题如果来自于引用, 可能是jar包冲突; 本地的class找不到再确定是不是maven-compile出了问题
-2. 
-```/**
-         * enum类自带一个values()方法, 获取该类中的所有enum
-         * 
-         * enum变量自带两属性
-         * name: 即变量名toString 如RequestMethod.GET.name()即为"name"
-         * ordinal: 在enum类中的顺序, 从0开始
-         */
-
-  enum 获取索引位置: ConstantEnum.values()[i].ordinal()
-```
-3. 对象必须做非空判断, 避免NPE
-4. list或分页不要使用copyproperties方法, 在一定数量的时候, copyproperties会导致查询很慢; 建议使用mapper查询直接返回vo, 在vo中直接set值
-5. Restful本地调用127.0.0.1:xxxx, 但是这种的问题在于, 一个服务依赖于一个服务, 而不是分布式服务集群; (所以引入Feign解耦)
-6. 引入代码规范的意义, 实现风险可控
-7. 学会做差异化设计, 产品差异化, 服务差异化
-```
-import static com.xxx.xxxStaticFinal.*;
-直接引用所有常量
-```
-8. 抛出异常必须精准报错, 知道是哪个方法, 哪个字段报错
-
-9. 第三方接口数据必须全部保存, 尤其是涉及到支付
-
-10. // 不可用 clazz.getDeclaredConstructor().newInstance(); 因为这样不会加载 spring - autowired   this.factory = SpringUtils.getBean(clazz);
-
-11. 数据库建议关闭 5432 对外端口, 需要连接时, ssh 连过去    然后再写 postgres sql; 并且使用内网端口, 可以节省外网 io 
-
-12. 测试/生产与本地环境共用 redis, 会导致断点调试异常
-
-13. fileter
-
-14. 除了新增功能, 修改共用数据库之前必须通知 dba, 或者做好备份, 严禁直接修改数据库, 引起生产事故
-
-15. 自定义命令行参数  `--myParam='test'`
-
-16. Response 获取 byte[]
-
-    ```java
-    InputStream inputStream = response.body().asInputStream();
-    return IOUtils.toByteArray(inputStream);    
-    ```
-17. 
 
  ##  保持好的对接习惯
 + 保持代码规范
