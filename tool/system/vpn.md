@@ -16,3 +16,9 @@
       https://freesilo.com/?p=1228
    + 修改 dev-tool 路径
    + npm i & npm run dev
+
+# clash
++ https://senjianlu.com/2021/11/clash-note-04/
++ https://www.codein.icu/clashtutorial/
+
+planb  直接屏蔽公司接口, 在策略中写 direct 直连
