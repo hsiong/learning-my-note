@@ -77,3 +77,6 @@ rm -rf WebStrom2018.3
 https://www.zhihu.com/question/381319396
 
 System Preference -> Keyboard Shortcut -> App Shortcut -> 
+
+# can't change default app
+Get Info -> open With -> change default app
