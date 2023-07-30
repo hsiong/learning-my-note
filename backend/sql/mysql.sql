@@ -1,3 +1,6 @@
+# mysql 数据类型
+https://www.runoob.com/mysql/mysql-data-types.html
+
 ## utf8 vs utf8mb4
 https://juejin.cn/post/6844903733034221576
 
@@ -229,7 +232,66 @@ Considering system performance, we do not suggest using text TYPE in mysql
 
 Query effiency: char > varchar > text
 
+# procedure
+SET @a := 'creator';
+CALL calculate_max_identity(@a, 'tech');
+SELECT @a AS num_out;
 
+-- while has a select statement, call process in function would throw error
+DROP PROCEDURE calculate_max_identity;
+CREATE PROCEDURE calculate_max_identity(INOUT a VARCHAR(255), IN b VARCHAR(255))
+BEGIN
+    SELECT b AS 'num'; 
+    IF b = 'project' THEN
+        SET a := concat(1, b, a);
+    ELSEIF b = 'tech' & a != 'project' THEN
+        SET a := concat(2, b, a);
+    ELSEIF b = 'creator' & a != 'project' & a != 'tech'  THEN
+        SET a := concat(3, b, a);
+    ELSE
+        SET a := concat(4, b, a);
+    END IF;
+END;
 
+## MySQL 存储过程传参之in, out, inout 参数用法
+https://blog.csdn.net/guugle2010/article/details/40513347
+INOUT, 理解为指针, 入参同时改变自身的值
 
+# function
+DROP FUNCTION max_identity;
+CREATE FUNCTION max_identity(column_name VARCHAR(255))
+    RETURNS VARCHAR(255)
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE b varchar(255);
+    DECLARE a varchar(255) DEFAULT '';
+    DECLARE cur CURSOR FOR SELECT column_name FROM maintenance_project_person;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
+    SET @max_score := '';
+
+    OPEN cur;
+    read_loop:
+    LOOP
+        FETCH cur INTO b;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        CALL calculate_max_identity(a, b);
+
+    END LOOP;
+    CLOSE cur;
+
+    SET a = @max_score;
+
+    RETURN a;
+END;
+
+SELECT max_identity(p.type)
+FROM maintenance_project_person p
+
+> [01000][1265] Data truncated for column 'max_identity(p.type)' at row 1
+
+# mysql if
+https://blog.51cto.com/u_13236892/5751254
