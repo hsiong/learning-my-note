@@ -1,14 +1,14 @@
 
-# java-review
-java-review-for-audition
+# Java-review
+Java-review-for-audition
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可。
 
-- [java-review](#java-review)
-- [第一章 Java](#第一章-java)
+- [Java-review](#Java-review)
+- [第一章 Java](#第一章-Java)
   - [1.1 基础类型](#11-基础类型)
   - [1.2 访问控制修饰符](#12-访问控制修饰符)
-  - [java使用this关键字调用本类重载构造器](#java使用this关键字调用本类重载构造器)
+  - [Java使用this关键字调用本类重载构造器](#Java使用this关键字调用本类重载构造器)
   - [1.3 Map](#13-map)
     - [1.3.1 Map的实现类](#131-map的实现类)
   - [1.4 Iterator](#14-iterator)
@@ -27,7 +27,7 @@ java-review-for-audition
     - [1.5.1 为什么使用线程池](#151-为什么使用线程池)
     - [1.5.2 使用线程池的风险](#152-使用线程池的风险)
     - [1.5.3 线程池组成](#153-线程池组成)
-    - [1.5.4 Java 线程池工作过程](#154-java-线程池工作过程)
+    - [1.5.4 Java 线程池工作过程](#154-Java-线程池工作过程)
     - [1.5.5 常用的线程池类型(cache, fixed, single, schedule)](#155-常用的线程池类型cache-fixed-single-schedule)
   - [1.6 对象, 反射, 泛型](#16-对象-反射-泛型)
   - [1.7 stream 流式操作](#17-stream-流式操作)
@@ -37,7 +37,7 @@ java-review-for-audition
   - [1.x3 FastJson](#1x3-fastjson)
   - [1.xx 问题](#1xx-问题)
     - [抽象类和接口的区别有哪些](#抽象类和接口的区别有哪些)
-  - [1.x Java经验](#1x-java经验)
+  - [1.x Java经验](#1x-Java经验)
 - [第二章 Mysql](#第二章-mysql)
   - [2.1 基础类型](#21-基础类型)
   - [2.2 约束](#22-约束)
@@ -102,7 +102,10 @@ java-review-for-audition
 + Generic
 
 # 第一章 Java
-## 1.1 基础类型
+
+## Java 基础
+
+### 基础类型
 二进制原理, 计算机中第一位为符号位, 所以取值范围正数最大范围少一位。
 |类型|字节数|取值范围|具体取值范围|
 |:-:|:-:|:-:|:-:|
@@ -117,7 +120,7 @@ java-review-for-audition
 
 在Java中，boolean被当成int处理，所以4个字节。
 
-## 1.2 访问控制修饰符
+### 访问控制修饰符
 |修饰符|当前类|同一包内|同一包子孙|不同包子孙|其他包|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |default|√|√|√|||
@@ -151,13 +154,86 @@ public class Test2 extends MyObject2 {
 ```
 对于(1)而言，clone()方法来自于类MyObject2本身，因此其可见性为包p2及MyObject2的子类，虽然Test2是MyObject2的子类，但在Test2中不能访问基类MyObject2的protected方法clone()，因此编译不通过;对于(2)而言，由于在Test2中访问的是其本身实例的从基类MyObject2继承来的的clone()，因此编译通过。
 
-## java使用this关键字调用本类重载构造器
+### Java使用this关键字调用本类重载构造器
 https://www.cnblogs.com/wanghongyun/p/6132083.html
 ```java
 this(name,"男");
 ```
 
+### 抽象类和接口的区别有哪些
+
+相似点：
+
++ 不能实例化
++ 包含未实现的方法声明
++ 派生类必须实现未实现的方法，抽象类是抽象方法，接口则是所有成员（不仅是方法包括其他成员）
+
+区别: 
+
++ 默认的方法实现  
+  抽象类可以有默认的方法实现；接口，Java8规定可以为接口提供默认实现的方法并且不用强制实现。
++ 实现  
+  如果子类不是抽象类的话，它需要重写抽象类中的抽象方法；接口子类使用关键字implements 来实现接口，它需要重写接口中没有默认。 
++ 构造器
+  抽象类可以有构造器，接口不能有构造器。
++ 与正常Java类的区别
+  除了不能实例化抽象类之外，和普通Java类没有任何区别；接口是完全不同的类型外。
++ 访问修饰符
+  抽象方法可有public.protected和default、abstract修饰符。不能用privatestatic.synchronize、 native 修饰。接口属性默认修饰符是publicstatic final (必须赋初值) ，方法默认修饰符是publicabstract. Java8 开始出现静态方法，多加static关键字。
++ main方法
+  抽象类可以运行它；接口没有main方法，因此不能运行它。
++ 多继承
+  抽象类可以继承一个类和实现多个接口；接口只可以继承一个或多个接口。
+
+抽象类的运用意义: 
+
++ 在面向对象方法中，抽象类主要用来进行类型隐藏。构造出一个固定的一组行为的抽象描述，但是这组行为却能够有任意个可能的具体实现方式
++ 这个抽象描述就是抽象类，而这一组任意个可能的具体实现则表现为所有可能的派生类。模块可以操作一个抽象体
++ 由于模块依赖于一个固定的抽象体，因此它可以是不允许修改的；同时，通过从这个抽象体派生，也可扩展此模块的行为功能
++ 为了能够实现面向对象设计的一个最核心的原则OCP(Open-Closed Principle)，抽象类是其中的关键所在
+
+### FastJson
+
+1. 在 fastJson DefaultJSONParser.parse() 中              
+
+```
+case LBRACE:
+                JSONObject object = new JSONObject(lexer.isEnabled(Feature.OrderedField));
+                return parseObject(object, fieldName);
+```
+
+将所有{ } 识别成 JSONObject
+
+2. SerializerFeature 与 Feature 什么关系 ? 
+   没有关系; 重载方法
+
+### Java 队列
+
++ [高性能队列——Disruptor](https://tech.meituan.com/2016/11/18/disruptor.html)
++ [java队列与线程池](https://cloud.tencent.com/developer/article/2068908)
+
+### swagger
+
+knife4j v3 add header (4.0.0 bug)
+
++ 文档管理 -> 全局参数设置 -> 参数名称: AUTH_HEADER
+
+### Java使用HMAC-SHA256算法实现接口认证
+
+https://www.jianshu.com/p/365c2b3811d9
+
+### Java 命名规范
+
+https://www.jhelp.net/p/Dq0h3U69SZfAAGhP
+
+### 分布式锁 redission
+
+https://blog.csdn.net/u014042066/article/details/72830939
+
+### Java 实现回调
+
 ## 1.3 Map
+
 ### 1.3.1 Map的实现类
 |实现类|key value null?|有序?|并发?|
 |:-:|:-:|:-:|:-:|
@@ -315,13 +391,18 @@ https://www.jianshu.com/p/717bc27141c4
 [Java中List集合去除重复数据的六种方法](https://www.cnblogs.com/zhaoyan001/p/11737961.html)
 
 ## 1.5 线程池
-参考资料 [java常用的几种线程池比较](https://www.cnblogs.com/aaron911/p/6213808.html)
-### 1.5.1 为什么使用线程池
+
+### 原理
+
+参考资料 
++ [美团技术文档-线程池](https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html)
++ [Java常用的几种线程池比较](https://www.cnblogs.com/aaron911/p/6213808.html)
+#### 为什么使用线程池
 诸如 Web 服务器、数据库服务器、文件服务器或邮件服务器之类的许多服务器应用程序都面向处理来自某些远程来源的大量短小的任务。请求以某种方式到达服务器，这种方式可能是通过网络协议（例如 HTTP、FTP 或 POP）、通过 JMS 队列或者可能通过轮询数据库。不管请求如何到达，服务器应用程序中经常出现的情况是：单个任务处理的时间很短而请求的数目却是巨大的。  
 构建服务器应用程序的一个简单模型是：每当一个请求到达就创建一个新线程，然后在新线程中为请求服务。实际上对于原型开发这种方法工作得很好，但如果试图部署以这种方式运行的服务器应用程序，那么这种方法的严重不足就很明显。每个请求对应一个线程（thread-per-request）方法的不足之一是：为每个请求创建一个新线程的开销很大；为每个请求创建新线程的服务器在创建和销毁线程上花费的时间和消耗的系统资源要比花在处理实际的用户请求的时间和资源更多。  
 除了创建和销毁线程的开销之外，活动的线程也消耗系统资源。在一个 JVM 里创建太多的线程可能会导致系统由于过度消耗内存而用完内存或“切换过度”。为了防止资源不足，服务器应用程序需要一些办法来限制任何给定时刻处理的请求数目。  
 线程池为线程生命周期开销问题和资源不足问题提供了解决方案。通过对多个任务重用线程，线程创建的开销被分摊到了多个任务上。其好处是，因为在请求到达时线程已经存在，所以无意中也消除了线程创建所带来的延迟。这样，就可以立即为请求服务，使应用程序响应更快。而且，通过适当地调整线程池中的线程数目，也就是当请求的数目超过某个阈值时，就强制其它任何新到的请求一直等待，直到获得一个线程来处理为止，从而可以防止资源不足。  
-### 1.5.2 使用线程池的风险
+#### 使用线程池的风险
 1. 死锁  
 任何多线程应用程序都有死锁风险。当一组进程或线程中的每一个都在等待一个只有该组中另一个进程才能引起的事件时，我们就说这组进程或线程死锁。  
 死锁的最简单情形是：线程 A 持有对象 X 的独占锁，并且在等待对象 Y 的锁，而线程 B 持有对象 Y 的独占锁，却在等待对象 X 的锁。除非有某种方法来打破对锁的等待（Java 锁定不支持这种方法），否则死锁的线程将永远等下去。  
@@ -338,7 +419,7 @@ https://www.jianshu.com/p/717bc27141c4
 5. 请求过载   
 仅仅是请求就压垮了服务器，这种情况是可能的。在这种情形下，我们可能不想将每个到来的请求都排队到我们的工作队列，因为排在队列中等待执行的任务可能会消耗太多的系统资源并引起资源缺乏。在这种情形下决定如何做取决于您自己；在某些情况下，您可以简单地抛弃请求，依靠更高级别的协议稍后重试请求，您也可以用一个指出服务器暂时很忙的响应来拒绝请求。
 
-### 1.5.3 线程池组成
+#### 线程池组成
 一般的线程池主要分为以下 4 个组成部分：
 1. 线程池管理器：用于创建并管理线程池
 2. 工作线程：线程池中的线程
@@ -347,12 +428,13 @@ https://www.jianshu.com/p/717bc27141c4
 
 Java 中的线程池是通过 Executor 框架实现的，该框架中用到了 Executor，Executors，ExecutorService，ThreadPoolExecutor ，Callable 和 Future、FutureTask 这几个类。  
 ThreadPoolExecutor 的构造方法如下：
-```
+
+```java
 public ThreadPoolExecutor(int corePoolSize,
-                              int maximumPoolSize,
-                              long keepAliveTime,
-                              TimeUnit unit,
-                              BlockingQueue<Runnable> workQueue) {
+                          int maximumPoolSize,
+                          long keepAliveTime,
+                          TimeUnit unit,
+                          BlockingQueue<Runnable> workQueue) {
         this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
              Executors.defaultThreadFactory(), defaultHandler);
     }
@@ -365,16 +447,7 @@ public ThreadPoolExecutor(int corePoolSize,
 6. threadFactory：线程工厂，用于创建线程，一般用默认的即可。
 7. handler：拒绝策略，当任务太多来不及处理，如何拒绝任务。
 
-> 拒绝策略:  
-> 线程池中的线程已经用完了，无法继续为新任务服务，同时，等待队列也已经排满了，再也塞不下新任务了。这时候我们就需要拒绝策略机制合理的处理这个问题。JDK 内置的拒绝策略如下：
-> 1. AbortPolicy ： 直接抛出异常，阻止系统正常运行。
-> 2. CallerRunsPolicy ： 只要线程池未关闭，该策略直接在调用者线程中，运行当前被丢弃的任务。显然这样做不会真的丢弃任务，但是，任务提交线程的性能极有可能会急剧下降。
-> 3. DiscardOldestPolicy ： 丢弃最老的一个请求，也就是即将被执行的一个任务，并尝试再次提交当前任务。
-> 4. DiscardPolicy ： 该策略默默地丢弃无法处理的任务，不予任何处理。如果允许任务丢失，这是最好的一种方案。
-> 
-> 以上内置拒绝策略均实现了 RejectedExecutionHandler 接口，若以上策略仍无法满足实际需要，完全可以自己扩展 RejectedExecutionHandler 接口。
-
-### 1.5.4 Java 线程池工作过程
+#### Java 线程池工作过程
 1. 线程池刚创建时，里面没有一个线程。任务队列是作为参数传进来的。不过，就算队列里面有任务，线程池也不会马上执行它们。
 2. 当调用 execute() 方法添加一个任务时，线程池会做如下判断：  
     a) 如果正在运行的线程数量小于 corePoolSize，那么马上创建线程运行这个任务；  
@@ -384,31 +457,146 @@ public ThreadPoolExecutor(int corePoolSize,
 3. 当一个线程完成任务时，它会从队列中取下一个任务来执行。
 4. 当一个线程无事可做，超过一定的时间（keepAliveTime）时，线程池会判断，如果当前运行的线程数大于 corePoolSize，那么这个线程就被停掉。所以线程池的所有任务完成后，它最终会收缩到 corePoolSize 的大小。
 
+#### 拒绝策略  
 
-### 1.5.5 常用的线程池类型(cache, fixed, single, schedule)
+线程池中的线程已经用完了，无法继续为新任务服务，同时，等待队列也已经排满了，再也塞不下新任务了。这时候我们就需要拒绝策略机制合理的处理这个问题。JDK 内置的拒绝策略如下：
+
++ AbortPolicy ： 直接抛出异常，阻止系统正常运行。
++ CallerRunsPolicy ： 只要线程池未关闭，该策略直接在调用者线程中，运行当前被丢弃的任务。显然这样做不会真的丢弃任务，但是，任务提交线程的性能极有可能会急剧下降。
++ DiscardOldestPolicy ： 丢弃最老的一个请求，也就是即将被执行的一个任务，并尝试再次提交当前任务。
++ DiscardPolicy ： 该策略默默地丢弃无法处理的任务，不予任何处理。如果允许任务丢失，这是最好的一种方案。
+
+以上内置拒绝策略均实现了 RejectedExecutionHandler 接口，若以上策略仍无法满足实际需要，完全可以自己扩展 RejectedExecutionHandler 接口。
+
+### SpringBoot 实现
+
+#### 线程池构造方法
+
+```java
+ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+// 最大同时执行20个, 缓存200个, 多余则阻塞线程
+executor.setCorePoolSize(coreSize);
+executor.setMaxPoolSize(maxSize);
+executor.setQueueCapacity(queueCapacity);
+executor.setKeepAliveSeconds(keepAlive);
+executor.setThreadNamePrefix(threadNamePrefix);
+executor.setRejectedExecutionHandler(rejectedExecutionHandlerC);
+executor.setWaitForTasksToCompleteOnShutdown(awaitTermination);
+executor.setAwaitTerminationSeconds(awaitTerminationPeriod);
+return executor;
+```
+
++ setCorePoolSize：指定了线程池中的线程数量。
+
++ setMaxPoolSize：指定了线程池中的最大线程数量。
+
++ setQueueCapacity: 用来缓冲执行任务的队列最大数量, 超过执行拒绝策略
+
++ setKeepAliveSeconds：当前线程池数量超过 corePoolSize 时，多余的空闲线程的存活时间，即多次时间内会被销毁。
+
++ setThreadNamePrefix: 线程池名的前缀, 设置好了之后可以方便我们定位处理任务所在的线程池
+
++ setRejectedExecutionHandler: 拒绝策略
+
++ setWaitForTasksToCompleteOnShutdown: 设置线程池关闭的时候等待所有任务都完成再继续销毁其他的Bean, 避免应用关闭导致线程池中的任务执行失败
+
++ setAwaitTerminationSeconds: 设置线程池中任务的等待时间，如果超过这个时候还没有销毁就强制销毁，以确保应用最后能够被关闭，而不是阻塞住
+
+  > Set the maximum number of seconds that this executor is supposed to block on shutdown in order to wait for remaining tasks to complete their execution before the rest of the container continues to shut down. This is particularly useful if your remaining tasks are likely to need access to other resources that are also managed by the container.
+  > By default, this executor won't wait for the termination of tasks at all. It will either shut down immediately, interrupting ongoing tasks and clearing the remaining task queue - or, if the "waitForTasksToCompleteOnShutdown" flag has been set to true, it will continue to fully execute all ongoing tasks as well as all remaining tasks in the queue, in parallel to the rest of the container shutting down.
+  > In either case, if you specify an await-termination period using this property, this executor will wait for the given time (max) for the termination of tasks. As a rule of thumb, specify a significantly higher timeout here if you set "waitForTasksToCompleteOnShutdown" to true at the same time, since all remaining tasks in the queue will still get executed - in contrast to the default shutdown behavior where it's just about waiting for currently executing tasks that aren't reacting to thread interruption.
+
+#### 异步线程池调用 @Async
+
+https://zhuanlan.zhihu.com/p/532827958
+
+https://juejin.cn/post/6976893903223914527
+
+#### 线程池业务隔离, 状态监控与状态调优
+
+https://www.jianshu.com/p/6f6e2bcb8128
+
+
+
+
+
+### JDK 实现
+
+##### 调用默认构造器(cache, fixed, single, schedule)
+
+https://blog.51cto.com/u_15736848/5540003
+
 1. newCachedThreadPool  
-创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。  
-特点：  
+
+   ![Java使用 Executors 创建四种线程池原理_阻塞队列_03](https://s2.51cto.com/images/blog/202208/03095144_62e9d4b0c753f33120.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_30,g_se,x_10,y_10,shadow_20,type_ZmFuZ3poZW5naGVpdGk=/format,webp/resize,m_fixed,w_1184)
+
+   创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。  
+   特点：  
+
      + 工作线程的创建数量几乎没有限制(其实也有限制的,数目为Interger. MAX_VALUE), 这样可灵活的往线程池中添加线程。在使用CachedThreadPool时，一定要注意控制任务的数量，否则，由于大量线程同时运行，很有会造成系统瘫痪。
      + 如果长时间没有往线程池中提交任务，即如果工作线程空闲了指定的时间(默认为1分钟)，则该工作线程将自动终止。终止后，如果你又提交了新的任务，则线程池重新创建一个工作线程。  
 
 2. newFixedThreadPool  
+
+   ![Java使用 Executors 创建四种线程池原理_队列](https://s2.51cto.com/images/blog/202208/03095144_62e9d4b04bbb016743.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_30,g_se,x_10,y_10,shadow_20,type_ZmFuZ3poZW5naGVpdGk=/format,webp/resize,m_fixed,w_1184)
+
    创建一个指定工作线程数量的线程池。每当提交一个任务就创建一个工作线程，如果工作线程数量达到线程池初始的最大数，则将提交的任务存入到池队列中。FixedThreadPool是一个典型且优秀的线程池，它具有线程池提高程序效率和节省创建线程时所耗的开销的优点。  
    特点: 
+
     + 工作线程数量指定
     + 但是，在线程池空闲时，即线程池中没有可运行任务时，它不会释放工作线程，还会占用一定的系统资源。
-1. newSingleThreadExecutor  
-创建一个单线程化的Executor，即只创建唯一的工作者线程来执行任务，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。如果这个线程异常结束，会有另一个取代它，保证顺序执行。单工作线程最大的特点是可保证顺序地执行各个任务，并且在任意给定的时间不会有多个线程是活动的。  
-特点: 
+
+3. newSingleThreadExecutor  
+
+   ![Java使用 Executors 创建四种线程池原理_阻塞队列_02](https://s2.51cto.com/images/blog/202208/03095144_62e9d4b092a9b62048.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_30,g_se,x_10,y_10,shadow_20,type_ZmFuZ3poZW5naGVpdGk=/format,webp/resize,m_fixed,w_1184)
+
+   创建一个单线程化的Executor，即只创建唯一的工作者线程来执行任务，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。如果这个线程异常结束，会有另一个取代它，保证顺序执行。单工作线程最大的特点是可保证顺序地执行各个任务，并且在任意给定的时间不会有多个线程是活动的。 
+   特点: 
+
     + 用唯一的工作线程来执行任务, 可保证顺序地执行各个任务
-    + 占用小, 效率低
+    + 占用小, 但是执行效率低
 
 4. newScheduleThreadPool  
-   创建一个定长的线程池，而且支持定时的以及周期性的任务执行，支持定时及周期性任务执行。
-   特点: 
-    + 工作线程数量指定
-    + 支持定时及周期性任务执行
 
+   ![Java使用 Executors 创建四种线程池原理_阻塞队列_03](https://s2.51cto.com/images/blog/202208/03095144_62e9d4b0c753f33120.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_30,g_se,x_10,y_10,shadow_20,type_ZmFuZ3poZW5naGVpdGk=/format,webp/resize,m_fixed,w_1184)
+
+   创建一个定长的线程池，而且支持定时的以及周期性的任务执行，支持定时及周期性任务执行。 
+   特点: 
+
+    + 工作线程数量指定
+    + 支持定时及周期性任务执行, 应尽量避免使用
+
+   > newScheduleThreadPool详解: http://www.ideabuffer.cn/2017/04/14/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9AScheduledThreadPoolExecutor/
+
+#### 线程池阻塞队列
+
++ ArrayBlockingQueue
+
+  数组结构组成的有界阻塞队列。此队列按照先进先出（FIFO）的原则对元素进行排序，但是默认情况下不保证线程公平的访问队列，即如果队列满了，那么被阻塞在外面的线程对队列访问的顺序是不能保证线程公平（即先阻塞，先插入）的。
+
++ LinkedBlockingQueue
+
+  一个由链表结构组成的有界阻塞队列。此队列按照先出先进的原则对元素进行排序
+
++ DelayQueue
+
+  支持延时获取元素的无界阻塞队列，即可以指定多久才能从队列中获取当前元素
+
++ SynchronousQueue
+
+  不存储元素的阻塞队列，每一个put必须等待一个take操作，否则不能继续添加元素。并且他支持公平访问队列。
+
++ PriorityBlockingQueue
+
+  支持优先级的无界阻塞队列
+
++ LinkedTransferQueue
+
+  由链表结构组成的无界阻塞TransferQueue队列。
+
++ LinkedBlockingDeque
+
+  链表结构的双向阻塞队列，优势在于多线程入队时，减少一半的竞争。
 
 ## 1.6 对象, 反射, 泛型
 
@@ -417,7 +605,7 @@ Reference:
   https://blog.csdn.net/cnds123321/article/details/119655880
 * 擦拭法 
   https://www.liaoxuefeng.com/wiki/1252599548343744/1265104600263968
-* java泛型--创建类型实例的几种方法 
+* Java泛型--创建类型实例的几种方法 
   https://blog.csdn.net/Sife_007/article/details/80308517
   
 * Type 类型 泛型 反射 Class ParameterizedType [MD] 
@@ -428,7 +616,7 @@ Reference:
 
 jad; jclasslib;  type erase 
 
-* java根据类名反射创建对象 java通过反射创建对象
+* Java根据类名反射创建对象 Java通过反射创建对象
 https://blog.51cto.com/u_13259/6482348
 ``` java
       Constructor constructor = i.getClass().getConstructor();
@@ -439,8 +627,8 @@ https://blog.51cto.com/u_13259/6482348
 
 ## 1.7 stream 流式操作
 ### flatmap
-+ https://www.geeksforgeeks.org/stream-flatmap-java-examples/  
-+ https://openhome.cc/zh-tw/java/functional-api/flatmap/  
++ https://www.geeksforgeeks.org/stream-flatmap-Java-examples/  
++ https://openhome.cc/zh-tw/Java/functional-api/flatmap/  
 ```
         List<String> violationList = sosInfoDTOS.stream()
                                                 .filter(i -> ObjectUtil.isNotEmpty(i.getMsgInfo()))
@@ -450,56 +638,16 @@ https://blog.51cto.com/u_13259/6482348
 ```
 
 ## 1.8 函数式编程
-https://zyb0408.github.io/gitbooks/onjava8/docs/book/13-Functional-Programming.html#Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F
+https://zyb0408.github.io/gitbooks/onJava8/docs/book/13-Functional-Programming.html#Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F
 
 ## 1.9 Predicate 断言
 https://www.jianshu.com/p/5988b22f45dd
 
-## 1.x3 FastJson
-1. 在 fastJson DefaultJSONParser.parse() 中              
-```
-case LBRACE:
-                JSONObject object = new JSONObject(lexer.isEnabled(Feature.OrderedField));
-                return parseObject(object, fieldName);
-```
-将所有{ } 识别成 JSONObject
+## Java 定时器
 
-2. SerializerFeature 与 Feature 什么关系 ? 
-没有关系; 重载方法
+https://www.cnblogs.com/silent-bug/p/13653049.html
 
-
-
-## 1.xx 问题
-### 抽象类和接口的区别有哪些
-相似点：
-+ 不能实例化
-+ 包含未实现的方法声明
-+ 派生类必须实现未实现的方法，抽象类是抽象方法，接口则是所有成员（不仅是方法包括其他成员）
-
-区别: 
-+ 默认的方法实现  
-  抽象类可以有默认的方法实现；接口，Java8规定可以为接口提供默认实现的方法并且不用强制实现。
-+ 实现  
-  如果子类不是抽象类的话，它需要重写抽象类中的抽象方法；接口子类使用关键字implements 来实现接口，它需要重写接口中没有默认。 
-+ 构造器
-  抽象类可以有构造器，接口不能有构造器。
-+ 与正常Java类的区别
-  除了不能实例化抽象类之外，和普通Java类没有任何区别；接口是完全不同的类型外。
-+ 访问修饰符
-  抽象方法可有public.protected和default、abstract修饰符。不能用privatestatic.synchronize、 native 修饰。接口属性默认修饰符是publicstatic final (必须赋初值) ，方法默认修饰符是publicabstract. Java8 开始出现静态方法，多加static关键字。
-+ main方法
-  抽象类可以运行它；接口没有main方法，因此不能运行它。
-+ 多继承
-  抽象类可以继承一个类和实现多个接口；接口只可以继承一个或多个接口。
-  
-
-抽象类的运用意义: 
-+ 在面向对象方法中，抽象类主要用来进行类型隐藏。构造出一个固定的一组行为的抽象描述，但是这组行为却能够有任意个可能的具体实现方式
-+ 这个抽象描述就是抽象类，而这一组任意个可能的具体实现则表现为所有可能的派生类。模块可以操作一个抽象体
-+ 由于模块依赖于一个固定的抽象体，因此它可以是不允许修改的；同时，通过从这个抽象体派生，也可扩展此模块的行为功能
-+ 为了能够实现面向对象设计的一个最核心的原则OCP(Open-Closed Principle)，抽象类是其中的关键所在
-
-## 1.x Java经验
+## Java经验
 
 1. refDefine-class的问题如果来自于引用, 可能是jar包冲突; 本地的class找不到再确定是不是maven-compile出了问题
 2. 
@@ -556,7 +704,7 @@ import static com.xxx.xxxStaticFinal.*;
     + 需要走Spring的代理类。因为@Transactional和@Async注解的实现都是基于Spring的AOP，而AOP的实现是基于动态代理模式实现的。那么注解失效的原因就很明显了，有可能因为调用方法的是对象本身而不是代理对象，因为没有经过Spring容器。
 
 18. 命名规范 https://www.jhelp.net/p/Dq0h3U69SZfAAGhP
-19. java使用HMAC-SHA256算法实现接口认证  https://www.jianshu.com/p/365c2b3811d9
+19. Java使用HMAC-SHA256算法实现接口认证  https://www.jianshu.com/p/365c2b3811d9
 
 # 第二章 Mysql
 
@@ -835,7 +983,7 @@ A事务读取B事务尚未提交的数据，此时如果B事务发生错误并�
 + 第三范式：在第二范式的基础上，非主键列只依赖于主键，不依赖于其他非主键。确保数据表中的每一列数据都和主键直接相关，而不能间接相关。  
 
 ## 2.7 Mysql经验
-1. resultMap可以让下划线命名的mysql转义到下划线命名的javaBean
+1. resultMap可以让下划线命名的mysql转义到下划线命名的JavaBean
 2. ObjectUtil.isNotEmpty可以用Iterable判断集合
 3. var(String... args) 不定长参数集，或者叫变长参数 
 4.  left join 在 on 后加条件 和where 后加条件的影响
@@ -918,7 +1066,7 @@ SHOW VARIABLES LIKE 'general%'; set GLOBAL general_log='ON';
 15. 在使用mysql的8.0.x以上的jar的时候，需要在代码url的链接里面指定serverTimezone; 而idea-maven mysql-connector在依赖时会自动依赖最新版的mysql-connector, 故, http://www.yayihouse.com/yayishuwu/chapter/1604; 
 处理方法: 使用<optional>true</optional>隔离maven  
 a. 并且druid 使用 1.1.21以上   否则druid会报序列化异常  
-b. java.time.LocalDateTime cannot be cast to java.util.Date  -> mysql-connector-java 8.0.22 
+b. Java.time.LocalDateTime cannot be cast to Java.util.Date  -> mysql-connector-Java 8.0.22 
 16. mysql 解锁
 ```
 # 锁表, 拼接解锁语句
@@ -929,7 +1077,7 @@ FROM information_schema.processlist p
 ```
 17. mysql-plus apply 会自动加and条件
 18. 一对多查询, 使用json_array(group_concat(json_object('course_name',course_name))), 而不要用使用for-i-sql查询, 因为频繁的jdbc连接与断开十分消耗性能
-19. mysql改变时区, 需要重启java应用和mysql, 否则内置函数now()不生效
+19. mysql改变时区, 需要重启Java应用和mysql, 否则内置函数now()不生效
 20. 不要使用count(*), 他会统计null的列
 21. sum()需要注意 NPE 的问题
 
@@ -1011,7 +1159,7 @@ https://blog.csdn.net/kylin_tam/article/details/116276610
 
 @Length(min=, max=) => String
 ```
-18. java 实现断点传输: https://blog.csdn.net/u011250186/article/details/128322350
+18. Java 实现断点传输: https://blog.csdn.net/u011250186/article/details/128322350
 
 
 ## 5.2 Spring 中的 maven 冲突与管理
@@ -1035,10 +1183,10 @@ https://blog.csdn.net/kylin_tam/article/details/116276610
 也许您认为这个问题无关紧要, 但是在实际开发中, 各个插件的版本并不能由您所决定, maven 版本冲突导致各种神奇问题, 会让您的开发思路走向崩溃
 
 > 这是一个实际的场景: 
-> 1. 例如在您的项目中引入华为Obs  `esdk-obs-java` 的相关依赖, 他使用的`okhttp`依赖为`4.xx`, 
+> 1. 例如在您的项目中引入华为Obs  `esdk-obs-Java` 的相关依赖, 他使用的`okhttp`依赖为`4.xx`, 
 但是在`Spring 2.3.x`的默认依赖管理中, `okhttp`的默认依赖为`3.xx`, 
 这样导致的问题就是, 代码编写时没有问题, 但是在代码运行后, 就会出现 `class not found` 或 `method not found` 之类的异常
-> 2. 在复杂项目中, 您往往会使用多模块进行开发, 所以即使您使用了华为官方推荐的 `esdk-obs-java-bundle`, 依然会存在上述问题
+> 2. 在复杂项目中, 您往往会使用多模块进行开发, 所以即使您使用了华为官方推荐的 `esdk-obs-Java-bundle`, 依然会存在上述问题
 > 3. 而在另一种情形中, 即使您使用了微服务架构进行部署, 但是在某些时候, 您仍然不可避免的会遇到 maven 依赖冲突的问题
 > 所以, 以下是我的总结: 
 
@@ -1111,7 +1259,7 @@ thread-pool:
     # 等待时间
     await-termination-period: 60
     # 拒绝政策
-    rejected-execution-handle: 'java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy'
+    rejected-execution-handle: 'Java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy'
 ```
 
 帮我生成 Configuration, 并使用 @Configuration 和 @Data 以及 @Value @ConfigurationProperties(prefix = "thread-pool.thread-oss") 注解, 各变量使用包装类型, 生成结果如下
@@ -1163,7 +1311,7 @@ public class ThreadPoolOssConfig {
 ### 9.2.3 领域驱动
 
 ## 9.3 设计模式
-[相关链接](https://github.com/hsiong/design-pattern-java): https://github.com/hsiong/design-pattern-java
+[相关链接](https://github.com/hsiong/design-pattern-Java): https://github.com/hsiong/design-pattern-Java
 
 # 第十章 DevOps
 ## 10.1 Jenkins
@@ -1247,9 +1395,7 @@ nop rl dl slam
 ## 零拷贝/DMA
 https://juejin.cn/post/7016498891365302302
 
-# swagger
-knife4j v3 add header (4.0.0 bug)
-+ 文档管理 -> 全局参数设置 -> 参数名称: AUTH_HEADER
++ 
 
 # 
 1. 作为架构师  要有统一版本管理 <= Github: dependBot
@@ -1291,3 +1437,144 @@ knife4j v3 add header (4.0.0 bug)
 
 + 多对多: 中间表; 一对多, key-value
 + 利用 jekins 打包的好处, 利用服务器性能, 而不是受本机性能损耗
+
+
+
+# 高并发
+
+https://cloud.tencent.com/developer/article/2131980
+
+## 后端性能优化的指标
+
+响应时间 并发数目 吞吐量。
+
+常用的吞吐量指标：   ①TPS(每秒事务数)、
+
+②HPS(每秒Http请求数)、
+
+③QPS(每秒查询数，)
+
+常用的性能计数器有：System Load、对象和线程数、CPU使用、内存使用、磁盘和网络IO等指标。 
+
+性能测试的几个参考点： 性能测试 
+
+负载测试：系统的某项或者多想性能指标达到安全临界值时的并发数 
+
+压力测试 
+
+稳定性测试。稳定性测试主要是长时间给系统一定的压力，看系统是否正常运行。 网站的性能优化三维度
+
+## **后台服务器常用的优化方式**
+
+缓存 集群 异步 代码优化 存储优化 缓存相关知识
+
+## 缓存
+
+**后台性能优化的第一定律：优先考虑使用缓存优化性能。**
+
+#### **缓存的本质**
+
+缓存的本质就是一个内存Hash表，数据以一对KeyValue键值对存储在内存Hash表中。主要用户存放读写比很高、很少变化的数据，网站数据通常遵循“二八定律”，即80%的访问落在20%的数据上，因此，将这20%的数据缓存起来，可以很好的改善系统性能。
+
+##### **合理的使用缓存**
+
+合理的使用缓存对提高系统性能有很多好处，但是不合理的使用缓存反而会成为系统的累赘甚至风险。滥用缓存的三种情况如下：
+
+##### **频繁修改的数据**   
+
+数据的读写比至少应该是2:1以上，即写入一次缓存，在数据更新前至少读写两次，缓存才有意义。真正实践中这个比例可能会更高。
+
+##### **没有热点的访问**   
+
+如果应用系统访问数据没有热点，不遵循二八定律，即大部分数据访问并没有集中在小部分数据中，那么缓存也没有意义，因为大部分数据还没有被再次访问就已经被挤出缓存了。
+
+##### **数据的不一致与脏读**   
+
+写入缓存的数据最好能容忍一定时间的数据不一致，一般情况下最好对缓存的数据设置失效时间(固定值+一定范围的随机值)。如果不能容忍数据的不一致，必须在数据更新时，删除对应的缓存(思考：为什么不是更新缓存)[可以参考这个文档](https://cloud.tencent.com/developer/tools/blog-entry?target=https://www.cnblogs.com/llzhang123/p/9037346.html)，但是这种情况只针对读写比非常高的情况。
+
+#### 缓存的常见问题优化手段
+
+##### 缓存雪崩
+
+   缓存雪崩我们可以简单的理解为：由于原有缓存失效，新缓存未到期间(例如：我们设置缓存时采用了相同的过期时间，在同一时刻出现大面积的缓存过期)，所有原本应该访问缓存的请求都去查询数据库了，而对数据库CPU和内存造成巨大压力，严重的会造成数据库宕机。从而形成一系列连锁反应，造成整个系统崩溃。
+
+该类问题的解决方式主要有三种：
+
+①加锁排队。大概原理是在去数据库取数据的时候加锁排队，该方法仅仅适用于并发量不高的情况。
+
+②在原有失效时间基础上加一个合理的随机值(0-5分钟)。分布式场景下最常见的方式(单机也可以)。
+
+③给缓存加标记，在缓存失效之后更新缓存数据。
+
+##### 缓存穿透
+
+   缓存穿透是指用户查询数据，在数据库没有，自然在缓存中也不会有。这样就导致用户查询的时候，在缓存中找不到，每次都要去数据库再查询一遍，然后返回空（相当于进行了两次无用的查询）。
+
+该类问题的主要解决方式。
+
+①使用布隆过滤器做过滤。该方法仅仅用于查询一个不可能存在的数据。
+
+②把不存在的数据也缓存起来。最佳实践：单独设置比较短的过期时间，比如说五分钟。
+
+##### 缓存预热
+
+   缓存中存放的是热点数据，热点数据又是缓存系统利用某种算法对不断访问的数据筛选淘汰出来的，在重建缓存数据的过程中，系统的性能和数据库负载都不太好，那么多好的方式就是在缓存系统启动的时候就把热点数据加载好，这个缓存预加载的手段叫做缓存预热。对于一些元数据如省市区列表，类目信息，就可以在启动的加载数据库中的全部数据。
+
+#### **分布式缓存架构**
+
+分布式缓存是指缓存部署在多个服务器组成的集群中，以集群方式提供缓存服务，其架构方式有两种：
+
+①以JBosss Cache为代表的需要更新同步的分布式缓存(在所有服务器中保存相同的缓存数据)。
+
+②以Memcache为代表的互不通信的分布式缓存(应用程序通过一致性Hash等路由算法选择缓存服务器远程访问远程数据，可以会容易的扩容，具有良好的可伸缩性)。
+
+## 异步
+
+使用异步操作，可以大幅度改善网站的性能，使用异步的两种场景，高并发、微服务；
+
+①高并发，在不使用消息队列的情况下，用户的请求数据直接写入数据库，在高并发的情况下会对数据库造成一定的压力，同时也使得响应延迟加剧。使用消息队列具有很好的削峰作用，在电子商务网站促销活动中，使用消息队列是常见的技术手段。
+
+②微服务之间调用，在微服务流行的当下，有时候我们调用其他系统的微服务接口，只是为了通知其他系统，我们不关心结果，这个时候我们可以使用单独的线程池异步调用其他系统的微服务，这样可以减少程序的响应时间。
+
+任何可以晚点的事情都应该晚点再做。
+
+## 集群
+
+在网站高并发访问的场景洗下，使用负载均衡技术为一个应用构建一个由多台服务器组成的服务器集群，可以避免单一服务器因负载压力过大而响应缓慢。常用的负载均衡技术有以下几种：
+
+①HTTP重定向负载均衡，不利于SEO，不推荐。
+
+②DNS域名解析负载均衡，许多DNS服务器还支持基于地理位置的域名解析，会将域名解析成距离用户地理最近的一个服务器地址，这样可以加快访问速度。大公司常用的手段。
+
+③反向代理负载均衡(应用层负载均衡)，常见产品：Nginx,反向代理服务器的性能可能会成为瓶颈。
+
+④IP负载均衡，在内核进程完成数据分发，叫反向代理负载均衡有更好的处理性能，网卡和带宽会成为主要的瓶颈。
+
+⑤数据链路层负载均衡(三角传输模式)，又名DR(直接路由模式)，也是大型网站昌运宫的负载均衡手段，在Linux平台上最好的链路层负载均衡产品是LVS。
+
+## 代码优化
+
+网站的业务逻辑实现代码主要部署在应用服务器上，合理的优化代码也可以很好的改善网站性能。几种常用的几种代码优化方式：
+
+①合理使用多线程，服务器的启动的线程数参考值：[任务执行时间/(任务执行时间-IO等待时间)]CPU内核数。
+
+②资源复用，要尽量减少那些开销很大的系统资源的创建和销毁，比如数据库连接，网络通信连接、线程、复杂对象，从编程角度，资源复用主要有两种方式，单例、对象池。
+
+③数据结构，前面缓存部分就已经提到了Hash表的基本原理，Hash表的读写性能在很大程度上依赖于HashCode的随机性，即HashCode越散列，Hash表的冲突就越少，目前比较好的Hash散列算法是Time33算法，算法原型为：hash(i) = hash(i-1)33+str[i]。
+
+④垃圾回收，比如说在JVM里，合理设置Young Generation和Old Generation的大小，尽量减少Full GC，如果设置合理的话，可以在整个运行期间做到从不进行Full GC。
+
+## 存储优化
+
+在网站应用中，海量是的数据读写对磁盘访问会造成一定的压力，虽然可以通过Cache解决一部分数据读压力，但是很多时候，磁仍然是系统最严重的瓶颈。
+
+机械硬盘VS固态硬盘
+   这两个的区别我相信大家都知道了吧，机械硬盘是通过马达驱动磁头臂带动磁头到指定的磁盘位置访问数据，这个效率我就不用多说了吧，相反，固态硬盘的数据是存储在可以持久记忆的硅晶体上，因此可以像内存一样随机访问，而且功耗更小。
+
+B+树VS. LSM树
+   B+树是一种专门针对磁盘存储而优化的N叉排序树，以树节点为单位存储在磁盘中，从根开始查找所需的节点编号和磁盘位置，将其加载到内存中，然后继续查找，知道找到所需数据，目前大部分关系型数据库多采用两级索引的B+树，树的层次最多为3层。
+
+目前很多NoSQL产品采用LSM树作为主要的数据结构，LSM树可以看做是一个N阶合并树，数据的写操作都在内存中完成，并且都会创建一个新记录，这些数据在内存中仍然还是一颗排序树。在需要读的时候，总是从内存中的排序树开始搜索，如果没有找到，就从磁盘的排序树中查找。
+
+在LSM树上进行一次数据更新不需要磁盘访问，在内存中即可完成，速度远快于B+树，当数据访问以写操作为主，而读操作则集中在最近写入的数据上时，使用LSM树可以极大程度的减少磁盘的访问次数，加快访问速度。
+
