@@ -1,4 +1,4 @@
-package function.unbound_method;
+package function.method_reference_unbound;
 
 /**
  * 〈〉

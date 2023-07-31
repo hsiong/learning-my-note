@@ -1,4 +1,4 @@
-package function;
+package function.method_reference_unbound;
 
 /**
  * 〈〉
@@ -7,6 +7,13 @@ package function;
  * @version 1.0.0
  * @since 2023/7/27
  */
+interface MakeString {
+    String make();
+}
+
+interface TransformX {
+    String transform(X x);
+}
 
 class X {
     String f() {
@@ -26,15 +33,6 @@ class S {
     String s() {
         return "s";
     }
-}
-
-
-interface MakeString {
-    String make();
-}
-
-interface TransformX {
-    String transform(X x);
 }
 
 public class UnboundMethodReference {
