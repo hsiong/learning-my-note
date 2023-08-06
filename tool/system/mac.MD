@@ -80,3 +80,7 @@ System Preference -> Keyboard Shortcut -> App Shortcut ->
 
 # can't change default app
 Get Info -> open With -> change default app
+
+
+# Mac app
+vss/vsd -> EdrawMax
