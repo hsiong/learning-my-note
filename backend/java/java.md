@@ -4,11 +4,20 @@ Java-review-for-audition
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可。
 
-- [Java-review](#Java-review)
-- [第一章 Java](#第一章-Java)
-  - [1.1 基础类型](#11-基础类型)
-  - [1.2 访问控制修饰符](#12-访问控制修饰符)
-  - [Java使用this关键字调用本类重载构造器](#Java使用this关键字调用本类重载构造器)
+- [Java-review](#java-review)
+- [第一章 Java](#第一章-java)
+  - [Java 基础](#java-基础)
+    - [基础类型](#基础类型)
+    - [访问控制修饰符](#访问控制修饰符)
+    - [Java使用this关键字调用本类重载构造器](#java使用this关键字调用本类重载构造器)
+    - [抽象类和接口的区别有哪些](#抽象类和接口的区别有哪些)
+    - [FastJson](#fastjson)
+    - [Java 队列](#java-队列)
+    - [swagger](#swagger)
+    - [Java使用HMAC-SHA256算法实现接口认证](#java使用hmac-sha256算法实现接口认证)
+    - [Java 命名规范](#java-命名规范)
+    - [分布式锁 redission](#分布式锁-redission)
+    - [Java 实现回调](#java-实现回调)
   - [1.3 Map](#13-map)
     - [1.3.1 Map的实现类](#131-map的实现类)
   - [1.4 Iterator](#14-iterator)
@@ -24,20 +33,27 @@ Java-review-for-audition
       - [1.4.2.2 移除元素](#1422-移除元素)
       - [1.4.2.3 去重](#1423-去重)
   - [1.5 线程池](#15-线程池)
-    - [1.5.1 为什么使用线程池](#151-为什么使用线程池)
-    - [1.5.2 使用线程池的风险](#152-使用线程池的风险)
-    - [1.5.3 线程池组成](#153-线程池组成)
-    - [1.5.4 Java 线程池工作过程](#154-Java-线程池工作过程)
-    - [1.5.5 常用的线程池类型(cache, fixed, single, schedule)](#155-常用的线程池类型cache-fixed-single-schedule)
+    - [原理](#原理)
+      - [为什么使用线程池](#为什么使用线程池)
+      - [使用线程池的风险](#使用线程池的风险)
+      - [线程池组成](#线程池组成)
+      - [Java 线程池工作过程](#java-线程池工作过程)
+      - [拒绝策略](#拒绝策略)
+    - [SpringBoot 实现](#springboot-实现)
+      - [线程池构造方法](#线程池构造方法)
+      - [异步线程池调用 @Async](#异步线程池调用-async)
+      - [线程池业务隔离, 状态监控与状态调优](#线程池业务隔离-状态监控与状态调优)
+    - [JDK 实现](#jdk-实现)
+        - [调用默认构造器(cache, fixed, single, schedule)](#调用默认构造器cache-fixed-single-schedule)
+      - [线程池阻塞队列](#线程池阻塞队列)
   - [1.6 对象, 反射, 泛型](#16-对象-反射-泛型)
   - [1.7 stream 流式操作](#17-stream-流式操作)
     - [flatmap](#flatmap)
   - [1.8 函数式编程](#18-函数式编程)
   - [1.9 Predicate 断言](#19-predicate-断言)
-  - [1.x3 FastJson](#1x3-fastjson)
-  - [1.xx 问题](#1xx-问题)
-    - [抽象类和接口的区别有哪些](#抽象类和接口的区别有哪些)
-  - [1.x Java经验](#1x-Java经验)
+  - [Java 定时器](#java-定时器)
+  - [Java Localdate -\> String](#java-localdate---string)
+  - [Java经验](#java经验)
 - [第二章 Mysql](#第二章-mysql)
   - [2.1 基础类型](#21-基础类型)
   - [2.2 约束](#22-约束)
@@ -63,9 +79,10 @@ Java-review-for-audition
 - [第四章 Linux](#第四章-linux)
   - [4.x Linux经验](#4x-linux经验)
 - [第五章 Spring-Boot](#第五章-spring-boot)
-  - [5.x Spring-Boot经验](#5x-spring-boot经验)
-  - [5.xx Spring 中的 maven 冲突与管理](#5xx-spring-中的-maven-冲突与管理)
-    - [5.xxx SpringBoot 中的依赖管理和自动仲裁机制](#5xxx-springboot-中的依赖管理和自动仲裁机制)
+  - [5.1 Spring-Boot经验](#51-spring-boot经验)
+  - [5.2 Spring 中的 maven 冲突与管理](#52-spring-中的-maven-冲突与管理)
+    - [5.2.1 SpringBoot 中的依赖管理和自动仲裁机制](#521-springboot-中的依赖管理和自动仲裁机制)
+  - [Spring yml](#spring-yml)
 - [第六章 Spring-cloud-alibaba](#第六章-spring-cloud-alibaba)
 - [第七章 数据结构与算法](#第七章-数据结构与算法)
 - [第八章 常见的锁及其实现](#第八章-常见的锁及其实现)
@@ -90,9 +107,26 @@ Java-review-for-audition
   - [14.2 网络协议](#142-网络协议)
   - [排序/查找算法](#排序查找算法)
   - [零拷贝/DMA](#零拷贝dma)
-- [swagger](#swagger)
 - [](#)
   - [保持好的对接习惯](#保持好的对接习惯)
+- [高并发](#高并发)
+  - [后端性能优化的指标](#后端性能优化的指标)
+  - [**后台服务器常用的优化方式**](#后台服务器常用的优化方式)
+  - [缓存](#缓存)
+      - [**缓存的本质**](#缓存的本质)
+        - [**合理的使用缓存**](#合理的使用缓存)
+        - [**频繁修改的数据**   ](#频繁修改的数据-)
+        - [**没有热点的访问**   ](#没有热点的访问-)
+        - [**数据的不一致与脏读**   ](#数据的不一致与脏读-)
+      - [缓存的常见问题优化手段](#缓存的常见问题优化手段)
+        - [缓存雪崩](#缓存雪崩)
+        - [缓存穿透](#缓存穿透)
+        - [缓存预热](#缓存预热)
+      - [**分布式缓存架构**](#分布式缓存架构)
+  - [异步](#异步)
+  - [集群](#集群)
+  - [代码优化](#代码优化)
+  - [存储优化](#存储优化)
 
 + Object & class
 + Encapsulation
@@ -452,8 +486,8 @@ public ThreadPoolExecutor(int corePoolSize,
 2. 当调用 execute() 方法添加一个任务时，线程池会做如下判断：  
     a) 如果正在运行的线程数量小于 corePoolSize，那么马上创建线程运行这个任务；  
     b) 如果正在运行的线程数量大于或等于 corePoolSize，那么将这个任务放入队列；  
-    c) 如果这时候队列满了，而且正在运行的线程数量小于 maximumPoolSize，那么还是要创建非核心线程立刻运行这个任务；  
-    d) 如果队列满了，而且正在运行的线程数量等于 maximumPoolSize，那么线程池会抛出异常 RejectExecutionException。  
+    c) 如果这时候队列满了，而且正在运行的线程数量小于 maxiumPoolSize，那么还是要创建非核心线程立刻运行这个任务；  
+    d) 如果队列满了，而且正在运行的线程数量等于 maxiumPoolSize，那么线程池会抛出异常 RejectExecutionException。  
 3. 当一个线程完成任务时，它会从队列中取下一个任务来执行。
 4. 当一个线程无事可做，超过一定的时间（keepAliveTime）时，线程池会判断，如果当前运行的线程数大于 corePoolSize，那么这个线程就被停掉。所以线程池的所有任务完成后，它最终会收缩到 corePoolSize 的大小。
 
@@ -488,7 +522,7 @@ return executor;
 
 + setCorePoolSize：指定了线程池中的线程数量。
 
-+ setMaxPoolSize：指定了线程池中的最大线程数量。
++ setMaxPoolSize：指定了线程池中的最大线程数量。注意, core-size 不能大于 max-size, 否则会报空指针异常
 
 + setQueueCapacity: 用来缓冲执行任务的队列最大数量, 超过执行拒绝策略
 
@@ -646,6 +680,12 @@ https://www.jianshu.com/p/5988b22f45dd
 ## Java 定时器
 
 https://www.cnblogs.com/silent-bug/p/13653049.html
+
+## Java Localdate -> String
+LocalDate/LocalDateTime与String的互相转换示例(附DateTimeFormatter详解)
+https://www.jianshu.com/p/b7e72e585a37
+https://www.cnblogs.com/CF1314/p/13884530.html
+
 
 ## Java经验
 
