@@ -29,3 +29,5 @@
 + uniform <sup>adj 统一的</sup>
 
 
+# 如何实现用户多端登录限制
+https://www.jianshu.com/p/6d5a9b325243    
