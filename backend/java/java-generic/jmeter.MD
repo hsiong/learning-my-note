@@ -4,3 +4,5 @@
 
 jmeter只有选定在父节点时, 才可以粘贴/复制
   
+## jmeter 疲劳测试
+https://blog.csdn.net/qq_27371025/article/details/117945434
