@@ -164,3 +164,22 @@ html
 </html>
 
 ```
+
+# SSE 集群站内信
+参考链接: 
++  Server-Send-Event (SSE) 技术在单服务多实例副本上的实现: https://juejin.cn/post/7224060318652153913
+
++  利用Redis发布订阅模式、SSE实现分布式实时站内信系统: https://blog.csdn.net/weixin_38515820/article/details/116588615
+
++ Redis Redisson 发布/订阅模式 实现: https://www.dczzs.com/articles/2022/11/24/1669300453144.html
+## 实现方法
++ 需要实现  implements Serializable 序列化, 
+
+```
+    /**
+     *序列化名称
+     */
+    private static final long serialVersionUID = 1L;
+```
+
++ SSE 客户端如果断开, 再向客户端发送消息会抛出异常, 所以需要执行断开 SSE 客户端的操作
