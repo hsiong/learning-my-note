@@ -73,3 +73,6 @@ Editor -> Color Schme -> General/Language Default/Java/Java Addition
 检查代码所在的代码块：有时，IDEA可能无法准确地确定代码是否未使用，特别是在复杂的代码块中。你可以尝试调整代码块的结构，或者使用IDEA的"Analyze"菜单中的"Inspect Code"选项来重新检查代码。
 
 使用"Optimize Imports"：如果你的项目中有未使用的导入语句，IDEA的"Optimize Imports"功能可以帮助你自动移除未使用的导入。你可以通过按下Ctrl + Alt + O（Windows/Linux）或Cmd + Option + O（Mac）来调用该功能。
+
+## IDEA 关闭/开启引用提示Usages
+https://blog.csdn.net/Logicr/article/details/124957505
