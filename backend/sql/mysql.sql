@@ -295,3 +295,9 @@ FROM maintenance_project_person p
 
 # mysql if
 https://blog.51cto.com/u_13236892/5751254
+
+# mysql code comment
+单行注释符"#"，#注释符后直接加注释内容 #这里是注释内容，查询database_name库table_name表里面的数据 ...
+单行注释符"--"， -- 注释符后需要加一个空格，注释才能生效 ...
+多行注释符"/* */",/*用于注释内容的开头，*/用于注释内容的结尾  
+> 注意, 在mybatis mapper中, 只能使用多行注释
