@@ -9,6 +9,9 @@ Java-review-for-audition
   - [Java 基础](#java-基础)
     - [基础类型](#基础类型)
     - [访问控制修饰符](#访问控制修饰符)
+    - [静态上下文与非静态内部类](#静态上下文与非静态内部类)
+      - [为什么如果您需要在静态上下文中创建非静态内部类的实例，您需要将内部类声明为静态的](#为什么如果您需要在静态上下文中创建非静态内部类的实例您需要将内部类声明为静态的)
+      - [静态上下文](#静态上下文)
     - [Java使用this关键字调用本类重载构造器](#java使用this关键字调用本类重载构造器)
     - [抽象类和接口的区别有哪些](#抽象类和接口的区别有哪些)
     - [FastJson](#fastjson)
@@ -53,6 +56,8 @@ Java-review-for-audition
   - [1.9 Predicate 断言](#19-predicate-断言)
   - [Java 定时器](#java-定时器)
   - [Java Localdate -\> String](#java-localdate---string)
+    - [String 类型转localDate](#string-类型转localdate)
+    - [date类型转localDate](#date类型转localdate)
   - [Java经验](#java经验)
 - [第二章 Mysql](#第二章-mysql)
   - [2.1 基础类型](#21-基础类型)
@@ -167,7 +172,7 @@ Java-review-for-audition
 >   被声明为 protected 的变量、方法和构造器能被同一个包中的任何其他类访问；
 > + 子类与基类不在同一包中：  
 >   那么在子类中，子类实例可以访问其从基类继承而来的 protected 方法，而不能访问基类实例的protected方法。
-```
+```java
 package p2;
 class MyObject2 {
     protected Object clone() throws CloneNotSupportedException{
@@ -187,6 +192,58 @@ public class Test2 extends MyObject2 {
 }
 ```
 对于(1)而言，clone()方法来自于类MyObject2本身，因此其可见性为包p2及MyObject2的子类，虽然Test2是MyObject2的子类，但在Test2中不能访问基类MyObject2的protected方法clone()，因此编译不通过;对于(2)而言，由于在Test2中访问的是其本身实例的从基类MyObject2继承来的的clone()，因此编译通过。
+
+### 静态上下文与非静态内部类
+
+ChatbotInitParam 实体如下所示, 但是 ChatbotInitParam.ChatbotInitChatbotConfigParam chatbotConfig = new ChatbotInitParam.ChatbotInitChatbotConfigParam(); 报错, 提示ChatbotInitParam' is not an enclosing class  ?
+
+```java
+@Data
+public class ChatbotInitParam {
+
+    @ApiModelProperty(value = "实例唯⼀id")
+    private String instance_id;
+
+    @Data
+    public class ChatbotInitChatbotConfigParam {
+
+        @ApiModelProperty(value = "机器⼈名称")
+        private String name;
+
+    }
+
+}
+
+```
+####  为什么如果您需要在静态上下文中创建非静态内部类的实例，您需要将内部类声明为静态的
+
+在 Java 中，非静态内部类（也称为成员内部类）是与外部类的实例相关联的，因为它们可以访问外部类的实例变量和方法。而在静态方法中，您无法直接访问非静态的实例变量，因为静态方法是与类本身关联，而不是与特定实例关联。
+
+如果要在静态上下文中访问内部类，可以采取以下方法：
+
++ 将内部类声明为静态：将内部类声明为静态后，它就不再与外部类的实例相关联，可以在静态上下文中创建实例。这是因为静态内部类不依赖于外部类的实例。
+
++ 使用外部类的实例创建内部类的实例：如果您不希望将内部类声明为静态，而又想在静态方法中创建它的实例，您可以先创建外部类的实例，然后通过该实例来创建内部类的实例。
+
+在您的情况下，如果您希望在静态方法中创建 ChatbotInitChatbotConfigParam 的实例，您可以将内部类声明为静态，或者将其提取为独立的类，或者通过创建外部类的实例来创建内部类的实例。选择哪种方法取决于您的需求和设计。
+
+#### 静态上下文
+
+
+"静态上下文" 是指在 Java 中与类本身关联的环境，而不是与类的实例相关联的环境。静态上下文中的代码可以访问和操作静态成员（静态字段和静态方法），但不能访问非静态的实例成员。
+
+具体来说，在以下情况下，您处于静态上下文：
+
++ 在类的静态方法中：静态方法是与类本身相关联的，因此在静态方法中只能访问静态成员，不能访问非静态的实例成员。
+
++ 在静态初始化块中：静态初始化块是在类加载时执行的，也属于类本身的操作，因此同样只能访问静态成员。
+
++ 在静态字段的初始化中：静态字段的初始化也在类加载时进行，所以只能访问静态成员。
+
+总之，静态上下文表示您处于与类本身关联的环境，这意味着您无法在其中访问与类的实例相关的成员，除非这些成员被声明为静态。
+
+> 总结: 在本例中 new ChatbotInitParam.ChatbotInitChatbotConfigParam(), 就是调用了 ChatbotInitParam 类下的 ChatbotInitChatbotConfigParam() 静态方法, 而这个类是 class xxx 并不是静态的, 所以导致了一场
+
 
 ### Java使用this关键字调用本类重载构造器
 https://www.cnblogs.com/wanghongyun/p/6132083.html
@@ -686,6 +743,14 @@ LocalDate/LocalDateTime与String的互相转换示例(附DateTimeFormatter详解
 https://www.jianshu.com/p/b7e72e585a37
 https://www.cnblogs.com/CF1314/p/13884530.html
 
+### String 类型转localDate
+LocalDate beginDateTime = LocalDate.parse(beginDate, DateTimeFormatter.ofPattern(“yyyy-MM-dd”));
+
+### date类型转localDate
+Date dates = new SimpleDateFormat(“yyyyMM”).parse(cycle);
+Instant instant = dates.toInstant();
+ZoneId zoneId = ZoneId.systemDefault();
+LocalDate localDate = instant.atZone(zoneId).toLocalDate();
 
 ## Java经验
 
