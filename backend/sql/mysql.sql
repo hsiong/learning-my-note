@@ -301,3 +301,33 @@ https://blog.51cto.com/u_13236892/5751254
 单行注释符"--"， -- 注释符后需要加一个空格，注释才能生效 ...
 多行注释符"/* */",/*用于注释内容的开头，*/用于注释内容的结尾  
 > 注意, 在mybatis mapper中, 只能使用多行注释
+
+## query table info
+
+SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dms_app_dev';
+
+## MySQL 运算符
+https://www.runoob.com/mysql/mysql-operator.html
+
++ - * / %
+
+## Mysql Date
+### date_add
+
+select date_add(now(), interval 1 day); - 加1天
+ 
+select date_add(now(), interval 1 hour); -加1小时
+ 
+select date_add(now(), interval 1 minute); - 加1分钟
+ 
+select date_add(now(), interval 1 second); -加1秒
+ 
+select date_add(now(), interval 1 microsecond);-加1毫秒
+ 
+select date_add(now(), interval 1 week);-加1周
+ 
+select date_add(now(), interval 1 month);-加1月
+ 
+select date_add(now(), interval 1 quarter);-加1季
+ 
+### date_sub()
