@@ -136,3 +136,26 @@ https://blog.csdn.net/abcwanglinyong/article/details/90448497
 
 ```
 
+## 4. Cannot connect to the Maven process. Try again later. If the problem persists, check the Maven
+https://blog.csdn.net/a1782519342/article/details/124740171
+
+这个问题出现于项目指定的sdk与maven sdk 不一致
+
+Build，Execution，Deployment --> Build Tools --> Maven --> Importing --> JDK for import 
+
+```xml
+<configuration>
+    <source>1.8</source> <!-- 设置 Java 源代码的版本 -->
+    <target>1.8</target> <!-- 设置编译生成的字节码版本 -->
+</configuration>
+```
+
++ setting --> Build Tools --> Maven --> Importing --> JDK for import 在此设置对应的 JDK版本即可，我的是jdk1.8。  
++ Maven --> Runner -> JRE, 指定对应版本
++ Project Structure -> Project -> 对应的 JDK  
+
+## 5. maven 找不到某个包
+检查 pom.xml <repositories></repositories> 标签, 如使用 aliyun, 则在 https://maven.aliyun.com/ 检查对应仓库是否引入; 
+
+## 6. pom.xml distributionManagement 和 repositories 区别
+distributionManagement 用于部署依赖, repositories 用于指定下载依赖
