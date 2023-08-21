@@ -84,3 +84,10 @@ Get Info -> open With -> change default app
 
 # Mac app
 vss/vsd -> EdrawMax
+
+# Mac系统输入法长按一个按键不能连续输入
+```shell
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -boolean false
+```
+https://www.jianshu.com/p/74dda481ed24
+
