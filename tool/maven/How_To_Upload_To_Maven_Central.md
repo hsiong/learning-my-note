@@ -48,7 +48,7 @@ Sync Sonatype to Maven repository would cost 5 ~ 20 minutes.
 ## Beware this, you cant remove a artifact which already realeased to maven central
 https://stackoverflow.com/questions/9789611/removing-an-artifact-from-maven-central
 
-## gpg auth 401
+## gpg auth 401 / deploy 401 Unauthorized 
 + generate gpg
 ```
 gpg --list-keys
@@ -62,6 +62,8 @@ gpg --generate-key
 gpg --keyserver http://keys.openpgp.org --send-keys 234
 
 gpg --keyserver http://keys.openpgp.org:11371 --send-keys 234
+
+# visit http://keys.openpgp.org to verify
 
 ```
 
@@ -81,6 +83,9 @@ gpg --keyserver http://keys.openpgp.org:11371 --send-keys 234
 > idea maven setting.xml not equals mvn settings  
 > mvn clean deploy --settings F:\Maven\settings.xml
 > https://cloud.tencent.com/developer/article/1522574#:~:text=settings.xml%20%E6%96%87%E4%BB%B6%E4%BD%8D%E7%BD%AE,%7D%2F.m2%2Fsettings.xml
+>
+> The server label must be within the "servers" label.
+
 
 ## progressed file size cannot be greater than size
 原因：在多模块项目中，在父pom.xml中写发布配置，并在父目录下执行mvn deploy会报上述错误
