@@ -76,3 +76,18 @@ Editor -> Color Schme -> General/Language Default/Java/Java Addition
 
 ## IDEA 关闭/开启引用提示Usages
 https://blog.csdn.net/Logicr/article/details/124957505
+
+## IDEA中Ctrl+Shift+F快捷键被占用 - windows
+https://www.jianshu.com/p/bdd0c27810ed
+
+windows 自带输入法, 默认开启了简繁切换热键
+
+## 新版本IDEA，在XML文件中没有SQL关键字提示 
+https://youtrack.jetbrains.com/issue/IDEA-320526
+禁用了相关插件的问题, 初步判定为禁用了 spring web 和 persistence framework 插件导致的
+
+## IDEA sql 不提示表
+检查数据库端口和地址
+
+## FastRequest 关闭升级提示
+在插件内, 关闭升级提示
