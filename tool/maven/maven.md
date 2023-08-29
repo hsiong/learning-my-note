@@ -159,3 +159,6 @@ Build，Execution，Deployment --> Build Tools --> Maven --> Importing --> JDK f
 
 ## 6. pom.xml distributionManagement 和 repositories 区别
 distributionManagement 用于部署依赖, repositories 用于指定下载依赖
+
+## maven setting.xml 不生效
+检查 mirrors -> mirror -> mirrorOf 标签
