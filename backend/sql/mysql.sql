@@ -331,3 +331,7 @@ select date_add(now(), interval 1 month);-加1月
 select date_add(now(), interval 1 quarter);-加1季
  
 ### date_sub()
+
+
+## default value not working
+cause insert null 
