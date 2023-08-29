@@ -34,9 +34,18 @@ https://www.tabnine.com/code/java/classes/com.baomidou.mybatisplus.annotation.Ta
 3.cannot parse mysql column in JSON_OBJECT function 
 https://github.com/JSQLParser/JSqlParser/issues/1504
 
+## mybatis-plus
+### Mybatis-plus使用IPage分页不生效
+https://blog.csdn.net/weixin_42168713/article/details/125117898
 
-
-
+```java
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.POSTGRE_SQL));
+        return interceptor;
+    }
+```
 
 
 
