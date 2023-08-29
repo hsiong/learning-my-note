@@ -34,8 +34,10 @@ ps aux | grep java | awk '{if(NR>=2) print $2 ","}' |xargs |sed 's/ //g' | sed -
 
 # kill process
 ## kill process by name
+name=java
 ps aux|grep $name|grep -v grep|awk '{print $2}'|xargs kill
 ## kill process by port
+port=8080
 lsof -i:$port|awk '{if(NR>=2) print $2}'|xargs kill
 
 # start java
