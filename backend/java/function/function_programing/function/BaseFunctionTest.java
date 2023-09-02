@@ -1,4 +1,4 @@
-package function.function;
+package function_programing.function;
 
 import java.util.function.*;
 
@@ -63,6 +63,10 @@ public class BaseFunctionTest {
     static LongToDoubleFunction f11 = l -> l;
     static DoubleToIntFunction f12 = d -> (int) d;
     static DoubleToLongFunction f13 = d -> (long) d;
+    
+    static Predicate<DBaz> f14 = d -> true;
+    static BiPredicate<DBaz, DBaz> f14_2 = (d1, d2) -> true;
+    static BiFunction<IBaz, DBaz, Long> f15 = (d1, d2) -> 1L;
 
     public static void main(String[] args) {
         // apply usage examples

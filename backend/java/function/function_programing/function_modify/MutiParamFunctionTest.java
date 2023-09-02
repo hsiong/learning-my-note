@@ -1,4 +1,4 @@
-package function.function_modify;
+package function_programing.function_modify;
 
 import org.junit.Test;
 
@@ -9,6 +9,14 @@ import org.junit.Test;
  * @version 1.0.0
  * @since 2023/7/30
  */
+
+@FunctionalInterface
+interface MultiParamFunction<T, U, V, R> {
+
+    R apply(T t, U u, V v);
+    
+}
+
 public class MutiParamFunctionTest {
 
     static String f(int i, long l, double d) {
@@ -33,3 +41,4 @@ public class MutiParamFunctionTest {
     }
 
 }
+

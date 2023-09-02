@@ -1,4 +1,4 @@
-package function.function_modify;
+package function_programing.function_modify;
 
 import org.junit.Test;
 
@@ -9,16 +9,25 @@ import org.junit.Test;
  * @version 1.0.0
  * @since 2023/7/30
  */
+@FunctionalInterface
+interface NoParamFunction<T> {
+
+    T apply();
+
+
+}
+
+
 public class NoParamFunctionTest {
 
     static String f() {
         return "f";
     }
-    
+
     static int s() {
         return 1;
     }
-    
+
     @Test
     public void test() {
         NoParamFunction<String> tf1 = NoParamFunctionTest::f;

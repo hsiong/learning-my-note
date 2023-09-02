@@ -1,4 +1,4 @@
-package function.function;
+package function_programing.function;
 
 import java.util.function.BiConsumer;
 

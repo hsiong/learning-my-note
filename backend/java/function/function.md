@@ -418,7 +418,7 @@ public class UnboundMethodReference {
 > + 入参是基本类型, 出参是基本类型, 名称的第一部分表示入参, ToXXX 表示出参, 如 IntToLongFunction, LongToDoubleFunction
 > + 入参是非基本类型, 出参为基本类型，则用泛型表示入参, To 表示出参，如 ToIntFunction<IBaz>, ToLongFunction<LBaz>
 > + 如果返回值为布尔值，则是由 Predicate 表示, 如 Predicate<DBaz>
-> + 如果接收的参数有两个，则名称中有一个 Bi, 如 BiPredicate<DBaz, DBaz>,  BiFunction<IBaz, DBaz, Long>
+> + 如果接收的参数有两个，则名称中有一个 Bi; 如 BiPredicate<DBaz, DBaz>,  BiFunction<IBaz, DBaz, Long>; 前两个泛型为入参类型, 没有第三个泛型则无返回, 有的话则为返回参数
 
 ## 基本类型
 
@@ -538,6 +538,8 @@ public class ObjectFunctionTest {
 
 java.util.functional 中的接口是有限的，如果需要无参数或者多个参数函数的接口怎么办？自己创建就可以了; 实际应用时, 与方法引用一致, 所以自己定义一个接口也是可以的
 
+### 基于 @FunctionalInterface 实现
+
 多参 demo: 
 
 ```java
@@ -608,7 +610,9 @@ public class NoParamFunctionTest {
 }
 ```
 
+### 基于柯里化实现
 
+这个我们在最后一章会介绍, 使用起来非常麻烦
 
 ## 高阶函数
 
@@ -686,6 +690,8 @@ public class ClosureExample {
 
 函数组合（Function Composition）意为 “多个函数组合成新函数”。它通常是函数式编程的基本组成部分。
 
+### function
+
 先看 Function 函数组合示例代码：
 
 ```java
@@ -734,3 +740,69 @@ Function 自带的函数有三个
 + apply(T t)
 
   执行调用者
+
+### Predicate
+
+```java
+public class PredicateComposition {
+    static Predicate<String>
+            p1 = s -> s.contains("bar"),
+            p2 = s -> s.length() < 5,
+            p3 = s -> s.contains("foo"),
+            p4 = p1.negate().and(p2).or(p3);    // 使用谓词组合将多个谓词组合在一起，negate 是取反，and 是与，or 是或
+
+    public static void main(String[] args) {
+        Stream.of("bar", "foobar", "foobaz", "fongopuckey")
+                .filter(p4)
+                .forEach(System.out::println);
+    }
+}
+```
+
+Predicate 自带的函数有三个
+
+- p1.negate()：取反
+- and(p2)：与
+- or(p3)：或
+
+## 柯里化
+
+柯里化（Currying）是函数式编程中的一种技术，它将一个接受多个参数的函数转换为一系列单参数函数。
+
+让我们通过一个简单的 Java 示例来理解柯里化：
+
+```java
+public class CurryingTest {
+
+    static String uncurried(String a, String b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+
+        String s1 = "1 ";
+        String s2 = "2";
+        System.out.println("uncurried(a, b)");
+        System.out.println(uncurried(s1, s2));
+        System.out.println();
+        
+        // 柯里化的函数，它是一个接受多参数的函数
+        Function<String, Function<String, String>> sum = fa -> fb -> fa + "fun1 " + fb; // fa为第一个
+        BiFunction<String, String, String> sumBi = (fa, fb) -> fa + "fun1 " + fb;
+        Function<String,
+            Function<String,
+                Function<String, String>>> sumMulti = a -> b -> c -> a + b + c;
+
+        // 通过链式调用逐个传递参数
+        Function<String, String> hi = sum.apply(s1);
+        System.out.println(hi.apply(s2));
+
+        Function<String, String> sumHi = s -> s + " fun2 " + s;
+        System.out.println(sumHi.apply(s2));
+    }
+
+}
+```
+
+可以发现, 柯里化是实现多入参的一种方式
+

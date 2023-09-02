@@ -1,4 +1,4 @@
-package function.method_reference;
+package function_programing.fp_method_reference;
 
 import org.junit.Test;
 
