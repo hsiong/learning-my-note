@@ -810,6 +810,37 @@ import static com.xxx.xxxStaticFinal.*;
 
 18. 命名规范 https://www.jhelp.net/p/Dq0h3U69SZfAAGhP
 19. Java使用HMAC-SHA256算法实现接口认证  https://www.jianshu.com/p/365c2b3811d9
+20. constant string too long
+java string 支持传递长字段, 但是初始化时不支持 10kb 以上字符串, 所以只能通过读取文件或者http方式获取长字段, 比如
+```java
+    public static String sendLongAudio() {
+        // 指定要读取的文件路径
+        String filePath = "path";
+
+        String out = "";
+        try {
+            // 创建文件读取器
+            FileReader fileReader = new FileReader(filePath);
+
+            // 创建缓冲字符流
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            // 逐行读取文件内容
+            String line = "";
+            while ((line = bufferedReader.readLine()) != null) {
+                out = line;
+            }
+
+            // 关闭文件读取器
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+```
+
 
 # 第二章 Mysql
 
