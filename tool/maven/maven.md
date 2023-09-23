@@ -162,3 +162,6 @@ distributionManagement 用于部署依赖, repositories 用于指定下载依赖
 
 ## maven setting.xml 不生效
 检查 mirrors -> mirror -> mirrorOf 标签
+
+## sonatype timed out
+没走VPN, 使用 safari 试一下
