@@ -208,5 +208,9 @@ echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $your-miss-key
 
 # cp dir, not cp file
-find sourceDir -type d -exec mkdir aimDir/{} \; 
+cd $sourceDir
+find ./ -type d -exec mkdir $aimDir/{} \; 
 
+# delete file not dir
+sourceDir=./
+find $sourceDir -type f -exec rm {} \;
