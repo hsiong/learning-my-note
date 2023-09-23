@@ -88,9 +88,12 @@ DESC
 https://www.cxyzjd.com/article/qq_24057133/105679794
 
 ## mybatis donot support json_agg
-## https://blog.csdn.net/qq_44075194/article/details/126194672
+https://blog.csdn.net/qq_44075194/article/details/126194672
 adding the annotation @InterceptorIgnore(tenantLine = "true") to the mapper may solve this problem .
 
+## mysql count length
+https://blog.csdn.net/longzhiwen888/article/details/46562157
+SELECT leixing ,count(leixing) ,length(leixing) from pxb_post where length(leixing)>20 group by leixing order by length(leixing) desc;
 
 ## case when 
 SELECT OrderID, Quantity,
@@ -335,3 +338,8 @@ select date_add(now(), interval 1 quarter);-加1季
 
 ## default value not working
 cause insert null 
+
+
+### mysql str_to_date 字符串转换为日期, 最小到日
+https://www.cnblogs.com/feiwenstyle/p/9531571.html
+SELECT STR_TO_DATE('2023-07-01', '%Y-%m-%d %H:%i:%S');  
