@@ -840,6 +840,7 @@ java string 支持传递长字段, 但是初始化时不支持 10kb 以上字符
         return out;
     }
 ```
+21. 获取方法名 `Thread.currentThread().getStackTrace()[1].getMethodName();`
 
 
 # 第二章 Mysql
@@ -1296,7 +1297,31 @@ https://blog.csdn.net/kylin_tam/article/details/116276610
 @Length(min=, max=) => String
 ```
 18. Java 实现断点传输: https://blog.csdn.net/u011250186/article/details/128322350
+19. 按需加载 - @Condition
+    https://blog.csdn.net/xcy1193068639/article/details/81491071
+```java
+public class LinuxCondition implements Condition {
+ 
+    @Override
+    public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
+ 
+        Environment environment = conditionContext.getEnvironment();
+ 
+        String property = environment.getProperty("os.name");
+        if (property.contains("Linux")){
+            return true;
+        }
+        return false;
+    }
+}
+```
+20. 按需加载 - @ConditionalOnProperty
+```java
+@ConditionalOnProperty(name = "token.check", havingValue = "false")
+```
 
+21. `@JsonIgnore` 要使用 jackson 提供的 @JsonIgnore 才生效
+22. json 大写变量处理, 使用注解 `@JsonProperty("SN")`
 
 ## 5.2 Spring 中的 maven 冲突与管理
 ### 5.2.1 SpringBoot 中的依赖管理和自动仲裁机制
@@ -1311,6 +1336,8 @@ https://blog.csdn.net/kylin_tam/article/details/116276610
             <optional>true</optional>
         </dependency>
 ```
+
+
 
 参考资料:
 1. https://www.cxyzjd.com/article/MrYushiwen/111866287
