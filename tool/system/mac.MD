@@ -91,3 +91,8 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -boolean false
 ```
 https://www.jianshu.com/p/74dda481ed24
 
+# Postman
+
+## postman 导出 curl 命令
+https://www.cnblogs.com/hi3254014978/p/15585732.html
+直接右侧tab页, 展开 code
