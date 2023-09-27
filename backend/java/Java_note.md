@@ -94,7 +94,8 @@ https://www.cnblogs.com/coding-one/p/12401630.html
 + @Cacheable 提供两个参数来指定缓存名：value、cacheNames，二者选其一即可。
 + spring cache not null -  unless="#result == null"
   Spring Cacheable注解不缓存null值 https://blog.csdn.net/difffate/article/details/64124272
-+ 
++ @Cacheable 不生效 
+  缺少缓存配置： 确保您的 Spring Boot 项目中已经配置了缓存。通常，您需要在配置类上添加 @EnableCaching 注解，以启用缓存功能  
 
 20. obj -> jsonObj
 ```
