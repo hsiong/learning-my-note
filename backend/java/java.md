@@ -583,7 +583,7 @@ return executor;
 
 + setQueueCapacity: 用来缓冲执行任务的队列最大数量, 超过执行拒绝策略
 
-+ setKeepAliveSeconds：当前线程池数量超过 corePoolSize 时，多余的空闲线程的存活时间，即多次时间内会被销毁。
++ setKeepAliveSeconds：当前线程池数量超过 corePoolSize 时，多余的空闲线程的存活时间，时间内会被销毁。
 
 + setThreadNamePrefix: 线程池名的前缀, 设置好了之后可以方便我们定位处理任务所在的线程池
 
