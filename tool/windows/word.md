@@ -13,3 +13,7 @@ https://www.cnblogs.com/yingyingdeyueer/p/11573510.html
 not support ^1
 \.([0-9]{1,100})
 .\1
+
+# excel wps怎么批量去除左上角标志
+
+Customize -> Error Checking -> Unclick Number stored as text
