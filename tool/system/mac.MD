@@ -8,13 +8,59 @@
 # 3. IDEA PERMISSION DENIED
 `sudo chmod -R username:usergroup FilePath`
 
-# homebrew install specific version
-https://shockerli.net/post/homebrew-install-formula-specific-version/
-
 # mac compile java opencv
-https://juejin.cn/post/7006821354397761543
 
-/opt/homebrew/Cellar/opencv/4.6.0_1/share/java/opencv4
+## Manual Install Mac
+
+https://zhuanlan.zhihu.com/p/392751819
+
+```shell
+mkdir cd ~/Desktop/build & cd ~/Desktop/build
+cmake -S /opencvPath \
+-DWITH_OPENJPEG=OFF \
+-DWITH_IPP=OFF \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DBUILD_TESTS=OFF \
+-DBUILD_PERF_TESTS=OFF \
+-DCMAKE_VERBOSE_MAKEFILE=ON \
+-DCMAKE_INSTALL_PREFIX=/opt/homebrew/Cellar/opencv \
+-DJAVA_INCLUDE_PATH=$JAVA_HOME/include \
+-DJAVA_AWT_LIBRARY=$JAVA_HOME/lib/libawt.dylib \
+-DJAVA_JVM_LIBRARY=$JAVA_HOME/lib/server/libjvm.dylib \
+-DBUILD_opencv_python2=OFF \
+-DBUILD_opencv_java=ON \
+-DINSTALL_PYTHON_EXAMPLES=OFF \
+-DINSTALL_C_EXAMPLES=OFF \
+-DOPENCV_ENABLE_NONFREE=OFF \
+-DBUILD_EXAMPLES=ON
+make all -j$(grep -c ^processor /proc/cpuinfo)
+sudo make install -j$(grep -c ^processor /proc/cpuinfo)   
+
+```
+
+```
+  cmake -S /opencvPath \
+-DWITH_OPENJPEG=OFF \
+-DWITH_IPP=OFF \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DBUILD_TESTS=OFF \
+-DBUILD_PERF_TESTS=OFF \
+-DCMAKE_VERBOSE_MAKEFILE=ON \
+-DCMAKE_INSTALL_PREFIX=/opt/homebrew/Cellar/opencv \
+-DJAVA_INCLUDE_PATH=$JAVA_HOME/include \
+-DJAVA_AWT_LIBRARY=$JAVA_HOME/lib/libawt.dylib \
+-DJAVA_JVM_LIBRARY=$JAVA_HOME/lib/server/libjvm.dylib \
+-DBUILD_opencv_python2=OFF \
+-DBUILD_opencv_java=ON \
+-DINSTALL_PYTHON_EXAMPLES=OFF \
+-DINSTALL_C_EXAMPLES=OFF \
+-DOPENCV_ENABLE_NONFREE=OFF \
+-DBUILD_EXAMPLES=ON
+```
+
+# linux manual install
+
+> mac: HOMEBREW_NO_AUTO_UPDATE=1 brew edit opencv
 
 ```
 wget -O opencv.zip https://github.com/opencv/opencv/archive/4.6.0.zip
@@ -22,21 +68,38 @@ wget -O opencv.zip https://github.com/opencv/opencv/archive/4.6.0.zip
 cd opencv-4.5.0
 mkdir build && cd build
 
-cmake 
--DWITH_OPENJPEG=OFF \
+cmake -DWITH_OPENJPEG=OFF \
 -DWITH_IPP=OFF \
--D CMAKE_BUILD_TYPE=RELEASE \
--D CMAKE_INSTALL_PREFIX=/usr/local/opencv \
--D JAVA_INCLUDE_PATH=$JAVA_HOME/include \
--D JAVA_AWT_LIBRARY=$JAVA_HOME/jre/lib/amd64/libawt.so \
--D JAVA_JVM_LIBRARY=$JAVA_HOME/jre/lib/arm/server/libjvm.so \
--D BUILD_opencv_python2=OFF \
--D BUILD_opencv_java=ON \
--D INSTALL_PYTHON_EXAMPLES=OFF \
--D INSTALL_C_EXAMPLES=OFF \
--D OPENCV_ENABLE_NONFREE=OFF \
--D BUILD_EXAMPLES=ON
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DCMAKE_INSTALL_PREFIX=/usr/local/opencv \
+-DJAVA_INCLUDE_PATH=$JAVA_HOME/include \
+-DJAVA_AWT_LIBRARY=$JAVA_HOME/jre/lib/amd64/libawt.so \
+-DJAVA_JVM_LIBRARY=$JAVA_HOME/jre/lib/arm/server/libjvm.so \
+-DBUILD_opencv_python2=OFF \
+-DBUILD_opencv_java=ON \
+-DINSTALL_PYTHON_EXAMPLES=OFF \
+-DINSTALL_C_EXAMPLES=OFF \
+-DOPENCV_ENABLE_NONFREE=OFF \
+-DBUILD_EXAMPLES=ON
 ```
+
+## newest-release
+https://juejin.cn/post/7006821354397761543
+
+/opt/homebrew/Cellar/opencv/4.6.0_1/share/java/opencv4
+
+## homebrew install specific version
+https://shockerli.net/post/homebrew-install-formula-specific-version/
+
++ brew info opencv
++ brew tap-info homebrew/core  
++ cd /opt/homebrew/Library/Taps/homebrew/homebrew-core
++ git log -p -- Formula/opencv.rb | grep -e ^commit -e 'url "http'
++ git checkout f54d39e63b609a2ae25dd039f9edae6c82120f96 --force
++ HOMEBREW_NO_AUTO_UPDATE=1 
++ brew edit opencv
++ brew install --build-from-source --formula ./Formula/opencv.rb
++ git checkout master
 
 # m1 slim compatity
 docker hub 找 支持 linux/arm64 的镜像即可
