@@ -31,6 +31,8 @@ https://www.cnblogs.com/along21/p/10366886.html
 # search java loc
 ps aux | grep java | awk '{if(NR>=2) print $2 ","}' |xargs |sed 's/ //g' | sed -e 's/\(.*\),/\1/' | xargs top -bcp
 
+## java_home
+/usr/libexec/java_home -V
 
 # kill process
 ## kill process by name
