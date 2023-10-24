@@ -1,0 +1,53 @@
+<input type="file" id="picker" accept="image/svg+xml">
+
+<canvas id="myCanvas" width="456" height="80"></canvas>
+
+<button id="download">下载PNG</button>
+
+<script>
+  // 创建一个Image对象
+  let img = new Image();
+
+  img.onload = () => {
+    let canvas = document.querySelector('canvas');
+    // 设置Canvas尺寸与SVG图像一致
+    canvas.width = img.width;
+    canvas.height = img.height;
+    // 获取Canvas的2D上下文
+    let ctx = canvas.getContext('2d');
+    // 绘制SVG图像到Canvas
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  };
+
+  // 给文件选择框添加监听事件
+  var fileInput = document.getElementById('picker');
+  fileInput.addEventListener('change', function (e) {
+    let f = e.target.files[0];
+    // 如果是SVG文件，则加载到Image对象中
+    if (f && f.type === 'image/svg+xml') {
+      let reader = new FileReader();
+      reader.onload = function (e) {
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(f);
+    } else {
+      alert('请选择一个SVG文件');
+    }
+  });
+
+  // 添加下载按钮的点击事件
+  var downloadButton = document.getElementById('download');
+  downloadButton.addEventListener('click', function () {
+    // 创建一个下载链接
+    let a = document.createElement('a');
+    // 将Canvas上的内容转为PNG格式的数据URL
+    let canvas = document.querySelector('canvas');
+    let pngDataUrl = canvas.toDataURL('image/png');
+    // 设置下载链接的href和文件名
+    a.href = pngDataUrl;
+    a.download = 'svg.png';
+    // 触发点击事件，开始下载
+    a.click();
+  });
+</script>
+
