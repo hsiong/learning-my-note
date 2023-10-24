@@ -23,6 +23,10 @@ CREATE TABLE table_name
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT ='table_comment';
 
+## add table comment 
+alter table test1 comment 'comment';
+
+
 ## rename database 
 dump data, then drop database, create new database
 
@@ -343,3 +347,30 @@ cause insert null
 ### mysql str_to_date 字符串转换为日期, 最小到日
 https://www.cnblogs.com/feiwenstyle/p/9531571.html
 SELECT STR_TO_DATE('2023-07-01', '%Y-%m-%d %H:%i:%S');  
+
+## type 4 不一定没有, 只是打个比方, 也就是说我想要的结果要有五个, 如果不够5个则添加多个值进去
+SELECT t.type, COALESCE(s.num, 0) AS num
+FROM (
+    SELECT DISTINCT type FROM xxx
+    UNION ALL
+    SELECT 0 AS type
+    UNION ALL
+    SELECT 1 AS type
+    UNION ALL
+    SELECT 2 AS type
+    UNION ALL
+    SELECT 3 AS type
+    UNION ALL
+    SELECT 4 AS type
+    UNION ALL
+    SELECT 5 AS type
+) AS t
+LEFT JOIN (
+    SELECT type, COUNT(1) AS num
+    FROM xxx
+    GROUP BY type
+) AS s
+ON t.type = s.type
+ORDER BY t.type;
+
+## 
