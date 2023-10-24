@@ -132,6 +132,7 @@ Java-review-for-audition
   - [集群](#集群)
   - [代码优化](#代码优化)
   - [存储优化](#存储优化)
+- [滤波器](#滤波器)
 
 + Object & class
 + Encapsulation
@@ -842,6 +843,50 @@ java string 支持传递长字段, 但是初始化时不支持 10kb 以上字符
 ```
 21. 获取方法名 `Thread.currentThread().getStackTrace()[1].getMethodName();`
 
+22. java 传入特定参数
+java 启动时传入参数 `java -jar xxx.jar --spring.profiles.active=prod`
+
+
+23.  返回前端 @Configuration 修饰的类, 会报异常
+@Configuration注解用于定义配置类，通常不会直接返回给前端。如果您尝试将带有@Configuration注解的类直接返回给前端，可能会导致异常或不符合预期的行为。
+
+```
+
+@RestController
+@RequestMapping("/api")
+public class MyController {
+
+    @Value("${your-config-key}")
+    private String configValue;
+
+    @GetMapping("/config")
+    public String getConfig() {
+        return configValue;
+    }
+}
+```
+
+24.  immutables
+https://reflectoring.io/immutables-library/
+
+25. System.out.println 格式化输出
+基础的格式化输出：
+System.out.printf("Hello %s!%n", "World");
+
+26. 如何在 springboot 启动时 查询数据库 
+最简单最笨的方法, 放在 spring-boot runApplication 内执行, 避免 mybatis 加载顺序导致执行失败
+```java
+    public static void main(String[] args) {
+        SpringApplication.run(ServerApplication.class,args);
+
+        init();
+    }
+    
+    public static void init() {
+      // 查询数据库
+    }
+```
+
 
 # 第二章 Mysql
 
@@ -1137,19 +1182,22 @@ on 条件是在生成临时表时使用的条件，它不管 on 中的条件是�
    这三个方案都是基于sql线性查找较多维查找更快
    + 方案4: likeRight 月份
 7. mybatis list返回null元素, 是因为mysql查出了null值
-8. update和delete语句都不能加表别名, 即不能使用c.xxx的形式
-9. mysql date格式化
+8. MyBatisSystemException: nested exception is org.apache.ibatis.binding.BindingException: Parameter 'paramType_Gr8re1Ee' not found. Available parameters are [ew, param1]
+
+
+9.  update和delete语句都不能加表别名, 即不能使用c.xxx的形式
+10. mysql date格式化
 ```
 日期->字符串: DATE_FORMAT(start_time,'%Y-%m-%d %h:%i:%s')
 任意日期格式字符串->date: date(start_time_str)
 日期格式字符串按格式->dateTime: str_to_date(start_time_str, '%Y-%m-%d')
 ```
-10. <where></where> 标签会自动拼接合适的and条件
-11. delFlag 阿里规范
+1.  <where></where> 标签会自动拼接合适的and条件
+2.  delFlag 阿里规范
 ```
 `del_flag` tinyint unsigned DEFAULT 0 COMMENT '删除标识 0/未删除，1/已删除',
 ```
-12. mysql and与on区别
+1.  mysql and与on区别
 ```
 # and写在ON后面 左连接, 不存在则返回null
 SELECT
@@ -1322,6 +1370,9 @@ public class LinuxCondition implements Condition {
 
 21. `@JsonIgnore` 要使用 jackson 提供的 @JsonIgnore 才生效
 22. json 大写变量处理, 使用注解 `@JsonProperty("SN")`
+
+23. md5 格式验证: 确保它是一个长度为32的字符串，且只包含十六进制字符（0-9和a-f或A-F）
+24. 
 
 ## 5.2 Spring 中的 maven 冲突与管理
 ### 5.2.1 SpringBoot 中的依赖管理和自动仲裁机制
@@ -1741,3 +1792,40 @@ B+树VS. LSM树
 
 在LSM树上进行一次数据更新不需要磁盘访问，在内存中即可完成，速度远快于B+树，当数据访问以写操作为主，而读操作则集中在最近写入的数据上时，使用LSM树可以极大程度的减少磁盘的访问次数，加快访问速度。
 
+# 滤波器
+
+使用不同的滤波器矩阵可以实现不同的效果。以下是几种不同的滤波器矩阵示例，您可以尝试它们以获得不同的模糊效果：
+
+高斯模糊：高斯模糊是一种常用的模糊效果，可以使用以下滤波器矩阵来实现：
+java
+Copy code
+float[] matrix = {
+    1.0f, 2.0f, 1.0f,
+    2.0f, 4.0f, 2.0f,
+    1.0f, 2.0f, 1.0f
+};
+边缘增强：边缘增强滤波器可以突出图像中的边缘，可以使用以下滤波器矩阵来实现：
+java
+Copy code
+float[] matrix = {
+    -1.0f, -1.0f, -1.0f,
+    -1.0f,  9.0f, -1.0f,
+    -1.0f, -1.0f, -1.0f
+};
+浮雕效果：浮雕效果可以使图像看起来像浮雕一样凸出，可以使用以下滤波器矩阵来实现：
+java
+Copy code
+float[] matrix = {
+    -2.0f, -1.0f,  0.0f,
+    -1.0f,  1.0f,  1.0f,
+     0.0f,  1.0f,  2.0f
+};
+均值模糊：均值模糊是一种简单的模糊效果，可以使用以下滤波器矩阵来实现：
+java
+Copy code
+float[] matrix = {
+    0.111f, 0.111f, 0.111f,
+    0.111f, 0.111f, 0.111f,
+    0.111f, 0.111f, 0.111f
+};
+您可以根据需要选择这些滤波器矩阵，或者尝试其他矩阵来获得不同的效果。要应用特定的滤波器矩阵，只需将所选矩阵替换示例代码中的矩阵即可。不同的矩阵将产生不同的图像处理效果。
