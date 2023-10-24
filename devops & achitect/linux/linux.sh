@@ -60,7 +60,7 @@ q
 scp -r $localFilePath $remoteUser@$remoteAddress:$remoteFilePath
 
 ## download file
-scp username@servername:/path/filename /tmp/local_destination
+scp -r username@servername:/path/filename /tmp/local_destination
 
 
 # Shell 传递参数
@@ -93,7 +93,7 @@ remotessh
 https://stackoverflow.com/questions/21795340/linux-install-redis-cli-only
 
 # zip PASSWORD
-zip -P yule shop_20160303.zip /home/filesystem/haibo/output/shop/20160303.txt
+zip -P yule shop_20160303.zip -r /home/filesystem/haibo/output/shop/20160303.txt
 
 # rar password
 直接解压即可
@@ -147,6 +147,12 @@ su root
 echo 1 > /proc/sys/vm/drop_caches
 echo 2 > /proc/sys/vm/drop_caches
 echo 3 > /proc/sys/vm/drop_caches
+
+or 
+
+```shell
+sudo sh -c "echo 1 > /proc/sys/vm/drop_caches;echo 2 > /proc/sys/vm/drop_caches;echo 3 > /proc/sys/vm/drop_caches"
+```
 
 # Get Process Path
 ## Get the Path of a Process By its name
@@ -216,3 +222,7 @@ find ./ -type d -exec mkdir $aimDir/{} \;
 # delete file not dir
 sourceDir=./
 find $sourceDir -type f -exec rm {} \;
+
+# set 指令
++ set -x 输出执行指令
++ set -e 脚本只要发生错误，就终止执行
