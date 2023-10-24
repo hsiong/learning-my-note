@@ -16,47 +16,44 @@ https://zhuanlan.zhihu.com/p/392751819
 
 ```shell
 mkdir cd ~/Desktop/build & cd ~/Desktop/build
-cmake -S /opencvPath \
--DWITH_OPENJPEG=OFF \
--DWITH_IPP=OFF \
--DCMAKE_BUILD_TYPE=RELEASE \
--DBUILD_TESTS=OFF \
--DBUILD_PERF_TESTS=OFF \
--DCMAKE_VERBOSE_MAKEFILE=ON \
--DCMAKE_INSTALL_PREFIX=/opt/homebrew/Cellar/opencv \
--DJAVA_INCLUDE_PATH=$JAVA_HOME/include \
--DJAVA_AWT_LIBRARY=$JAVA_HOME/lib/libawt.dylib \
--DJAVA_JVM_LIBRARY=$JAVA_HOME/lib/server/libjvm.dylib \
--DBUILD_opencv_python2=OFF \
--DBUILD_opencv_java=ON \
--DINSTALL_PYTHON_EXAMPLES=OFF \
--DINSTALL_C_EXAMPLES=OFF \
--DOPENCV_ENABLE_NONFREE=OFF \
--DBUILD_EXAMPLES=ON
-make all -j$(grep -c ^processor /proc/cpuinfo)
-sudo make install -j$(grep -c ^processor /proc/cpuinfo)   
+
+cmake -S ../opencv-4.7.0 \
+-D OPENCV_EXTRA_MODULES_PATH=~/Desktop/opencv_contrib-4.7.0/modules \
+-D OPENCV_ENABLE_SUPERRES=ON \
+-D CMAKE_BUILD_TYPE=RELEASE \
+-D CMAKE_VERBOSE_MAKEFILE=ON \
+-D CMAKE_INSTALL_PREFIX=/opt/homebrew/Cellar/opencv \
+-D JAVA_INCLUDE_PATH=$JAVA_HOME/include \
+-D JAVA_AWT_LIBRARY=$JAVA_HOME/lib/libawt.dylib \
+-D JAVA_JVM_LIBRARY=$JAVA_HOME/lib/server/libjvm.dylib \
+-D WITH_OPENJPEG=OFF \
+-D WITH_IPP=OFF \
+-D BUILD_TESTS=OFF \
+-D BUILD_PERF_TESTS=OFF \
+-D INSTALL_PYTHON_EXAMPLES=OFF \
+-D INSTALL_C_EXAMPLES=OFF \
+-D OPENCV_ENABLE_NONFREE=ON \
+-D BUILD_EXAMPLES=OFF \
+-D BUILD_opencv_python2=OFF \
+-D BUILD_opencv_python3=OFF \
+-D BUILD_opencv_java=ON \
+-D BUILD_opencv_core=ON \
+-D BUILD_opencv_video=ON \
+-D BUILD_opencv_imgcodecs=ON \
+-D BUILD_opencv_superres=ON \
+-D BUILD_opencv_dnn_superres=ON \
+-D BUILD_opencv_ml=ON \
+-D BUILD_opencv_dnn=ON \
+-D BUILD_opencv_tests=OFF \
+-D BUILD_opencv_apps=OFF \
+-D BUILD_opencv_ts=OFF
+
+make all
+
+sudo make install
 
 ```
 
-```
-  cmake -S /opencvPath \
--DWITH_OPENJPEG=OFF \
--DWITH_IPP=OFF \
--DCMAKE_BUILD_TYPE=RELEASE \
--DBUILD_TESTS=OFF \
--DBUILD_PERF_TESTS=OFF \
--DCMAKE_VERBOSE_MAKEFILE=ON \
--DCMAKE_INSTALL_PREFIX=/opt/homebrew/Cellar/opencv \
--DJAVA_INCLUDE_PATH=$JAVA_HOME/include \
--DJAVA_AWT_LIBRARY=$JAVA_HOME/lib/libawt.dylib \
--DJAVA_JVM_LIBRARY=$JAVA_HOME/lib/server/libjvm.dylib \
--DBUILD_opencv_python2=OFF \
--DBUILD_opencv_java=ON \
--DINSTALL_PYTHON_EXAMPLES=OFF \
--DINSTALL_C_EXAMPLES=OFF \
--DOPENCV_ENABLE_NONFREE=OFF \
--DBUILD_EXAMPLES=ON
-```
 
 # linux manual install
 
@@ -68,19 +65,24 @@ wget -O opencv.zip https://github.com/opencv/opencv/archive/4.6.0.zip
 cd opencv-4.5.0
 mkdir build && cd build
 
-cmake -DWITH_OPENJPEG=OFF \
--DWITH_IPP=OFF \
--DCMAKE_BUILD_TYPE=RELEASE \
--DCMAKE_INSTALL_PREFIX=/usr/local/opencv \
--DJAVA_INCLUDE_PATH=$JAVA_HOME/include \
--DJAVA_AWT_LIBRARY=$JAVA_HOME/jre/lib/amd64/libawt.so \
--DJAVA_JVM_LIBRARY=$JAVA_HOME/jre/lib/arm/server/libjvm.so \
--DBUILD_opencv_python2=OFF \
--DBUILD_opencv_java=ON \
--DINSTALL_PYTHON_EXAMPLES=OFF \
--DINSTALL_C_EXAMPLES=OFF \
--DOPENCV_ENABLE_NONFREE=OFF \
--DBUILD_EXAMPLES=ON
+cmake -D WITH_OPENJPEG=OFF \
+-D WITH_IPP=OFF \
+-D CMAKE_BUILD_TYPE=RELEASE \
+-D CMAKE_INSTALL_PREFIX=/usr/local/opencv \
+-D JAVA_INCLUDE_PATH=$JAVA_HOME/include \
+-D JAVA_AWT_LIBRARY=$JAVA_HOME/jre/lib/amd64/libawt.so \
+-D JAVA_JVM_LIBRARY=$JAVA_HOME/jre/lib/arm/server/libjvm.so \
+-D BUILD_opencv_python2=OFF \
+-D BUILD_opencv_python3=OFF \
+-D BUILD_opencv_java=ON \
+-D INSTALL_PYTHON_EXAMPLES=OFF \
+-D INSTALL_C_EXAMPLES=OFF \
+-D OPENCV_ENABLE_NONFREE=OFF \
+-D BUILD_EXAMPLES=ON
+
+make all -j$(grep -c ^processor /proc/cpuinfo)
+
+sudo make install -j$(grep -c ^processor /proc/cpuinfo)   
 ```
 
 ## newest-release
