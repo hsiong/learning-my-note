@@ -47,6 +47,11 @@ This is a proj from Docker base learning to Docker practice.
   - [docker 追加参数](#docker-追加参数)
     - [追加自启动](#追加自启动)
     - [利用docker commit新构镜像](#利用docker-commit新构镜像)
+  - [docker 拉取远程镜像并将镜像打包为 .tgz](#docker-拉取远程镜像并将镜像打包为-tgz)
+  - [docker 批量加载 tgz, 并通过 docker-compose.yml 启动](#docker-批量加载-tgz-并通过-docker-composeyml-启动)
+  - [根据前缀删除镜像](#根据前缀删除镜像)
+  - [docker  启动 Docker 容器时，如何传入所需的环境变量](#docker--启动-docker-容器时如何传入所需的环境变量)
+  - [前端如何动态指定环境变量 -\> 基于 nginx 使用 sub\_filter 替换特定字符串](#前端如何动态指定环境变量---基于-nginx-使用-sub_filter-替换特定字符串)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -743,11 +748,85 @@ redis:v2
 docker rmi redis:v1
 ```
 
+## docker 拉取远程镜像并将镜像打包为 .tgz
+
+```shell
+
+# 使用 for 循环遍历参数
+
++ 打包脚本 docker-image.sh 如下
+```shell
+# 使用 for 循环遍历参数
+for arg in "$@"; do
+    echo "参数: $arg"
+    name=$(echo $arg | sed 's/.*\///;s/:.*//')
+    echo "name: $name"
+	docker pull $arg
+	docker save -o $name.tgz $arg
+	docker image rm $arg
+done
+
+```
+
++ 登录到远程 docker 仓库
+```shell
+
+docker login 远程地址
+
+```
+
+> 删除凭证:  rm ~/.docker/config.json
+
+
++ 执行脚本
+```shell
+sh docker-image.sh 远程地址1 远程地址2
+```
 
 
 
+## docker 批量加载 tgz, 并通过 docker-compose.yml 启动
 
+> 列出所有镜像 `docker images -q`
+>
+> 删除所有镜像 `docker rmi $(docker images -q)`
 
+ tgz 文件是docker镜像, tgz有多个; docker-compose 自动化部署; tag是随机的
 
+## 根据前缀删除镜像
 
++ 查看镜像
+docker images | grep '^imagePrefix' | awk '{print $1}'
+
++ 删除镜像
+docker images | grep '^imagePrefix' | awk '{print $3}' | xargs docker rmi
+
+## docker  启动 Docker 容器时，如何传入所需的环境变量
+
+docker run -e MY_VARIABLE=my_value <image_name>
+
+## 前端如何动态指定环境变量 -> 基于 nginx 使用 sub_filter 替换特定字符串 
+
++ 在项目中指定特定的字符串, 例如 private_env_base_url
+
++ 使用 sub_filter 替换特定 private_env_base_url
+
+```
+sub_filter 'private_env_base_url' \$MY_VARIABLE;
+sub_filter_once off;  # 如果需要替换所有出现的字符串，而不仅仅是第一次出现的
+sub_filter_types text/html text/javascript application/javascript text/css;
+```
+
++ 使用 envsubst 指令, 将特定的参数传递给目标文件
+注意, dockerFile 直接使用 `docker run -e MY_VARIABLE=my_value <image_name>` 是不生效的, 需要一个中间文件 efault.conf.template 来传递环境参数
+
+```
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf.template
+CMD sh -c "envsubst '\\\$MY_VARIABLE' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+
+```
+
++ 最后, 容器运行时指定特定的参数
+docker run -e MY_VARIABLE=my_value <image_name>
 
