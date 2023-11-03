@@ -887,6 +887,66 @@ System.out.printf("Hello %s!%n", "World");
     }
 ```
 
+27. @Bean 问题, 问题其实是 @Resource 和 @Bean 是同一个对象, 不能同时用, 否则会导致加载失败
+```
+
+已知代码如下, 系统启动时, 将 AuthenticationClient 自动注入, 执行 clientOptions.setAppId(appid),  appid 为空, 应如何修改
+
+@ConfigurationProperties(prefix = "iam")
+@Component
+@Setter
+@Slf4j
+public class AuthingService {
+
+    private String appid;
+
+    private String appsceret;
+
+    private String apphost;
+
+    private String redirectUrl;
+
+    @Bean
+    public AuthenticationClient getAuthenticationClient() {
+        // 使用 AppId 和 AppHost 进行初始化
+        AuthenticationClientOptions clientOptions = new AuthenticationClientOptions();
+        clientOptions.setAppId(appid);
+        clientOptions.setAppSecret(appsceret);
+        clientOptions.setAppHost(apphost);
+        clientOptions.setRedirectUri(redirectUrl);
+
+        AuthenticationClient authenticationClient = null;
+        try {
+            authenticationClient = new AuthenticationClient(clientOptions);
+        } catch (Exception e) {
+            log.error("AuthenticationClient 初始化失败: " + e.getMessage(), e);
+        }
+        return authenticationClient;
+    }
+}
+
+```
+
+28. InetAddress.getLocalHost().getHostName() took 5006 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
++ Edit the /etc/hosts file. `sudo nano /etc/hosts`
++ Ensure there's an entry for 127.0.0.1 and your hostname:
+```
+127.0.0.1       localhost your_hostname
+::1             localhost your_hostname
+```
+Replace your_hostname with the actual hostname of your machine. If you don't know your hostname, you can usually get it by typing `hostname` in the terminal.
+
+29. cn.hutool.core.bean.BeanUtils.copyProperties   忽略空值
+`CopyOptions.create().setIgnoreNullValue(true);`
+
+
+30. 建立新的 module
+new module -> jakartaEE , REST service & Application server -> unclick all dependencies
+
+31. JDK21报错NoSuchFieldError: Class com.sun.tools.javac.tree.JCTree$JCImport does not have member fie
+https://blog.csdn.net/G971005287W/article/details/133350154
+升级lombok
+
 
 # 第二章 Mysql
 
