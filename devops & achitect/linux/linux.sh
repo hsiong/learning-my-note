@@ -226,3 +226,10 @@ find $sourceDir -type f -exec rm {} \;
 # set 指令
 + set -x 输出执行指令
 + set -e 脚本只要发生错误，就终止执行
+
+# 查看 linux 版本信息
+https://blog.csdn.net/lu_embedded/article/details/44350445
+两个命令, 不同系统
+
++ lsb_release -a
++ cat /etc/issue
