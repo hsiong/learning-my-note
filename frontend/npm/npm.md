@@ -25,6 +25,17 @@ If you need sudo then run this instead:
 npm install [-g] xxx
 ```
 
+## npm 升级与降级
+1. 降级
+举例：降级到6
+npm install npm@6 -g（@后跟版本号，若跟的是大版本，则更新到对应大版本最新的小版本）
+npm install npm@6.14.14 -g（更新到指定版本）
+
+2. 升级
+npm install npm -g（更新到最新版本）
+
+## node 升级与降级
+https://www.crmeb.com/ask/thread/24275#:~:text=%E9%99%8D%E4%BD%8Enode%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%B9%E6%B3%95,%E5%AE%89%E8%A3%85%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%AC%E5%8D%B3%E5%8F%AF%E3%80%82
 
 # 报错处理
 ## sudo 正常  不加 sudo 无法执行
@@ -57,3 +68,20 @@ x:node_modules/ $ sublime /Users/x/.npm/_logs/2022-05-24T10_30_53_153Z-debug-0.l
 x:lib/ $ chmod -R 755 node_modules                                  
 x:lib/ $ chmod -R 777 node_modules          
 ```
+
+## vite xx 依赖报错
+
+ Rollup failed to resolve import "immer" from "xxxx/_use-immer@0.9.0@use-immer/dist/use-immer.module.js" 
+
+ This is most likely unintended because it can break your application at runtime.
+
+ > 要动脑子, 不能只看提示
+ > 优先考虑是不是因为包库依赖缺失导致解析失败, 
+ > 其次考虑是不是node版本/npm版本不兼容
+
+ ```
+
+npm install -g npm@xxx
+npm install
+npm install xxxModule
+ ```
