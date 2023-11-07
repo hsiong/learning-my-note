@@ -947,6 +947,9 @@ new module -> jakartaEE , REST service & Application server -> unclick all depen
 https://blog.csdn.net/G971005287W/article/details/133350154
 升级lombok
 
+32. feign.RetryableException: null executing GET http://****/cr**t/e**/cre****ount/2**8060
+https://www.cnblogs.com/zxporz/p/13094614.html
+
 
 # 第二章 Mysql
 
