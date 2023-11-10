@@ -73,10 +73,6 @@ https://www.runoob.com/linux/linux-shell-passing-arguments.html
 # system show user 
 awk -F: '{ print $1}' /etc/passwd
 
-# 详解linux下查看系统版本号信息的方法（总结）
-# https://cloud.tencent.com/developer/article/1721171
-cat /proc/version
-
 # LAN detecter
 nmap -sP 192.168.1.0/24　
 
@@ -233,3 +229,15 @@ https://blog.csdn.net/lu_embedded/article/details/44350445
 
 + lsb_release -a
 + cat /etc/issue
+
+# 详解linux下查看系统版本号信息的方法（总结）
+# https://cloud.tencent.com/developer/article/1721171
+cat /proc/version
+
+# su: Authentication failure
++ sudo 
+chown root:root /usr/bin/sudo
+chmod 4755 /usr/bin/sudo
+
++ su root
+sudo chmod u+s /bin/su
