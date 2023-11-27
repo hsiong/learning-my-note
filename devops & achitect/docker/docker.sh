@@ -157,11 +157,12 @@ docker images | grep "registry-center" | awk '{print $3}' | xargs docker rmi
 docker image prune
 
 ## docker compose plugin
-> https://docs.docker.com/compose/install/linux/#install-using-the-repository
- sudo apt-get update
- sudo apt-get install docker-compose-plugin
+https://docs.docker.com/compose/install/linux/#install-using-the-repository
 
-  docker compose version
+sudo apt-get update
+sudo apt-get install docker-compose-plugin
+
+docker compose version
 
 ## docker awk/$ not working
 https://blog.csdn.net/liuxiao723846/article/details/55003662
@@ -180,3 +181,6 @@ remotessh
 ## docker clear log 
 echo "" > $(docker inspect --format='{{.LogPath}}' container_name_or_id)
 docker restart container_name_or_id
+
+# docker 加载镜像
+docker load -i xxx
