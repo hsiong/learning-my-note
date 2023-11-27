@@ -950,6 +950,13 @@ https://blog.csdn.net/G971005287W/article/details/133350154
 32. feign.RetryableException: null executing GET http://****/cr**t/e**/cre****ount/2**8060
 https://www.cnblogs.com/zxporz/p/13094614.html
 
+33. spring-boot application get env config
+```java
+    ConfigurableApplicationContext application = SpringApplication.run(xxxApplication.class, args);
+		Environment env = application.getEnvironment();
+		String port = env.getProperty("server.port");
+```
+
 
 # 第二章 Mysql
 
