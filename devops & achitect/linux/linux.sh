@@ -225,14 +225,12 @@ find $sourceDir -type f -exec rm {} \;
 
 # 查看 linux 版本信息
 https://blog.csdn.net/lu_embedded/article/details/44350445
+https://cloud.tencent.com/developer/article/1721171
 两个命令, 不同系统
 
 + lsb_release -a
 + cat /etc/issue
-
-# 详解linux下查看系统版本号信息的方法（总结）
-# https://cloud.tencent.com/developer/article/1721171
-cat /proc/version
++ cat /proc/version
 
 # su: Authentication failure
 + sudo 
@@ -241,3 +239,5 @@ chmod 4755 /usr/bin/sudo
 
 + su root
 sudo chmod u+s /bin/su
+
+# linux 导入字体
