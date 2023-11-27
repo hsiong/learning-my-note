@@ -373,4 +373,6 @@ LEFT JOIN (
 ON t.type = s.type
 ORDER BY t.type;
 
-## 
+## replace table data
+TRUNCATE TABLE table_current;
+INSERT INTO table_current SELECT * FROM table_backup;
