@@ -965,10 +965,42 @@ https://www.cnblogs.com/zxporz/p/13094614.html
             BufferedImage image = ImageIO.read(url);
 ```
 
-35. java  image writer 写入新的 bufferImage
+35. @Service 单例模式获取实例
 ```java
-
+getApplicationContext().getBean(clazz)
 ```
+
+这种方法有几个优点：
+
++ **与Spring容器保持一致**：直接使用Spring的ApplicationContext确保了你获取的bean是Spring容器所管理的，包括所有的依赖注入和容器特性。
++ **灵活性**：你可以动态地根据类名或bean的名称来获取实例，这使得代码更加灵活。
++ **适用于复杂场景**：在一些复杂的场景下，如动态决定要使用哪个bean的情况，这种方法非常有用。
+
+也有一些潜在的缺点或需要注意的点：
+
++ 违背依赖注入原则：直接从ApplicationContext获取bean违背了依赖注入的原则，即依赖应该被注入到使用它们的对象中，而不是由对象自己去寻找依赖。
++ 代码耦合：这种方法使你的代码与Spring框架紧密耦合，这可能会使得单元测试变得更加困难，因为你需要在测试时配置Spring ApplicationContext。
++ 性能考虑：频繁地从ApplicationContext获取bean可能会影响性能，特别是在大型应用中。
+
+
+36. nacos是通过 http 还是 grpc 方式?
+    Spring Cloud Nacos 集成通常通过 HTTP（或 HTTPS）域名访问的方式与 Nacos Server 进行通信，而不是通过 gRPC。
+
+37. equals 和 == 区别
++ == 运算符:
+
+用途：比较两个变量的引用地址，即它们是否指向内存中的同一个位置。
+基本类型：对于基本数据类型（如 int, char, double 等），== 比较的是值本身。
+对象：对于对象引用（如 String, Long 等包装类），== 比较的是它们是否是同一个对象的引用（即是否指向同一内存地址）。
+
++ .equals() 方法:
+
+用途：通常用于比较两个对象的内容或值是否相等。
+重写：Object 类的 .equals() 方法默认行为是比较引用，但很多类（如 String, Integer 等）重写了这个方法，提供了内容比较的逻辑。
+对象：对于自定义对象，如果需要根据对象的状态（即它的字段值）判断相等性，通常需要重写 .equals() 方法。
+
+`结论: 除了基本类型以外, 无脑用 .equals() 即可`
+
 
 # 第二章 Mysql
 
