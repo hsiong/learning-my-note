@@ -957,6 +957,18 @@ https://www.cnblogs.com/zxporz/p/13094614.html
 		String port = env.getProperty("server.port");
 ```
 
+34. java 从 url  获取bufferImage
+```java
+// 定义你的图片资源URL
+            URL url = new URL("http://www.example.com/image.jpg");
+            // 读取并创建一个BufferedImage对象
+            BufferedImage image = ImageIO.read(url);
+```
+
+35. java  image writer 写入新的 bufferImage
+```java
+
+```
 
 # 第二章 Mysql
 
