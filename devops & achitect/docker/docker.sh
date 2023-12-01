@@ -183,4 +183,4 @@ echo "" > $(docker inspect --format='{{.LogPath}}' container_name_or_id)
 docker restart container_name_or_id
 
 # docker 加载镜像
-docker load -i xxx
+docker load -i /path/to/your/image.tgz
