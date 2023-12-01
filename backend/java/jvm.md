@@ -7,7 +7,7 @@ https://www.jyt0532.com/2020/03/14/epilogue/
 
 http://www.51gjie.com/java/551.html
 
-| **参数名称**                | **含义**                                                   | **默认值**           |                                                              |
+| **参数名称**                | **含义**                                                   | **默认值**           | 备注 |
 | --------------------------- | ---------------------------------------------------------- | -------------------- | ------------------------------------------------------------ |
 | -Xms                        | 初始堆大小                                                 | 物理内存的1/64(<1GB) | 默认(MinHeapFreeRatio参数可以调整)空余堆内存小于40%时，JVM就会增大堆直到-Xmx的最大限制. |
 | -Xmx                        | 最大堆大小                                                 | 物理内存的1/4(<1GB)  | 默认(MaxHeapFreeRatio参数可以调整)空余堆内存大于70%时，JVM会减少堆直到 -Xms的最小限制 |
@@ -31,6 +31,10 @@ http://www.51gjie.com/java/551.html
 | -XX:PretenureSizeThreshold  | 对象超过多大是直接在旧生代分配                             | 0                    | 单位字节 新生代采用Parallel Scavenge GC时无效 另一种直接在旧生代分配的情况是大的数组对象,且数组中无外部引用对象. |
 | -XX:TLABWasteTargetPercent  | TLAB占eden区的百分比                                       | 1%                   |                                                              |
 | -XX:+*CollectGen0First*     | FullGC时是否先YGC                                          | false                |                                                              |
+|-XX:MaxMetaspaceSize|元空间用于存储类和方法的元数据。|512M|512MB通常足够，但如果您经常遇到元空间相关的内存问题，可以适当增加。|
+|-XX:CICompilerCount|JIT编译器的线程数|2|这个设置取决于您的CPU核心数。如果您的机器有更多的核心，可以考虑增加这个值。|
+|||||
+|||||
 
 ## **并行收集器相关参数**
 
@@ -80,3 +84,17 @@ http://www.51gjie.com/java/551.html
 | -XX:+PrintClassHistogram              | garbage collects before printing the histogram.          |      |                                                              |
 | -XX:+PrintTLAB                        | 查看TLAB空间的使用情况                                   |      |                                                              |
 | XX:+PrintTenuringDistribution         | 查看每次minor GC后新的存活周期的阈值                     |      | Desired survivor size 1048576 bytes, new threshold 7 (max 15) new threshold 7即标识新的存活周期的阈值为7。 |
+
+# JVM 调优建议
+
+## 内存过低导致 JVM OOM
+
+### IDEA 设置 JVM 内存
+
+Spring boot Configurations -> Add VM options 
+
+-Xmx128m
+
+### Spring boot 打印可用内存
+
+**log**.info("服务启动成功, Xmx: " + Runtime.getRuntime().maxMemory() / 1024 / 1024 + "M");
