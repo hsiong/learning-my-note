@@ -91,3 +91,9 @@ https://youtrack.jetbrains.com/issue/IDEA-320526
 
 ## FastRequest 关闭升级提示
 在插件内, 关闭升级提示
+
+# Android studio 字体很奇怪
+Editor -> Color Scheme -> Color Scheme Font
+Font: JetBrains Mono
+Size: 13.0
+Line height: 1.6
