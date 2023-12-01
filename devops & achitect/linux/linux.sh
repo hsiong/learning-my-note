@@ -241,3 +241,5 @@ chmod 4755 /usr/bin/sudo
 sudo chmod u+s /bin/su
 
 # linux 导入字体
+cp path/to/MyFont.ttf ~/.fonts/    # 复制字体文件到字体目录
+fc-cache -fv                       # 刷新字体缓存
