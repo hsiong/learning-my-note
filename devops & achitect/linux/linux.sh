@@ -211,13 +211,22 @@ echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted
 
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $your-miss-key
 
-# cp dir, not cp file
+# dir command
+## cp dir, not cp file
 cd $sourceDir
 find ./ -type d -exec mkdir $aimDir/{} \; 
 
-# delete file not dir
+## delete file not dir
 sourceDir=./
 find $sourceDir -type f -exec rm {} \;
+
+## delete file but remain dir
+find . -type f -delete
+这个命令的解释如下：
+-- find .：在当前目录（表示为 .）及其所有子目录中查找。
+--type f：只寻找文件（不包括目录）。
+--delete：删除找到的文件。
+
 
 # set 指令
 + set -x 输出执行指令
