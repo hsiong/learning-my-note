@@ -97,3 +97,10 @@ Editor -> Color Scheme -> Color Scheme Font
 Font: JetBrains Mono
 Size: 13.0
 Line height: 1.6
+
+## idea - 破
+https://jetbra.in/s
+
+-javaagent:/Path/ja-netfilter.jar=jetbrains
+--add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
+--add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
