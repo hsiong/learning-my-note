@@ -3,7 +3,8 @@
 Red Hat build of OpenJDK Download | Red Hat Developer​
 https://developers.redhat.com/products/openjdk/download
 
-## idea - crack
+## idea
+https://jetbra.in/s
 
 ### 插件
 - atom material icons - crack
