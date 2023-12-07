@@ -104,3 +104,6 @@ https://jetbra.in/s
 -javaagent:/Path/ja-netfilter.jar=jetbrains
 --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
 --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
+
++ Restful Fast Request - API Buddy 2023.1.7.1
+https://plugins.jetbrains.com/plugin/16988-restful-fast-request--api-buddy/versions/stable/358589
