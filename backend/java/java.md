@@ -1001,6 +1001,8 @@ getApplicationContext().getBean(clazz)
 
 `结论: 除了基本类型以外, 无脑用 .equals() 即可`
 
+38. The bean 'xxx.FeignClientSpecification' could not be registered. A bean with that name has already been defined and overriding is disabled.
+说明有同一个 feign 已经注册, 考虑依赖包内冲突, 覆盖使用 `spring.main.allow-bean-definition-overriding=true`
 
 # 第二章 Mysql
 
