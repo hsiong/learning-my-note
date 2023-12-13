@@ -376,3 +376,10 @@ ORDER BY t.type;
 ## replace table data
 TRUNCATE TABLE table_current;
 INSERT INTO table_current SELECT * FROM table_backup;
+
+## left join  条件写在 where 和 on 上的区别
+Key Difference:
+ON Clause: 
+In LEFT JOIN, rows from the left table are always included; Affects how rows are joined. the condition affects whether the right table's columns are NULL or contain data.'
+WHERE Clause: 
+Rows that don not meet the condition are excluded from the result, Affects the final result set. potentially reducing the number of rows from the left table in the final output.
