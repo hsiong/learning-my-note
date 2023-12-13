@@ -383,3 +383,28 @@ ON Clause:
 In LEFT JOIN, rows from the left table are always included; Affects how rows are joined. the condition affects whether the right table's columns are NULL or contain data.'
 WHERE Clause: 
 Rows that don not meet the condition are excluded from the result, Affects the final result set. potentially reducing the number of rows from the left table in the final output.
+
+## 我想要的结果要有多个, 如果不够多个则添加多个值进去
+SELECT t.type, COALESCE(s.num, 0) AS num
+FROM (
+    SELECT DISTINCT type FROM xxx
+    UNION ALL
+    SELECT 0 AS type
+    UNION ALL
+    SELECT 1 AS type
+    UNION ALL
+    SELECT 2 AS type
+    UNION ALL
+    SELECT 3 AS type
+    UNION ALL
+    SELECT 4 AS type
+    UNION ALL
+    SELECT 5 AS type
+) AS t
+LEFT JOIN (
+    SELECT type, COUNT(1) AS num
+    FROM xxx
+    GROUP BY type
+) AS s
+ON t.type = s.type
+ORDER BY t.type;
