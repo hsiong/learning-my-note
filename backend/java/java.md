@@ -1016,6 +1016,9 @@ The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a fal
 40. SpelEvaluationException: EL1001E: Type conversion problem, cannot convert from xxxParam to java.lang.String
 SPEL 表达式不能直接接收某个entity作为入参, 只能是字符串
 
+41. EL表达式
+${env.name}
+
 # 第二章 Mysql
 
 ## 2.1 基础类型
