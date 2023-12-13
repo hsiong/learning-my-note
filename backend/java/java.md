@@ -1002,7 +1002,18 @@ getApplicationContext().getBean(clazz)
 `结论: 除了基本类型以外, 无脑用 .equals() 即可`
 
 38. The bean 'xxx.FeignClientSpecification' could not be registered. A bean with that name has already been defined and overriding is disabled.
-说明有同一个 feign 已经注册, 考虑依赖包内冲突, 覆盖使用 `spring.main.allow-bean-definition-overriding=true`
+说明有同一个 feign 已经注册, 考虑依赖包内冲突, 
++ 推荐使用扩展Feign客户端
+  这个客户端也应该指定相同的服务名（sys），但它可以有一个不同的Java类名和/或一个不同的contextId，这样Spring就能区分这两个不同的Feign客户端实例。
+  ```java
+  @FeignClient(name = "sys", contextId = "customFeignClient", /* 自定义配置 */)
+  ```
++ 覆盖使用 `spring.main.allow-bean-definition-overriding=true`, 但是这样会让整个项目都允许同名覆盖
+
+39.  Boolean defaultValue = "b'0'"  默认值是true 还是 false
+The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a false value. In many programming contexts, a binary value of 0 typically represents false, while 1 represents true. Therefore, in this case, the default value is false.
+
+
 
 # 第二章 Mysql
 
