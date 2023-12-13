@@ -1019,6 +1019,12 @@ SPEL 表达式不能直接接收某个entity作为入参, 只能是字符串
 41. EL表达式
 ${env.name}
 
+42. Boolean defaultValue = "b'0'"  默认值是true 还是 false
+The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a false value. In many programming contexts, a binary value of 0 typically represents false, while 1 represents true. Therefore, in this case, the default value is false.
+0否1是
+
+43. 
+
 # 第二章 Mysql
 
 ## 2.1 基础类型
