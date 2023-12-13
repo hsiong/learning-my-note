@@ -1013,7 +1013,8 @@ getApplicationContext().getBean(clazz)
 39.  Boolean defaultValue = "b'0'"  默认值是true 还是 false
 The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a false value. In many programming contexts, a binary value of 0 typically represents false, while 1 represents true. Therefore, in this case, the default value is false.
 
-
+40. SpelEvaluationException: EL1001E: Type conversion problem, cannot convert from xxxParam to java.lang.String
+SPEL 表达式不能直接接收某个entity作为入参, 只能是字符串
 
 # 第二章 Mysql
 
