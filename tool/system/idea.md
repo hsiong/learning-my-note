@@ -77,6 +77,14 @@ Editor -> Color Schme -> General/Language Default/Java/Java Addition
 ## IDEA 关闭/开启引用提示Usages
 https://blog.csdn.net/Logicr/article/details/124957505
 
+## IDEA 优化 .var 提示
+> Postfix Completion -> var, 并且禁用 val varl 等
+
+> .var 禁用 final
+.var 之后, 取消勾选 declare final, 就不会生成 final 关键字了
+![Screenshot 2023-12-11 at 15 27 25](https://github.com/hsiong/learning-my-note/assets/37357447/26912836-5c4f-4152-9d2a-9f644394b0f2)
+
+
 ## IDEA中Ctrl+Shift+F快捷键被占用 - windows
 https://www.jianshu.com/p/bdd0c27810ed
 
