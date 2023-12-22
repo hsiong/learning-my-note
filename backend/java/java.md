@@ -1023,7 +1023,9 @@ ${env.name}
 The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a false value. In many programming contexts, a binary value of 0 typically represents false, while 1 represents true. Therefore, in this case, the default value is false.
 0否1是
 
-43. 
+43. 服务器处理异常:Handler dispatch failed; nested exception is java.lang.AssertionError: class xxx TableInfo不存在！
+selectAll 方法的入参必须是 table-entity
+
 
 # 第二章 Mysql
 
