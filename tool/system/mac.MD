@@ -10,7 +10,7 @@
 
 # mac compile java opencv
 
-## Manual Install Mac
+## Manual Install on Mac
 
 https://zhuanlan.zhihu.com/p/392751819
 
@@ -149,6 +149,7 @@ Get Info -> open With -> change default app
 
 # Mac app
 vss/vsd -> EdrawMax
+display tester -> https://tool.maxiaobang.com/screentest/
 
 # Mac系统输入法长按一个按键不能连续输入
 ```shell
@@ -161,3 +162,4 @@ https://www.jianshu.com/p/74dda481ed24
 ## postman 导出 curl 命令
 https://www.cnblogs.com/hi3254014978/p/15585732.html
 直接右侧tab页, 展开 code
+
