@@ -163,3 +163,9 @@ https://www.jianshu.com/p/74dda481ed24
 https://www.cnblogs.com/hi3254014978/p/15585732.html
 直接右侧tab页, 展开 code
 
+# touchpad
+## gesture
+
+## drag with three finger
+-> use trackpad for dragging
+-> Dragging style: Three Finger Drag
