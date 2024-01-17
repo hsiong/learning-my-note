@@ -53,7 +53,9 @@ spec:
 > k8s 如何查看原有的入口点(ENTRYPOINT)
 docker inspect xxx 
 
-
+# Content Security Policy
+> 如果遇到报错: because it violates the following Content Security Policy directive:
+考虑 ingress 中 add_ header Content-Security-Policy "default-src 'self' *.domain.com
 
 
 
