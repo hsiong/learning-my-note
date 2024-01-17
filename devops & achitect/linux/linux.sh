@@ -252,3 +252,7 @@ sudo chmod u+s /bin/su
 # linux 导入字体
 sudo cp path/to/your/fontfile.ttf /usr/local/share/fonts/  # 复制字体文件到字体目录
 fc-cache -fv                       # 刷新字体缓存
+
+# Linux命令行获取公网IP https://developer.aliyun.com/article/184317
+curl httpbin.org/ip
+
