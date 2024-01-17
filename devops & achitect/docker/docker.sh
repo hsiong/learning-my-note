@@ -184,3 +184,7 @@ docker restart container_name_or_id
 
 # docker 加载镜像
 docker load -i /path/to/your/image.tgz
+
+# docker logs 查看最后1000行
+docker logs --tail 1000 [container_name_or_id]
+
