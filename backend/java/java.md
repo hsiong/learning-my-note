@@ -1017,7 +1017,7 @@ The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a fal
 SPEL 表达式不能直接接收某个entity作为入参, 只能是字符串
 
 41. EL表达式
-${env.name}
+`${env.name}`
 
 42. Boolean defaultValue = "b'0'"  默认值是true 还是 false
 The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a false value. In many programming contexts, a binary value of 0 typically represents false, while 1 represents true. Therefore, in this case, the default value is false.
@@ -1026,6 +1026,72 @@ The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a fal
 43. 服务器处理异常:Handler dispatch failed; nested exception is java.lang.AssertionError: class xxx TableInfo不存在！
 selectAll 方法的入参必须是 table-entity
 
+44. 使用 `@TableField(typeHandler = JacksonTypeHandler.class)` 只能存数据, 不能查数据
+我们只需要在实体类中加上@TableName(value =xxx, autoResultMap = true)后面的autoResultMap 即可。
+
+45. java string 大写第一位
+```java
+public String capitalizeFirstLetter(String str) {
+    if (str == null || str.isEmpty()) {
+        return str;
+    }
+    return str.substring(0, 1).toUpperCase() + str.substring(1);
+}
+```
+
+46. string 转驼峰
+```java
+public String toCamelCase(String str) {
+    if (str == null || str.isEmpty()) {
+        return str;
+    }
+
+    StringBuilder camelCaseStr = new StringBuilder();
+    boolean makeNextUpperCase = false;
+
+    for (char c : str.toCharArray()) {
+        if (Character.isSpaceChar(c)) {
+            makeNextUpperCase = true;
+        } else if (makeNextUpperCase) {
+            camelCaseStr.append(Character.toUpperCase(c));
+            makeNextUpperCase = false;
+        } else {
+            camelCaseStr.append(Character.toLowerCase(c));
+        }
+    }
+
+    return camelCaseStr.toString();
+}
+```
+
+47. spring cloud gateway 网关配置, uriname与pathname一致
+会导致路由无法访问, 建议使用不同的、描述性的命名来区分URI和路径断言。
+
+48. 0 0 23 * * ?   这个 cron 表达式什么意思
+这个具体的表达式 0 0 23 * * ? 由六个部分组成，每个部分的含义如下：
+0 - 秒（表示在分钟的开始时刻）
+0 - 分钟（表示在小时的开始时刻）
+23 - 小时（表示一天中的 23 点）
+* - 日（表示每天）
+* - 月（表示每月）
+? - 星期（? 表示不指定，在 Cron 表达式中，日和星期这两个字段通常有一个要设为 ?）
+
+49. springboot 排除某些类
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, ...})
+
+50. springboot-component 排除某些类
+```java
+@ComponentScan(basePackages = "com.example.package",
+               excludeFilters = @ComponentScan.Filter(
+                   type = FilterType.ASSIGNABLE_TYPE,
+                   value = MyExcludedClass.class
+               ))
+```
+
+51. MultipartFile获取 base64
+```java
+    base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
+```
 
 # 第二章 Mysql
 
