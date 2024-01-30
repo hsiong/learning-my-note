@@ -237,9 +237,9 @@ https://blog.csdn.net/lu_embedded/article/details/44350445
 https://cloud.tencent.com/developer/article/1721171
 两个命令, 不同系统
 
-+ lsb_release -a
-+ cat /etc/issue
-+ cat /proc/version
+lsb_release -a
+cat /etc/issue
+cat /proc/version
 
 # su: Authentication failure
 + sudo 
