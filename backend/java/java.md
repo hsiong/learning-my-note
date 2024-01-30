@@ -1093,6 +1093,10 @@ public String toCamelCase(String str) {
     base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
 ```
 
+52. java 有多个 project   maven如何打包指定的jar
+cd 到指定目录, 再 mvn package
+
+
 # 第二章 Mysql
 
 ## 2.1 基础类型
