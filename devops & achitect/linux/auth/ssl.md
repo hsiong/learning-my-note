@@ -52,7 +52,7 @@ Demo 参照 [ssl-demo.conf](.ssl-demo.conf)
 ## Nginx 配置多个二级 ssl 域名
 > Reference: https://cloud.tencent.com/developer/article/1818989
 1. 申请 二级域名.主域名 dv 证书 [免费]
-2. 下载 ssl 证书 for nginx 
+2. 下载 ssl 证书 for nginx, 将 pem 改名为 crt
 3. 上传 ssl 证书 到 nginx 目录
 4. 添加 nginx 配置如下
 ```
