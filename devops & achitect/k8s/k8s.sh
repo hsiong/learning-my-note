@@ -12,23 +12,43 @@ touch ~/.kube/config
 vim ~/.kube/config
 chmod 600 ~/.kube/config
 
-# 检查所有命名空间
+# 常用操作
++ 检查所有命名空间
 kubectl get pods --all-namespaces
-
-# 检查特定命名空间：
++ 检查特定命名空间：
 kubectl get pods -n <namespace>
-
-# 检查特定 pod
++ 检查特定 pod
 kubectl describe pod <pod-name> -n <namespace>
-
-# 检查Kubernetes Pod的Spec
++ 检查Kubernetes Pod的Spec
 kubectl get pod <pod-name> -o yaml
+
++ 删除 Pod:
+kubectl delete pod <pod-name>
++ 删除 service 
+kubectl delete svc <service-name>
++ 删除 ingress
+kubectl delete ingress <ingress-name>
+
++ k8s  模糊删除 svc  pod  ingress
++ 模糊删除 Service
+kubectl get svc | grep <pattern> | awk '{print $1}' | xargs kubectl delete svc
++ 模糊删除 Pod:
+kubectl get pods | grep <pattern> | awk '{print $1}' | xargs kubectl delete pod
++ 模糊删除 Ingress:
+kubectl get ingress | grep <pattern> | awk '{print $1}' | xargs kubectl delete ingress
+
 
 
 
 # 一些问题
 > kubectl get pod, No resources found in default namespace.
 如果您在使用 kubectl get pod 命令时收到了 “No resources found in default namespace.” 的消息，这意味着在默认命名空间中没有正在运行的Pod。
+
+## kubectl delete pod 后依然重启怎么办
+当你在 Kubernetes 中使用 kubectl delete pod 命令删除一个 Pod 之后，如果该 Pod 自动重启，这通常意味着这个 Pod 是由一个更高级别的控制器管理的，比如 Deployment、StatefulSet 或 ReplicaSet。这些控制器的目标是确保指定数量的 Pod 副本始终处于运行状态。因此，当一个 Pod 被删除时，这些控制器会自动创建一个新的 Pod 来替换它。
+> 直接删除控制器
+kubectl delete deployment <deployment-name>
+
 
 ## k8s  imagePullPolicy 有哪些
 Kubernetes (k8s) 中的 imagePullPolicy 用于指定容器镜像的拉取策略。这是一个重要的设置，因为它决定了 Kubernetes 如何从镜像仓库获取镜像。以下是可用的 imagePullPolicy 选项：
@@ -45,9 +65,6 @@ ServiceMonitor 是 Kubernetes 环境中与 Prometheus 监控系统相关的概�
 
 + 确保Kubernetes集群状态良好
 kubectl cluster-info
-
-+ 检查特定命名空间：
-kubectl get pods -n <namespace>
 
 > k8s 容器运行额外命令
 ```
