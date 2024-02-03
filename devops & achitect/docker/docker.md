@@ -180,6 +180,7 @@ docker run ubuntu:15.10 /bin/echo "Hello world"
     + `-u xxx` 以 xxx 用户登录
   + `attach` 会导致生产事故, 严禁使用
 
+
 在实际使用中, 常使用 `docker run -d` 初始化容器, `docker exec -it ContainerID /bin/bash` 进入容器进行具体的配置;   
 
 所有支持 `ContainerId` 的操作, 也支持 `ContainerName`
@@ -187,7 +188,7 @@ docker run ubuntu:15.10 /bin/echo "Hello world"
 ## 1.3 其他操作
 + `docker export ContainerID > ExportPath/filename.tar` 导出容器
 + `docker import Url/ImportPathFileName newContainerName:newVersion` 导入容器
-+ `docker inspect ContainerID` 查看容器配置
++ `docker inspect ContainerID` 查看容器配置/获取容器描述
 + `docker stop ContainerID` 停止容器
 + `docker rm -f ContainerID` 删除容器
   + 注意: 在 Linux 系统中删除容器, 需要先停止容器再删除
