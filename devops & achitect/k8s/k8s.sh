@@ -37,7 +37,15 @@ kubectl get pods | grep <pattern> | awk '{print $1}' | xargs kubectl delete pod
 + 模糊删除 Ingress:
 kubectl get ingress | grep <pattern> | awk '{print $1}' | xargs kubectl delete ingress
 
++ k8s 进入 pod 对应的容器   执行命令
+kubectl exec -it [CONTAINER_NAME] -- [COMMAND]
+kubectl exec -it [CONTAINER_NAME] -- /bin/bash
 
+# pod - 日志
++ kubectl logs 查看所有日志
+kubectl logs -f <pod-name>
++ 查看已终止容器的日志:
+kubectl logs <pod-name> --previous
 
 
 # 一些问题
@@ -85,18 +93,18 @@ docker inspect xxx
 
 # Security
 
-## Content Security Policy
++ Content Security Policy
 > 如果遇到报错: because it violates the following Content Security Policy directive:
 > 考虑 ingress 中 add_ header Content-Security-Policy "default-src 'self' *.domain.com"
 
-## 生成只能访问对应namespace 的kubeconfig
++ 生成只能访问对应namespace 的kubeconfig
 > chatgpt
 
-## k8s 添加 ssl 证书 secret
-+ 创建 Kubernetes Secret
++ k8s 添加 ssl 证书 secret
+++ 创建 Kubernetes Secret
 kubectl create secret tls your-ssl-secret --cert=path/to/yourdomain.crt --key=path/to/yourdomain.key -n your-namespace
 
-+ 使用 Secret
+++ 使用 Secret
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -119,6 +127,17 @@ spec:
             port:
               number: 80
 
-+ 检查 Secret
+++ 检查 Secret
 kubectl get secret your-ssl-secret -n your-namespace -o yaml
+
++ 如何查看 Kubernetes 网络策略
+kubectl get networkpolicies --all-namespaces
+
+
+# yaml
++ 如何填写 CPU 和内存请求：
+resources:
+  requests:
+    cpu: "500m"  # 请求 0.5 个 CPU 核心
+    memory: "256Mi"  # 请求 256MB 内存
 
