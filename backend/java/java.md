@@ -1096,6 +1096,12 @@ public String toCamelCase(String str) {
 52. java 有多个 project   maven如何打包指定的jar
 cd 到指定目录, 再 mvn package
 
+53. java 继承注解
+使用@Inherited元注解
+
+54. bigdecimal java 如何保存两位小数
+BigDecimal roundedNumber = number.setScale(2, RoundingMode.HALF_UP);
+
 
 # 第二章 Mysql
 
