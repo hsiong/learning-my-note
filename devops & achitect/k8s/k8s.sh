@@ -66,9 +66,42 @@ spec:
 > k8s 如何查看原有的入口点(ENTRYPOINT)
 docker inspect xxx 
 
-# Content Security Policy
+# Security
+
+## Content Security Policy
 > 如果遇到报错: because it violates the following Content Security Policy directive:
-考虑 ingress 中 add_ header Content-Security-Policy "default-src 'self' *.domain.com
+> 考虑 ingress 中 add_ header Content-Security-Policy "default-src 'self' *.domain.com"
 
+## 生成只能访问对应namespace 的kubeconfig
+> chatgpt
 
+## k8s 添加 ssl 证书 secret
++ 创建 Kubernetes Secret
+kubectl create secret tls your-ssl-secret --cert=path/to/yourdomain.crt --key=path/to/yourdomain.key -n your-namespace
+
++ 使用 Secret
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: your-ingress
+  namespace: your-namespace
+spec:
+  tls:
+  - hosts:
+    - yourdomain.com
+    secretName: your-ssl-secret
+  rules:
+  - host: yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: your-service-name
+            port:
+              number: 80
+
++ 检查 Secret
+kubectl get secret your-ssl-secret -n your-namespace -o yaml
 
