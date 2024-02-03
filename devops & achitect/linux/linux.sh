@@ -31,14 +31,14 @@ https://www.cnblogs.com/along21/p/10366886.html
 # search java loc
 ps aux | grep java | awk '{if(NR>=2) print $2 ","}' |xargs |sed 's/ //g' | sed -e 's/\(.*\),/\1/' | xargs top -bcp
 
-## java_home
++ java_home
 /usr/libexec/java_home -V
 
 # kill process
-## kill process by name
++ kill process by name
 name=java
 ps aux|grep $name|grep -v grep|awk '{print $2}'|xargs kill
-## kill process by port
++ kill process by port
 port=8080
 lsof -i:$port|awk '{if(NR>=2) print $2}'|xargs kill
 
@@ -50,31 +50,28 @@ tail -500f out.file
 telnet localhost 6379   
 auth 'pwd'
 key *
-## quit telnet
++ quit telnet
 exit 
 ^]
 q
 
 # scp
-## update remote file
++ update remote file
 scp -r $localFilePath $remoteUser@$remoteAddress:$remoteFilePath
 
-## download file
++ download file
 scp -r username@servername:/path/filename /tmp/local_destination
 
 
 # Shell 传递参数
-## 按位置
++ 按位置
 https://www.runoob.com/linux/linux-shell-passing-arguments.html
 
-## 按参数
++ 按参数
 -a --along: getopt/getopts
 
 # system show user 
 awk -F: '{ print $1}' /etc/passwd
-
-# LAN detecter
-nmap -sP 192.168.1.0/24　
 
 # remote ssh demo
 ssh -T $user@$ip  << remotessh
@@ -112,10 +109,10 @@ https://blog.csdn.net/sky101010ws/article/details/50782475
 
 # decompress jar
 https://blog.csdn.net/caroline_wendy/article/details/42190743  
-+ 压缩包：
+++ 压缩包：
 jar cvf filename.jar a.class b.class: 压缩指定文件；
 jar cvf weibosdkcore.jar *: 全部压缩；
-+ 解压包：
+++ 解压包：
 jar xvf test.jar
 
 # unzip multi file
@@ -123,19 +120,19 @@ cd dir
 unzip \*.zip
 
 # count file
-## count file this dir(including child dir)
++ count file this dir(including child dir)
 ls -lR| grep "^-" | wc -l
 
-## count file this dir(not including child dir)
++ count file this dir(not including child dir)
 ls -l | grep "^-" | wc -l
 
 # rank process
-## rank process by memory
-## USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
++ rank process by memory
++ USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 ps -aux | sort -k4nr | head -10
 top M
 
-## rank process by cpu
++ rank process by cpu
 ps axu|sort -r -k3 |head -n 6
 
 # clean linux buff/cache
@@ -151,51 +148,51 @@ sudo sh -c "echo 1 > /proc/sys/vm/drop_caches;echo 2 > /proc/sys/vm/drop_caches;
 ```
 
 # Get Process Path
-## Get the Path of a Process By its name
++ Get the Path of a Process By its name
 for pid in $(ps -ef | grep process_name | grep -v grep | awk '{print $2}')
 do
     ls -l /proc/$pid/exe
 done
 
-## Get the Path of a Process By its port
++ Get the Path of a Process By its port
 for pid in $(sudo lsof -i:process_port | awk '{print $2}')
 do
     sudo ls -l /proc/$pid/exe
 done
 
-# apt
-## remove
+# ubuntu - apt
++ remove
 apt-get remove app
 
-## remove app & config
++ remove app & config
 apt-get purge app
 
-## remove all unused repo
++ remove all unused repo
 apt-get autoremove
 
 # service
-## stop/start/restart
++ stop/start/restart
 systemctl stop app
 
-## create a service
++ create a service
 https://medium.com/@benmorel/creating-a-linux-service-with-systemd-611b5c8b91d6
 
-## service path
++ service path
 /usr/lib/systemd/system/ 
 /etc/systemd/system/
 
-## apt install telnet
++ apt install telnet
 apt-get update
 apt-get install telnet
 telnet ip port
 
-### centos install telnet
++ centos install telnet
 yum install telnet
 
-## apt install ping
++ apt install ping
 apt-get update & apt install iputils-ping
 
-## apt too slow(not support docker)
++ apt too slow(not support docker)
 echo > /etc/apt/sources.list
 
 echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >  /etc/apt/sources.list
@@ -212,15 +209,15 @@ echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $your-miss-key
 
 # dir command
-## cp dir, not cp file
++ cp dir, not cp file
 cd $sourceDir
 find ./ -type d -exec mkdir $aimDir/{} \; 
 
-## delete file not dir
++ delete file not dir
 sourceDir=./
 find $sourceDir -type f -exec rm {} \;
 
-## delete file but remain dir
++ delete file but remain dir
 find . -type f -delete
 这个命令的解释如下：
 -- find .：在当前目录（表示为 .）及其所有子目录中查找。
@@ -229,8 +226,8 @@ find . -type f -delete
 
 
 # set 指令
-+ set -x 输出执行指令
-+ set -e 脚本只要发生错误，就终止执行
+++ set -x 输出执行指令
+++ set -e 脚本只要发生错误，就终止执行
 
 # 查看 linux 版本信息
 https://blog.csdn.net/lu_embedded/article/details/44350445
@@ -242,12 +239,12 @@ cat /etc/issue
 cat /proc/version
 
 # su: Authentication failure
-+ sudo 
+++ sudo 
 chown root:root /usr/bin/sudo
 chmod 4755 /usr/bin/sudo
 
-+ su root
-sudo chmod u+s /bin/su
+++ su root
+sudo chmod u++s /bin/su
 
 # linux 导入字体
 sudo cp path/to/your/fontfile.ttf /usr/local/share/fonts/  # 复制字体文件到字体目录
@@ -256,3 +253,29 @@ fc-cache -fv                       # 刷新字体缓存
 # Linux命令行获取公网IP https://developer.aliyun.com/article/184317
 curl httpbin.org/ip
 
+# Alpine-linux
+
+++ apk 安装 curl 指令
+apk add curl
+
+++ apk 安装 telnet
+apk add busybox-extras
+
+++ apline 怎么看网络策略
+iptables -V
+nft list ruleset
+
+++ alpine 安装 redis-cli
+apk add redis
+
+
+
+# 网络连通性
++ LAN detecter
+nmap -sP 192.168.1.0/24　
+
++ 获取本地 ip
+ip addr show
+
++ 获取公网ip
+curl myip.ipip.net 
