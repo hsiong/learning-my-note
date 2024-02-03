@@ -1102,6 +1102,8 @@ cd 到指定目录, 再 mvn package
 54. bigdecimal java 如何保存两位小数
 BigDecimal roundedNumber = number.setScale(2, RoundingMode.HALF_UP);
 
+55. MultipartFile file1 怎么改名
+`file.transferTo(destinationFile);`
 
 # 第二章 Mysql
 
