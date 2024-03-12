@@ -1105,6 +1105,20 @@ BigDecimal roundedNumber = number.setScale(2, RoundingMode.HALF_UP);
 55. MultipartFile file1 怎么改名
 `file.transferTo(destinationFile);`
 
+56. 条件构造器作为参数进行更新
+```
+UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+updateWrapper.eq("name","shimin");
+ 
+User user = new User();
+user.setAge(18);
+ 
+Integer rows = userMapper.update(user, updateWrapper);
+```
+
+57.  feign.FeignException$ServiceUnavailable: [503/404] during [POST] to [http://service/api] [param]: [Load balancer does not contain an instance for the service service-oss]
+关闭 HTTP VPN, 重启所有服务
+
 # 第二章 Mysql
 
 ## 2.1 基础类型
@@ -1587,9 +1601,9 @@ public class LinuxCondition implements Condition {
 
 21. `@JsonIgnore` 要使用 jackson 提供的 @JsonIgnore 才生效
 22. json 大写变量处理, 使用注解 `@JsonProperty("SN")`
-
 23. md5 格式验证: 确保它是一个长度为32的字符串，且只包含十六进制字符（0-9和a-f或A-F）
-24. 
+24. spring boot怎么创建指定name的bean: 使用 `@Bean(name="beanname")`
+
 
 ## 5.2 Spring 中的 maven 冲突与管理
 ### 5.2.1 SpringBoot 中的依赖管理和自动仲裁机制
