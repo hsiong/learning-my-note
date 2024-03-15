@@ -35,6 +35,7 @@ server_addr = 111.122.233.44(云端服务器ip)
 # frp server 绑定的端口，和上面服务端端口相同
 server_port = 7000 
 
+# domain 的方式
 [test1]
 type = http
 # 本地 web server 端口
@@ -43,6 +44,7 @@ local_port = 8083
 # 二级域名名称
 subdomain = test1
 
+# 端口的方式
 [test2]
 type = tcp
 # 本地 web server 端口
