@@ -213,6 +213,10 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $your-miss-key
 cd $sourceDir
 find ./ -type d -exec mkdir $aimDir/{} \; 
 
++ linux cp命令直接覆盖不提示按Y/N的方法
+\cp -rf dir linuxzgf
+就是在CP命令前面加一个斜杠
+
 + delete file not dir
 sourceDir=./
 find $sourceDir -type f -exec rm {} \;
