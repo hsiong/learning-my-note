@@ -1603,6 +1603,11 @@ public class LinuxCondition implements Condition {
 22. json 大写变量处理, 使用注解 `@JsonProperty("SN")`
 23. md5 格式验证: 确保它是一个长度为32的字符串，且只包含十六进制字符（0-9和a-f或A-F）
 24. spring boot怎么创建指定name的bean: 使用 `@Bean(name="beanname")`
+25. try-catch-finally执行顺序(https://juejin.cn/post/7104448863297077284)
+try->catch->finally, 
++ 无论有无return, 都按照此顺序
++ 若 return 是个指针, 则 finally 的操作会影响 return 的结果
+26. 
 
 
 ## 5.2 Spring 中的 maven 冲突与管理
