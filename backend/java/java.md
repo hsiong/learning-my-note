@@ -1119,6 +1119,95 @@ Integer rows = userMapper.update(user, updateWrapper);
 57.  feign.FeignException$ServiceUnavailable: [503/404] during [POST] to [http://service/api] [param]: [Load balancer does not contain an instance for the service service-oss]
 关闭 HTTP VPN, 重启所有服务
 
+58. 如果Application类包所在的位置也很关键，SpringBoot项目的Bean装配默认规则是根据Application类所在的包位置从上往下扫描！Application类是指SpringBoot项目入口类。也就是我的Service层所在的包必须在com.example.mydemo或其子包下，否则Service层中的Bean不会被扫描到
+59. web-shiro原理是通过将userName封在jwt-token中, 然后在shiro-realm的doGetAuthenticationInfo()方法鉴权, 最后通过new SimpleAuthenticationInfo(loginUser, token, getName())将loginUser封在shiro-principal中
+60. @NotNull(message = "封面不能为空") 标签只能判断null值, 不能判断size为0的list
+61. post接口 @RequestBody才能接json; ios端用post接中文
+62. 多表高级查询, 使用FieldsUtil.getFieldsWithAlias(stuDTO, "stu"); 该方法不会拼接delFlag; 同时列表页的简单查询, 请使用单表查询
+63. 使用高级查询, 要么remove排序字段, 然后自己手动写排序, 要么就用他的排序
+64. DynamicDataSourceContextHolder.push("master"); 不支持在事务下切换数据源
+65. idea的项目, 记得从项目里删掉jrebel.xml, 他会导致一堆问题
+66. 和第三方对接的准则, 一定要把第三方系统的信息保存完整
+67. SOA架构, 在shell脚本中, 一定要先监控server2是否运行, 然后server2运行再部署server1, 部署后监控server1部署成功, 再部署server2; 保证至少一台服务器在运行中;
+68. 127.0.0.1 某些端口可能没有打开, 所以无法直接访问
+69. 打包时忽略某些模块的办法
+```
+    <modules>
+<!--      <module>module1</module>
+      <module>module2</module>-->
+      <module>module3</module>
+    </modules>
+```
+70.  @CacheEvict(value = {BCardConstant.SYS_CONFIG_PARK_LIST} 只会删除该key, 而不会删除子key; 所以如需删除子key, 需要使用redis模糊删除
+71.  
+![image](https://user-images.githubusercontent.com/37357447/150462539-dd732910-266a-4f9c-bb06-71924f43108d.png)
+72.  shiro 如果想用全局异常捕获处理shiro异常, 在JwtFilter-executeLogin方法中使用try-catch-throw即可; 否则会自动抛出AuthenticationException异常, 而交给spring-filter容器处理
+73.  在代码中 获取项目名
+``` java
+    @Autowired
+    ServletContext servletContext;
+
+    @RequestMapping("/project-name")
+    public void getProjectName(HttpServletResponse response) throws IOException {
+        String projectName = servletContext.getContextPath();
+        response.getWriter().write("Project Name: " + projectName);
+    }
+  
+```
+74.  spring validation
+```
+https://blog.csdn.net/kylin_tam/article/details/116276610
+@Min => num
+
+@Max => num
+
+@Size(min=, max=) => list
+
+@Length(min=, max=) => String
+```
+75.  Java 实现断点传输: https://blog.csdn.net/u011250186/article/details/128322350
+76.  按需加载 - @Condition
+    https://blog.csdn.net/xcy1193068639/article/details/81491071
+```java
+public class LinuxCondition implements Condition {
+ 
+    @Override
+    public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
+ 
+        Environment environment = conditionContext.getEnvironment();
+ 
+        String property = environment.getProperty("os.name");
+        if (property.contains("Linux")){
+            return true;
+        }
+        return false;
+    }
+}
+```
+77.  按需加载 - @ConditionalOnProperty
+```java
+@ConditionalOnProperty(name = "token.check", havingValue = "false")
+```
+
+78.  `@JsonIgnore` 要使用 jackson 提供的 @JsonIgnore 才生效
+79.  json 大写变量处理, 使用注解 `@JsonProperty("SN")`
+80. md5 格式验证: 确保它是一个长度为32的字符串，且只包含十六进制字符（0-9和a-f或A-F）
+81. spring boot怎么创建指定name的bean: 使用 `@Bean(name="beanname")`
+82. try-catch-finally执行顺序(https://juejin.cn/post/7104448863297077284)
+try->catch->finally, 
++ 无论有无return, 都按照此顺序
++ 若 return 是个指针, 则 finally 的操作会影响 return 的结果
+83.  Maven打包指定项目的JAR
+cd module -> mvn clean package
+84. java 分隔斜杠
+反斜杠 \\ 是一个特殊字符，用于转义。因此，如果你想要按照单个反斜杠来分割字符串，你需要使用四个反斜杠 \\\\ 来表示一个普通的反斜杠字符。
+String fileName = originalFilename.split("\\\\")[0];
+85. java feign 指定 Content-Type
+需要使用 consumes = "application/x-www-form-urlencoded", 在 header 中指定无效
+86. java重要特性与思想: 反射, 递归, 泛型
+87. 
+
+
 # 第二章 Mysql
 
 ## 2.1 基础类型
@@ -1529,85 +1618,7 @@ Sorted Set
 
 # 第五章 Spring-Boot
 ## 5.1 Spring-Boot经验
-1. 如果Application类包所在的位置也很关键，SpringBoot项目的Bean装配默认规则是根据Application类所在的包位置从上往下扫描！Application类是指SpringBoot项目入口类。也就是我的Service层所在的包必须在com.example.mydemo或其子包下，否则Service层中的Bean不会被扫描到
-2. web-shiro原理是通过将userName封在jwt-token中, 然后在shiro-realm的doGetAuthenticationInfo()方法鉴权, 最后通过new SimpleAuthenticationInfo(loginUser, token, getName())将loginUser封在shiro-principal中
-3. @NotNull(message = "封面不能为空") 标签只能判断null值, 不能判断size为0的list
-4. post接口 @RequestBody才能接json; ios端用post接中文
-5. 多表高级查询, 使用FieldsUtil.getFieldsWithAlias(stuDTO, "stu"); 该方法不会拼接delFlag; 同时列表页的简单查询, 请使用单表查询
-6. 使用高级查询, 要么remove排序字段, 然后自己手动写排序, 要么就用他的排序
-7. DynamicDataSourceContextHolder.push("master"); 不支持在事务下切换数据源
-8. idea的项目, 记得从项目里删掉jrebel.xml, 他会导致一堆问题
-9. 和第三方对接的准则, 一定要把第三方系统的信息保存完整
-10. SOA架构, 在shell脚本中, 一定要先监控server2是否运行, 然后server2运行再部署server1, 部署后监控server1部署成功, 再部署server2; 保证至少一台服务器在运行中;
-11. 127.0.0.1 某些端口可能没有打开, 所以无法直接访问
-12. 打包时忽略某些模块的办法
-```
-    <modules>
-<!--      <module>module1</module>
-      <module>module2</module>-->
-      <module>module3</module>
-    </modules>
-```
-13. @CacheEvict(value = {BCardConstant.SYS_CONFIG_PARK_LIST} 只会删除该key, 而不会删除子key; 所以如需删除子key, 需要使用redis模糊删除
-14. 
-![image](https://user-images.githubusercontent.com/37357447/150462539-dd732910-266a-4f9c-bb06-71924f43108d.png)
-15. shiro 如果想用全局异常捕获处理shiro异常, 在JwtFilter-executeLogin方法中使用try-catch-throw即可; 否则会自动抛出AuthenticationException异常, 而交给spring-filter容器处理
-16. 在代码中 获取项目名
-``` java
-    @Autowired
-    ServletContext servletContext;
 
-    @RequestMapping("/project-name")
-    public void getProjectName(HttpServletResponse response) throws IOException {
-        String projectName = servletContext.getContextPath();
-        response.getWriter().write("Project Name: " + projectName);
-    }
-  
-```
-17.  spring validation
-```
-https://blog.csdn.net/kylin_tam/article/details/116276610
-@Min => num
-
-@Max => num
-
-@Size(min=, max=) => list
-
-@Length(min=, max=) => String
-```
-18. Java 实现断点传输: https://blog.csdn.net/u011250186/article/details/128322350
-19. 按需加载 - @Condition
-    https://blog.csdn.net/xcy1193068639/article/details/81491071
-```java
-public class LinuxCondition implements Condition {
- 
-    @Override
-    public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
- 
-        Environment environment = conditionContext.getEnvironment();
- 
-        String property = environment.getProperty("os.name");
-        if (property.contains("Linux")){
-            return true;
-        }
-        return false;
-    }
-}
-```
-20. 按需加载 - @ConditionalOnProperty
-```java
-@ConditionalOnProperty(name = "token.check", havingValue = "false")
-```
-
-21. `@JsonIgnore` 要使用 jackson 提供的 @JsonIgnore 才生效
-22. json 大写变量处理, 使用注解 `@JsonProperty("SN")`
-23. md5 格式验证: 确保它是一个长度为32的字符串，且只包含十六进制字符（0-9和a-f或A-F）
-24. spring boot怎么创建指定name的bean: 使用 `@Bean(name="beanname")`
-25. try-catch-finally执行顺序(https://juejin.cn/post/7104448863297077284)
-try->catch->finally, 
-+ 无论有无return, 都按照此顺序
-+ 若 return 是个指针, 则 finally 的操作会影响 return 的结果
-26. 
 
 
 ## 5.2 Spring 中的 maven 冲突与管理
