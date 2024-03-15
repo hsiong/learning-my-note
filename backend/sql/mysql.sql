@@ -148,6 +148,7 @@ WHERE
 ## http://xstarcd.github.io/wiki/MySQL/MySQL-sql-mode.html
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+-- 重启mysql的话, 需要修改 ini 配置文件
 
 # Mysql Thread
 # https://www.cnblogs.com/caoshousong/p/10845396.html
