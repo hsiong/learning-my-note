@@ -80,10 +80,23 @@ https://blog.csdn.net/Logicr/article/details/124957505
 ## IDEA 优化 .var 提示
 > Postfix Completion -> var, 并且禁用 val varl 等
 
-> .var 禁用 final
+## .var 禁用 final
 .var 之后, 取消勾选 declare final, 就不会生成 final 关键字了
 ![Screenshot 2023-12-11 at 15 27 25](https://github.com/hsiong/learning-my-note/assets/37357447/26912836-5c4f-4152-9d2a-9f644394b0f2)
 
+## idea 如何 自定义 Postfix Completion
+
+1. **创建自定义补全**：在“Postfix Completion”页面，你会看到一个列表，显示了所有可用的后缀补全模板。点击列表下方的 `+` 按钮来创建一个新的模板。
+2. **配置模板**：在创建新模板的对话框中，你需要填写几个字段：
+   - **Key**：这是触发模板的后缀。例如，如果你创建一个用于打印变量值的模板，你可以使用 `print` 作为 Key。
+   - **Description**：这是模板的描述，帮助你记住这个模板的用途。
+   - **Applicable in**：选择模板适用的上下文，例如 Java 方法体内。
+   - **Template text**：这是模板的主体。你需要使用 `$EXPR$` 代表原始表达式，`$END$` 指定光标最终的停留位置。如果你的模板是用来打印变量值，模板文本可能类似于 `System.out.println($EXPR$);$END$`。
+
+
+
+## 关闭 coverage
+搜索 coverage -> close
 
 ## IDEA中Ctrl+Shift+F快捷键被占用 - windows
 https://www.jianshu.com/p/bdd0c27810ed
