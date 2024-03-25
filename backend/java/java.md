@@ -1205,7 +1205,10 @@ String fileName = originalFilename.split("\\\\")[0];
 85. java feign 指定 Content-Type
 需要使用 consumes = "application/x-www-form-urlencoded", 在 header 中指定无效
 86. java重要特性与思想: 反射, 递归, 泛型
-87. 
+87. java 转义
++ ""需要转义, 所以 \"\" 代表是 "", 但是在字符串中, 要识别"", 最后效果应该是 "\"\"", 所以还需要生成一个\, 所以你的input实际是 "\\\""
++ 注意: {}不需要转义
+
 
 
 # 第二章 Mysql
