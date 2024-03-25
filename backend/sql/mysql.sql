@@ -233,6 +233,18 @@ SELECT DISTINCT
 MAX(t.type) OVER (PARTITION BY t.id)
 FROM tableName;
 
+## group_concat 用法 -- https://blog.csdn.net/harry5508/article/details/102481017
+将group by产生的同一个分组中的值连接起来，返回一个字符串结果。
+SELECT
+    user_no,
+    GROUP_CONCAT( DISTINCT role_name ) AS role_name 
+FROM
+    report_user_role_info 
+GROUP BY
+    user_no;
+
+
+
 # distinguish varchar/char/text
 https://joyohub.com/2020/07/04/mysql/mysql-string/
 
