@@ -5,10 +5,8 @@
 以下划线开头的标识符是有特殊意义的。
 + 以单下划线开头 `_foo` 的代表不能直接访问的类属性，需通过类提供的接口进行访问，不能用 from xxx import * 而导入。
 
-+ 以双下划线开头的 `__foo` 代表类的私有成员，
++ 以双下划线开头的 `__foo` 代表类的私有成员，常量, 不可修改
 + 以双下划线开头和结尾的 __foo__ 代表 Python 里特殊方法专用的标识，如 `__init__()` 代表类的构造函数。
-
-
 
 ## 行和缩进
 学习 Python 与其他语言最大的区别就是，Python 的代码块不使用大括号 {} 来控制类，函数以及其他逻辑判断。python 最具特色的就是用缩进来写模块。
@@ -36,8 +34,85 @@ paragraph = """这是一个段落。
 del var
 del var_a, var_b
 
-# 运算符
-## Python成员运算符
+## Pycharm
+
+### 快捷键
++ pycharm 不会自动 auto-import, 所以需要使用下列三个快捷键之一
+  + Reformat Code: ctrl_cmd_l
+  + Reformat File: shift_ctrl_cmd_l
+  + Optimize Import: ctrl_alt_cmd_o 
+
++ 
+
+### 生成返回值对象快捷键
+
+在编写一行JAVA语句时，有返回值的方法已经决定了返回对象的类型和泛型类型，我们只需要给这个对象起个名字就行。
+
+如果使用快捷键生成这个返回值，我们就可以减少不必要的打字和思考，专注于过程的实现。
+
+步骤：
+
+1、把光标移动到需要生成返回值变量的语句之前，或者之后。
+
+2、右键选择依次点击  Refactor-------------》Extract-------》Variable，也可以按快捷键ctrl+alt+v
+
+3、生成以后一般需要你自己起一个名字，默认给的名字总是不太合适的
+
+### Get from vcs
+
+Menu -> Git -> Clone
+
+### pycharm the file in the editor is not runnable
+pycharm 没有识别 python 文件: https://blog.csdn.net/yxb_xb/article/details/118554048
+Editor -> File Types -> Python -> add `*.py`
+
+### requirements.txt
+Tools -> Python Integrated Tools -> Packaging: requirements.txt
+
+### 取消代理
+
+select `Help -> Edit Custom VM Options` add below:
+
+```shell
+-Dhttp.proxyHost
+-Dhttp.proxyPort
+-Dhttps.proxyHost
+-Dhttps.proxyPort
+-DsocksProxyHost
+-DsocksProxyPort
+```
+
+### pycharm 回车不会缩进
+
+Editor => Code Style => Python => `Keep indents on empty lines`
+
+### 插件
+
++ Material Theme UI
++ Atom Material Icons
++ Codeium
++ Indent Rainbow
++ Rainbow Brackets
+
+## Python 日期和时间
+
+Python 的 time 模块下有很多函数可以转换常见日期格式。如函数time.time()用于获取当前时间戳, 如下实例:
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import time  # 引入time模块
+ 
+ticks = time.time()
+print "当前时间戳为:", ticks
+```
+
+# 
+
+## 运算符
+
+### Python成员运算符
 ```python
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
@@ -64,7 +139,7 @@ else:
    print "3 - 变量 a 不在给定的列表中 list 中"
 ```
 
-## Python身份运算符
+### Python身份运算符
 ```python
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
@@ -95,9 +170,9 @@ else:
    print "4 - a 和 b 有相同的标识"
 ```
 
-# 常用语句
+## 常用语句
 
-## if-else
+### if-else
 python 并不支持 switch 语句，所以多个条件判断，只能用 elif 来实现
 ```python
 #!/usr/bin/python
@@ -107,6 +182,7 @@ python 并不支持 switch 语句，所以多个条件判断，只能用 elif �
  
 num = 9
 if num >= 0 and num <= 10:    # 判断值是否在0~10之间
+    print 'hello'
     print 'hello'
 # 输出结果: hello
  
@@ -126,7 +202,7 @@ else:
 # 输出结果: undefine
 ```
 
-## while
+### while
 ```python
 
 count = 0
@@ -151,7 +227,7 @@ else:
    print count, " is not less than 5"
 ```
 
-## for-in
+### for-in
 
 ```python
 #!/usr/bin/python
@@ -167,7 +243,7 @@ for fruit in fruits:        # 第二个实例
 print ("Good bye!")
 ```
 
-## for-i
+### for-i
 
 ```python
 fruits = ['banana', 'apple',  'mango']
@@ -177,7 +253,7 @@ for index in range(len(fruits)):
 print ("Good bye!")
 ```
 
-## for-else
+### for-else
 
 ```python
 #!/usr/bin/python
@@ -193,7 +269,7 @@ for num in range(10,20):  # 迭代 10 到 20 (不包含) 之间的数字
       print ('%d 是一个质数' % num)
 ```
 
-## break/continue/pass
+### break/continue/pass
 
 Python pass 是空语句，是为了保持程序结构的完整性。
 
@@ -213,9 +289,9 @@ for letter in 'Python':
 print "Good bye!"
 ```
 
-# 字符串
+## 字符串
 
-## Python 字符串连接
+### Python 字符串连接
 
 ```python
 #!/usr/bin/python
@@ -230,7 +306,7 @@ print "输出 :- ", var1[:6] + 'Runoob!'
 
 `f"{1}{2}{3}"`
 
-## python 续行
+### python 续行
 
 + 使用续行符
 
@@ -268,7 +344,7 @@ that spans across multiple lines in the
 Python code."""
 ```
 
-## Python字符串运算符
+### Python字符串运算符
 
 | 操作符 | 描述                                                         | 实例                                 |
 | :----- | :----------------------------------------------------------- | :----------------------------------- |
@@ -280,9 +356,9 @@ Python code."""
 | not in | 成员运算符 - 如果字符串中不包含给定的字符返回 True           | >>>"M" not in a True                 |
 | r/R    | 原始字符串 - 原始字符串：所有的字符串都是直接按照字面的意思来使用，没有转义特殊或不能打印的字符。 原始字符串除在字符串的第一个引号前加上字母"r"（可以大小写）以外，与普通字符串有着几乎完全相同的语法。 | >>>print r'\n' \n >>> print R'\n' \n |
 
-## 格式化
+### 格式化
 
-### `f`
+#### `f`
 
 在Python中，前缀`f`被用于字符串前，表示这是一个格式化字符串（f-string），从Python 3.6版本开始引入。使用f-string可以让你在字符串内直接嵌入表达式，这些表达式会在运行时被求值，并将其结果转换成字符串形式嵌入到字符串的相应位置。这样做的好处是可以简化字符串的格式化操作，使代码更加简洁易读。
 
@@ -292,7 +368,7 @@ message = f"你好，{name}！"
 print(message)
 ```
 
-### 三引号
+#### 三引号
 
 Python 三引号允许一个字符串跨多行，字符串中可以包含换行符、制表符以及其他特殊字符。
 
@@ -325,7 +401,165 @@ prid INTEGER)
 u'Hello World !'
 ```
 
-# 列表
+## Python 文件I/O
+
+### 打印到屏幕
+
+### 读取键盘输入
+
+### 打开和关闭文件
+
+### 读取模式
+
+| 模式 | 描述                                                         |
+| :--- | :----------------------------------------------------------- |
+| t    | 文本模式 (默认)。                                            |
+| x    | 写模式，新建一个文件，如果该文件已存在则会报错。             |
+| b    | 二进制模式。                                                 |
+| +    | 打开一个文件进行更新(可读可写)。                             |
+| U    | 通用换行模式（不推荐）。                                     |
+| r    | 以只读方式打开文件。文件的指针将会放在文件的开头。这是默认模式。 |
+| rb   | 以二进制格式打开一个文件用于只读。文件指针将会放在文件的开头。这是默认模式。一般用于非文本文件如图片等。 |
+| r+   | 打开一个文件用于读写。文件指针将会放在文件的开头。           |
+| rb+  | 以二进制格式打开一个文件用于读写。文件指针将会放在文件的开头。一般用于非文本文件如图片等。 |
+| w    | 打开一个文件只用于写入。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。 |
+| wb   | 以二进制格式打开一个文件只用于写入。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。一般用于非文本文件如图片等。 |
+| w+   | 打开一个文件用于读写。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。 |
+| wb+  | 以二进制格式打开一个文件用于读写。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。一般用于非文本文件如图片等。 |
+| a    | 打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。 |
+| ab   | 以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。 |
+| a+   | 打开一个文件用于读写。如果该文件已存在，文件指针将会放在文件的结尾。文件打开时会是追加模式。如果该文件不存在，创建新文件用于读写。 |
+| ab+  | 以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。如果该文件不存在，创建新文件用于读写。 |
+
+#### File对象的属性
+
+一个文件被打开后，你有一个file对象，你可以得到有关该文件的各种信息。
+
+以下是和file对象相关的所有属性的列表：
+
+| 属性           | 描述                                                         |
+| :------------- | :----------------------------------------------------------- |
+| file.closed    | 返回true如果文件已被关闭，否则返回false。                    |
+| file.mode      | 返回被打开文件的访问模式。                                   |
+| file.name      | 返回文件的名称。                                             |
+| file.softspace | 如果用print输出后，必须跟一个空格符，则返回false。否则返回true。 |
+
+#### close()方法
+
+File 对象的 close（）方法刷新缓冲区里任何还没写入的信息，并关闭该文件，这之后便不能再进行写入。
+
+当一个文件对象的引用被重新指定给另一个文件时，Python 会关闭之前的文件。用 close（）方法关闭文件是一个很好的习惯。
+
+#### write()方法
+
+write()方法可将任何字符串写入一个打开的文件。需要重点注意的是，Python字符串可以是二进制数据，而不是仅仅是文字。
+
+write()方法不会在字符串的结尾添加换行符('\n')：
+
+#### read()方法
+
+read（）方法从一个打开的文件中读取一个字符串。需要重点注意的是，Python字符串可以是二进制数据，而不是仅仅是文字。
+
+#### tell()方法
+
+tell()方法告诉你文件内的当前位置, 换句话说，下一次的读写会发生在文件开头这么多字节之后。
+
+seek（offset [,from]）方法改变当前文件的位置。Offset变量表示要移动的字节数。From变量指定开始移动字节的参考位置。
+
+如果from被设为0，这意味着将文件的开头作为移动字节的参考位置。如果设为1，则使用当前的位置作为参考位置。如果它被设为2，那么该文件的末尾将作为参考位置。
+
+### 重命名和删除文件
+
+#### rename() 方法
+
+rename() 方法需要两个参数，当前的文件名和新文件名。
+
+语法：
+
+```python
+os.rename(current_file_name, new_file_name)
+```
+
+#### remove()方法
+
+你可以用remove()方法删除文件，需要提供要删除的文件名作为参数。
+
+语法：
+
+```python
+os.remove(file_name)
+```
+
+### Python里的目录
+
+所有文件都包含在各个不同的目录下，不过Python也能轻松处理。os模块有许多方法能帮你创建，删除和更改目录。
+
+#### mkdir()方法
+
+可以使用os模块的mkdir()方法在当前目录下创建新的目录们。你需要提供一个包含了要创建的目录名称的参数。
+
+语法：
+
+```python
+os.mkdir("newdir")
+```
+
+#### chdir()方法
+
+可以用chdir()方法来改变当前的目录。chdir()方法需要的一个参数是你想设成当前目录的目录名称。
+
+语法：
+
+```
+os.chdir("newdir")
+```
+
+例子：
+
+下例将进入"/home/newdir"目录。
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os
+ 
+# 将当前目录改为"/home/newdir"
+os.chdir("/home/newdir")
+```
+
+#### getcwd() 方法
+
+getcwd()方法显示当前的工作目录。
+
+语法：
+
+```python
+os.getcwd()
+```
+
+#### rmdir()方法
+
+rmdir()方法删除目录，目录名称以参数传递。
+
+在删除这个目录之前，它的所有内容应该先被清除。
+
+语法：
+
+```python
+os.rmdir('dirname')
+```
+
+### 文件、目录相关的方法
+
+File 对象和 OS 对象提供了很多文件与目录的操作方法，可以通过点击下面链接查看详情：
+
+- [File 对象方法](https://www.runoob.com/python/file-methods.html): file 对象提供了操作文件的一系列方法。
+- [OS 对象方法](https://www.runoob.com/python/os-file-methods.html): 提供了处理文件及目录的一系列方法。
+
+# Python 基础类型
+
+## 列表
 
 创建一个列表，只要把逗号分隔的不同的数据项使用方括号括起来即可。如下所示：
 
@@ -335,7 +569,7 @@ list2 = [1, 2, 3, 4, 5 ]
 list3 = ["a", "b", "c", "d"]
 ```
 
-## 访问列表中的值
+### 访问列表中的值
 
 使用下标索引来访问列表中的值，同样你也可以使用方括号的形式截取字符，如下所示：
 
@@ -349,7 +583,7 @@ print "list1[0]: ", list1[0]
 print "list2[1:5]: ", list2[1:5]
 ```
 
-## 更新列表
+### 更新列表
 
 ```python
 #!/usr/bin/python
@@ -361,7 +595,7 @@ list.append('Runoob')
 print list
 ```
 
-## 删除列表元素
+### 删除列表元素
 
 ```python
 #!/usr/bin/python
@@ -388,7 +622,7 @@ Python 的列表截取实例如下：
 | L[-2]         | 'Runoob'             | 读取列表中倒数第二个元素 |
 | L[1:]         | ['Runoob', 'Taobao'] | 从第二个元素开始截取列表 |
 
-## Python列表脚本操作符
+### Python列表脚本操作符
 
 列表对 + 和 * 的操作符与字符串相似。+ 号用于组合列表，* 号用于重复列表。
 
@@ -402,7 +636,33 @@ Python 的列表截取实例如下：
 | 3 in [1, 2, 3]               | True                         | 元素是否存在于列表中 |
 | for x in [1, 2, 3]: print x, | 1 2 3                        | 迭代                 |
 
-# 元组
+### Python列表函数&方法
+
+Python包含以下函数:
+
+| 序号 | 函数                                                         |
+| :--- | :----------------------------------------------------------- |
+| 1    | [cmp(list1, list2)](https://www.runoob.com/python/att-list-cmp.html) 比较两个列表的元素 |
+| 2    | [len(list)](https://www.runoob.com/python/att-list-len.html) 列表元素个数 |
+| 3    | [max(list)](https://www.runoob.com/python/att-list-max.html) 返回列表元素最大值 |
+| 4    | [min(list)](https://www.runoob.com/python/att-list-min.html) 返回列表元素最小值 |
+| 5    | [list(seq)](https://www.runoob.com/python/att-list-list.html) 将元组转换为列表 |
+
+Python包含以下方法:
+
+| 序号 | 方法                                                         |
+| :--- | :----------------------------------------------------------- |
+| 1    | [list.append(obj)](https://www.runoob.com/python/att-list-append.html) 在列表末尾添加新的对象 |
+| 2    | [list.count(obj)](https://www.runoob.com/python/att-list-count.html) 统计某个元素在列表中出现的次数 |
+| 3    | [list.extend(seq)](https://www.runoob.com/python/att-list-extend.html) 在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表） |
+| 4    | [list.index(obj)](https://www.runoob.com/python/att-list-index.html) 从列表中找出某个值第一个匹配项的索引位置 |
+| 5    | [list.insert(index, obj)](https://www.runoob.com/python/att-list-insert.html) 将对象插入列表 |
+| 6    | [list.pop([index=-1\])](https://www.runoob.com/python/att-list-pop.html) 移除列表中的一个元素（默认最后一个元素），并且返回该元素的值 |
+| 7    | [list.remove(obj)](https://www.runoob.com/python/att-list-remove.html) 移除列表中某个值的第一个匹配项 |
+| 8    | [list.reverse()](https://www.runoob.com/python/att-list-reverse.html) 反向列表中元素 |
+| 9    | [list.sort(cmp=None, key=None, reverse=False)](https://www.runoob.com/python/att-list-sort.html) 对原列表进行排序 |
+
+## 元组
 
 Python 的元组与列表类似，不同之处在于元组的元素不能修改。
 
@@ -414,7 +674,7 @@ tup3 = "a", "b", "c", "d"
 tup1 = (50,)
 ```
 
-## 修改元组
+### 修改元组
 
 元组中的元素值是不允许修改的，但我们可以对元组进行连接组合，如下实例:
 
@@ -435,7 +695,7 @@ print tup3
 
 
 
-## 删除元组
+### 删除元组
 
 元组中的元素值是不允许删除的，但我们可以使用del语句来删除整个元组，如下实例
 
@@ -450,7 +710,7 @@ print "After deleting tup : "
 print tup
 ```
 
-## 无关闭分隔符
+### 无关闭分隔符
 
 任意无符号的对象，以逗号隔开，默认为元组，如下实例：
 
@@ -462,15 +722,15 @@ x, y = 1, 2
 print "Value of x , y : ", x,y
 ```
 
-# 字典
+## 字典
+
+可以理解成java-map
 
 字典是另一种可变容器模型，且可存储任意类型对象。键一般是唯一的，如果重复最后的一个键值对会替换前面的，值不需要唯一。
 
 字典的每个键值 **key:value** 对用冒号 **`:`** 分割，每个键值对之间用逗号 **`,`** 分割，整个字典包括在花括号 **`{}`** 中 ,格式如下所示：
 
 d = {key1 : value1, key2 : value2 }
-
-形式同 java-map
 
 > **注意：**dict 作为 Python 的关键字和内置函数，变量名不建议命名为 **dict**。
 
@@ -484,7 +744,7 @@ d = {key1 : value1, key2 : value2 }
 >
 >   `tinydict[(1,2,3)]="hello"`
 
-## 访问字典里的值
+### 访问字典里的值
 
 ```python
 #!/usr/bin/python
@@ -505,7 +765,7 @@ Traceback (most recent call last):
 KeyError: 'Alice'
 ```
 
-## 修改字典
+### 修改字典
 
 向字典添加新内容的方法是增加新的键/值对，修改或删除已有键/值对如下实例:
 
@@ -523,7 +783,7 @@ print "tinydict['Age']: ", tinydict['Age']
 print "tinydict['School']: ", tinydict['School']
 ```
 
-## 删除字典元素
+### 删除字典元素
 
 能删单一的元素也能清空字典，清空只需一项操作。
 
@@ -544,20 +804,6 @@ print "tinydict['School']: ", tinydict['School']
 ```
 
 
-
-# Python 日期和时间
-
-Python 的 time 模块下有很多函数可以转换常见日期格式。如函数time.time()用于获取当前时间戳, 如下实例:
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-import time  # 引入time模块
- 
-ticks = time.time()
-print "当前时间戳为:", ticks
-```
 
 # Python 函数
 
@@ -762,6 +1008,34 @@ from modname import name1[, name2[, ... nameN]]
 from modname import *
 ```
 
+> 注意: 
+>
+> + `from openai_exec import *` 与 `import openai_exec` 实际使用有什么区别
+>
+>   + `from openai_exec import *`
+>
+>     ```python
+>     from openai_exec import *
+>     
+>     # Press the green button in the gutter to run the script.
+>     if __name__ == '__main__':
+>         msg: List[PerMessage] = []
+>         excute(msg)
+>     ```
+>
+>   + `import openai_exec`
+>
+>     ```python
+>     import openai_exec
+>     
+>     # Press the green button in the gutter to run the script.
+>     if __name__ == '__main__':
+>         msg: List[openai_exec.PerMessage] = []
+>         openai_exec.excute(msg)
+>     ```
+>
+>   
+
 ## 命名空间和作用域
 
 如果要给函数内的全局变量赋值，必须使用 `global` 语句。
@@ -829,23 +1103,223 @@ package_runoob
 
 你可以放置许多函数。你也可以在这些文件里定义Python的类，然后为这些类建一个包。
 
+# Python 异常处理
+
+## python标准异常
+
+| 异常名称                  | 描述                                               |
+| :------------------------ | :------------------------------------------------- |
+|                           |                                                    |
+| BaseException             | 所有异常的基类                                     |
+| SystemExit                | 解释器请求退出                                     |
+| KeyboardInterrupt         | 用户中断执行(通常是输入^C)                         |
+| Exception                 | 常规错误的基类                                     |
+| StopIteration             | 迭代器没有更多的值                                 |
+| GeneratorExit             | 生成器(generator)发生异常来通知退出                |
+| StandardError             | 所有的内建标准异常的基类                           |
+| ArithmeticError           | 所有数值计算错误的基类                             |
+| FloatingPointError        | 浮点计算错误                                       |
+| OverflowError             | 数值运算超出最大限制                               |
+| ZeroDivisionError         | 除(或取模)零 (所有数据类型)                        |
+| AssertionError            | 断言语句失败                                       |
+| AttributeError            | 对象没有这个属性                                   |
+| EOFError                  | 没有内建输入,到达EOF 标记                          |
+| EnvironmentError          | 操作系统错误的基类                                 |
+| IOError                   | 输入/输出操作失败                                  |
+| OSError                   | 操作系统错误                                       |
+| WindowsError              | 系统调用失败                                       |
+| ImportError               | 导入模块/对象失败                                  |
+| LookupError               | 无效数据查询的基类                                 |
+| IndexError                | 序列中没有此索引(index)                            |
+| KeyError                  | 映射中没有这个键                                   |
+| MemoryError               | 内存溢出错误(对于Python 解释器不是致命的)          |
+| NameError                 | 未声明/初始化对象 (没有属性)                       |
+| UnboundLocalError         | 访问未初始化的本地变量                             |
+| ReferenceError            | 弱引用(Weak reference)试图访问已经垃圾回收了的对象 |
+| RuntimeError              | 一般的运行时错误                                   |
+| NotImplementedError       | 尚未实现的方法                                     |
+| SyntaxError               | Python 语法错误                                    |
+| IndentationError          | 缩进错误                                           |
+| TabError                  | Tab 和空格混用                                     |
+| SystemError               | 一般的解释器系统错误                               |
+| TypeError                 | 对类型无效的操作                                   |
+| ValueError                | 传入无效的参数                                     |
+| UnicodeError              | Unicode 相关的错误                                 |
+| UnicodeDecodeError        | Unicode 解码时的错误                               |
+| UnicodeEncodeError        | Unicode 编码时错误                                 |
+| UnicodeTranslateError     | Unicode 转换时错误                                 |
+| Warning                   | 警告的基类                                         |
+| DeprecationWarning        | 关于被弃用的特征的警告                             |
+| FutureWarning             | 关于构造将来语义会有改变的警告                     |
+| OverflowWarning           | 旧的关于自动提升为长整型(long)的警告               |
+| PendingDeprecationWarning | 关于特性将会被废弃的警告                           |
+| RuntimeWarning            | 可疑的运行时行为(runtime behavior)的警告           |
+| SyntaxWarning             | 可疑的语法的警告                                   |
+| UserWarning               | 用户代码生成的警告                                 |
+
+## 异常处理
+
+捕捉异常可以使用try/except语句。
+
+try/except语句用来检测try语句块中的错误，从而让except语句捕获异常信息并处理。
+
+如果你不想在异常发生时结束你的程序，只需在try里捕获它。
+
+语法：
+
+以下为简单的*try....except...else*的语法：
+
+```python
+try:
+	<语句>        #运行别的代码
+except <名字> as e:
+	<语句>        #如果引发了'name'异常，获得附加的数据
+else:
+	<语句>        #如果没有异常发生
+finally:
+  <语句>
+```
+
+try的工作原理是，当开始一个try语句后，python就在当前程序的上下文中作标记，这样当异常出现时就可以回到这里，try子句先执行，接下来会发生什么依赖于执行时是否出现异常。
+
+- 如果当try后的语句执行时发生异常，python就跳回到try并执行第一个匹配该异常的except子句，异常处理完毕，控制流就通过整个try语句（除非在处理异常时又引发新的异常）。
+- 如果在try后的语句里发生了异常，却没有匹配的except子句，异常将被递交到上层的try，或者到程序的最上层（这样将结束程序，并打印默认的出错信息）。
+- 如果在try子句执行时没有发生异常，python将执行else语句后的语句（如果有else的话），然后控制流通过整个try语句。
 
 
-# Pycharm
 
-## 生成返回值对象快捷键
+下面是简单的例子，它打开一个文件，在该文件中的内容写入内容，且并未发生异常：
 
-在编写一行JAVA语句时，有返回值的方法已经决定了返回对象的类型和泛型类型，我们只需要给这个对象起个名字就行。
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 
-如果使用快捷键生成这个返回值，我们就可以减少不必要的打字和思考，专注于过程的实现。
+message = 1
+try:
+    print(f"{0/1}")
+    raise Exception(message)  # 使用raise语句自己触发异常
+except (BaseException, UserWarning) as e:
+    print(f"error:{e}") # 打印异常
+    print("error", e) 
+    print(e.args) # 打印异常参数
+finally: 
+    print("finally") # finally语句
+    
+```
 
-步骤：
+## 用户自定义异常
 
-1、把光标移动到需要生成返回值变量的语句之前，或者之后。
+以下为与RuntimeError相关的实例,实例中创建了一个类，基类为RuntimeError，用于在异常触发时输出更多的信息。
 
-2、右键选择依次点击  Refactor-------------》Extract-------》Variable，也可以按快捷键ctrl+alt+v
+```python
+# Exception
+class CustomException(RuntimeError):
+    def __init__(self, *args): # 不定长参数
+        self.args = args
 
-3、生成以后一般需要你自己起一个名字，默认给的名字总是不太合适的
+try:
+    raise CustomException(1, 2, 3)
+except CustomException as e:
+    print(f"e.args, {e.args}")
+
+
+```
+
+# Python 面向对象
+
+## 面向对象技术简介
+
+- **类(Class):** 用来描述具有相同的属性和方法的对象的集合。它定义了该集合中每个对象所共有的属性和方法。对象是类的实例。
+- **类变量：**类变量在整个实例化的对象中是公用的。类变量定义在类中且在函数体之外。类变量通常不作为实例变量使用。
+- **数据成员：**类变量或者实例变量, 用于处理类及其实例对象的相关的数据。
+- **方法重写：**如果从父类继承的方法不能满足子类的需求，可以对其进行改写，这个过程叫方法的覆盖（override），也称为方法的重写。
+- **局部变量：**定义在方法中的变量，只作用于当前实例的类。
+- **实例变量：**在类的声明中，属性是用变量来表示的。这种变量就称为实例变量，是在类声明的内部但是在类的其他成员方法之外声明的。
+- **继承：**即一个派生类（derived class）继承基类（base class）的字段和方法。继承也允许把一个派生类的对象作为一个基类对象对待。例如，有这样一个设计：一个Dog类型的对象派生自Animal类，这是模拟"是一个（is-a）"关系（例图，Dog是一个Animal）。
+- **实例化：**创建一个类的实例，类的具体对象。
+- **方法：**类中定义的函数。
+- **对象：**通过类定义的数据结构实例。对象包括两个数据成员（类变量和实例变量）和方法。
+
+## 创建类
+
+使用 class 语句来创建一个新类，class 之后为类的名称并以冒号结尾:
+
+```python
+class ClassName:
+   '类的帮助信息'   #类文档字符串
+   class_suite  #类体
+```
+
+类的帮助信息可以通过ClassName.__doc__查看。
+
+class_suite 由类成员，方法，数据属性组成。
+
+### 实例
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+class Employee:
+   '所有员工的基类'
+   empCount = 0 # empCount 变量是一个类变量，它的值将在这个类的所有实例之间共享。你可以在内部类或外部类使用 Employee.empCount 访问。
+ 
+
+   def __init__(self, name, salary): # 第一种方法__init__()方法是一种特殊的方法，被称为类的构造函数或初始化方法，当创建了这个类的实例时就会调用该方法
+      self.name = name # 
+      self.salary = salary
+      Employee.empCount += 1
+   
+   def displayCount(self):
+     print "Total Employee %d" % Employee.empCount
+ 
+   def displayEmployee(self):
+      print "Name : ", self.name,  ", Salary: ", self.salary
+```
 
 
 
+- 
+- 
+
+> 注意: 
+>
+> + python 对象声明需在 code 之前, 否则会报错
+>
+> + python 方法入参为一个 list<Msg> 的对象
+>
+>   ```python
+>   from typing import List
+>   
+>   class Msg:
+>       # 假设 Msg 类有一些属性和方法
+>       def __init__(self, content: str):
+>           self.content = content
+>   
+>   def process_messages(messages: List[Msg]):
+>       # 这里是处理 messages 的逻辑
+>       for message in messages:
+>           print(message.content)
+>   ```
+>
+> + 初始化 list<Msg> 的对象
+
+# Json
+
+> 注意: 
+>
+> + List对象转 json
+>
+>   ```python
+>   from pydantic import BaseModel
+>   
+>   
+>   class PerMessage(BaseModel):
+>       role: str
+>       content: str
+>       
+>   messages = [message.dict() for message in messages] # 转为 json 对象
+>   
+>   ```
+>
+>   
