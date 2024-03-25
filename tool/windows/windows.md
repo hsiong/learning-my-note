@@ -33,3 +33,10 @@ https://www.runoob.com/java/java-environment-setup.html
 
 # download baidu wenku
 http://leyuanxm.top/
+
+# multi desktop
++ new desktop
+按下键盘“Win+Ctrl+D”可以一键生成一个新桌面。
+
++ switch desktop
+按下“Win+Ctrl+方向键”可以快速切换这两个桌面。
