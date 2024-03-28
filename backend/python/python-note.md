@@ -1321,5 +1321,11 @@ class Employee:
 >   messages = [message.dict() for message in messages] # 转为 json 对象
 >   
 >   ```
->
->   
+
+
+
+# 参考链接
+
++ Python关键字yield的解释(stackoverflow): https://pyzh.readthedocs.io/en/latest/the-python-yield-keyword-explained.html#:~:text=yield%20%E6%98%AF%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20return,%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AF%E4%B8%AA%E7%94%9F%E6%88%90%E5%99%A8%E3%80%82&text=%E8%BF%99%E4%B8%AA%E4%BE%8B%E5%AD%90%E6%B2%A1%E4%BB%80%E4%B9%88%E7%94%A8%E9%80%94%EF%BC%8C%E4%BD%86%E6%98%AF,%E8%BF%99%E6%9C%89%E7%82%B9%E8%B9%8A%E8%B7%B7%E4%B8%8D%E6%98%AF%E5%90%97%E3%80%82
+
++ 
