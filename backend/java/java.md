@@ -1208,7 +1208,9 @@ String fileName = originalFilename.split("\\\\")[0];
 87. java 转义
 + ""需要转义, 所以 \"\" 代表是 "", 但是在字符串中, 要识别"", 最后效果应该是 "\"\"", 所以还需要生成一个\, 所以你的input实际是 "\\\""
 + 注意: {}不需要转义
-
+88. 指定 json 键值
++ 常用 @JsonProperty(value="xxx"), 包括不限于 @RequestBody 等spring注解
++ alibabaFastjson 使用  @JSONField(name = "xxx")
 
 
 # 第二章 Mysql
