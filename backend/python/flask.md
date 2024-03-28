@@ -144,3 +144,7 @@ $ flask --app flaskr run --debug
 + 对象列表 `return [message.dict() for message in messages]`
 
   
+# 参考链接
++ Flask API开发的最佳实践: https://juejin.cn/post/7112607171312877576
++ Flask_BestPractices: https://github.com/yangyuexiong/Flask_BestPractices?tab=readme-ov-file
++ Flask WEB 教程: https://zhuanlan.zhihu.com/p/570313571
