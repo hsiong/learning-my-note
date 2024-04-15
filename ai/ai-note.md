@@ -11,6 +11,9 @@
 # llm
 + https://github.com/hsiong/project-LLM
 
+## glm
++ ChatGLM调教指南: https://mindformers.readthedocs.io/zh-cn/latest/docs/model_cards/glm.html
+
 # modelsArt
 + https://github.com/hsiong/project-modelarts.git
 
