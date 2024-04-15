@@ -1103,6 +1103,31 @@ sum( 10, 20 )
 print "函数外是全局变量 : ", total
 ```
 
+### 命名空间和作用域
+
+如果要给函数内的全局变量赋值，必须使用 `global` 语句。
+
+global VarName 的表达式会告诉 Python， VarName 是一个全局变量，这样 Python 就不会在局部命名空间里寻找这个变量了。
+
+例如，我们在全局命名空间里定义一个变量 Money。我们再在函数内给变量 Money 赋值，然后 Python 会假定 Money 是一个局部变量。然而，我们并没有在访问前声明一个局部变量 Money，结果就是会出现一个 UnboundLocalError 的错误。取消 global 语句前的注释符就能解决这个问题。
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+Money = 2000
+def AddMoney():
+   # 声明函数内的 var 为 global
+   global Money
+   Money = Money + 1
+ 
+print Money
+AddMoney()
+print Money
+```
+
+## 
+
 # Python 模块
 
 Python 模块(Module)，是一个 Python 文件，以 .py 结尾，包含了 Python 对象定义和Python语句。
@@ -1187,7 +1212,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->             
+>                 
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
@@ -1195,29 +1220,6 @@ from modname import *
 >     ```
 >
 >   
-
-## 命名空间和作用域
-
-如果要给函数内的全局变量赋值，必须使用 `global` 语句。
-
-global VarName 的表达式会告诉 Python， VarName 是一个全局变量，这样 Python 就不会在局部命名空间里寻找这个变量了。
-
-例如，我们在全局命名空间里定义一个变量 Money。我们再在函数内给变量 Money 赋值，然后 Python 会假定 Money 是一个局部变量。然而，我们并没有在访问前声明一个局部变量 Money，结果就是会出现一个 UnboundLocalError 的错误。取消 global 语句前的注释符就能解决这个问题。
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-Money = 2000
-def AddMoney():
-   # 声明函数内的 var 为 global
-   global Money
-   Money = Money + 1
- 
-print Money
-AddMoney()
-print Money
-```
 
 ## 查询模块定义
 
