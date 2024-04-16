@@ -16,6 +16,7 @@
 
 # modelsArt
 + https://github.com/hsiong/project-modelarts.git
++ 基于MindSpore的ChatGLM微调原创: https://github.com/mindspore-lab/mindformers/blob/master/docs/model_cards/glm.md
 
 # object-detect
 ## 病虫害
