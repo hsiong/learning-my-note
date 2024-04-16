@@ -1,10 +1,6 @@
-# 绪论
-
 > 写在开头, github 对 latex 支持不太好, 提供了 pdf 版供您查看
 
-## 数学基础
-
-### 数与数组
+## 数与数组
 
 ![img.png](img/img.png)
 
@@ -122,7 +118,7 @@
    - 独热向量不捕获词汇之间的任何语义关系。
    - 由于维度与词汇表的大小相同，对于大词汇表来说，独热编码可能非常稀疏和高维。
 
-### 索引
+## 索引
 
 ![img.png](img/img2.png)
 
@@ -169,7 +165,7 @@
    > 同样，你可以选择第一个或第三个切片，或沿其他轴的任何切片。
    > 
 
-### 集合
+## 集合
 
 ![img3.png](img/img3.png)
 
@@ -177,7 +173,7 @@
 
 > 复数是数学中的一种数，它由一个实部和一个虚部组成，并通常表示为 a+bi 的形式，其中 a 和 b 是实数，而 i 是虚数单位，满足 *$$i^2$$* =−1。
 
-### 线性代数
+## 线性代数
 
 ![img3.png](img/img4.png)
 
@@ -236,9 +232,9 @@
      >
      >   以下是梯度下降算法的基本步骤：
      >
-     >   ![Screenshot 2024-01-17 at 17.26.30](/Users/vjf/Projects/github/project-LLM/LLM/img/Screenshot 2024-01-17 at 17.26.30.png)
+     >   ![Screenshot 2024-01-17 at 17.26.30](img/Screenshot 2024-01-17 at 17.26.30.png)
      >
-     >   ![Screenshot 2024-01-17 at 17.29.31](/Users/vjf/Projects/github/project-LLM/LLM/img/Screenshot 2024-01-17 at 17.29.31.png)
+     >   ![Screenshot 2024-01-17 at 17.29.31](img/Screenshot 2024-01-17 at 17.29.31.png)
      >
      >   梯度下降的几个变体包括：
      >
@@ -249,7 +245,7 @@
      >   学习率 *η* 的选择对算法的性能和收敛速度有很大影响。过大的学习率可能导致算法在最小值附近震荡甚至偏离，而过小的学习率会导致收敛速度很慢。
    
 + Hadamard乘积
-   
+  
    + 元素级别的乘积，即两个相同大小矩阵的相应元素进行相乘。
    + Hadamard乘积在神经网络中，尤其是在逐元素激活函数中有应用。例如，当计算ReLU激活函数的导数时，你可能会用到Hadamard乘积。
    + $$ C = A \odot B $$ $$其中, C_{ij} = A_{ij} \times B_{ij} $$
@@ -261,7 +257,7 @@
 
    + $$ \text{det}(A^{-1}) = \frac{1}{\text{det}(A)} $$, 逆矩阵的行列式等于矩阵行列式的倒数
    
-     ![Screenshot 2024-01-17 at 17.41.44](/Users/vjf/Projects/github/project-LLM/LLM/img/Screenshot 2024-01-17 at 17.41.44.png)
+     ![Screenshot 2024-01-17 at 17.41.44](img/Screenshot 2024-01-17 at 17.41.44.png)
    
    + 行列式如何计算: 
    
@@ -310,13 +306,13 @@
        >
        >$$ \mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} $$
        >
-       >### 列拼接:
+       >## 列拼接:
        >
        >将向量 **v** 作为新的列添加到矩阵 A 中，我们得到：
        >
        >$$ A' = \begin{bmatrix} a_{11} & a_{12} & v_1 \\ a_{21} & a_{22} & v_2 \end{bmatrix} $$
        >
-       >### 行拼接:
+       >## 行拼接:
        >
        >将向量 v 转置后作为新的行添加到矩阵 A 中，我们得到：
        >
@@ -333,7 +329,7 @@
 
    + 几何定义: 下面会详细阐述
 
-     >### 代数定义:
+     >## 代数定义:
      >
      >对于二维空间中的向量 **a** 和 **b**，它们通常表示为：
      >
@@ -347,7 +343,7 @@
      >
      >$$ \mathbf{a} \cdot \mathbf{b} = a_1 b_1 + a_2 b_2 + a_3 b_3 $$
      >
-     >### 几何定义: 
+     >## 几何定义: 
      >
      >点积还与向量的长度有关。具体来说，两个向量的点积等于它们长度的乘积与它们之间的夹角的余弦值的乘积：
      >
@@ -365,7 +361,7 @@
      >
      >+ 向量的夹角
      >
-     >![Screenshot 2024-01-17 at 17.51.38](/Users/vjf/Projects/github/project-LLM/LLM/img/Screenshot 2024-01-17 at 17.51.38.png)
+     >![Screenshot 2024-01-17 at 17.51.38](img/Screenshot 2024-01-17 at 17.51.38.png)
    
 + 其他问题
 
@@ -389,7 +385,7 @@
    
     + 如何计算矩阵的逆？
    
-      ![Screenshot 2024-01-17 at 17.55.26](/Users/vjf/Projects/github/project-LLM/LLM/img/Screenshot 2024-01-17 at 17.55.26.png)
+      ![Screenshot 2024-01-17 at 17.55.26](img/Screenshot 2024-01-17 at 17.55.26.png)
       
       对于更大的矩阵，比如 3×33×3 或更高维度，可以使用以下方法：
       
@@ -399,7 +395,7 @@
       
         - 将伴随矩阵的每个元素除以原矩阵的行列式。
       
-          ![Screenshot 2024-01-18 at 14.11.32](/Users/vjf/Projects/github/project-LLM/LLM/img/Screenshot 2024-01-18 at 14.11.32.png)
+          ![Screenshot 2024-01-18 at 14.11.32](img/Screenshot 2024-01-18 at 14.11.32.png)
       
           
       
@@ -407,64 +403,67 @@
       
         ![Screenshot 2024-01-18 at 14.26.13](/Users/vjf/Library/Application Support/typora-user-images/Screenshot 2024-01-18 at 14.26.13.png)
 
-### 微积分
+## 微积分
 
 ![img.png](img/img5.png)
 
-+ 导数常用公式
+## 导数常用公式
 
-  > + 常数
-  >
-  >   $$ f(x) = c $$ $$ f'(x) = 0 $$ , c 为任意常数
-  >
-  > + **幂函数**
-  >
-  >   $$ f(x) = x^n $$ $$ f'(x) = nx^{n-1} $$ ,  *n* 是任意实数。
-  >
-  > + **指数函数**
-  >
-  >   $$ f(x) = e^x $$ $$ f'(x) = e^x $$
-  >
-  > + **自然对数函数**
-  >
-  >   $$ f(x) = \ln(x) $$ $$ f'(x) = \frac{1}{x} $$
-  >
-  > + **正弦函数**
-  >
-  >   $$ f(x) = \sin(x) $$ $$ f'(x) = \cos(x) $$
-  >
-  > + **余弦函数**
-  >
-  >   $$ f(x) = \cos(x) $$ $$ f'(x) = -\sin(x) $$
-  >
-  > + **正切函数**
-  >
-  >   $$ f(x) = \tan(x) $$ $$ f'(x) = \sec^2(x) $$
-  >
-  > + **泰勒展开公式 (Taylor Series)**
-  >
-  >   泰勒公式用于近似函数。对于在点 �*a* 可微的函数 �(�)*f*(*x*)，其泰勒展开式为：
-  >
-  > + **洛必达法则 (L'Hopital's Rule)**
-  >
-  >   当你有一个形如  $$\frac{0}{0}$$  或  $$\frac{\infty}{\infty}$$  的不定型极限时，洛必达法则可以派上用场。规则是这样的：
-  >
-  >   如果 $$\lim_{{x \to a}} f(x) = 0$$  和 $$\lim_{{x \to a}} g(x) = 0$$  或两者都趋向于无穷，且  $$g'(x) \neq 0$$  在某个区间中（除可能在 \(a\) 处之外），那么 $$\lim_{{x \to a}} \frac{f(x)}{g(x)} = \lim_{{x \to a}} \frac{f'(x)}{g'(x)}$$  如果这个新的极限存在或等于无穷。
-  >
++ 常数
 
-### 概率与信息论
+  $$ f(x) = c $$ $$ f'(x) = 0 $$ , c 为任意常数
+
++ **幂函数**
+
+  $$ f(x) = x^n $$ $$ f'(x) = nx^{n-1} $$ ,  *n* 是任意实数。
+
++ **指数函数**
+
+  $$ f(x) = e^x $$ $$ f'(x) = e^x $$
+
++ **自然对数函数**
+
+  $$ f(x) = \ln(x) $$ $$ f'(x) = \frac{1}{x} $$
+
++ **正弦函数**
+
+  $$ f(x) = \sin(x) $$ $$ f'(x) = \cos(x) $$
+
++ **余弦函数**
+
+  $$ f(x) = \cos(x) $$ $$ f'(x) = -\sin(x) $$
+
++ **正切函数**
+
+  $$ f(x) = \tan(x) $$ $$ f'(x) = \sec^2(x) $$
+
+  
+
+## **泰勒展开公式 (Taylor Series)**
+
+泰勒级数展开是将一个在某点可导的无穷次的函数表示为该点处的导数值的无穷级数。
+
+![Screenshot 2024-04-15 at 21.43.30](img/Screenshot 2024-04-15 at 21.43.30.png)
+
+## **洛必达法则 (L'Hopital's Rule)**
+
+当你有一个形如  $$\frac{0}{0}$$  或  $$\frac{\infty}{\infty}$$  的不定型极限时，洛必达法则可以派上用场。规则是这样的：
+
+如果 $$\lim_{{x \to a}} f(x) = 0$$  和 $$\lim_{{x \to a}} g(x) = 0$$  或两者都趋向于无穷，且  $$g'(x) \neq 0$$  在某个区间中（除可能在 \(a\) 处之外），那么 $$\lim_{{x \to a}} \frac{f(x)}{g(x)} = \lim_{{x \to a}} \frac{f'(x)}{g'(x)}$$  如果这个新的极限存在或等于无穷。
+
+## 概率与信息论
 
 ![img.png](img/img6.png)
 
-### 数据与概率分布
+## 数据与概率分布
 
 ![img.png](img/img7.png)
 
-### 函数
+## 函数
 
 ![img.png](img/img8.png)
 
-### 本书中常用写法
+## 本书中常用写法
 
 ![img.png](img/img9.png)
 
