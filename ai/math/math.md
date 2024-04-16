@@ -1,6 +1,10 @@
 > 写在开头, github 对 latex 支持不太好, 提供了 pdf 版供您查看
 
-## 数与数组
+# Refer
++ 图解AI数学基础：从入门到精通系列教程: https://www.showmeai.tech/tutorials/83
++ 大规模语言模型-从理论到实践: 作者: 张奇 / 桂韬 / 郑锐 / 黄萱菁
+
+# 数与数组
 
 ![img.png](img/img.png)
 
@@ -118,7 +122,7 @@
    - 独热向量不捕获词汇之间的任何语义关系。
    - 由于维度与词汇表的大小相同，对于大词汇表来说，独热编码可能非常稀疏和高维。
 
-## 索引
+# 索引
 
 ![img.png](img/img2.png)
 
@@ -165,7 +169,7 @@
    > 同样，你可以选择第一个或第三个切片，或沿其他轴的任何切片。
    > 
 
-## 集合
+# 集合
 
 ![img3.png](img/img3.png)
 
@@ -173,7 +177,7 @@
 
 > 复数是数学中的一种数，它由一个实部和一个虚部组成，并通常表示为 a+bi 的形式，其中 a 和 b 是实数，而 i 是虚数单位，满足 *$$i^2$$* =−1。
 
-## 线性代数
+# 线性代数
 
 ![img3.png](img/img4.png)
 
@@ -306,13 +310,13 @@
        >
        >$$ \mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} $$
        >
-       >## 列拼接:
+       ># 列拼接:
        >
        >将向量 **v** 作为新的列添加到矩阵 A 中，我们得到：
        >
        >$$ A' = \begin{bmatrix} a_{11} & a_{12} & v_1 \\ a_{21} & a_{22} & v_2 \end{bmatrix} $$
        >
-       >## 行拼接:
+       ># 行拼接:
        >
        >将向量 v 转置后作为新的行添加到矩阵 A 中，我们得到：
        >
@@ -329,7 +333,7 @@
 
    + 几何定义: 下面会详细阐述
 
-     >## 代数定义:
+     ># 代数定义:
      >
      >对于二维空间中的向量 **a** 和 **b**，它们通常表示为：
      >
@@ -343,7 +347,7 @@
      >
      >$$ \mathbf{a} \cdot \mathbf{b} = a_1 b_1 + a_2 b_2 + a_3 b_3 $$
      >
-     >## 几何定义: 
+     ># 几何定义: 
      >
      >点积还与向量的长度有关。具体来说，两个向量的点积等于它们长度的乘积与它们之间的夹角的余弦值的乘积：
      >
@@ -403,7 +407,7 @@
       
         ![Screenshot 2024-01-18 at 14.26.13](/Users/vjf/Library/Application Support/typora-user-images/Screenshot 2024-01-18 at 14.26.13.png)
 
-## 微积分
+# 微积分
 
 ![img.png](img/img5.png)
 
@@ -445,25 +449,69 @@
 
 ![Screenshot 2024-04-15 at 21.43.30](img/Screenshot 2024-04-15 at 21.43.30.png)
 
+## 推导 $$\lim_{m \to \infty} (1 - \frac{1}{m})^m = \frac{1}{e}$$
+
+### 方式1 先取对数再泰勒展开
+
++ 先取取对数
+
+$ln(1-\frac{1}{m})^m=mln(1-\frac{1}{m})$ 
+
++ 对log(1−x) 在 x=0 处使用泰勒展开
+
+$\log(1 - x) = -x - \frac{x^2}{2} - \frac{x^3}{3} - \cdots$
+
++ 将 x=$\frac{1}{m}$ 代入
+
+$\log\left(1 - \frac{1}{m}\right) = -\frac{1}{m} - \frac{1}{2m^2} - \frac{1}{3m^3} - \cdots$
+
++ 计算 $m\log\left(1 - \frac{1}{m}\right)$
+
+$m \left(-\frac{1}{m} - \frac{1}{2m^2} - \frac{1}{3m^3} - \cdots\right) = -1 - \frac{1}{2m} - \frac{1}{3m^2} - \cdots$
+
++  m->∞, 除了-1以外, 各项趋于零
+
+得到结果 $lim_{x \to \infty} ln(1 - \frac{1}{m})^m$ = -1
+
++  对数是**幂运算的逆运算**, 则求对数得到 
+
+$$\lim_{x \to \infty} (1 - \frac{1}{m})^m = e^{-1}$$
+
+### 方法2: 使用泰勒公式直接展开
+
++ 已知泰勒公式展开
+
+$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots$
+
++ 将 *x* 替换为 $-\frac{1}{m}$
+
+$e^{-\frac{1}{m}} = 1 - \frac{1}{m} + \frac{1}{2!m^2} - \frac{1}{3!m^3} + \cdots$
+
+在泰勒展开中，对于 $e^{-\frac{1}{m}}$的高阶项，例如 $\lim_{m \to \infty} \frac{1}{k!m^k} = 0 \quad \text{for } k \geq 2$ , 因为它们在分母中含有 $\frac{1}{m}$ 的更高次方，所以当 m 增大时，这些项减小得更快，因此会更快地趋于零
+
+> 在考虑极限时我们不能忽略一阶无穷小项，而可以忽略更高阶的无穷小项的原因
+>
+> ![Screenshot 2024-04-16 at 14.55.53](/Users/vjf/Projects/github/learning-my-note/ai/math/img/Screenshot 2024-04-16 at 14.55.53.png)
+
 ## **洛必达法则 (L'Hopital's Rule)**
 
 当你有一个形如  $$\frac{0}{0}$$  或  $$\frac{\infty}{\infty}$$  的不定型极限时，洛必达法则可以派上用场。规则是这样的：
 
 如果 $$\lim_{{x \to a}} f(x) = 0$$  和 $$\lim_{{x \to a}} g(x) = 0$$  或两者都趋向于无穷，且  $$g'(x) \neq 0$$  在某个区间中（除可能在 \(a\) 处之外），那么 $$\lim_{{x \to a}} \frac{f(x)}{g(x)} = \lim_{{x \to a}} \frac{f'(x)}{g'(x)}$$  如果这个新的极限存在或等于无穷。
 
-## 概率与信息论
+# 概率与信息论
 
 ![img.png](img/img6.png)
 
-## 数据与概率分布
+# 数据与概率分布
 
 ![img.png](img/img7.png)
 
-## 函数
+# 函数
 
 ![img.png](img/img8.png)
 
-## 本书中常用写法
+# 本书中常用写法
 
 ![img.png](img/img9.png)
 
