@@ -1,6 +1,9 @@
 
 # Refer
 + 图解机器学习算法：从入门到精通系列教程: https://www.showmeai.tech/tutorials/34
++ 机器学习实战：手把手教你玩转机器学习系列: https://www.showmeai.tech/tutorials/41
++ 
+
 
 
 
@@ -179,6 +182,15 @@
 
 ![f21fea95ab9f4590ebe655ea97bd64ad](/Users/vjf/Projects/github/learning-my-note/ai/machine-learning/img/f21fea95ab9f4590ebe655ea97bd64ad.png)
 
+## 模型调优与选择准则
+
+我们希望找到对当前问题表达能力好，且模型复杂度较低的模型：
+
+- 表达力好的模型，可以较好地对训练数据中的规律和模式进行学习；
+- 复杂度低的模型，方差较小，不容易过拟合，有较好的泛化表达。
+
+![b4d5425a7a0588f7ffb1042d3b35be09](/Users/vjf/Projects/github/learning-my-note/ai/machine-learning/img/b4d5425a7a0588f7ffb1042d3b35be09.png)
+
 ### 机器学习模型评估的性能度量指标
 
 **性能度量是衡量模型泛化能力的数值评价标准，反映了当前问题（任务需求）**。使用不同的性能度量可能会导致不同的评判结果。更详细的内容可见 [**模型评估方法与准则**](https://www.showmeai.tech/article-detail/186)
@@ -252,3 +264,20 @@
 **自助法（Bootstrap）是一种用小样本估计总体值的一种非参数方法。**通过有放回抽样生成大量的伪样本，通过对伪样本进行计算，获得统计量的分布，从而估计数据的整体分布。
 
 ![d0848cc1a60b1fae9299296712610e64](/Users/vjf/Projects/github/learning-my-note/ai/machine-learning/img/d0848cc1a60b1fae9299296712610e64.png)
+
+### 如何选择最优的模型
+
+#### 验证集评估选择
+
+- 切分数据为训练集和验证集。
+- 对于准备好的候选超参数，在训练集上进行模型，在验证集上评估。
+
+#### 网格搜索/随机搜索交叉验证
+
+- 通过网格搜索/随机搜索产出候选的超参数组。
+- 对参数组的每一组超参数，使用交叉验证评估效果。
+- 选出效果最好的超参数。
+
+#### 贝叶斯优化
+
+- 基于贝叶斯优化的超参数调优。
