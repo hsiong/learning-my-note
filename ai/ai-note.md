@@ -1,3 +1,9 @@
+# llm
++ https://github.com/hsiong/project-LLM
+
+# modelsArt
++ https://github.com/hsiong/project-modelarts.git
++ 基于MindSpore的ChatGLM微调原创: https://github.com/mindspore-lab/mindformers/blob/master/docs/model_cards/glm.md
 
 # transformer
 + https://zhuanlan.zhihu.com/p/82312421
@@ -8,15 +14,8 @@
 + suno教程:
   + https://juejin.cn/post/7330569482790584357
 
-# llm
-+ https://github.com/hsiong/project-LLM
-
 ## glm
 + ChatGLM调教指南: https://mindformers.readthedocs.io/zh-cn/latest/docs/model_cards/glm.html
-
-# modelsArt
-+ https://github.com/hsiong/project-modelarts.git
-+ 基于MindSpore的ChatGLM微调原创: https://github.com/mindspore-lab/mindformers/blob/master/docs/model_cards/glm.md
 
 # object-detect
 ## 病虫害
