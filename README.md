@@ -18,38 +18,22 @@ Share my learning note for your guys, to be an achitect as soon as possible !
 <tbody>
 
 <tr>
-  <td><a href='https://github.com/hsiong/Learning-Data-Structures-And-Algorithm-And-Design-Pattern/tree/main/DesignPattern'>Design Pattern</a></td>
+  <td><a href='https://github.com/hsiong/learning-my-note/blob/main/ai/python-note.md'>Python</a></td>
   <td></td>
 </tr>
 
 <tr>
-  <td><a href='https://github.com/hsiong/learning-kubernetes'>KuberNetes</a></td>
+  <td><a href='https://github.com/hsiong/learning-my-note/tree/main/ai/math'>Math</a></td>
   <td></td>
 </tr>
 
 <tr>
-  <td><a href='https://github.com/hsiong/Learning-Data-Structures-And-Algorithm-And-Design-Pattern'>Learning Algorithm & DataStructure & Leetcode</a></td>
+  <td><a href='https://github.com/hsiong/project-LLM'>LLM</a></td>
   <td></td>
 </tr>
 
 <tr>
-  <td><a href='https://github.com/hsiong/project-spring-cloud-alibaba-practice'>Micro-Service</a></td>
-  <td></td>
-</tr>
-
-
-<tr>
-  <td><a href='https://github.com/hsiong/Senior-Architect-Exam-Note'>Learning Qualification Certificate of Computer and Software Technology Proficiency - System Architect</a></td>
-  <td></td>
-</tr>
-
-<tr>
-  <td><a href='https://github.com/hsiong/project-wxpay-kit'>Java Weixin Pay Kit</a></td>
-  <td></td>
-</tr>
-
-<tr>
-  <td><a href='https://github.com/hsiong/project-neo4j-spring'>Java neo4j</a></td>
+  <td><a href='https://github.com/hsiong/learning-my-note/tree/main/ai/machine-learning'>Machine Learning</a></td>
   <td></td>
 </tr>
 
@@ -74,23 +58,7 @@ Share my learning note for your guys, to be an achitect as soon as possible !
 <tbody>
 
 <tr>
-<td><a href='https://github.com/hsiong/project-init-ubuntu'>Init Ubuntu</td>
-<td></td>
-</tr>
 
-<tr>
-<td><a href='https://github.com/hsiong/learning-my-note/tree/main/devops%20%26%20achitect/docker/docker-penpot'>Docker compose - penpot</td>
-<td></td>
-</tr>
-
-<tr>
-<td><a href='https://github.com/hsiong/project-java-code-gen'>Java code generation</td>
-<td></td>
-</tr>
-
-<tr>
-<td><a href='https://github.com/hsiong/project-java-proxy'>Java Proxy</td>
-<td></td>
 </tr>
 
 </tbody>
@@ -114,18 +82,7 @@ Share my learning note for your guys, to be an achitect as soon as possible !
 <tbody>
 
 <tr>
-<td>Learning Go Language</td>
-<td></td>
-</tr>
 
-<tr>
-<td><a href='https://github.com/hsiong/project-java-proxy'>Api GateWay [ Go ]</td>
-<td></td>
-</tr>
-
-<tr>
-<td><a href='https://github.com/hsiong/learning-java-concurrency'> Java Concurrency</td>
-<td></td>
 </tr>
 
 
@@ -136,7 +93,7 @@ Share my learning note for your guys, to be an achitect as soon as possible !
 </table>
 
 # Early Plan
-+ [Learning Plan - 2022](./Readme-2022.md)
++ [Learning Plan - 2023](./Readme-2023.md)
 
 
 
