@@ -235,7 +235,10 @@
 
 + **AUC（Area Under ROC Curve）是ROC曲线下面积，代表了样本预测的排序质量**。
 
-  AUC：数值的范围从0到1, 高的AUC值意味着，AUC值越大，就能够保证ROC曲线越靠近左上方, 即模型的性能越好(以一个极端例子为例, AUC范围为1, 即代表全域覆盖, 则0%的假正例率时, 即可实现100%的真正例率)。
+  AUC：数值的范围从0到1, 高的AUC值意味着，AUC值越大，就能够保证ROC曲线越靠近左上方, 即模型的性能越好。
+
+  - 真阳性率（真正类率） TPR = TP / (TP + FN)   错对正 / (猜对正 + 猜错负__实际为正), 该值越大, 说明猜对正的比例越大
+  - 伪阳性率（负正类率 ）FPR = FP / (FP + TN)   猜错正 / (猜错正__实际为错 + 猜对错), 该值越小, 说明猜错正的比例越小
 
 ![4b28b6f1dca74f24fbe287daa53b5d7d](/Users/vjf/Projects/github/learning-my-note/ai/machine-learning/img/4b28b6f1dca74f24fbe287daa53b5d7d.png)
 
