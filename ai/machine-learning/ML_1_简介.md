@@ -2,7 +2,7 @@
 # Refer
 + 图解机器学习算法：从入门到精通系列教程: https://www.showmeai.tech/tutorials/34
 + 机器学习实战：手把手教你玩转机器学习系列: https://www.showmeai.tech/tutorials/41
-+ 
++ 实战: https://www.showmeai.tech/article-detail/305
 
 
 
