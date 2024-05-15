@@ -67,7 +67,9 @@ pycharm 没有识别 python 文件: https://blog.csdn.net/yxb_xb/article/details
 Editor -> File Types -> Python -> add `*.py`
 
 ### requirements.txt
-Tools -> Python Integrated Tools -> Packaging: requirements.txt
++ Tools -> Python Integrated Tools -> Packaging: requirements.txt
++ 或者手动: pip install -r requirements.txt
+
 
 ### 取消代理
 
@@ -1212,7 +1214,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                 
+>                     
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
@@ -1502,4 +1504,131 @@ class Employee:
 
 + Python关键字yield的解释(stackoverflow): https://pyzh.readthedocs.io/en/latest/the-python-yield-keyword-explained.html#:~:text=yield%20%E6%98%AF%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20return,%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AF%E4%B8%AA%E7%94%9F%E6%88%90%E5%99%A8%E3%80%82&text=%E8%BF%99%E4%B8%AA%E4%BE%8B%E5%AD%90%E6%B2%A1%E4%BB%80%E4%B9%88%E7%94%A8%E9%80%94%EF%BC%8C%E4%BD%86%E6%98%AF,%E8%BF%99%E6%9C%89%E7%82%B9%E8%B9%8A%E8%B7%B7%E4%B8%8D%E6%98%AF%E5%90%97%E3%80%82
 
-+ 
+
+
+# 问题: 
++ 私有变量与私有成员
+```
+class Employ:
+    _foo = 1 # 私有变量
+    __foo = 2 # 私有成员
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def show(self):
+        print("Employ")
+        print(self.name, self.age)
+        print(self._foo, self.__foo)
+        print(Employ._foo, Employ.__foo)
+        
+
+emp = Employ('john', 30)
+emp.name = 'jf' # 改变私有变量
+
+Employ._foo = 3 # 改变类变量
+Employ.__foo = 4
+
+emp.show()
+```
+
++ pycharm the file in the editor is not runnable
+转到 Project: 你的项目名 > Project Interpreter。
+
++ 如果你想限定函数的参数类型，使其只接受List[Msg]类型的对象作为参数，可以使用类型注解来实现
+```
+def process_messages(messages: List[Msg]):
+    for msg in messages:
+        print(msg.content)
+```
+
++ python 指定函数返回类型
+```
+def chat() -> str:
+```
+
++ from openai_exec import *  与 import openai_exec 有什么区别
+第一个pycharm可以自动提示, 使用第一个
+
++ pip install httpx[socks]     requirements.txt中已经有httpx[socks], 但是安装不上
+因为版本冲突了, 需要制定特定版本
+```
+httpx[socks] == 1.0.0b0
+```
+
++ 类转为 json 对象
+1. 继承 from pydantic import BaseModel
+2. messages = [message.dict() for message in messages]  # 转为 json 对象
+
++ 字符串转为指定对象
+```
+from pydantic import BaseModel
+
+# 定义一个 Pydantic 模型
+class Person(BaseModel):
+    name: str
+    age: int
+    city: str
+
+# JSON 字符串
+json_string = '{"name": "张三", "age": 30, "city": "北京"}'
+
+# 将 JSON 字符串转换为 Person 模型的实例
+person = Person.parse_raw(json_string)
+```
+
++ 字符串转为指定list对象
+```
+	raw_data = json.loads(json_string)
+	msg: List[openai_exec.PerMessage] = TypeAdapter(List[openai_exec.PerMessage]).validate_python(raw_data)
+```
+
++ 字符串转为 json 对象
+```python
+person = json.loads(json_string)
+```
+
++ 字符串转为 json 对象, 再转为 json 字符串
+```
+   formatted_json_general = json.loads(jsonStr_general)
+   formatted_json_str_general = json.dumps(formatted_json_general, indent=2, ensure_ascii=False)
+```
+
++ API 接口改为入参是一个PerMessage对象数组,
+```python
+
+from pydantic import BaseModel
+
+# 定义一个新的Pydantic模型，用于接收PerMessage对象的列表
+class PerMessageList(BaseModel):
+    messages: List[PerMessage]
+
+@home_api.route('/welcome', methods=['POST'])  # 确保使用POST方法
+def welcome():
+    # 解析请求体中的JSON数据为PerMessageList对象
+    data = PerMessageList.parse_obj(request.json)
+```
+
++ json 验证
+```
+def extract_json(text):
+	match_general = re.search(r'\[[\s\S]*\](?=\s*)|\{[\s\S]*\}(?=\s*)', text)  # 匹配完整的JSON
+	
+	if match_general:
+		jsonStr_general = match_general.group(0)
+		# 尝试格式化捕获的JSON字符串以便清晰显示
+		try:
+			formatted_json_general = json.loads(jsonStr_general)
+			formatted_json_str_general = json.dumps(formatted_json_general, indent=2, ensure_ascii=False)
+			print("解析成功")
+			return formatted_json_str_general
+		except json.JSONDecodeError as e:
+			print("解析错误:", e)
+	else:
+		print("没有找到JSON字符串")
+	raise UserWarning('JSON解析错误')
+```
+
+
+
+
