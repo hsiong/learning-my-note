@@ -1211,7 +1211,10 @@ String fileName = originalFilename.split("\\\\")[0];
 88. 指定 json 键值
 + 常用 @JsonProperty(value="xxx"), 包括不限于 @RequestBody 等spring注解
 + alibabaFastjson 使用  @JSONField(name = "xxx")
-
+89. feign get 请求发送入参
+```java
+	Map<String, String> list(@RequestParam("projectName") String projectName, @RequestParam("codeList") List<String> code);
+```
 
 # 第二章 Mysql
 
