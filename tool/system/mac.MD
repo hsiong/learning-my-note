@@ -165,6 +165,13 @@ https://www.cnblogs.com/hi3254014978/p/15585732.html
 
 # touchpad
 ## gesture
+单指轻触   单击
+双指轻触   右键
+三指轻触    拖动窗口
+
+四指向上刷, 打开多桌面
+四指左右刷, 多桌面切换
+五指合拢, 打开应用中心
 
 ## drag with three finger
 -> use trackpad for dragging
