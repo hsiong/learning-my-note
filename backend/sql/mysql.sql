@@ -421,3 +421,6 @@ LEFT JOIN (
 ) AS s
 ON t.type = s.type
 ORDER BY t.type;
+
+## Delete from time
+DELETE FROM dsps_disease_knowledge WHERE create_time > 'YYYY-MM-DD HH:MM:SS';
