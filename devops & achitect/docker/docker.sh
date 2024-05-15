@@ -12,11 +12,13 @@ docker network create -d bridge test-net
 ## centOS docker
 https://yeasy.gitbook.io/docker_practice/install/centos
 
+## ubuntu docker
+https://docker_practice.gitee.io/install/ubuntu.html
+
 ## 查看配置 
 docker info
 
 # 使用 Docker
-## 
 
 ## docker - nginx
 # 注意: 该配置容器只会监听 80 端口, 所以其他端口做不了反向代理
