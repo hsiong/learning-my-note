@@ -66,7 +66,9 @@ iptables -L
 ufw status
 firewall-cmd --list-ports
 
-
++ 重置 ssh
+删除 .ssh 文件
+重新生成新的 ssh gen
 
 
 
