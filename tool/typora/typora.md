@@ -8,6 +8,16 @@
 
 `ctrl + <- / -> ` to the line start / end
 
+`command + shift + enter` table next line
+
+## table
+
+`alt + enter` table next line
+
+`ctrl + shift + backspace` table delete line
+
+`ctrl + shift + enter` add `<br />` to this line
+
 ## typera -> docx pandoc style
 https://www.cnblogs.com/fancy2022/p/16365046.html
 
