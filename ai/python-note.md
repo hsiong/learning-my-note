@@ -4,7 +4,6 @@
 ## 命名
 以下划线开头的标识符是有特殊意义的。
 + 以单下划线开头 `_foo` 的代表不能直接访问的类属性，需通过类提供的接口进行访问，不能用 from xxx import * 而导入。
-
 + 以双下划线开头的 `__foo` 代表类的私有成员，常量, 不可修改
 + 以双下划线开头和结尾的 __foo__ 代表 Python 里特殊方法专用的标识，如 `__init__()` 代表类的构造函数。
 
@@ -41,10 +40,31 @@ del var_a, var_b
   + Reformat Code: ctrl_cmd_l
   + Reformat File: shift_ctrl_cmd_l
   + Optimize Import: ctrl_alt_cmd_o 
++ Unclick PEB 8 coding style violation            
+                    
+### pycharm 回车不会缩进
 
-+ 
+Editor => Code Style => Python => `Keep indents on empty lines`
 
-### 生成返回值对象快捷键
+### pycharm 复制保持空格
+Editor => smart keys => click smart indent pasted lines
+
+### pycharm the file in the editor is not runnable
+pycharm 没有识别 python 文件: https://blog.csdn.net/yxb_xb/article/details/118554048
+Editor -> File Types -> Python -> add `*.py`
+
+### pycharm-codeium异常
++ version 采用 1.8.0
++ 中文乱码, 修改 Color Scheme Font - Font -> Microsoft Yahei UI
+
+### pycharm the file in the editor is not runnable
+转到 Project: 你的项目名 > Project Interpreter。
+
+### from openai_exec import *  与 import openai_exec 有什么区别
+第一个pycharm可以自动提示, 使用第一个
+
+
+### 生成返回值对象快捷键(实现类似java var的效果)
 
 在编写一行JAVA语句时，有返回值的方法已经决定了返回对象的类型和泛型类型，我们只需要给这个对象起个名字就行。
 
@@ -62,14 +82,10 @@ del var_a, var_b
 
 Menu -> Git -> Clone
 
-### pycharm the file in the editor is not runnable
-pycharm 没有识别 python 文件: https://blog.csdn.net/yxb_xb/article/details/118554048
-Editor -> File Types -> Python -> add `*.py`
 
 ### requirements.txt
 + Tools -> Python Integrated Tools -> Packaging: requirements.txt
 + 或者手动: pip install -r requirements.txt
-
 
 ### 取消代理
 
@@ -84,9 +100,6 @@ select `Help -> Edit Custom VM Options` add below:
 -DsocksProxyPort
 ```
 
-### pycharm 回车不会缩进
-
-Editor => Code Style => Python => `Keep indents on empty lines`
 
 ### 插件
 
@@ -95,6 +108,9 @@ Editor => Code Style => Python => `Keep indents on empty lines`
 + Codeium
 + Indent Rainbow
 + Rainbow Brackets
+> Indent Rainbow: Unclick Do NOT rainbowify files with more than ... lines
+>
+> codeium: Unclick Chat Inlay Hints
 
 ## Pip
 
@@ -103,16 +119,17 @@ pip install -r requirements.txt
 
 > 注意: 国外源会出现很多问题
 
-### 国内源
-https://zhuanlan.zhihu.com/p/623325525?utm_id=0&wd=&eqid=
-
 ### 默认源
 https://pypi.org/simple
 
-### 修改默认源为清华源
-https://mirrors.tuna.tsinghua.edu.cn/help/pypi/
+pip config set global.index-url https://pypi.org/simple
 
+### 国内源
+https://zhuanlan.zhihu.com/p/623325525?utm_id=0&wd=&eqid=
++ 清华源: https://mirrors.tuna.tsinghua.edu.cn/help/pypi
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
++ 多个源
+
 
 ### ChatGLM-6B-0001-环境准备
 https://zhuanlan.zhihu.com/p/647859484
@@ -1507,7 +1524,7 @@ class Employee:
 
 
 # 问题: 
-+ 私有变量与私有成员
+## 私有变量与私有成员
 ```
 class Employ:
     _foo = 1 # 私有变量
@@ -1532,35 +1549,29 @@ Employ.__foo = 4
 emp.show()
 ```
 
-+ pycharm the file in the editor is not runnable
-转到 Project: 你的项目名 > Project Interpreter。
-
-+ 如果你想限定函数的参数类型，使其只接受List[Msg]类型的对象作为参数，可以使用类型注解来实现
+## 如果你想限定函数的参数类型，使其只接受List[Msg]类型的对象作为参数，可以使用类型注解来实现
 ```
 def process_messages(messages: List[Msg]):
     for msg in messages:
         print(msg.content)
 ```
 
-+ python 指定函数返回类型
+## python 指定函数返回类型
 ```
 def chat() -> str:
 ```
 
-+ from openai_exec import *  与 import openai_exec 有什么区别
-第一个pycharm可以自动提示, 使用第一个
-
-+ pip install httpx[socks]     requirements.txt中已经有httpx[socks], 但是安装不上
+## pip install httpx[socks]     requirements.txt中已经有httpx[socks], 但是安装不上
 因为版本冲突了, 需要制定特定版本
 ```
 httpx[socks] == 1.0.0b0
 ```
 
-+ 类转为 json 对象
+## 类转为 json 对象
 1. 继承 from pydantic import BaseModel
 2. messages = [message.dict() for message in messages]  # 转为 json 对象
 
-+ 字符串转为指定对象
+## 字符串转为指定对象
 ```
 from pydantic import BaseModel
 
@@ -1577,24 +1588,24 @@ json_string = '{"name": "张三", "age": 30, "city": "北京"}'
 person = Person.parse_raw(json_string)
 ```
 
-+ 字符串转为指定list对象
+## 字符串转为指定list对象
 ```
 	raw_data = json.loads(json_string)
 	msg: List[openai_exec.PerMessage] = TypeAdapter(List[openai_exec.PerMessage]).validate_python(raw_data)
 ```
 
-+ 字符串转为 json 对象
+## 字符串转为 json 对象
 ```python
 person = json.loads(json_string)
 ```
 
-+ 字符串转为 json 对象, 再转为 json 字符串
+## 字符串转为 json 对象, 再转为 json 字符串
 ```
    formatted_json_general = json.loads(jsonStr_general)
    formatted_json_str_general = json.dumps(formatted_json_general, indent=2, ensure_ascii=False)
 ```
 
-+ API 接口改为入参是一个PerMessage对象数组,
+## API 接口改为入参是一个PerMessage对象数组,
 ```python
 
 from pydantic import BaseModel
@@ -1609,7 +1620,7 @@ def welcome():
     data = PerMessageList.parse_obj(request.json)
 ```
 
-+ json 验证
+## json 验证
 ```
 def extract_json(text):
 	match_general = re.search(r'\[[\s\S]*\](?=\s*)|\{[\s\S]*\}(?=\s*)', text)  # 匹配完整的JSON
@@ -1628,6 +1639,97 @@ def extract_json(text):
 		print("没有找到JSON字符串")
 	raise UserWarning('JSON解析错误')
 ```
+
+## python 遍历 某目录下的包和文件, 并获取地址
+```python
+
+def walk_directory(directory, parent_name=None, depth=0):
+	"""批量标注。
+	Args:
+		directory (str): 要遍历的目录路径。
+		depth (int): 当前遍历的深度，用于可视化和理解递归深度。
+		parent_name: str: 父目录名称。
+	"""
+	# 获取当前目录下的所有子目录和文件
+	with os.scandir(directory) as entries:
+		for entry in entries:
+			if entry.is_dir():
+				if depth == 0:
+					parent_name = entry.name
+				# 递归调用以遍历子目录
+				walk_directory(entry.path, parent_name, depth + 1)
+			elif entry.is_file():
+				if parent_name is None:
+					# 处理隐藏文件
+					continue
+
+```
+
+
+## 使用追加模式打开文件, 如果文件不存在，在指定路径创建一个新文件，并写入指定的文本行。
+
+   with open(file_path, 'w', encoding='utf-8') as file:
+      file.write(parent_name + '\n')
+
+## Shadows name 'detect_file' from outer scope   如何处理
+
+使用全局变量
+如果你需要在函数内部修改或访问全局变量，可以使用global关键字来声明该变量：
+
+```python
+detect_file = "path/to/file"
+
+def process_file():
+    global detect_file
+    detect_file = "new/path/to/file"  # 修改全局变量
+    print(detect_file)
+
+process_file()
+print(detect_file)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
