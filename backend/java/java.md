@@ -1215,6 +1215,13 @@ String fileName = originalFilename.split("\\\\")[0];
 ```java
 	Map<String, String> list(@RequestParam("projectName") String projectName, @RequestParam("codeList") List<String> code);
 ```
+90. mybatis plus 更新时不忽略 null
+```
+通常 mybatis plus 策略都是更新 null 值忽略,
+若想更新某个值为 null, 则选择 @TableField(updateStrategy = FieldStrategy.IGNORED)
+```
+91. t.getClass().getDeclaredFields() 无法获取到父级的属性, 需要自己实现递归父级, 或者使用下述方法
+FieldUtils.getAllFieldsList
 
 # 第二章 Mysql
 
