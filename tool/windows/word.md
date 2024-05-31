@@ -17,3 +17,6 @@ not support ^1
 # excel wps怎么批量去除左上角标志
 
 Customize -> Error Checking -> Unclick Number stored as text
+
+# change default font(修改主题字体)
+page layout -> themes -> change theme font
