@@ -40,3 +40,7 @@ http://leyuanxm.top/
 
 + switch desktop
 按下“Win+Ctrl+方向键”可以快速切换这两个桌面。
+
+# 联想 bios
++ f11
++ 
