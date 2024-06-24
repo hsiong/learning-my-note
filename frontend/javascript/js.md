@@ -11,3 +11,6 @@ https://zhuanlan.zhihu.com/p/133301278
 https://www.runoob.com/note/33485
 + <img src="file:///home/src/*.jpg" width="300" height="120"/>
 <img src="../image/*.jpg/"width="300" height="120"/>
+
+# HTML 预定义颜色表
+http://300year.top/colors/HTMLcolr.htm
