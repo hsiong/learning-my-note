@@ -283,3 +283,6 @@ ip addr show
 
 + 获取公网ip
 curl myip.ipip.net 
+
+# how to install ubuntu
+https://github.com/hsiong/project-init-ubuntu-linux
