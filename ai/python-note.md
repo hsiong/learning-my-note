@@ -1688,6 +1688,11 @@ process_file()
 print(detect_file)
 ```
 
+## 我想问在pycharm中 pytest 打断点, 为什么不能实时输出 printf
++ 打开 PyCharm 的运行配置（Run > Edit Configurations）。
++ 选择你的 pytest 配置。
++ 在 Additional Arguments 字段中添加 -s。
+
 
 
 
