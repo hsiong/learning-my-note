@@ -20,7 +20,10 @@ rm -rf ~/.jrebel
 ## Jrebel Startup Guide
 update to Jrebel 4.2
 
+# Intellij
+
 ## edit code - color
+
 Editor -> Color Schme -> General/Language Default/Java/Java Addition
 + General 
   + Hyperlink
@@ -113,11 +116,14 @@ https://youtrack.jetbrains.com/issue/IDEA-320526
 ## FastRequest 关闭升级提示
 在插件内, 关闭升级提示
 
-# Android studio 字体很奇怪
+## Android studio 字体很奇怪
 Editor -> Color Scheme -> Color Scheme Font
 Font: JetBrains Mono
 Size: 13.0
 Line height: 1.6
+
+## 关闭二级菜单
+New UI -> Click Show main menu in a separate toolbar
 
 ## idea - 破
 https://jetbra.in/s
@@ -128,3 +134,67 @@ https://jetbra.in/s
 
 + Restful Fast Request - API Buddy 2023.1.7.1
 https://plugins.jetbrains.com/plugin/16988-restful-fast-request--api-buddy/versions/stable/358589
+
+## shortcut
+
+### idea
+
+idea 2023.2.6  main menu -> file -> file open actions -> open projec actions -> new -> file
+
+### pycharm
+
+/Users/vjf/Library/Application Support/JetBrains/PyCharm2023.2/keymaps/xxx.xml
+
+#### macos
+
++ new python file: control + n
+
+  ```
+    <action id="NewPythonFile">
+      <keyboard-shortcut first-keystroke="meta n" />
+    </action>
+  ```
+
++ new python package: command + n
+
+  ```
+    <action id="NewPythonPackage">
+      <keyboard-shortcut first-keystroke="ctrl n" />
+    </action>
+  ```
+
++ new file: control + command + n
+
+  ```
+    <action id="NewFile">
+      <keyboard-shortcut first-keystroke="ctrl meta n" />
+    </action>
+  ```
+
++ new dir: shift + control + command + n
+
+  ```
+    <action id="NewDir">
+      <keyboard-shortcut first-keystroke="shift ctrl meta n" />
+    </action>
+  ```
+
+### Linux
+
+~/.config/JetBrains/PyCharm<Version>/keymaps/xxx.xml
+
+```
+  <action id="NewPythonFile">
+    <keyboard-shortcut first-keystroke="ctrl n" />
+  </action>
+  <action id="NewPythonPackage">
+    <keyboard-shortcut first-keystroke="alt n" />
+  </action>
+  <action id="NewDir">
+    <keyboard-shortcut first-keystroke="shift ctrl alt n" />
+  </action>
+  <action id="NewFile">
+    <keyboard-shortcut first-keystroke="ctrl alt n" />
+  </action>
+```
+
