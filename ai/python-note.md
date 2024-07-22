@@ -63,6 +63,8 @@ Editor -> File Types -> Python -> add `*.py`
 ### from openai_exec import *  与 import openai_exec 有什么区别
 第一个pycharm可以自动提示, 使用第一个
 
+### pycharm format
+unclick Keep when reformatting -> Line breaks
 
 ### 生成返回值对象快捷键(实现类似java var的效果)
 
@@ -117,7 +119,7 @@ select `Help -> Edit Custom VM Options` add below:
 ### pip 安装依赖
 pip install -r requirements.txt
 
-> 注意: 国外源会出现很多问题
+> 注意: 国外源会出现很多问题, 尤其是 代理 的问题
 
 ### 默认源
 https://pypi.org/simple
@@ -130,8 +132,13 @@ https://zhuanlan.zhihu.com/p/623325525?utm_id=0&wd=&eqid=
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 + 多个源
 
+### 源路径
+windows: User level configuration files
++ 1. `C:\Users\lenovo\AppData\Roaming\pip\pip.ini`
++ 2. `C:\Users\lenovo\pip\pip.ini`
 
-### ChatGLM-6B-0001-环境准备
+
+## ChatGLM-6B-0001-环境准备
 https://zhuanlan.zhihu.com/p/647859484
 
 ### NCCL windows 安装失败
@@ -489,7 +496,7 @@ def walk_directory(directory, parent_name=None, depth=0):
 		parent_name: str: 父目录名称。
 	"""
 ```
-
+这个可以在pycharm中被识别
 
 
 ### Python 的字符串内建函数
