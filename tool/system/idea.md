@@ -143,7 +143,7 @@ idea 2023.2.6  main menu -> file -> file open actions -> open projec actions -> 
 
 ### pycharm
 
-/Users/vjf/Library/Application Support/JetBrains/PyCharm2023.2/keymaps/xxx.xml
+/Users/vjf/Library/Application\ Support/JetBrains/PyCharm2023.2/keymaps/xxx.xml
 
 #### macos
 
@@ -155,21 +155,23 @@ idea 2023.2.6  main menu -> file -> file open actions -> open projec actions -> 
     </action>
   ```
 
-+ new python package: command + n
++ new file: command + n
 
   ```
-    <action id="NewPythonPackage">
+    <action id="NewFile">
       <keyboard-shortcut first-keystroke="ctrl n" />
     </action>
   ```
 
-+ new file: control + command + n
++ new python package: control + command + n
 
   ```
-    <action id="NewFile">
+    <action id="NewPythonPackage">
       <keyboard-shortcut first-keystroke="ctrl meta n" />
     </action>
   ```
+
+
 
 + new dir: shift + control + command + n
 
@@ -187,14 +189,18 @@ idea 2023.2.6  main menu -> file -> file open actions -> open projec actions -> 
   <action id="NewPythonFile">
     <keyboard-shortcut first-keystroke="ctrl n" />
   </action>
-  <action id="NewPythonPackage">
+  <action id="NewFile">
     <keyboard-shortcut first-keystroke="alt n" />
+  </action>
+  <action id="NewPythonPackage">
+    <keyboard-shortcut first-keystroke="ctrl alt n" />
   </action>
   <action id="NewDir">
     <keyboard-shortcut first-keystroke="shift ctrl alt n" />
   </action>
-  <action id="NewFile">
-    <keyboard-shortcut first-keystroke="ctrl alt n" />
-  </action>
+
 ```
 
+### windows
+
+C:\Users\lenovo\AppData\Roaming\JetBrains\PyCharm2023.2\keymaps
