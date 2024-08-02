@@ -1350,7 +1350,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                         
+>                             
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
@@ -1814,37 +1814,218 @@ print(detect_file)
 
 
 
+##   count = 0  output_directory = 'captured_frames_' + count    报错
+
+你在代码中遇到错误，可能是因为将整数变量 `count` 直接与字符串连接，导致类型不匹配的问题。你需要将整数 `count` 转换为字符串格式。可以使用 `str()` 函数将整数转换为字符串。
+
+这里是修正后的代码：
+
+```python
+
+Copy code
+count = 0
+output_directory = 'captured_frames_' + str(count)
+```
+
+通过将 `count` 变量转换为字符串，可以避免类型不匹配的错误。完整的代码示例如下：
+
+```python
+
+Copy code
+count = 0
+output_directory = 'captured_frames_' + str(count)
+print(output_directory)  # 输出: captured_frames_0
+```
+
+这样，你就可以正确地将整数变量 `count` 与字符串连接，生成所需的目录名称。
 
 
 
+## python 多线程
+
+多线程编程中可能会遇到资源竞争问题，需要使用线程同步技术，如锁（Lock）来避免资源冲突。
+
+```python
+import threading
+import time
+
+# 创建一个锁对象
+lock = threading.Lock()
+
+def print_numbers():
+    for i in range(10):
+        with lock:  # 使用锁保护共享资源
+            print(f"{threading.current_thread().name} - Number: {i}")
+            time.sleep(1)
+
+def print_letters():
+    for letter in "abcdefghij":
+        with lock:  # 使用锁保护共享资源
+            print(f"{threading.current_thread().name} - Letter: {letter}")
+            time.sleep(1)
+
+thread1 = threading.Thread(target=print_numbers, name="Thread-1")
+thread2 = threading.Thread(target=print_letters, name="Thread-2")
+
+thread1.start()
+thread2.start()
+
+thread1.join()
+thread2.join()
+
+print("All threads have finished execution.")
+
+```
+
+### 无入参
+
+下面是一个简单的示例，演示如何使用`threading`模块在Python中创建和管理多个线程：
+
+```python
+import threading
+import time
+
+# 定义一个函数，线程将要执行的任务
+def print_numbers():
+    for i in range(10):
+        print(f"{threading.current_thread().name} - Number: {i}")
+        time.sleep(1)
+
+def print_letters():
+    for letter in "abcdefghij":
+        print(f"{threading.current_thread().name} - Letter: {letter}")
+        time.sleep(1)
+
+# 创建线程对象
+thread1 = threading.Thread(target=print_numbers, name="Thread-1")
+thread2 = threading.Thread(target=print_letters, name="Thread-2")
+
+# 启动线程
+thread1.start()
+thread2.start()
+
+# 等待所有线程完成
+thread1.join()
+thread2.join()
+
+print("All threads have finished execution.")
+
+```
+
+### 多参数
+
+使用 `executor.map` 或 使用 `lambda` 表达式 传递多个参数;  尽量避免使用 `functools.partial` 来实现
+
+#### 使用 `executor.map` 传递多个参数
+
+`executor.map` 允许你传递多个参数迭代器，它会将每个迭代器的元素作为对应参数传递给任务函数。
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+import time
+
+def task(name, duration):
+    print(f"Task {name} starting")
+    time.sleep(duration)
+    result = f"Task {name} completed in {duration} seconds"
+    print(result)
+    return result
+
+# 创建一个线程池，最多有3个线程
+with ThreadPoolExecutor(max_workers=3) as executor:
+    names = range(5)
+    durations = [1, 2, 3, 4, 5]
+    
+    # 使用 map 传递多个参数
+    results = executor.map(task, names, durations)
+
+    # 直接获取结果
+    for result in results:
+        print(result)
+
+print("All tasks have been submitted and completed.")
+```
+
+在这个示例中：
+
+1. **定义任务函数** `task`，它接受两个参数 `name` 和 `duration`。
+2. **使用 `executor.map` 传递多个参数迭代器**，`names` 和 `durations`。
+
+### 使用 `lambda` 表达式
+
+你还可以使用 `lambda` 表达式将多个参数传递给 `submit` 方法。
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+import time
+
+def task(name, duration):
+    print(f"Task {name} starting")
+    time.sleep(duration)
+    result = f"Task {name} completed in {duration} seconds"
+    print(result)
+    return result
+
+# 创建一个线程池，最多有3个线程
+with ThreadPoolExecutor(max_workers=3) as executor:
+    futures = [executor.submit(lambda n=i, d=duration: task(n, d)) for i, duration in enumerate([1, 2, 3, 4, 5])]
+
+    # 获取任务结果
+    for future in futures:
+        result = future.result()
+        print(result)
+
+print("All tasks have been submitted and completed.")
+```
+
+在这个示例中：
+
+1. **定义任务函数** `task`，它接受两个参数 `name` 和 `duration`。
+2. **使用 `lambda` 表达式** 将多个参数传递给 `submit` 方法。
+
+#### 使用 `functools.partial`
+
+使用 `functools.partial` 可以预先绑定一些参数到函数上，然后将剩余的参数传递给 `submit` 方法。如果你的函数需要四个参数，可以使用 `partial` 来绑定这些参数。
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+import time
+from functools import partial
+
+def task(name, duration, repeat):
+    for _ in range(repeat):
+        print(f"Task {name} starting")
+        time.sleep(duration)
+        print(f"Task {name} completed in {duration} seconds")
+    return f"Task {name} completed {repeat} times"
+
+# 创建一个线程池，最多有3个线程
+with ThreadPoolExecutor(max_workers=3) as executor:
+    futures = []
+    for i in range(5):
+        duration = i + 1
+        repeat = 2
+        partial_task = partial(task, i, duration)
+        futures.append(executor.submit(partial_task, repeat))
+
+    # 获取任务结果
+    for future in futures:
+        result = future.result()
+        print(result)
+
+print("All tasks have been submitted and completed.")
+```
+
+在这个示例中：
+
+1. **定义任务函数** `task`，它接受两个参数 `name` 和 `duration`。
+2. **使用 `partial` 预先绑定 `name` 参数**，然后将 `duration` 参数传递给 `submit` 方法。
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+> ` futures = [executor.submit( task(1, duration, 2)) for i, duration in enumerate([1, 2, 3, 4, 5])] 不能这样吗`
+>
+> 你的代码中存在一个问题：你在提交任务时，直接调用了函数 `task`，而不是将其作为一个可调用对象传递给 `submit` 方法。这导致 `task` 函数会立即执行，而不是在线程池中异步执行。
 
 
 
