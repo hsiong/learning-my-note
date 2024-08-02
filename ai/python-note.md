@@ -708,12 +708,124 @@ rmdir()方法删除目录，目录名称以参数传递。
 os.rmdir('dirname')
 ```
 
-### 文件、目录相关的方法
+[File 对象方法](https://www.runoob.com/python/file-methods.html): file 对象提供了操作文件的一系列方法。
 
-File 对象和 OS 对象提供了很多文件与目录的操作方法，可以通过点击下面链接查看详情：
+### OS 方法
 
-- [File 对象方法](https://www.runoob.com/python/file-methods.html): file 对象提供了操作文件的一系列方法。
-- [OS 对象方法](https://www.runoob.com/python/os-file-methods.html): 提供了处理文件及目录的一系列方法。
+[OS 对象方法](https://www.runoob.com/python/os-file-methods.html)
+
+#### 获取 source_file 的 dir 和 文件名
+
+你可以使用 Python 的 `os` 模块来获取文件路径的目录和文件名。以下是一个示例代码，演示如何从文件路径中提取目录和文件名：
+
+```python
+import os
+
+# 定义源文件路径
+source_file = 'path/to/source/file.txt'
+
+# 获取文件的目录和文件名
+file_dir = os.path.dirname(source_file)
+file_name = os.path.basename(source_file)
+
+print(f'文件目录: {file_dir}')
+print(f'文件名: {file_name}')
+```
+
+在这个示例中：
+
+- `os.path.dirname(source_file)` 获取文件的目录路径。
+- `os.path.basename(source_file)` 获取文件的文件名。
+
+你可以将这些变量用于需要的地方。比如，在文件复制操作中，如果需要处理文件路径，可以使用这些变量来构造新的路径。
+
+#### 读取文件
+
+如果你想获取指定路径下的文件并读取其内容，可以使用 Python 的 `open` 函数来读取文件内容。以下是一个示例代码，演示如何读取文件内容：
+
+```python
+import os
+
+# 定义源文件路径
+source_file = 'path/to/source/file.txt'
+
+# 获取文件的目录和文件名
+file_dir = os.path.dirname(source_file)
+file_name = os.path.basename(source_file)
+
+print(f'文件目录: {file_dir}')
+print(f'文件名: {file_name}')
+
+# 读取文件内容
+try:
+    with open(source_file, 'r', encoding='utf-8') as file:
+        file_content = file.read()
+        print(f'文件内容:\n{file_content}')
+except IOError as e:
+    print(f'无法读取文件。错误: {e}')
+
+```
+
+在这个示例中：
+
+1. `os.path.dirname(source_file)` 获取文件的目录路径。
+2. `os.path.basename(source_file)` 获取文件的文件名。
+3. 使用 `open` 函数以只读模式（`'r'`）打开文件，并使用 `file.read()` 方法读取文件的全部内容。
+
+如果文件内容较大，可以考虑逐行读取以节省内存：
+
+```python
+try:
+    with open(source_file, 'r', encoding='utf-8') as file:
+        for line in file:
+            print(line, end='')
+except IOError as e:
+    print(f'无法读取文件。错误: {e}')
+```
+
+
+
+### python 复制文件
+
+#### 单文件
+
+在 Python 中可以使用 `shutil` 模块来复制文件。以下是一个简单的示例代码，演示如何使用 `shutil.copyfile` 方法来复制文件：
+
+```python
+import shutil
+
+# 定义源文件路径和目标文件路径
+source_file = 'path/to/source/file.txt'
+destination_file = 'path/to/destination/file.txt'
+
+# 使用 shutil.copyfile 复制文件
+try:
+    shutil.copyfile(source_file, destination_file)
+    print(f'文件已成功复制到 {destination_file}')
+except IOError as e:
+    print(f'无法复制文件。错误: {e}')
+```
+
+#### 文件夹
+
+如果你需要复制整个目录，可以使用 `shutil.copytree` 方法。以下是一个示例：
+
+```python
+import shutil
+
+# 定义源目录路径和目标目录路径
+source_dir = 'path/to/source/directory'
+destination_dir = 'path/to/destination/directory'
+
+# 使用 shutil.copytree 复制目录
+try:
+    shutil.copytree(source_dir, destination_dir)
+    print(f'目录已成功复制到 {destination_dir}')
+except IOError as e:
+    print(f'无法复制目录。错误: {e}')
+```
+
+
 
 ## yield
 
@@ -1238,7 +1350,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                     
+>                         
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
