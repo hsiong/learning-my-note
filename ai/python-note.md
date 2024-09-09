@@ -199,14 +199,6 @@ windows: User level configuration files
 + 1. `C:\Users\lenovo\AppData\Roaming\pip\pip.ini`
 + 2. `C:\Users\lenovo\pip\pip.ini`
 
-
-## ChatGLM-6B-0001-环境准备
-https://zhuanlan.zhihu.com/p/647859484
-
-### NCCL windows 安装失败
-NCCL 是 Nvidia 为 linux 多显卡实现的标准, 无 windows 版本
-http://www.360doc.com/content/12/0121/07/77158047_1083248145.shtml
-
 ## Python 日期和时间
 
 Python 的 time 模块下有很多函数可以转换常见日期格式。如函数time.time()用于获取当前时间戳, 如下实例:
@@ -220,8 +212,6 @@ import time  # 引入time模块
 ticks = time.time()
 print "当前时间戳为:", ticks
 ```
-
-# 
 
 ## 运算符
 
@@ -401,6 +391,123 @@ for letter in 'Python':
  
 print "Good bye!"
 ```
+
+### switch
+
+Python 3.10 引入了新的 `match-case` 语句，类似于其他语言中的 `switch-case`。
+
+```python
+def switch_example(value):
+    match value:
+        case 1:
+            return "Option 1"
+        case 2:
+            return "Option 2"
+        case 3:
+            return "Option 3"
+        case _:
+            return "Default Option"
+
+print(switch_example(2))  # 输出：Option 2
+```
+
+#### 匹配常量
+
+如果你想在 `match-case` 语句中使用 `model_damoyolo` 作为常量（不可变类型），你可以通过以下几种方式使其符合不可变类型的要求：
+
+##### **使用枚举**
+
+Python 的 `enum` 模块可以用于定义不可变的常量。你可以将 `model_damoyolo` 和 `model_groundingdino` 定义为枚举类型，这样在 `match-case` 中可以直接使用它们。
+
+```python
+from enum import Enum
+
+# 定义枚举类
+class ModelType(Enum):
+    DAMOYOLO = "model_damoyolo"
+    GROUNDINGDINO = "model_groundingdino"
+
+# 示例函数
+def process_model(model):
+    match model:
+        case ModelType.DAMOYOLO:
+            # 白天
+            prompt = enum_tool.get_enum_from_str(PromptStatusEnumGroundingdino, prompt).value
+            annotated_frame, phrases = inference_damoyolo(image_url, prompt)  # 推理 - damoyolo
+        case ModelType.GROUNDINGDINO:
+            # 晚上
+            annotated_frame, phrases = inference_grounding_dino(image_url, prompt)  # 推理 - groundingdino
+        case _:
+            return 'default result'
+
+# 使用示例
+process_model(ModelType.DAMOYOLO)
+```
+
+在此示例中：
+
+- `ModelType` 枚举类定义了两个不可变的常量：`DAMOYOLO` 和 `GROUNDINGDINO`。
+- 在 `match-case` 语句中可以直接使用这些枚举常量。
+
+##### **使用常量**
+
+如果不想使用 `enum`，可以简单地定义全局常量来代替变量。常量通常用全大写字母命名，以表示它们的不可变性。
+
+```python
+# 定义常量
+MODEL_DAMOYOLO = "model_damoyolo"
+MODEL_GROUNDINGDINO = "model_groundingdino"
+
+# 示例函数
+def process_model(model):
+    match model:
+        case MODEL_DAMOYOLO:
+            # 白天
+            prompt = enum_tool.get_enum_from_str(PromptStatusEnumGroundingdino, prompt).value
+            annotated_frame, phrases = inference_damoyolo(image_url, prompt)  # 推理 - damoyolo
+        case MODEL_GROUNDINGDINO:
+            # 晚上
+            annotated_frame, phrases = inference_grounding_dino(image_url, prompt)  # 推理 - groundingdino
+        case _:
+            return 'default result'
+
+# 使用示例
+process_model(MODEL_DAMOYOLO)
+```
+
+在此示例中，`MODEL_DAMOYOLO` 和 `MODEL_GROUNDINGDINO` 是字符串常量，表示不可变的类型。
+
+##### **使用元组**
+
+如果你的模型类型不仅仅是简单的字符串，可能包含多个属性，还可以使用不可变的元组或 `collections.namedtuple` 来表示不可变类型。
+
+```python
+MODEL_DAMOYOLO = ("model_damoyolo", "version_1")
+MODEL_GROUNDINGDINO = ("model_groundingdino", "version_2")
+
+def process_model(model):
+    match model:
+        case ("model_damoyolo", _):
+            # 白天
+            prompt = enum_tool.get_enum_from_str(PromptStatusEnumGroundingdino, prompt).value
+            annotated_frame, phrases = inference_damoyolo(image_url, prompt)  # 推理 - damoyolo
+        case ("model_groundingdino", _):
+            # 晚上
+            annotated_frame, phrases = inference_grounding_dino(image_url, prompt)  # 推理 - groundingdino
+        case _:
+            return 'default result'
+
+# 使用示例
+process_model(MODEL_DAMOYOLO)
+```
+
+这里的 `model` 是不可变的元组，模式匹配时可以匹配多个值。
+
+### 总结：
+
+1. **枚举 (`enum`)** 是定义不可变常量的最佳方式，它语义清晰，易于扩展。
+2. **全局常量** 也是一种简单的方法，可以用于不可变类型。
+3. **元组或命名元组** 可以处理复杂的数据结构，并且是不可变的。
 
 ## 字符串
 
@@ -1412,7 +1519,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                                 
+>                                     
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
