@@ -503,11 +503,97 @@ process_model(MODEL_DAMOYOLO)
 
 这里的 `model` 是不可变的元组，模式匹配时可以匹配多个值。
 
-### 总结：
+**总结：**
 
 1. **枚举 (`enum`)** 是定义不可变常量的最佳方式，它语义清晰，易于扩展。
 2. **全局常量** 也是一种简单的方法，可以用于不可变类型。
 3. **元组或命名元组** 可以处理复杂的数据结构，并且是不可变的。
+
+#### 工厂模式与枚举结合
+
+要将每个模型的处理逻辑直接写在 `Enum` 类中，而不通过 `if-else` 判断，解决方案可以是：为每个 `Enum` 成员定义自己的处理函数。这可以通过将每个 `Enum` 成员与一个处理器对象（或者直接是处理函数）关联起来。这样我们可以保持工厂模式的思想，并且避免在 `get_result` 中使用 `if-else` 判断。
+
+1. 修改 `ModelType` 枚举，直接在 `Enum` 中绑定处理函数
+
+```python
+python
+
+
+Copy code
+from enum import Enum
+
+# 定义处理类，负责处理结果
+class DamoyoloResultProcessor:
+    @staticmethod
+    def process(result):
+        return f"{result}."  # DAMOYOLO 结果加 '.'
+
+class GroundingDinoResultProcessor:
+    @staticmethod
+    def process(result):
+        return result  # GROUNDINGDINO 结果原样返回
+
+
+# 定义模型类型枚举
+class ModelType(Enum):
+    DAMOYOLO = ("model_damoyolo", {
+        'ALL': "cow . sheep . ",  # 所有 - 未实现
+        'COW': "cow",  # 牛
+        'SHEEP': "sheep"  # 羊
+    }, DamoyoloResultProcessor.process)  # 处理函数是 DamoyoloResultProcessor.process
+    
+    GROUNDINGDINO = ("model_groundingdino", {
+        'ALL': "all animals",  # 所有
+        'COW': "cow",  # 牛
+        'SHEEP': "sheep"  # 羊
+    }, GroundingDinoResultProcessor.process)  # 处理函数是 GroundingDinoResultProcessor.process
+
+    def __init__(self, model_name, prompts, process_func):
+        self.model_name = model_name
+        self.prompts = prompts
+        self.process_func = process_func  # 存储每个模型的处理函数
+
+    # 根据 prompt 获取对应的结果并处理
+    def get_result(self, prompt):
+        # 将 prompt 转换为大写
+        prompt_upper = prompt.upper()
+
+        # 查找 prompt 对应的结果
+        result = self.prompts.get(prompt_upper, "Prompt not found")
+
+        # 使用每个模型特定的处理函数对结果进行处理
+        return self.process_func(result)
+
+# 使用示例
+model = ModelType.DAMOYOLO
+prompt = 'cow'
+result = model.get_result(prompt)
+print(f"Result for model {model.model_name} and prompt '{prompt}': {result}")
+
+model = ModelType.GROUNDINGDINO
+prompt = 'sheep'
+result = model.get_result(prompt)
+print(f"Result for model {model.model_name} and prompt '{prompt}': {result}")
+```
+
+1. **`DamoyoloResultProcessor` 和 `GroundingDinoResultProcessor`**：这两个类定义了静态方法 `process`，分别处理 `DAMOYOLO` 和 `GROUNDINGDINO` 的 `result`。
+   - `DamoyoloResultProcessor.process` 会在结果后面加上 `.`。
+   - `GroundingDinoResultProcessor.process` 直接返回结果。
+2. **`ModelType` 枚举**：
+   - 每个枚举成员 `DAMOYOLO` 和 `GROUNDINGDINO` 都关联了一个处理函数 (`process_func`)。
+   - 在 `get_result` 方法中，直接调用每个模型的 `process_func`，而无需使用 `if-else` 判断模型类型。
+3. **使用示例**：分别查询 `DAMOYOLO` 和 `GROUNDINGDINO` 模型的 `prompt`，并通过各自的处理函数处理结果。
+
+输出示例：
+
+```python
+Result for model model_damoyolo and prompt 'cow': cow.
+Result for model model_groundingdino and prompt 'sheep': sheep
+```
+
+- 每个 `Enum` 成员在定义时就绑定了处理逻辑，符合工厂模式的思想。
+- 通过将处理逻辑与枚举值绑定，避免了在 `get_result` 方法中使用 `if-else`，保持了结构的清晰和易于扩展性。
+- 增加新的模型时，只需为其定义新的处理函数，无需修改现有的代码逻辑。
 
 ## 字符串
 
