@@ -624,6 +624,85 @@ Traceback (most recent call last):
 KeyError: 'Alice'
 ```
 
+### 获取第一个元素
+
+在 Python 中，字典是无序的（在 Python 3.7 及更高版本中，字典按插入顺序维护元素）。如果你想获取字典的第一个元素，可以使用以下几种方法：
+
+#### dict.items() 转为字典
+
++ `list()` 转换
+
+你也可以将字典的 `items()` 转换为列表，并获取第一个元素：
+
+```
+my_dict = {
+    '.': '',  # 所有
+    'cow': "cow",  # 牛
+}
+
+# 转换为列表，获取第一个键值对
+first_key, first_value = list(my_dict.items())[0]
+print(f'First key: {first_key}, First value: {first_value}')
+```
+
+输出：
+
+```
+First key: ., First value: 
+```
+
++ next() 和 iter() 
+
+使用 `next()` 结合 `iter()` 可以快速获取字典中的第一个元素：
+
+```
+my_dict = {
+    '.': '',  # 所有
+    'cow': "cow",  # 牛
+}
+
+# 获取第一个键值对
+first_key, first_value = next(iter(my_dict.items()))
+print(f'First key: {first_key}, First value: {first_value}')
+```
+
+输出：
+
+```
+First key: ., First value: 
+```
+
+#### keys() 和 values() 获取键值
+
+如果你只想获取第一个键或第一个值，可以分别从 `keys()` 或 `values()` 获取。
+
+获取第一个键：
+
+```
+python
+
+
+Copy code
+first_key = next(iter(my_dict.keys()))
+print(f'First key: {first_key}')
+```
+
+获取第一个值：
+
+```
+python
+
+
+Copy code
+first_value = next(iter(my_dict.values()))
+print(f'First value: {first_value}')
+```
+
+总结：
+
+- 使用 `next(iter(my_dict.items()))` 可以直接获取字典的第一个键值对。
+- `list(my_dict.items())[0]` 是另一种选择，适合你想以索引方式访问时使用。
+
 ### 修改字典
 
 向字典添加新内容的方法是增加新的键/值对，修改或删除已有键/值对如下实例:
@@ -1009,9 +1088,11 @@ for num in range(10,20):  # 迭代 10 到 20 (不包含) 之间的数字
       print ('%d 是一个质数' % num)
 ```
 
-### break/continue/pass
+### pass
 
-Python pass 是空语句，是为了保持程序结构的完整性。
+break/continue/pass
+
+`pass` 是空语句，是为了保持程序结构的完整性。
 
 **pass** 不做任何事情，一般用做占位语句。
 
@@ -1145,6 +1226,33 @@ process_model(MODEL_DAMOYOLO)
 1. **枚举 (`enum`)** 是定义不可变常量的最佳方式，它语义清晰，易于扩展。
 2. **全局常量** 也是一种简单的方法，可以用于不可变类型。
 3. **元组或命名元组** 可以处理复杂的数据结构，并且是不可变的。
+
+### yield
+
++ Python yield 使用浅析: https://www.runoob.com/w3cnote/python-yield-used-analysis.html
+
+简单理解, 返回一个 List<num1, num2, num3> 数组
+
+典型方法: `os.walk(fileDir)`, 返回 List<root, dirs, files>
+
+一个简单例子如下:
+
+```python
+def fab(max): 
+    n, a, b = 0, 0, 1 
+    while n < max: 
+        yield b      # 使用 yield
+        # print b 
+        a, b = b, a + b 
+        n = n + 1
+ 
+for n in fab(5): 
+    print n
+```
+
+总结: 一个带有 yield 的函数就是一个 generator，它和普通函数不同，生成一个 generator 看起来像函数调用，但不会执行任何函数代码，直到对其调用 next()（在 for 循环中会自动调用 next()）才开始执行。虽然执行流程仍按函数的流程执行，但每执行到一个 yield 语句就会中断，并返回一个迭代值，下次执行时从 yield 的下一个语句继续执行。看起来就好像一个函数在正常执行的过程中被 yield 中断了数次，每次中断都会通过 yield 返回当前的迭代值。
+
+yield 的好处是显而易见的，把一个函数改写为一个 generator 就获得了迭代能力，比起用类的实例保存状态来计算下一个 next() 的值，不仅代码简洁，而且执行流程异常清晰。
 
 ## Python 文件I/O
 
@@ -1427,36 +1535,26 @@ except IOError as e:
 
 
 
-## yield
 
-+ Python yield 使用浅析: https://www.runoob.com/w3cnote/python-yield-used-analysis.html
-
-简单理解, 返回一个 List<num1, num2, num3> 数组
-
-典型方法: `os.walk(fileDir)`, 返回 List<root, dirs, files>
-
-一个简单例子如下:
-
-```python
-def fab(max): 
-    n, a, b = 0, 0, 1 
-    while n < max: 
-        yield b      # 使用 yield
-        # print b 
-        a, b = b, a + b 
-        n = n + 1
- 
-for n in fab(5): 
-    print n
-```
-
-总结: 一个带有 yield 的函数就是一个 generator，它和普通函数不同，生成一个 generator 看起来像函数调用，但不会执行任何函数代码，直到对其调用 next()（在 for 循环中会自动调用 next()）才开始执行。虽然执行流程仍按函数的流程执行，但每执行到一个 yield 语句就会中断，并返回一个迭代值，下次执行时从 yield 的下一个语句继续执行。看起来就好像一个函数在正常执行的过程中被 yield 中断了数次，每次中断都会通过 yield 返回当前的迭代值。
-
-yield 的好处是显而易见的，把一个函数改写为一个 generator 就获得了迭代能力，比起用类的实例保存状态来计算下一个 next() 的值，不仅代码简洁，而且执行流程异常清晰。
 
 ## 枚举
 
-#### 工厂模式与枚举结合
+### 初始化
+
+```
+from enum import Enum
+
+class TaskStatusEnum(Enum):
+    '''
+    任务状态枚举 - .value 是字符串, 否则是枚举
+    '''
+    PENDING = "pending" # initial state
+    IN_PROGRESS = "in_progress" # 处理中
+    COMPLETED = "completed" # 已完成
+    FAILED = "failed" # 失败
+```
+
+### 工厂模式与枚举结合
 
 要将每个模型的处理逻辑直接写在 `Enum` 类中，而不通过 `if-else` 判断，解决方案可以是：为每个 `Enum` 成员定义自己的处理函数。这可以通过将每个 `Enum` 成员与一个处理器对象（或者直接是处理函数）关联起来。这样我们可以保持工厂模式的思想，并且避免在 `get_result` 中使用 `if-else` 判断。
 
