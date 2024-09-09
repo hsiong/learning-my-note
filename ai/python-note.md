@@ -3,6 +3,7 @@
 
 ## 命名
 以下划线开头的标识符是有特殊意义的。
++ 大写命名: 认为常量
 + 以单下划线开头 `_foo` 的代表不能直接访问的类属性，需通过类提供的接口进行访问，不能用 from xxx import * 而导入。
 + 以双下划线开头的 `__foo` 代表类的私有成员，常量, 不可修改
 + 以双下划线开头和结尾的 __foo__ 代表 Python 里特殊方法专用的标识，如 `__init__()` 代表类的构造函数。
@@ -36,12 +37,73 @@ del var_a, var_b
 ## Pycharm
 
 ### 快捷键
+
 + pycharm 不会自动 auto-import, 所以需要使用下列三个快捷键之一
   + Reformat Code: ctrl_cmd_l
   + Reformat File: shift_ctrl_cmd_l
   + Optimize Import: ctrl_alt_cmd_o 
-+ Unclick PEB 8 coding style violation            
-                    
++ Unclick PEB 8 coding style violation           
+#### macos
+
+/Users/vjf/Library/Application\ Support/JetBrains/PyCharmxxx/keymaps/xxx.xml
+
+```
+  <action id="NewDir">
+    <keyboard-shortcut first-keystroke="shift ctrl meta n" />
+  </action>
+  <action id="NewElement">
+    <keyboard-shortcut first-keystroke="ctrl enter" />
+  </action>
+  <action id="NewFile">
+    <keyboard-shortcut first-keystroke="ctrl n" />
+  </action>
+  <action id="NewPythonFile">
+    <keyboard-shortcut first-keystroke="meta n" />
+  </action>
+  <action id="NewPythonPackage">
+    <keyboard-shortcut first-keystroke="ctrl meta n" />
+  </action>
+```
+
+#### Linux
+
+~/.config/JetBrains/PyCharm<Version>/keymaps/xxx.xml
+
+```
+  <action id="NewPythonFile">
+    <keyboard-shortcut first-keystroke="ctrl n" />
+  </action>
+  <action id="NewFile">
+    <keyboard-shortcut first-keystroke="alt n" />
+  </action>
+  <action id="NewPythonPackage">
+    <keyboard-shortcut first-keystroke="ctrl alt n" />
+  </action>
+  <action id="NewDir">
+    <keyboard-shortcut first-keystroke="shift ctrl alt n" />
+  </action>
+
+```
+
+#### windows
+
+C:\Users\lenovo\AppData\Roaming\JetBrains\PyCharm2023.2\keymaps\xxx.xml
+
+```
+	<action id="NewDir">
+    <keyboard-shortcut first-keystroke="shift ctrl alt n" />
+  </action>
+  <action id="NewFile">
+    <keyboard-shortcut first-keystroke="alt n" />
+  </action>
+  <action id="NewPythonFile">
+    <keyboard-shortcut first-keystroke="ctrl n" />
+  </action>
+  <action id="NewPythonPackage">
+    <keyboard-shortcut first-keystroke="ctrl alt n" />
+  </action>
+```
+
 ### pycharm 回车不会缩进
 
 Editor => Code Style => Python => `Keep indents on empty lines`
@@ -1350,7 +1412,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                             
+>                                 
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
@@ -1612,37 +1674,25 @@ class Employee:
 >
 >   ```python
 >   from pydantic import BaseModel
->   
->   
+>
+>
 >   class PerMessage(BaseModel):
 >       role: str
 >       content: str
->       
+>
 >   messages = [message.dict() for message in messages] # 转为 json 对象
+>
+>   ```
 >   
 >   ```
 
-# 相关问题
-+ 'NoneType' object has no attribute 'encode' 
-  检查入参是否为null
-
-+ python 如何获取某目录下的所有文件
-```python
-	fileDir = ''
-	# os.walk生成目录树下的所有文件名
-	for root, dirs, files in os.walk(fileDir):
-		for file in files:
-			# 将目录的路径和文件名合成一个完整的路径
-			file_path = os.path.join(root, file)
-```
-
 # 参考链接
 
-+ Python关键字yield的解释(stackoverflow): https://pyzh.readthedocs.io/en/latest/the-python-yield-keyword-explained.html#:~:text=yield%20%E6%98%AF%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20return,%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AF%E4%B8%AA%E7%94%9F%E6%88%90%E5%99%A8%E3%80%82&text=%E8%BF%99%E4%B8%AA%E4%BE%8B%E5%AD%90%E6%B2%A1%E4%BB%80%E4%B9%88%E7%94%A8%E9%80%94%EF%BC%8C%E4%BD%86%E6%98%AF,%E8%BF%99%E6%9C%89%E7%82%B9%E8%B9%8A%E8%B7%B7%E4%B8%8D%E6%98%AF%E5%90%97%E3%80%82
++ Python关键字yield的解释(stackoverflow):   https://pyzh.readthedocs.io/en/latest/the-python-yield-keyword-explained.html#:~:text=yield%20%E6%98%AF%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20return,%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AF%E4%B8%AA%E7%94%9F%E6%88%90%E5%99%A8%E3%80%82&text=%E8%BF%99%E4%B8%AA%E4%BE%8B%E5%AD%90%E6%B2%A1%E4%BB%80%E4%B9%88%E7%94%A8%E9%80%94%EF%BC%8C%E4%BD%86%E6%98%AF,%E8%BF%99%E6%9C%89%E7%82%B9%E8%B9%8A%E8%B7%B7%E4%B8%8D%E6%98%AF%E5%90%97%E3%80%82
 
 
 
-# 问题: 
+# 问题
 ## 私有变量与私有成员
 ```
 class Employ:
@@ -1680,13 +1730,17 @@ def process_messages(messages: List[Msg]):
 def chat() -> str:
 ```
 
-## pip install httpx[socks]     requirements.txt中已经有httpx[socks], 但是安装不上
+## pip install httpx[socks]
+
+pip install httpx[socks]     requirements.txt中已经有httpx[socks], 但是安装不上
+
 因为版本冲突了, 需要制定特定版本
 ```
 httpx[socks] == 1.0.0b0
 ```
 
 ## 类转为 json 对象
+
 1. 继承 from pydantic import BaseModel
 2. messages = [message.dict() for message in messages]  # 转为 json 对象
 
@@ -2027,7 +2081,22 @@ print("All tasks have been submitted and completed.")
 >
 > 你的代码中存在一个问题：你在提交任务时，直接调用了函数 `task`，而不是将其作为一个可调用对象传递给 `submit` 方法。这导致 `task` 函数会立即执行，而不是在线程池中异步执行。
 
+### 'NoneType' object has no attribute 'encode' 
 
+检查入参是否为null
+
+### python 如何获取某目录下的所有文件
+
+```python
+	fileDir = ''
+	# os.walk生成目录树下的所有文件名
+	for root, dirs, files in os.walk(fileDir):
+		for file in files:
+			# 将目录的路径和文件名合成一个完整的路径
+			file_path = os.path.join(root, file)
+```
+
+111
 
 
 
