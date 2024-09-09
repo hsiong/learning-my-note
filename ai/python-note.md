@@ -199,6 +199,638 @@ windows: User level configuration files
 + 1. `C:\Users\lenovo\AppData\Roaming\pip\pip.ini`
 + 2. `C:\Users\lenovo\pip\pip.ini`
 
+# Python 基础类型
+
+## 整型
+
+## 浮点型
+
+## 布尔型
+
+## 字符串
+
+### Python 字符串连接
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+var1 = 'Hello World!'
+ 
+print "var1[0]: ", var1[0]
+print "var2[1:5]: ", var2[1:5]
+print "输出 :- ", var1[:6] + 'Runoob!'
+```
+
++ int str int
+
+`f"{1}{2}{3}"`
+
+### 字符串截取
+
+python字符串截取与java不同,
+
+```python
+print "var2[1:5]: ", var2[1:5]
+```
+
+### python 续行
+
++ 使用续行符
+
+```python
+total = item_one + \
+        item_two + \
+        item_three
+```
+
++ 使用圆括号、方括号和花括号
+
+```python
+my_list = [
+    1, 2, 3,
+    4, 5, 6,
+]
+
+my_dict = {
+    'key1': 'value1',
+    'key2': 'value2',
+}
+
+my_function_call = (
+    argument1,
+    argument2,
+    argument3,
+)
+```
+
++ 使用三引号字符串
+
+```python
+my_string = """This is a very long string
+that spans across multiple lines in the
+Python code."""
+```
+
+### Python 转义字符
+
+在需要在字符中使用特殊字符时，python 用反斜杠 **\** 转义字符。如下表：
+
+| 转义字符    | 描述                                                     |
+| :---------- | :------------------------------------------------------- |
+| \(在行尾时) | 续行符                                                   |
+| \\          | 反斜杠符号                                               |
+| \'          | 单引号                                                   |
+| \"          | 双引号                                                   |
+| \a          | 响铃                                                     |
+| \b          | 退格(Backspace)                                          |
+| \e          | 转义                                                     |
+| \000        | 空                                                       |
+| \n          | 换行                                                     |
+| \v          | 纵向制表符                                               |
+| \t          | 横向制表符                                               |
+| \r          | 回车                                                     |
+| \f          | 换页                                                     |
+| \oyy        | 八进制数，y 代表 0~7 的字符，例如：\012 代表换行。       |
+| \xyy        | 十六进制数，以 \x 开头，yy代表的字符，例如：\x0a代表换行 |
+| \other      | 其它的字符以普通格式输出                                 |
+
+### Python字符串运算符
+
+| 操作符 | 描述                                                         | 实例                                 |
+| :----- | :----------------------------------------------------------- | :----------------------------------- |
+| +      | 字符串连接                                                   | >>>a + b 'HelloPython'               |
+| *      | 重复输出字符串                                               | >>>a * 2 'HelloHello'                |
+| []     | 通过索引获取字符串中字符                                     | >>>a[1] 'e'                          |
+| [ : ]  | 截取字符串中的一部分                                         | >>>a[1:4] 'ell'                      |
+| in     | 成员运算符 - 如果字符串中包含给定的字符返回 True             | >>>"H" in a True                     |
+| not in | 成员运算符 - 如果字符串中不包含给定的字符返回 True           | >>>"M" not in a True                 |
+| r/R    | 原始字符串 - 原始字符串：所有的字符串都是直接按照字面的意思来使用，没有转义特殊或不能打印的字符。 原始字符串除在字符串的第一个引号前加上字母"r"（可以大小写）以外，与普通字符串有着几乎完全相同的语法。 | >>>print r'\n' \n >>> print R'\n' \n |
+
+### 格式化
+
+#### `f`
+
+在Python中，前缀`f`被用于字符串前，表示这是一个格式化字符串（f-string），从Python 3.6版本开始引入。使用f-string可以让你在字符串内直接嵌入表达式，这些表达式会在运行时被求值，并将其结果转换成字符串形式嵌入到字符串的相应位置。这样做的好处是可以简化字符串的格式化操作，使代码更加简洁易读。
+
+```python
+name = "世界"
+message = f"你好，{name}！"
+print(message)
+```
+
+#### 三引号
+
+Python 三引号允许一个字符串跨多行，字符串中可以包含换行符、制表符以及其他特殊字符。
+
+一个典型的用例是，当你需要一块HTML或者SQL时，这时当用三引号标记，使用传统的转义字符体系将十分费神。
+
+```python
+ errHTML = '''
+<HTML><HEAD><TITLE>
+Friends CGI Demo</TITLE></HEAD>
+<BODY><H3>ERROR</H3>
+<B>%s</B><P>
+<FORM><INPUT TYPE=button VALUE=Back
+ONCLICK="window.history.back()"></FORM>
+</BODY></HTML>
+'''
+cursor.execute('''
+CREATE TABLE users (  
+login VARCHAR(8), 
+uid INTEGER,
+prid INTEGER)
+''')
+```
+
++ unicode
+
+引号前小写的"u"表示这里创建的是一个 Unicode 字符串。如果你想加入一个特殊字符，可以使用 Python 的 Unicode-Escape 编码。如下例所示：
+
+```python
+>>> u'Hello\u0020World !'
+u'Hello World !'
+```
+
++ 方法注释
+
+```python
+def walk_directory(directory, parent_name=None, depth=0):
+	"""批量标注。
+	Args:
+		directory (str): 要遍历的目录路径。
+		depth (int): 当前遍历的深度，用于可视化和理解递归深度。
+		parent_name: str: 父目录名称。
+	"""
+```
+
+这个可以在pycharm中被识别
+
+
+### Python 的字符串内建函数
+
+| 方法                                                         | 描述                                                         |
+| :----------------------------------------------------------- | ------------------------------------------------------------ |
+| [string.capitalize()](https://www.runoob.com/python/att-string-capitalize.html) | 把字符串的第一个字符大写                                     |
+| [string.center(width)](https://www.runoob.com/python/att-string-center.html) | 返回一个原字符串居中,并使用空格填充至长度 width 的新字符串   |
+| **[string.count(str, beg=0, end=len(string))](https://www.runoob.com/python/att-string-count.html)** | 返回 str 在 string 里面出现的次数，如果 beg 或者 end 指定则返回指定范围内 str 出现的次数 |
+| [string.decode(encoding='UTF-8', errors='strict')](https://www.runoob.com/python/att-string-decode.html) | 以 encoding 指定的编码格式解码 string，如果出错默认报一个 ValueError 的 异 常 ， 除非 errors 指 定 的 是 'ignore' 或 者'replace' |
+| [string.encode(encoding='UTF-8', errors='strict')](https://www.runoob.com/python/att-string-encode.html) | 以 encoding 指定的编码格式编码 string，如果出错默认报一个ValueError 的异常，除非 errors 指定的是'ignore'或者'replace' |
+| **[string.endswith(obj, beg=0, end=len(string))](https://www.runoob.com/python/att-string-endswith.html)** | 检查字符串是否以 obj 结束，如果beg 或者 end 指定则检查指定的范围内是否以 obj 结束，如果是，返回 True,否则返回 False. |
+| [string.expandtabs(tabsize=8)](https://www.runoob.com/python/att-string-expandtabs.html) | 把字符串 string 中的 tab 符号转为空格，tab 符号默认的空格数是 8。 |
+| **[string.find(str, beg=0, end=len(string))](https://www.runoob.com/python/att-string-find.html)** | 检测 str 是否包含在 string 中，如果 beg 和 end 指定范围，则检查是否包含在指定范围内，如果是返回开始的索引值，否则返回-1 |
+| **[string.format()](https://www.runoob.com/python/att-string-format.html)** | 格式化字符串                                                 |
+| **[string.index(str, beg=0, end=len(string))](https://www.runoob.com/python/att-string-index.html)** | 跟find()方法一样，只不过如果str不在 string中会报一个异常.    |
+| [string.isalnum()](https://www.runoob.com/python/att-string-isalnum.html) | 如果 string 至少有一个字符并且所有字符都是字母或数字则返回 True,否则返回 False |
+| [string.isalpha()](https://www.runoob.com/python/att-string-isalpha.html) | 如果 string 至少有一个字符并且所有字符都是字母则返回 True,否则返回 False |
+| [string.isdecimal()](https://www.runoob.com/python/att-string-isdecimal.html) | 如果 string 只包含十进制数字则返回 True 否则返回 False.      |
+| [string.isdigit()](https://www.runoob.com/python/att-string-isdigit.html) | 如果 string 只包含数字则返回 True 否则返回 False.            |
+| [string.islower()](https://www.runoob.com/python/att-string-islower.html) | 如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回 True，否则返回 False |
+| [string.isnumeric()](https://www.runoob.com/python/att-string-isnumeric.html) | 如果 string 中只包含数字字符，则返回 True，否则返回 False    |
+| [string.isspace()](https://www.runoob.com/python/att-string-isspace.html) | 如果 string 中只包含空格，则返回 True，否则返回 False.       |
+| [string.istitle()](https://www.runoob.com/python/att-string-istitle.html) | 如果 string 是标题化的(见 title())则返回 True，否则返回 False |
+| [string.isupper()](https://www.runoob.com/python/att-string-isupper.html) | 如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True，否则返回 False |
+| **[string.join(seq)](https://www.runoob.com/python/att-string-join.html)** | 以 string 作为分隔符，将 seq 中所有的元素(的字符串表示)合并为一个新的字符串 |
+| [string.ljust(width)](https://www.runoob.com/python/att-string-ljust.html) | 返回一个原字符串左对齐,并使用空格填充至长度 width 的新字符串 |
+| [string.lower()](https://www.runoob.com/python/att-string-lower.html) | 转换 string 中所有大写字符为小写.                            |
+| [string.lstrip()](https://www.runoob.com/python/att-string-lstrip.html) | 截掉 string 左边的空格                                       |
+| [string.maketrans(intab, outtab)](https://www.runoob.com/python/att-string-maketrans.html) | maketrans() 方法用于创建字符映射的转换表，对于接受两个参数的最简单的调用方式，第一个参数是字符串，表示需要转换的字符，第二个参数也是字符串表示转换的目标。 |
+| [max(str)](https://www.runoob.com/python/att-string-max.html) | 返回字符串 *str* 中最大的字母。                              |
+| [min(str)](https://www.runoob.com/python/att-string-min.html) | 返回字符串 *str* 中最小的字母。                              |
+| **[string.partition(str)](https://www.runoob.com/python/att-string-partition.html)** | 有点像 find()和 split()的结合体,从 str 出现的第一个位置起,把 字 符 串 string 分 成 一 个 3 元 素 的 元 组 (string_pre_str,str,string_post_str),如果 string 中不包含str 则 string_pre_str == string. |
+| **[string.replace(str1, str2, num=string.count(str1))](https://www.runoob.com/python/att-string-replace.html)** | 把 string 中的 str1 替换成 str2,如果 num 指定，则替换不超过 num 次. |
+| [string.rfind(str, beg=0,end=len(string) )](https://www.runoob.com/python/att-string-rfind.html) | 类似于 find() 函数，返回字符串最后一次出现的位置，如果没有匹配项则返回 -1。 |
+| [string.rindex( str, beg=0,end=len(string))](https://www.runoob.com/python/att-string-rindex.html) | 类似于 index()，不过是返回最后一个匹配到的子字符串的索引号。 |
+| [string.rjust(width)](https://www.runoob.com/python/att-string-rjust.html) | 返回一个原字符串右对齐,并使用空格填充至长度 width 的新字符串 |
+| [string.rpartition(str)](https://www.runoob.com/python/att-string-rpartition.html) | 类似于 partition()函数,不过是从右边开始查找                  |
+| [string.rstrip()](https://www.runoob.com/python/att-string-rstrip.html) | 删除 string 字符串末尾的空格.                                |
+| **[string.split(str="", num=string.count(str))](https://www.runoob.com/python/att-string-split.html)** | 以 str 为分隔符切片 string，如果 num 有指定值，则仅分隔 **num+1** 个子字符串 |
+| [string.splitlines([keepends\])](https://www.runoob.com/python/att-string-splitlines.html) | 按照行('\r', '\r\n', '\n')分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。 |
+| [string.startswith(obj, beg=0,end=len(string))](https://www.runoob.com/python/att-string-startswith.html) | 检查字符串是否是以 obj 开头，是则返回 True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查. |
+| **[string.strip([obj\])](https://www.runoob.com/python/att-string-strip.html)** | 在 string 上执行 lstrip()和 rstrip()                         |
+| [string.swapcase()](https://www.runoob.com/python/att-string-swapcase.html) | 翻转 string 中的大小写                                       |
+| [string.title()](https://www.runoob.com/python/att-string-title.html) | 返回"标题化"的 string,就是说所有单词都是以大写开始，其余字母均为小写(见 istitle()) |
+| **[string.translate(str, del="")](https://www.runoob.com/python/att-string-translate.html)** | 根据 str 给出的表(包含 256 个字符)转换 string 的字符,要过滤掉的字符放到 del 参数中 |
+| [string.upper()](https://www.runoob.com/python/att-string-upper.html) | 转换 string 中的小写字母为大写                               |
+| [string.zfill(width)](https://www.runoob.com/python/att-string-zfill.html) | 返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0 |
+
+
+
+## 列表
+
+创建一个列表，只要把逗号分隔的不同的数据项使用方括号括起来即可。如下所示：
+
+```python
+list1 = ['physics', 'chemistry', 1997, 2000]
+list2 = [1, 2, 3, 4, 5 ]
+list3 = ["a", "b", "c", "d"]
+```
+
+### 访问列表中的值
+
+使用下标索引来访问列表中的值，同样你也可以使用方括号的形式截取字符，如下所示：
+
+```python
+#!/usr/bin/python
+ 
+list1 = ['physics', 'chemistry', 1997, 2000]
+list2 = [1, 2, 3, 4, 5, 6, 7 ]
+ 
+print "list1[0]: ", list1[0]
+print "list2[1:5]: ", list2[1:5]
+```
+
+### 更新列表
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+list = []          ## 空列表
+list.append('Google')   ## 使用 append() 添加元素
+list.append('Runoob')
+print list
+```
+
+### 删除列表元素
+
+```python
+#!/usr/bin/python
+ 
+list1 = ['physics', 'chemistry', 1997, 2000]
+ 
+print list1
+del list1[2]
+print "After deleting value at index 2 : "
+print list1
+```
+
+### Python列表截取
+
+Python 的列表截取实例如下：
+
+\>>>L = ['Google', 'Runoob', 'Taobao'] >>> L[2] 'Taobao' >>> L[-2] 'Runoob' >>> L[1:] ['Runoob', 'Taobao'] >>>
+
+描述：
+
+| Python 表达式 | 结果                 | 描述                     |
+| :------------ | :------------------- | :----------------------- |
+| L[2]          | 'Taobao'             | 读取列表中第三个元素     |
+| L[-2]         | 'Runoob'             | 读取列表中倒数第二个元素 |
+| L[1:]         | ['Runoob', 'Taobao'] | 从第二个元素开始截取列表 |
+
+### Python列表脚本操作符
+
+列表对 + 和 * 的操作符与字符串相似。+ 号用于组合列表，* 号用于重复列表。
+
+如下所示：
+
+| Python 表达式                | 结果                         | 描述                 |
+| :--------------------------- | :--------------------------- | :------------------- |
+| len([1, 2, 3])               | 3                            | 长度                 |
+| [1, 2, 3] + [4, 5, 6]        | [1, 2, 3, 4, 5, 6]           | 组合                 |
+| ['Hi!'] * 4                  | ['Hi!', 'Hi!', 'Hi!', 'Hi!'] | 重复                 |
+| 3 in [1, 2, 3]               | True                         | 元素是否存在于列表中 |
+| for x in [1, 2, 3]: print x, | 1 2 3                        | 迭代                 |
+
+### Python列表函数&方法
+
+Python包含以下函数:
+
+| 序号 | 函数                                                         |
+| :--- | :----------------------------------------------------------- |
+| 1    | [cmp(list1, list2)](https://www.runoob.com/python/att-list-cmp.html) 比较两个列表的元素 |
+| 2    | [len(list)](https://www.runoob.com/python/att-list-len.html) 列表元素个数 |
+| 3    | [max(list)](https://www.runoob.com/python/att-list-max.html) 返回列表元素最大值 |
+| 4    | [min(list)](https://www.runoob.com/python/att-list-min.html) 返回列表元素最小值 |
+| 5    | [list(seq)](https://www.runoob.com/python/att-list-list.html) 将元组转换为列表 |
+
+Python包含以下方法:
+
+| 序号 | 方法                                                         |
+| :--- | :----------------------------------------------------------- |
+| 1    | [list.append(obj)](https://www.runoob.com/python/att-list-append.html) 在列表末尾添加新的对象 |
+| 2    | [list.count(obj)](https://www.runoob.com/python/att-list-count.html) 统计某个元素在列表中出现的次数 |
+| 3    | [list.extend(seq)](https://www.runoob.com/python/att-list-extend.html) 在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表） |
+| 4    | [list.index(obj)](https://www.runoob.com/python/att-list-index.html) 从列表中找出某个值第一个匹配项的索引位置 |
+| 5    | [list.insert(index, obj)](https://www.runoob.com/python/att-list-insert.html) 将对象插入列表 |
+| 6    | [list.pop([index=-1\])](https://www.runoob.com/python/att-list-pop.html) 移除列表中的一个元素（默认最后一个元素），并且返回该元素的值 |
+| 7    | [list.remove(obj)](https://www.runoob.com/python/att-list-remove.html) 移除列表中某个值的第一个匹配项 |
+| 8    | [list.reverse()](https://www.runoob.com/python/att-list-reverse.html) 反向列表中元素 |
+| 9    | [list.sort(cmp=None, key=None, reverse=False)](https://www.runoob.com/python/att-list-sort.html) 对原列表进行排序 |
+
+## 元组
+
+Python 的元组与列表类似，不同之处在于元组的元素不能修改。
+
+```python
+tup1 = ('physics', 'chemistry', 1997, 2000)
+tup2 = (1, 2, 3, 4, 5 )
+tup3 = "a", "b", "c", "d"
+#元组中只包含一个元素时，需要在元素后面添加逗号
+tup1 = (50,)
+```
+
+### 修改元组
+
+元组中的元素值是不允许修改的，但我们可以对元组进行连接组合，如下实例:
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+tup1 = (12, 34.56)
+tup2 = ('abc', 'xyz')
+ 
+# 以下修改元组元素操作是非法的。编译时报错
+# tup1[0] = 100
+ 
+# 创建一个新的元组
+tup3 = tup1 + tup2
+print tup3
+```
+
+
+
+### 删除元组
+
+元组中的元素值是不允许删除的，但我们可以使用del语句来删除整个元组，如下实例
+
+```python
+#!/usr/bin/python
+ 
+tup = ('physics', 'chemistry', 1997, 2000)
+ 
+print tup
+del tup
+print "After deleting tup : "
+print tup
+```
+
+### 无关闭分隔符
+
+任意无符号的对象，以逗号隔开，默认为元组，如下实例：
+
+```python
+#!/usr/bin/python
+ 
+print 'abc', -4.24e93, 18+6.6j, 'xyz'
+x, y = 1, 2
+print "Value of x , y : ", x,y
+```
+
+## 集合
+
+## 字典
+
+可以理解成java-map
+
+字典是另一种可变容器模型，且可存储任意类型对象。键一般是唯一的，如果重复最后的一个键值对会替换前面的，值不需要唯一。
+
+字典的每个键值 **key:value** 对用冒号 **`:`** 分割，每个键值对之间用逗号 **`,`** 分割，整个字典包括在花括号 **`{}`** 中 ,格式如下所示：
+
+d = {key1 : value1, key2 : value2 }
+
+> **注意：**dict 作为 Python 的关键字和内置函数，变量名不建议命名为 **dict**。
+
+> ### 字典键的特性
+>
+> 字典值可以没有限制地取任何 python 对象，既可以是标准的对象，也可以是用户定义的，但键不行。
+>
+> + 不允许同一个键出现两次。创建时如果同一个键被赋值两次，后一个值会被记住
+>
+> + 键必须不可变，所以可以用数字，字符串或元组充当，所以用列表就不行
+>
+>   `tinydict[(1,2,3)]="hello"`
+
+### 访问字典里的值
+
+```python
+#!/usr/bin/python
+ 
+tinydict = {'Name': 'Zara', 'Age': 7, 'Class': 'First'}
+ 
+print "tinydict['Name']: ", tinydict['Name']
+print "tinydict['Age']: ", tinydict['Age']
+```
+
+如果用字典里没有的键访问数据，会输出错误如下：
+
+```python
+tinydict['Alice']: 
+Traceback (most recent call last):
+  File "test.py", line 5, in <module>
+    print "tinydict['Alice']: ", tinydict['Alice']
+KeyError: 'Alice'
+```
+
+### 修改字典
+
+向字典添加新内容的方法是增加新的键/值对，修改或删除已有键/值对如下实例:
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+tinydict = {'Name': 'Zara', 'Age': 7, 'Class': 'First'}
+ 
+tinydict['Age'] = 8 # 更新
+tinydict['School'] = "RUNOOB" # 添加
+ 
+ 
+print "tinydict['Age']: ", tinydict['Age']
+print "tinydict['School']: ", tinydict['School']
+```
+
+### 删除字典元素
+
+能删单一的元素也能清空字典，清空只需一项操作。
+
+显示删除一个字典用del命令，如下实例：
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+tinydict = {'Name': 'Zara', 'Age': 7, 'Class': 'First'}
+ 
+del tinydict['Name']  # 删除键是'Name'的条目
+tinydict.clear()      # 清空字典所有条目
+del tinydict          # 删除字典
+ 
+print "tinydict['Age']: ", tinydict['Age'] 
+print "tinydict['School']: ", tinydict['School']
+```
+
+## None 类型
+
+# Python 函数
+
+## 语法
+
+以下是简单的规则：
+
+- 函数代码块以 **def** 关键词开头，后接函数标识符名称和圆括号**()**。
+- 任何传入参数和自变量必须放在圆括号中间。圆括号之间可以用于定义参数。
+- 函数的第一行语句可以选择性地使用文档字符串—用于存放函数说明。
+- 函数内容以冒号起始，并且缩进。
+- **return [表达式]** 结束函数，选择性地返回一个值给调用方。不带表达式的return相当于返回 None。
+
+```python
+def functionname( parameters ):
+   "函数_文档字符串"
+   function_suite
+   return [expression]
+```
+
+## 参数传递
+
+> 在 python 中，strings, tuples, 和 numbers 是不可更改的对象，而 list,dict 等则是可以修改的对象。
+>
+> - **不可变类型：**变量赋值 **a=5** 后再赋值 **a=10**，这里实际是新生成一个 int 值对象 10，再让 a 指向它，而 5 被丢弃，不是改变a的值，相当于新生成了a。
+> - **可变类型：**变量赋值 **la=[1,2,3,4]** 后再赋值 **la[2]=5** 则是将 list la 的第三个元素值更改，本身la没有动，只是其内部的一部分值被修改了。
+
+ython 函数的参数传递：
+
+- **对于不可变类型：**类似值传递，如 整数、字符串、元组。如fun（a），传递的只是a的值，没有影响a对象本身。比如在 fun（a）内部修改 a 的值，只是修改另一个复制的对象，不会影响 a 本身。
+- **对于可变类型**：类似引用传递，如 列表，字典。如 fun（la），则是将 la 真正的传过去，修改后fun外部的la也会受影响
+
+## 参数
+
+### 必备参数(与java一致)
+
+### 关键字参数
+
+使用关键字参数允许函数调用时参数的顺序与声明时不一致，因为 Python 解释器能够用参数名匹配参数值。
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+#可写函数说明
+def printinfo( name, age ):
+   "打印任何传入的字符串"
+   print "Name: ", name
+   print "Age ", age
+   return
+ 
+#调用printinfo函数
+printinfo( age=50, name="miki" )
+```
+
+### 默认参数
+
+调用函数时，默认参数的值如果没有传入，则被认为是默认值。
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+#可写函数说明
+def printinfo( name, age = 35 ):
+   "打印任何传入的字符串"
+   print "Name: ", name
+   print "Age ", age
+   return
+ 
+#调用printinfo函数
+printinfo( age=50, name="miki" )
+printinfo( name="miki" )
+```
+
+> 注意, 默认参数可不被传入, 所以默认参数之后新的参数也会被认为是默认参数, 需要添加默认值, 否则报错
+
+### 不定长参数
+
+你可能需要一个函数能处理比当初声明时更多的参数。这些参数叫做不定长参数，和上述2种参数不同，声明时不会命名。
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+# 可写函数说明
+def printinfo( arg1, *vartuple ):
+   "打印任何传入的参数"
+   print "输出: "
+   print arg1
+   for var in vartuple:
+      print var
+   return
+ 
+# 调用printinfo 函数
+printinfo( 10 )
+printinfo( 70, 60, 50 )
+```
+
+### 匿名函数
+
+python 使用 lambda 来创建匿名函数。
+
+- lambda只是一个表达式，函数体比def简单很多。
+- lambda的主体是一个表达式，而不是一个代码块。仅仅能在lambda表达式中封装有限的逻辑进去。
+- lambda函数拥有自己的命名空间，且不能访问自有参数列表之外或全局命名空间里的参数。
+- 虽然lambda函数看起来只能写一行，却不等同于C或C++的内联函数，后者的目的是调用小函数时不占用栈内存从而增加运行效率。
+
+### 语法
+
+lambda函数的语法只包含一个语句，如下：
+
+```python
+lambda [arg1 [,arg2,.....argn]]:expression
+```
+
+### return 语句(与java一致)
+
+## 全局变量和局部变量
+
+定义在函数内部的变量拥有一个局部作用域，定义在函数外的拥有全局作用域。
+
+局部变量只能在其被声明的函数内部访问，而全局变量可以在整个程序范围内访问。调用函数时，所有在函数内声明的变量名称都将被加入到作用域中。
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+total = 0 # 这是一个全局变量
+# 可写函数说明
+def sum( arg1, arg2 ):
+   #返回2个参数的和."
+   total = arg1 + arg2 # total在这里是局部变量.
+   print "函数内是局部变量 : ", total
+   return total
+ 
+#调用sum函数
+sum( 10, 20 )
+print "函数外是全局变量 : ", total
+```
+
+### 命名空间和作用域
+
+如果要给函数内的全局变量赋值，必须使用 `global` 语句。
+
+global VarName 的表达式会告诉 Python， VarName 是一个全局变量，这样 Python 就不会在局部命名空间里寻找这个变量了。
+
+例如，我们在全局命名空间里定义一个变量 Money。我们再在函数内给变量 Money 赋值，然后 Python 会假定 Money 是一个局部变量。然而，我们并没有在访问前声明一个局部变量 Money，结果就是会出现一个 UnboundLocalError 的错误。取消 global 语句前的注释符就能解决这个问题。
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+Money = 2000
+def AddMoney():
+   # 声明函数内的 var 为 global
+   global Money
+   Money = Money + 1
+ 
+print Money
+AddMoney()
+print Money
+```
+
+## 
+
+# Python 常用API
+
 ## Python 日期和时间
 
 Python 的 time 模块下有很多函数可以转换常见日期格式。如函数time.time()用于获取当前时间戳, 如下实例:
@@ -216,6 +848,7 @@ print "当前时间戳为:", ticks
 ## 运算符
 
 ### Python成员运算符
+
 ```python
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
@@ -243,6 +876,7 @@ else:
 ```
 
 ### Python身份运算符
+
 ```python
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
@@ -276,7 +910,9 @@ else:
 ## 常用语句
 
 ### if-else
+
 python 并不支持 switch 语句，所以多个条件判断，只能用 elif 来实现
+
 ```python
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
@@ -306,8 +942,8 @@ else:
 ```
 
 ### while
-```python
 
+```python
 count = 0
 while (count < 9):
    print 'The count is:', count
@@ -318,7 +954,8 @@ print "Good bye!"
 ```
 
 + while-else
-在 python 中，while … else 在循环条件为 false 时执行 else 语句块：
+  在 python 中，while … else 在循环条件为 false 时执行 else 语句块：
+
 ```python
 #!/usr/bin/python
  
@@ -508,298 +1145,6 @@ process_model(MODEL_DAMOYOLO)
 1. **枚举 (`enum`)** 是定义不可变常量的最佳方式，它语义清晰，易于扩展。
 2. **全局常量** 也是一种简单的方法，可以用于不可变类型。
 3. **元组或命名元组** 可以处理复杂的数据结构，并且是不可变的。
-
-#### 工厂模式与枚举结合
-
-要将每个模型的处理逻辑直接写在 `Enum` 类中，而不通过 `if-else` 判断，解决方案可以是：为每个 `Enum` 成员定义自己的处理函数。这可以通过将每个 `Enum` 成员与一个处理器对象（或者直接是处理函数）关联起来。这样我们可以保持工厂模式的思想，并且避免在 `get_result` 中使用 `if-else` 判断。
-
-1. 修改 `ModelType` 枚举，直接在 `Enum` 中绑定处理函数
-
-```python
-python
-
-
-Copy code
-from enum import Enum
-
-# 定义处理类，负责处理结果
-class DamoyoloResultProcessor:
-    @staticmethod
-    def process(result):
-        return f"{result}."  # DAMOYOLO 结果加 '.'
-
-class GroundingDinoResultProcessor:
-    @staticmethod
-    def process(result):
-        return result  # GROUNDINGDINO 结果原样返回
-
-
-# 定义模型类型枚举
-class ModelType(Enum):
-    DAMOYOLO = ("model_damoyolo", {
-        'ALL': "cow . sheep . ",  # 所有 - 未实现
-        'COW': "cow",  # 牛
-        'SHEEP': "sheep"  # 羊
-    }, DamoyoloResultProcessor.process)  # 处理函数是 DamoyoloResultProcessor.process
-    
-    GROUNDINGDINO = ("model_groundingdino", {
-        'ALL': "all animals",  # 所有
-        'COW': "cow",  # 牛
-        'SHEEP': "sheep"  # 羊
-    }, GroundingDinoResultProcessor.process)  # 处理函数是 GroundingDinoResultProcessor.process
-
-    def __init__(self, model_name, prompts, process_func):
-        self.model_name = model_name
-        self.prompts = prompts
-        self.process_func = process_func  # 存储每个模型的处理函数
-
-    # 根据 prompt 获取对应的结果并处理
-    def get_result(self, prompt):
-        # 将 prompt 转换为大写
-        prompt_upper = prompt.upper()
-
-        # 查找 prompt 对应的结果
-        result = self.prompts.get(prompt_upper, "Prompt not found")
-
-        # 使用每个模型特定的处理函数对结果进行处理
-        return self.process_func(result)
-
-# 使用示例
-model = ModelType.DAMOYOLO
-prompt = 'cow'
-result = model.get_result(prompt)
-print(f"Result for model {model.model_name} and prompt '{prompt}': {result}")
-
-model = ModelType.GROUNDINGDINO
-prompt = 'sheep'
-result = model.get_result(prompt)
-print(f"Result for model {model.model_name} and prompt '{prompt}': {result}")
-```
-
-1. **`DamoyoloResultProcessor` 和 `GroundingDinoResultProcessor`**：这两个类定义了静态方法 `process`，分别处理 `DAMOYOLO` 和 `GROUNDINGDINO` 的 `result`。
-   - `DamoyoloResultProcessor.process` 会在结果后面加上 `.`。
-   - `GroundingDinoResultProcessor.process` 直接返回结果。
-2. **`ModelType` 枚举**：
-   - 每个枚举成员 `DAMOYOLO` 和 `GROUNDINGDINO` 都关联了一个处理函数 (`process_func`)。
-   - 在 `get_result` 方法中，直接调用每个模型的 `process_func`，而无需使用 `if-else` 判断模型类型。
-3. **使用示例**：分别查询 `DAMOYOLO` 和 `GROUNDINGDINO` 模型的 `prompt`，并通过各自的处理函数处理结果。
-
-输出示例：
-
-```python
-Result for model model_damoyolo and prompt 'cow': cow.
-Result for model model_groundingdino and prompt 'sheep': sheep
-```
-
-- 每个 `Enum` 成员在定义时就绑定了处理逻辑，符合工厂模式的思想。
-- 通过将处理逻辑与枚举值绑定，避免了在 `get_result` 方法中使用 `if-else`，保持了结构的清晰和易于扩展性。
-- 增加新的模型时，只需为其定义新的处理函数，无需修改现有的代码逻辑。
-
-## 字符串
-
-### Python 字符串连接
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-var1 = 'Hello World!'
- 
-print "var1[0]: ", var1[0]
-print "var2[1:5]: ", var2[1:5]
-print "输出 :- ", var1[:6] + 'Runoob!'
-```
-
-+ int str int
-
-`f"{1}{2}{3}"`
-
-### 字符串截取
-
-python字符串截取与java不同,
-
-```python
-print "var2[1:5]: ", var2[1:5]
-```
-
-### python 续行
-
-+ 使用续行符
-
-```python
-total = item_one + \
-        item_two + \
-        item_three
-```
-
-+ 使用圆括号、方括号和花括号
-
-```python
-my_list = [
-    1, 2, 3,
-    4, 5, 6,
-]
-
-my_dict = {
-    'key1': 'value1',
-    'key2': 'value2',
-}
-
-my_function_call = (
-    argument1,
-    argument2,
-    argument3,
-)
-```
-
-+ 使用三引号字符串
-
-```python
-my_string = """This is a very long string
-that spans across multiple lines in the
-Python code."""
-```
-
-### Python 转义字符
-
-在需要在字符中使用特殊字符时，python 用反斜杠 **\** 转义字符。如下表：
-
-| 转义字符    | 描述                                                     |
-| :---------- | :------------------------------------------------------- |
-| \(在行尾时) | 续行符                                                   |
-| \\          | 反斜杠符号                                               |
-| \'          | 单引号                                                   |
-| \"          | 双引号                                                   |
-| \a          | 响铃                                                     |
-| \b          | 退格(Backspace)                                          |
-| \e          | 转义                                                     |
-| \000        | 空                                                       |
-| \n          | 换行                                                     |
-| \v          | 纵向制表符                                               |
-| \t          | 横向制表符                                               |
-| \r          | 回车                                                     |
-| \f          | 换页                                                     |
-| \oyy        | 八进制数，y 代表 0~7 的字符，例如：\012 代表换行。       |
-| \xyy        | 十六进制数，以 \x 开头，yy代表的字符，例如：\x0a代表换行 |
-| \other      | 其它的字符以普通格式输出                                 |
-
-### Python字符串运算符
-
-| 操作符 | 描述                                                         | 实例                                 |
-| :----- | :----------------------------------------------------------- | :----------------------------------- |
-| +      | 字符串连接                                                   | >>>a + b 'HelloPython'               |
-| *      | 重复输出字符串                                               | >>>a * 2 'HelloHello'                |
-| []     | 通过索引获取字符串中字符                                     | >>>a[1] 'e'                          |
-| [ : ]  | 截取字符串中的一部分                                         | >>>a[1:4] 'ell'                      |
-| in     | 成员运算符 - 如果字符串中包含给定的字符返回 True             | >>>"H" in a True                     |
-| not in | 成员运算符 - 如果字符串中不包含给定的字符返回 True           | >>>"M" not in a True                 |
-| r/R    | 原始字符串 - 原始字符串：所有的字符串都是直接按照字面的意思来使用，没有转义特殊或不能打印的字符。 原始字符串除在字符串的第一个引号前加上字母"r"（可以大小写）以外，与普通字符串有着几乎完全相同的语法。 | >>>print r'\n' \n >>> print R'\n' \n |
-
-### 格式化
-
-#### `f`
-
-在Python中，前缀`f`被用于字符串前，表示这是一个格式化字符串（f-string），从Python 3.6版本开始引入。使用f-string可以让你在字符串内直接嵌入表达式，这些表达式会在运行时被求值，并将其结果转换成字符串形式嵌入到字符串的相应位置。这样做的好处是可以简化字符串的格式化操作，使代码更加简洁易读。
-
-```python
-name = "世界"
-message = f"你好，{name}！"
-print(message)
-```
-
-#### 三引号
-
-Python 三引号允许一个字符串跨多行，字符串中可以包含换行符、制表符以及其他特殊字符。
-
-一个典型的用例是，当你需要一块HTML或者SQL时，这时当用三引号标记，使用传统的转义字符体系将十分费神。
-
-```python
- errHTML = '''
-<HTML><HEAD><TITLE>
-Friends CGI Demo</TITLE></HEAD>
-<BODY><H3>ERROR</H3>
-<B>%s</B><P>
-<FORM><INPUT TYPE=button VALUE=Back
-ONCLICK="window.history.back()"></FORM>
-</BODY></HTML>
-'''
-cursor.execute('''
-CREATE TABLE users (  
-login VARCHAR(8), 
-uid INTEGER,
-prid INTEGER)
-''')
-```
-
-+ unicode
-
-引号前小写的"u"表示这里创建的是一个 Unicode 字符串。如果你想加入一个特殊字符，可以使用 Python 的 Unicode-Escape 编码。如下例所示：
-
-```python
->>> u'Hello\u0020World !'
-u'Hello World !'
-```
-
-+ 方法注释
-
-```python
-def walk_directory(directory, parent_name=None, depth=0):
-	"""批量标注。
-	Args:
-		directory (str): 要遍历的目录路径。
-		depth (int): 当前遍历的深度，用于可视化和理解递归深度。
-		parent_name: str: 父目录名称。
-	"""
-```
-这个可以在pycharm中被识别
-
-
-### Python 的字符串内建函数
-
-| 方法                                                         | 描述                                                         |
-| :----------------------------------------------------------- | ------------------------------------------------------------ |
-| [string.capitalize()](https://www.runoob.com/python/att-string-capitalize.html) | 把字符串的第一个字符大写                                     |
-| [string.center(width)](https://www.runoob.com/python/att-string-center.html) | 返回一个原字符串居中,并使用空格填充至长度 width 的新字符串   |
-| **[string.count(str, beg=0, end=len(string))](https://www.runoob.com/python/att-string-count.html)** | 返回 str 在 string 里面出现的次数，如果 beg 或者 end 指定则返回指定范围内 str 出现的次数 |
-| [string.decode(encoding='UTF-8', errors='strict')](https://www.runoob.com/python/att-string-decode.html) | 以 encoding 指定的编码格式解码 string，如果出错默认报一个 ValueError 的 异 常 ， 除非 errors 指 定 的 是 'ignore' 或 者'replace' |
-| [string.encode(encoding='UTF-8', errors='strict')](https://www.runoob.com/python/att-string-encode.html) | 以 encoding 指定的编码格式编码 string，如果出错默认报一个ValueError 的异常，除非 errors 指定的是'ignore'或者'replace' |
-| **[string.endswith(obj, beg=0, end=len(string))](https://www.runoob.com/python/att-string-endswith.html)** | 检查字符串是否以 obj 结束，如果beg 或者 end 指定则检查指定的范围内是否以 obj 结束，如果是，返回 True,否则返回 False. |
-| [string.expandtabs(tabsize=8)](https://www.runoob.com/python/att-string-expandtabs.html) | 把字符串 string 中的 tab 符号转为空格，tab 符号默认的空格数是 8。 |
-| **[string.find(str, beg=0, end=len(string))](https://www.runoob.com/python/att-string-find.html)** | 检测 str 是否包含在 string 中，如果 beg 和 end 指定范围，则检查是否包含在指定范围内，如果是返回开始的索引值，否则返回-1 |
-| **[string.format()](https://www.runoob.com/python/att-string-format.html)** | 格式化字符串                                                 |
-| **[string.index(str, beg=0, end=len(string))](https://www.runoob.com/python/att-string-index.html)** | 跟find()方法一样，只不过如果str不在 string中会报一个异常.    |
-| [string.isalnum()](https://www.runoob.com/python/att-string-isalnum.html) | 如果 string 至少有一个字符并且所有字符都是字母或数字则返回 True,否则返回 False |
-| [string.isalpha()](https://www.runoob.com/python/att-string-isalpha.html) | 如果 string 至少有一个字符并且所有字符都是字母则返回 True,否则返回 False |
-| [string.isdecimal()](https://www.runoob.com/python/att-string-isdecimal.html) | 如果 string 只包含十进制数字则返回 True 否则返回 False.      |
-| [string.isdigit()](https://www.runoob.com/python/att-string-isdigit.html) | 如果 string 只包含数字则返回 True 否则返回 False.            |
-| [string.islower()](https://www.runoob.com/python/att-string-islower.html) | 如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回 True，否则返回 False |
-| [string.isnumeric()](https://www.runoob.com/python/att-string-isnumeric.html) | 如果 string 中只包含数字字符，则返回 True，否则返回 False    |
-| [string.isspace()](https://www.runoob.com/python/att-string-isspace.html) | 如果 string 中只包含空格，则返回 True，否则返回 False.       |
-| [string.istitle()](https://www.runoob.com/python/att-string-istitle.html) | 如果 string 是标题化的(见 title())则返回 True，否则返回 False |
-| [string.isupper()](https://www.runoob.com/python/att-string-isupper.html) | 如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True，否则返回 False |
-| **[string.join(seq)](https://www.runoob.com/python/att-string-join.html)** | 以 string 作为分隔符，将 seq 中所有的元素(的字符串表示)合并为一个新的字符串 |
-| [string.ljust(width)](https://www.runoob.com/python/att-string-ljust.html) | 返回一个原字符串左对齐,并使用空格填充至长度 width 的新字符串 |
-| [string.lower()](https://www.runoob.com/python/att-string-lower.html) | 转换 string 中所有大写字符为小写.                            |
-| [string.lstrip()](https://www.runoob.com/python/att-string-lstrip.html) | 截掉 string 左边的空格                                       |
-| [string.maketrans(intab, outtab)](https://www.runoob.com/python/att-string-maketrans.html) | maketrans() 方法用于创建字符映射的转换表，对于接受两个参数的最简单的调用方式，第一个参数是字符串，表示需要转换的字符，第二个参数也是字符串表示转换的目标。 |
-| [max(str)](https://www.runoob.com/python/att-string-max.html) | 返回字符串 *str* 中最大的字母。                              |
-| [min(str)](https://www.runoob.com/python/att-string-min.html) | 返回字符串 *str* 中最小的字母。                              |
-| **[string.partition(str)](https://www.runoob.com/python/att-string-partition.html)** | 有点像 find()和 split()的结合体,从 str 出现的第一个位置起,把 字 符 串 string 分 成 一 个 3 元 素 的 元 组 (string_pre_str,str,string_post_str),如果 string 中不包含str 则 string_pre_str == string. |
-| **[string.replace(str1, str2, num=string.count(str1))](https://www.runoob.com/python/att-string-replace.html)** | 把 string 中的 str1 替换成 str2,如果 num 指定，则替换不超过 num 次. |
-| [string.rfind(str, beg=0,end=len(string) )](https://www.runoob.com/python/att-string-rfind.html) | 类似于 find() 函数，返回字符串最后一次出现的位置，如果没有匹配项则返回 -1。 |
-| [string.rindex( str, beg=0,end=len(string))](https://www.runoob.com/python/att-string-rindex.html) | 类似于 index()，不过是返回最后一个匹配到的子字符串的索引号。 |
-| [string.rjust(width)](https://www.runoob.com/python/att-string-rjust.html) | 返回一个原字符串右对齐,并使用空格填充至长度 width 的新字符串 |
-| [string.rpartition(str)](https://www.runoob.com/python/att-string-rpartition.html) | 类似于 partition()函数,不过是从右边开始查找                  |
-| [string.rstrip()](https://www.runoob.com/python/att-string-rstrip.html) | 删除 string 字符串末尾的空格.                                |
-| **[string.split(str="", num=string.count(str))](https://www.runoob.com/python/att-string-split.html)** | 以 str 为分隔符切片 string，如果 num 有指定值，则仅分隔 **num+1** 个子字符串 |
-| [string.splitlines([keepends\])](https://www.runoob.com/python/att-string-splitlines.html) | 按照行('\r', '\r\n', '\n')分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。 |
-| [string.startswith(obj, beg=0,end=len(string))](https://www.runoob.com/python/att-string-startswith.html) | 检查字符串是否是以 obj 开头，是则返回 True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查. |
-| **[string.strip([obj\])](https://www.runoob.com/python/att-string-strip.html)** | 在 string 上执行 lstrip()和 rstrip()                         |
-| [string.swapcase()](https://www.runoob.com/python/att-string-swapcase.html) | 翻转 string 中的大小写                                       |
-| [string.title()](https://www.runoob.com/python/att-string-title.html) | 返回"标题化"的 string,就是说所有单词都是以大写开始，其余字母均为小写(见 istitle()) |
-| **[string.translate(str, del="")](https://www.runoob.com/python/att-string-translate.html)** | 根据 str 给出的表(包含 256 个字符)转换 string 的字符,要过滤掉的字符放到 del 参数中 |
-| [string.upper()](https://www.runoob.com/python/att-string-upper.html) | 转换 string 中的小写字母为大写                               |
-| [string.zfill(width)](https://www.runoob.com/python/att-string-zfill.html) | 返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0 |
 
 ## Python 文件I/O
 
@@ -1104,422 +1449,100 @@ def fab(max):
 for n in fab(5): 
     print n
 ```
+
 总结: 一个带有 yield 的函数就是一个 generator，它和普通函数不同，生成一个 generator 看起来像函数调用，但不会执行任何函数代码，直到对其调用 next()（在 for 循环中会自动调用 next()）才开始执行。虽然执行流程仍按函数的流程执行，但每执行到一个 yield 语句就会中断，并返回一个迭代值，下次执行时从 yield 的下一个语句继续执行。看起来就好像一个函数在正常执行的过程中被 yield 中断了数次，每次中断都会通过 yield 返回当前的迭代值。
 
 yield 的好处是显而易见的，把一个函数改写为一个 generator 就获得了迭代能力，比起用类的实例保存状态来计算下一个 next() 的值，不仅代码简洁，而且执行流程异常清晰。
 
-# Python 基础类型
+## 枚举
 
-## 列表
+#### 工厂模式与枚举结合
 
-创建一个列表，只要把逗号分隔的不同的数据项使用方括号括起来即可。如下所示：
+要将每个模型的处理逻辑直接写在 `Enum` 类中，而不通过 `if-else` 判断，解决方案可以是：为每个 `Enum` 成员定义自己的处理函数。这可以通过将每个 `Enum` 成员与一个处理器对象（或者直接是处理函数）关联起来。这样我们可以保持工厂模式的思想，并且避免在 `get_result` 中使用 `if-else` 判断。
 
-```python
-list1 = ['physics', 'chemistry', 1997, 2000]
-list2 = [1, 2, 3, 4, 5 ]
-list3 = ["a", "b", "c", "d"]
-```
-
-### 访问列表中的值
-
-使用下标索引来访问列表中的值，同样你也可以使用方括号的形式截取字符，如下所示：
+1. 修改 `ModelType` 枚举，直接在 `Enum` 中绑定处理函数
 
 ```python
-#!/usr/bin/python
- 
-list1 = ['physics', 'chemistry', 1997, 2000]
-list2 = [1, 2, 3, 4, 5, 6, 7 ]
- 
-print "list1[0]: ", list1[0]
-print "list2[1:5]: ", list2[1:5]
+python
+
+
+Copy code
+from enum import Enum
+
+# 定义处理类，负责处理结果
+class DamoyoloResultProcessor:
+    @staticmethod
+    def process(result):
+        return f"{result}."  # DAMOYOLO 结果加 '.'
+
+class GroundingDinoResultProcessor:
+    @staticmethod
+    def process(result):
+        return result  # GROUNDINGDINO 结果原样返回
+
+
+# 定义模型类型枚举
+class ModelType(Enum):
+    DAMOYOLO = ("model_damoyolo", {
+        'ALL': "cow . sheep . ",  # 所有 - 未实现
+        'COW': "cow",  # 牛
+        'SHEEP': "sheep"  # 羊
+    }, DamoyoloResultProcessor.process)  # 处理函数是 DamoyoloResultProcessor.process
+    
+    GROUNDINGDINO = ("model_groundingdino", {
+        'ALL': "all animals",  # 所有
+        'COW': "cow",  # 牛
+        'SHEEP': "sheep"  # 羊
+    }, GroundingDinoResultProcessor.process)  # 处理函数是 GroundingDinoResultProcessor.process
+
+    def __init__(self, model_name, prompts, process_func):
+        self.model_name = model_name
+        self.prompts = prompts
+        self.process_func = process_func  # 存储每个模型的处理函数
+
+    # 根据 prompt 获取对应的结果并处理
+    def get_result(self, prompt):
+        # 将 prompt 转换为大写
+        prompt_upper = prompt.upper()
+
+        # 查找 prompt 对应的结果
+        result = self.prompts.get(prompt_upper, "Prompt not found")
+
+        # 使用每个模型特定的处理函数对结果进行处理
+        return self.process_func(result)
+
+# 使用示例
+model = ModelType.DAMOYOLO
+prompt = 'cow'
+result = model.get_result(prompt)
+print(f"Result for model {model.model_name} and prompt '{prompt}': {result}")
+
+model = ModelType.GROUNDINGDINO
+prompt = 'sheep'
+result = model.get_result(prompt)
+print(f"Result for model {model.model_name} and prompt '{prompt}': {result}")
 ```
 
-### 更新列表
+1. **`DamoyoloResultProcessor` 和 `GroundingDinoResultProcessor`**：这两个类定义了静态方法 `process`，分别处理 `DAMOYOLO` 和 `GROUNDINGDINO` 的 `result`。
+   - `DamoyoloResultProcessor.process` 会在结果后面加上 `.`。
+   - `GroundingDinoResultProcessor.process` 直接返回结果。
+2. **`ModelType` 枚举**：
+   - 每个枚举成员 `DAMOYOLO` 和 `GROUNDINGDINO` 都关联了一个处理函数 (`process_func`)。
+   - 在 `get_result` 方法中，直接调用每个模型的 `process_func`，而无需使用 `if-else` 判断模型类型。
+3. **使用示例**：分别查询 `DAMOYOLO` 和 `GROUNDINGDINO` 模型的 `prompt`，并通过各自的处理函数处理结果。
+
+输出示例：
 
 ```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-list = []          ## 空列表
-list.append('Google')   ## 使用 append() 添加元素
-list.append('Runoob')
-print list
+Result for model model_damoyolo and prompt 'cow': cow.
+Result for model model_groundingdino and prompt 'sheep': sheep
 ```
 
-### 删除列表元素
-
-```python
-#!/usr/bin/python
- 
-list1 = ['physics', 'chemistry', 1997, 2000]
- 
-print list1
-del list1[2]
-print "After deleting value at index 2 : "
-print list1
-```
-
-### Python列表截取
-
-Python 的列表截取实例如下：
-
-\>>>L = ['Google', 'Runoob', 'Taobao'] >>> L[2] 'Taobao' >>> L[-2] 'Runoob' >>> L[1:] ['Runoob', 'Taobao'] >>>
-
-描述：
-
-| Python 表达式 | 结果                 | 描述                     |
-| :------------ | :------------------- | :----------------------- |
-| L[2]          | 'Taobao'             | 读取列表中第三个元素     |
-| L[-2]         | 'Runoob'             | 读取列表中倒数第二个元素 |
-| L[1:]         | ['Runoob', 'Taobao'] | 从第二个元素开始截取列表 |
-
-### Python列表脚本操作符
-
-列表对 + 和 * 的操作符与字符串相似。+ 号用于组合列表，* 号用于重复列表。
-
-如下所示：
-
-| Python 表达式                | 结果                         | 描述                 |
-| :--------------------------- | :--------------------------- | :------------------- |
-| len([1, 2, 3])               | 3                            | 长度                 |
-| [1, 2, 3] + [4, 5, 6]        | [1, 2, 3, 4, 5, 6]           | 组合                 |
-| ['Hi!'] * 4                  | ['Hi!', 'Hi!', 'Hi!', 'Hi!'] | 重复                 |
-| 3 in [1, 2, 3]               | True                         | 元素是否存在于列表中 |
-| for x in [1, 2, 3]: print x, | 1 2 3                        | 迭代                 |
-
-### Python列表函数&方法
-
-Python包含以下函数:
-
-| 序号 | 函数                                                         |
-| :--- | :----------------------------------------------------------- |
-| 1    | [cmp(list1, list2)](https://www.runoob.com/python/att-list-cmp.html) 比较两个列表的元素 |
-| 2    | [len(list)](https://www.runoob.com/python/att-list-len.html) 列表元素个数 |
-| 3    | [max(list)](https://www.runoob.com/python/att-list-max.html) 返回列表元素最大值 |
-| 4    | [min(list)](https://www.runoob.com/python/att-list-min.html) 返回列表元素最小值 |
-| 5    | [list(seq)](https://www.runoob.com/python/att-list-list.html) 将元组转换为列表 |
-
-Python包含以下方法:
-
-| 序号 | 方法                                                         |
-| :--- | :----------------------------------------------------------- |
-| 1    | [list.append(obj)](https://www.runoob.com/python/att-list-append.html) 在列表末尾添加新的对象 |
-| 2    | [list.count(obj)](https://www.runoob.com/python/att-list-count.html) 统计某个元素在列表中出现的次数 |
-| 3    | [list.extend(seq)](https://www.runoob.com/python/att-list-extend.html) 在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表） |
-| 4    | [list.index(obj)](https://www.runoob.com/python/att-list-index.html) 从列表中找出某个值第一个匹配项的索引位置 |
-| 5    | [list.insert(index, obj)](https://www.runoob.com/python/att-list-insert.html) 将对象插入列表 |
-| 6    | [list.pop([index=-1\])](https://www.runoob.com/python/att-list-pop.html) 移除列表中的一个元素（默认最后一个元素），并且返回该元素的值 |
-| 7    | [list.remove(obj)](https://www.runoob.com/python/att-list-remove.html) 移除列表中某个值的第一个匹配项 |
-| 8    | [list.reverse()](https://www.runoob.com/python/att-list-reverse.html) 反向列表中元素 |
-| 9    | [list.sort(cmp=None, key=None, reverse=False)](https://www.runoob.com/python/att-list-sort.html) 对原列表进行排序 |
-
-## 元组
-
-Python 的元组与列表类似，不同之处在于元组的元素不能修改。
-
-```python
-tup1 = ('physics', 'chemistry', 1997, 2000)
-tup2 = (1, 2, 3, 4, 5 )
-tup3 = "a", "b", "c", "d"
-#元组中只包含一个元素时，需要在元素后面添加逗号
-tup1 = (50,)
-```
-
-### 修改元组
-
-元组中的元素值是不允许修改的，但我们可以对元组进行连接组合，如下实例:
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-tup1 = (12, 34.56)
-tup2 = ('abc', 'xyz')
- 
-# 以下修改元组元素操作是非法的。编译时报错
-# tup1[0] = 100
- 
-# 创建一个新的元组
-tup3 = tup1 + tup2
-print tup3
-```
-
-
-
-### 删除元组
-
-元组中的元素值是不允许删除的，但我们可以使用del语句来删除整个元组，如下实例
-
-```python
-#!/usr/bin/python
- 
-tup = ('physics', 'chemistry', 1997, 2000)
- 
-print tup
-del tup
-print "After deleting tup : "
-print tup
-```
-
-### 无关闭分隔符
-
-任意无符号的对象，以逗号隔开，默认为元组，如下实例：
-
-```python
-#!/usr/bin/python
- 
-print 'abc', -4.24e93, 18+6.6j, 'xyz'
-x, y = 1, 2
-print "Value of x , y : ", x,y
-```
-
-## 字典
-
-可以理解成java-map
-
-字典是另一种可变容器模型，且可存储任意类型对象。键一般是唯一的，如果重复最后的一个键值对会替换前面的，值不需要唯一。
-
-字典的每个键值 **key:value** 对用冒号 **`:`** 分割，每个键值对之间用逗号 **`,`** 分割，整个字典包括在花括号 **`{}`** 中 ,格式如下所示：
-
-d = {key1 : value1, key2 : value2 }
-
-> **注意：**dict 作为 Python 的关键字和内置函数，变量名不建议命名为 **dict**。
-
-> ### 字典键的特性
->
-> 字典值可以没有限制地取任何 python 对象，既可以是标准的对象，也可以是用户定义的，但键不行。
->
-> + 不允许同一个键出现两次。创建时如果同一个键被赋值两次，后一个值会被记住
->
-> + 键必须不可变，所以可以用数字，字符串或元组充当，所以用列表就不行
->
->   `tinydict[(1,2,3)]="hello"`
-
-### 访问字典里的值
-
-```python
-#!/usr/bin/python
- 
-tinydict = {'Name': 'Zara', 'Age': 7, 'Class': 'First'}
- 
-print "tinydict['Name']: ", tinydict['Name']
-print "tinydict['Age']: ", tinydict['Age']
-```
-
-如果用字典里没有的键访问数据，会输出错误如下：
-
-```python
-tinydict['Alice']: 
-Traceback (most recent call last):
-  File "test.py", line 5, in <module>
-    print "tinydict['Alice']: ", tinydict['Alice']
-KeyError: 'Alice'
-```
-
-### 修改字典
-
-向字典添加新内容的方法是增加新的键/值对，修改或删除已有键/值对如下实例:
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-tinydict = {'Name': 'Zara', 'Age': 7, 'Class': 'First'}
- 
-tinydict['Age'] = 8 # 更新
-tinydict['School'] = "RUNOOB" # 添加
- 
- 
-print "tinydict['Age']: ", tinydict['Age']
-print "tinydict['School']: ", tinydict['School']
-```
-
-### 删除字典元素
-
-能删单一的元素也能清空字典，清空只需一项操作。
-
-显示删除一个字典用del命令，如下实例：
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-tinydict = {'Name': 'Zara', 'Age': 7, 'Class': 'First'}
- 
-del tinydict['Name']  # 删除键是'Name'的条目
-tinydict.clear()      # 清空字典所有条目
-del tinydict          # 删除字典
- 
-print "tinydict['Age']: ", tinydict['Age'] 
-print "tinydict['School']: ", tinydict['School']
-```
-
-
-
-# Python 函数
-
-## 语法
-
-以下是简单的规则：
-
-- 函数代码块以 **def** 关键词开头，后接函数标识符名称和圆括号**()**。
-- 任何传入参数和自变量必须放在圆括号中间。圆括号之间可以用于定义参数。
-- 函数的第一行语句可以选择性地使用文档字符串—用于存放函数说明。
-- 函数内容以冒号起始，并且缩进。
-- **return [表达式]** 结束函数，选择性地返回一个值给调用方。不带表达式的return相当于返回 None。
-
-```python
-def functionname( parameters ):
-   "函数_文档字符串"
-   function_suite
-   return [expression]
-```
-
-## 参数传递
-
-> 在 python 中，strings, tuples, 和 numbers 是不可更改的对象，而 list,dict 等则是可以修改的对象。
->
-> - **不可变类型：**变量赋值 **a=5** 后再赋值 **a=10**，这里实际是新生成一个 int 值对象 10，再让 a 指向它，而 5 被丢弃，不是改变a的值，相当于新生成了a。
-> - **可变类型：**变量赋值 **la=[1,2,3,4]** 后再赋值 **la[2]=5** 则是将 list la 的第三个元素值更改，本身la没有动，只是其内部的一部分值被修改了。
-
-ython 函数的参数传递：
-
-- **对于不可变类型：**类似值传递，如 整数、字符串、元组。如fun（a），传递的只是a的值，没有影响a对象本身。比如在 fun（a）内部修改 a 的值，只是修改另一个复制的对象，不会影响 a 本身。
-- **对于可变类型**：类似引用传递，如 列表，字典。如 fun（la），则是将 la 真正的传过去，修改后fun外部的la也会受影响
-
-## 参数
-
-### 必备参数(与java一致)
-
-### 关键字参数
-
-使用关键字参数允许函数调用时参数的顺序与声明时不一致，因为 Python 解释器能够用参数名匹配参数值。
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-#可写函数说明
-def printinfo( name, age ):
-   "打印任何传入的字符串"
-   print "Name: ", name
-   print "Age ", age
-   return
- 
-#调用printinfo函数
-printinfo( age=50, name="miki" )
-```
-
-### 默认参数
-
-调用函数时，默认参数的值如果没有传入，则被认为是默认值。
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-#可写函数说明
-def printinfo( name, age = 35 ):
-   "打印任何传入的字符串"
-   print "Name: ", name
-   print "Age ", age
-   return
- 
-#调用printinfo函数
-printinfo( age=50, name="miki" )
-printinfo( name="miki" )
-```
-
-> 注意, 默认参数可不被传入, 所以默认参数之后新的参数也会被认为是默认参数, 需要添加默认值, 否则报错
-
-### 不定长参数
-
-你可能需要一个函数能处理比当初声明时更多的参数。这些参数叫做不定长参数，和上述2种参数不同，声明时不会命名。
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-# 可写函数说明
-def printinfo( arg1, *vartuple ):
-   "打印任何传入的参数"
-   print "输出: "
-   print arg1
-   for var in vartuple:
-      print var
-   return
- 
-# 调用printinfo 函数
-printinfo( 10 )
-printinfo( 70, 60, 50 )
-```
-
-### 匿名函数
-
-python 使用 lambda 来创建匿名函数。
-
-- lambda只是一个表达式，函数体比def简单很多。
-- lambda的主体是一个表达式，而不是一个代码块。仅仅能在lambda表达式中封装有限的逻辑进去。
-- lambda函数拥有自己的命名空间，且不能访问自有参数列表之外或全局命名空间里的参数。
-- 虽然lambda函数看起来只能写一行，却不等同于C或C++的内联函数，后者的目的是调用小函数时不占用栈内存从而增加运行效率。
-
-### 语法
-
-lambda函数的语法只包含一个语句，如下：
-
-```python
-lambda [arg1 [,arg2,.....argn]]:expression
-```
-
-### return 语句(与java一致)
-
-## 全局变量和局部变量
-
-定义在函数内部的变量拥有一个局部作用域，定义在函数外的拥有全局作用域。
-
-局部变量只能在其被声明的函数内部访问，而全局变量可以在整个程序范围内访问。调用函数时，所有在函数内声明的变量名称都将被加入到作用域中。
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-total = 0 # 这是一个全局变量
-# 可写函数说明
-def sum( arg1, arg2 ):
-   #返回2个参数的和."
-   total = arg1 + arg2 # total在这里是局部变量.
-   print "函数内是局部变量 : ", total
-   return total
- 
-#调用sum函数
-sum( 10, 20 )
-print "函数外是全局变量 : ", total
-```
-
-### 命名空间和作用域
-
-如果要给函数内的全局变量赋值，必须使用 `global` 语句。
-
-global VarName 的表达式会告诉 Python， VarName 是一个全局变量，这样 Python 就不会在局部命名空间里寻找这个变量了。
-
-例如，我们在全局命名空间里定义一个变量 Money。我们再在函数内给变量 Money 赋值，然后 Python 会假定 Money 是一个局部变量。然而，我们并没有在访问前声明一个局部变量 Money，结果就是会出现一个 UnboundLocalError 的错误。取消 global 语句前的注释符就能解决这个问题。
-
-```python
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
- 
-Money = 2000
-def AddMoney():
-   # 声明函数内的 var 为 global
-   global Money
-   Money = Money + 1
- 
-print Money
-AddMoney()
-print Money
-```
-
-## 
+- 每个 `Enum` 成员在定义时就绑定了处理逻辑，符合工厂模式的思想。
+- 通过将处理逻辑与枚举值绑定，避免了在 `get_result` 方法中使用 `if-else`，保持了结构的清晰和易于扩展性。
+- 增加新的模型时，只需为其定义新的处理函数，无需修改现有的代码逻辑。
+
+##### 
 
 # Python 模块
 
