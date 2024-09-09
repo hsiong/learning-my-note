@@ -234,6 +234,18 @@ str = pydantic_dict.json()
 
 ## Sqlalchemy entity
 
+### entity -> json
+
+```
+def model_to_json_str(data):
+```
+
+### json -> entity
+
+```
+def json_to_model(data, model_class):
+```
+
 ### print entity str
 
 ```python
