@@ -30,3 +30,99 @@
 
 # sam
 + efficient-sam: https://github.com/yformer/EfficientSAM
+
+# CUDA
+
+## 如何看本机cuda
+
+### **通过命令行检查 CUDA 版本**
+
+1. **打开命令提示符（CMD）**：
+
+   - 使用快捷键 `Win + R` 打开“运行”窗口，输入 `cmd`，然后按回车。
+
+2. **运行命令检查 CUDA 版本**：
+
+   - 输入以下命令检查 `nvcc`（CUDA 编译器驱动）的版本：
+
+   ```
+   nvcc --version
+   ```
+
+   这将输出 CUDA 编译器驱动的版本号。例如：
+
+   ```
+   nvcc: NVIDIA (R) Cuda compiler driver
+   Copyright (c) 2005-2021 NVIDIA Corporation
+   Built on Thu_Jan_28_19:32:12_Pacific_Standard_Time_2021
+   Cuda compilation tools, release 11.2, V11.2.152
+   ```
+
+   上面的输出显示，CUDA 版本为 `11.2`。
+
+3. **检查 CUDA 库文件版本**：
+
+   - 输入以下命令，检查驱动支持的 CUDA 版本：
+
+   ```
+   nvidia-smi
+   ```
+
+   这会输出类似于以下的内容：
+
+   ```
+   +-----------------------------------------------------------------------------+
+   | NVIDIA-SMI 455.45.01    Driver Version: 455.45.01    CUDA Version: 11.1     |
+   +-----------------------------------------------------------------------------+
+   ```
+
+   输出结果中的 `CUDA Version` 即为安装的 CUDA 版本号。
+
+### **通过检查已安装的 CUDA 工具包**
+
+#### Windows
+
+1. **打开文件资源管理器**。
+
+2. 导航到 CUDA 安装目录
+
+   （默认路径）：
+
+   - 通常安装在 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\` 下。
+
+3. 查看文件夹名称：
+
+   - 在该目录下，你会看到以版本号命名的文件夹（如 `v10.1`、`v11.0` 等），这就是已安装的 CUDA 版本。
+
+#### Linux
+
+你可以通过查看 CUDA 工具包的安装目录来找到安装的版本号。
+
+1. 通常，CUDA 安装在 `/usr/local/cuda` 目录下。如果该目录存在，你可以查看版本文件：
+
+   ```
+   cat /usr/local/cuda/version.txt
+   ```
+
+   示例输出：
+
+   ```
+   CUDA Version 11.2.67
+   ```
+
+   这会显示已安装的 CUDA 工具包的版本。
+
+2. 你也可以列出 `/usr/local` 目录下的文件夹名，其中会显示以 `cuda-<version>` 命名的文件夹：
+
+   ```
+   ls /usr/local/ | grep cuda
+   ```
+
+   示例输出：
+
+   ```
+   cuda-10.1
+   cuda-11.2
+   ```
+
+   这表明系统中安装了多个 CUDA 版本，你可以根据需求选择其中一个版本。
