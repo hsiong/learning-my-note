@@ -5,7 +5,7 @@ Project Repo: https://github.com/hsiong/project-flask-template
 
 ## json_tool
 
-```
+```python
 import json
 from enum import Enum
 from typing import List, Type, TypeVar, Union, Optional
@@ -221,20 +221,20 @@ def return_error_message(message):
 
 ### request -> pydantic_dict
 
-```
+```python
 str = request.get_json()
 pydantic_dict = Dict.parse_obj(obj) # obj inherited pydantic.BaseModel
 ```
 
 ### pydantic_dict -> str
 
-```
+```python
 str = pydantic_dict.json()
 ```
 
 ## Sqlalchemy entity
 
-### entity print str
+### print entity str
 
 ```python
 from sqlalchemy.orm import declarative_base
@@ -254,11 +254,61 @@ class Recognition(_Base):
         return json_str 
 ```
 
+## Enum
+
+### print enum keys
+
+#### 直接打印 list()
+
+`list()` 可以将 `dict_keys` 转换为一个列表并自动打印成 `[...]` 的格式。
+
+```python
+if __name__ == '__main__':
+    from flaskr.init.prompt_enum import ModelType
+    
+    # 获取键并转换为列表，直接打印
+    keys = list(ModelType.DAMOYOLO.prompts.keys())
+    
+    # 打印列表形式的键
+    print(f'keys: {keys}')
+```
+
+这样你会得到一个标准的 Python 列表格式输出，类似于 `[...]`。
+
+输出示例：
+
+```
+keys: ['ALL', 'COW', 'SHEEP']
+```
+
+#### 使用 * 解包直接打印
+
+如果你只想简单输出键的内容，也可以用 Python 的解包功能 `*`，这样直接将键打印出来：
+
+```python
+if __name__ == '__main__':
+    from flaskr.init.prompt_enum import ModelType
+    
+    # 获取键并直接解包打印
+    keys = ModelType.DAMOYOLO.prompts.keys()
+    
+    # 打印键，解包到 print 中
+    print(f'keys: [{", ".join(keys)}]')
+```
+
+输出示例：
+
+```
+keys: [ALL, COW, SHEEP]
+```
+
 
 
 # Flask - Redis
 
+## Redis 初始化
 
+## Redis 上下文
 
 ## 综合使用
 
@@ -290,38 +340,38 @@ request -> request_dict(pydantic) -> entity -> dto_dict(pydantic) -> entity , js
 
 + entity -> dto_dict(pydantic)
 
-  ```
+  ```python
   dto_dict = json_tool.model_to_json_dict(entity)
   ```
 
 + dto_dict(pydantic) -> entity , json_str
 
-  ```
+  ```python
   entity = json_tool.json_to_model(dto_dict, Entity)
   json_str = ret_json = dto_dict.json()
   ```
 
 + json_str -> redis
 
-  ```
+  ```python
   redis_client = current_app.extensions['redis']
   redis_client.put_queue(redis_constant.QUEUE_COW, task.id, ret_json)
   ```
 
 + redis -> json_str
 
-  ```
+  ```python
   json_str = redis_client.pop_queue(redis_constant.QUEUE_COW)
   ```
 
 + json_str -> dto_dict(pydantic)
 
-  ```
+  ```python
   dto_dict = json_tool.json_to_dict(json_str, DtoDict)
   ```
 
 + dto_dict(pydantic) -> entity
 
-  ```
+  ```python
   entity = json_tool.json_to_model(dto_dict, Entity)
   ```
