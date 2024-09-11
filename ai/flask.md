@@ -675,7 +675,7 @@ redis_url = f"redis://:{redis_password}@{redis_host}:{redis_port}/{redis_db}"
 
 ## Redis 自动重连
 
-#### **心跳机制**
+### **心跳机制**
 
 为了避免 Redis 连接因空闲而断开，启用定期发送 PING 命令的心跳机制可以帮助保持连接活跃。你可以通过在应用中定期与 Redis 服务器通信来避免连接断开。
 
@@ -715,7 +715,7 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-#### **配置自动重连机制**
+### **配置自动重连机制**
 
 你可以通过设置 `retry_on_timeout=True` 来启用连接超时重试，以及配置 `socket_timeout` 和 `socket_connect_timeout` 来控制连接超时时间。
 
@@ -740,7 +740,7 @@ redis_store = FlaskRedis()
 redis_store.init_app(app)
 ```
 
-#### **使用 Redis 连接池**
+### **使用 Redis 连接池**
 
 如果你希望管理连接池并保持连接活跃，可以通过 `FlaskRedis` 使用连接池。连接池能够有效管理 Redis 的多个连接，并且可以设置连接超时和重试机制。
 
@@ -769,7 +769,7 @@ redis_store = FlaskRedis()
 redis_store.init_app(app)
 ```
 
-#### **获 Redis 连接异常**
+### **获 Redis 连接异常**
 
 你可以捕获 Redis 连接异常并在连接失败时进行自动重试：
 
@@ -799,12 +799,28 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-### 总结：
+总结：
 
 - **自动重连机制**：通过 `retry_on_timeout=True` 和配置超时相关参数确保 Redis 断开连接时自动重连。
 - **使用连接池**：通过设置 `max_connections` 管理 Redis 连接池，防止连接过多或超时问题。
 - **定期心跳**：使用 PING 命令保持连接活跃，避免因闲置而断开。
 - **异常处理**：在连接异常时捕获错误并尝试重连，保证应用的健壮性。
+
+### 报错
+
++ 捕获异常 `try - catch`
+
+  ```python
+          except Exception as e:
+              # todo: redis 是否能做事务? 
+              if redis_client:
+                  redis_client.close()  # 异常手动关闭连接
+              raise e
+  ```
+
++ `packages\redis\_parsers\socket.py", line 78, in _read_from_socket    raise TimeoutError("Timeout reading from socket") redis.exceptions.TimeoutError: Timeout reading from socke`
+
+  redis_client.redis_tool 内的任何操作都会产生连接超时,  尤其是 `identifier = redis_client.acquire_lock(redis_constant.QUEUE_COW_LOCK)  # 获取分布式锁` 都应该放在 `try - catch` 语句中,
 
 ## 综合使用
 

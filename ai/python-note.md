@@ -164,6 +164,9 @@ select `Help -> Edit Custom VM Options` add below:
 -DsocksProxyPort
 ```
 
+> 注意: ⭐️⭐️⭐️ 
+>
+> terminal 执行的 python 进程, 包括 flask 、request 等操作, 都会收到代理的影响, 所以最优解是将远程地址加入代理配置
 
 ### 插件
 
@@ -1784,7 +1787,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                                     
+>                                         
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
