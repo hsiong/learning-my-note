@@ -803,15 +803,44 @@ def functionname( parameters ):
 
 ## 参数传递
 
+### 直接传递参数
+
 > 在 python 中，strings, tuples, 和 numbers 是不可更改的对象，而 list,dict 等则是可以修改的对象。
 >
 > - **不可变类型：**变量赋值 **a=5** 后再赋值 **a=10**，这里实际是新生成一个 int 值对象 10，再让 a 指向它，而 5 被丢弃，不是改变a的值，相当于新生成了a。
 > - **可变类型：**变量赋值 **la=[1,2,3,4]** 后再赋值 **la[2]=5** 则是将 list la 的第三个元素值更改，本身la没有动，只是其内部的一部分值被修改了。
 
-ython 函数的参数传递：
+python 函数的参数传递：
 
 - **对于不可变类型：**类似值传递，如 整数、字符串、元组。如fun（a），传递的只是a的值，没有影响a对象本身。比如在 fun（a）内部修改 a 的值，只是修改另一个复制的对象，不会影响 a 本身。
 - **对于可变类型**：类似引用传递，如 列表，字典。如 fun（la），则是将 la 真正的传过去，修改后fun外部的la也会受影响
+
+### 通过解包传递参数
+
+**假设 `_vis_image` 函数原型**：假设 `_vis_image` 函数的签名如下：
+
+```
+def _vis_image(image_source, boxes, phrases, scores):
+    # 函数内部使用传入的参数进行处理
+    pass
+```
+
+这里需要传递的参数分别是：
+
+- `image_source`：图像源
+- `boxes`：边界框
+- `phrases`：识别的短语或类别名称
+- `scores`：识别的分数
+
+**解包与传参：**
+
+在你的代码中，你通过 `inference_damoyolo(image_url, prompt)` 获取了 `image_source` 以及 `boxes`, `phrases`, `scores`。解包方式如下：
+
+```
+image_source, (boxes, phrases, scores) = inference_damoyolo(image_url, prompt)
+```
+
+此时，`image_source` 保存了图像，`boxes`, `phrases`, `scores` 分别代表预测边界框、类别名称和分数。然后你可以直接将它们作为参数传递给 `_vis_image`。
 
 ## 参数
 
