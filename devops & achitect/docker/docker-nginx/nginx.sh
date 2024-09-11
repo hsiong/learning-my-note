@@ -8,6 +8,7 @@ nginx -s reload
 https://blog.csdn.net/runAndRun/article/details/102716612
 
 ## 方式1
+> Nginx 有一个机制，当请求的域名没有明确的 server 块匹配时，它会将请求路由到第一个 server 块。例如，如果你的请求是 *.frp.ynfy.tech，而没有匹配的 server_name，Nginx 可能会将这个请求发送到第一个声明的服务器块。
 server {
   listen 80;
   server_name lovesofttech.com;
