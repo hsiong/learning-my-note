@@ -446,6 +446,8 @@ class RedisRecognitionSchema(BaseModel):
 
 ## Redis 初始化
 
+retry_on_timeout: OFF \# 关闭自动重试, 本选项打开的话, 在网络异常时会导致线程无法释放
+
 ## Redis 上下文
 
 ## Redis 自动重连
@@ -646,3 +648,81 @@ request -> request_dict(pydantic) -> entity -> dto_dict(pydantic) -> entity , js
   ```python
   entity = json_tool.json_to_model(dto_dict, Entity)
   ```
+
+# Flask - 定时任务
+
+## 初始化
+
+Flask-APScheduler
+
+## 定时任务上下文
+
+定义一个定时任务，该任务将在 Flask 上下文中执行。这个任务将与 SQLAlchemy 和 Redis 交互。
+
+```
+def scheduled_task(app):
+    '''
+    实际的任务处理函数
+    '''
+    with app.app_context():  # 手动激活 Flask 应用的上下文
+        try:
+            # 模拟耗时任务
+            time.sleep(120)  # 超时任务
+            print("Task completed.")
+        except Exception as e:
+            print(f"Error during task execution: {e}")
+```
+
+添加定时任务
+
+```python
+    # 初始化定时任务
+    scheduler = APScheduler()
+    scheduler.init_app(app)
+    
+    scheduler.add_job(id='scheduled_task', func=scheduled_task, args=[app], trigger='interval', seconds=10) # 任务队列 - 任务间隔时间, 应大于线程处理时间
+    # scheduler.add_job(id='keep_mysql_connection_alive', func=keep_mysql_connection_alive, args=[app, db], trigger='interval', minutes=5) # 添加多个定时任务
+    scheduler.start()
+```
+
+## 任务超时
+
+使用 `concurrent.futures` 和 `ThreadPoolExecutor`
+
+由于你只想设置任务超时，且 Flask 是线程安全的，在这种情况下，你可以用线程替代子进程来处理定时任务。`ThreadPoolExecutor` 允许你设置任务超时时间，并且不需要序列化整个 Flask 应用。
+
+```python
+from concurrent.futures import ThreadPoolExecutor, TimeoutError
+import time
+
+executor = ThreadPoolExecutor(max_workers=1)
+
+def scheduled_task(app):
+    '''
+    定时任务 - 使用线程池并增加超时设置
+    '''
+    future = executor.submit(_recognize_queue_task, app)
+    
+    try:
+        result = future.result(timeout=30)  # 设置任务超时时间为 30 秒
+    except TimeoutError:
+        print("Task took too long, terminating...")
+
+def _recognize_queue_task(app):
+    '''
+    实际的任务处理函数
+    '''
+    with app.app_context():  # 手动激活 Flask 应用的上下文
+        try:
+            # 模拟耗时任务
+            time.sleep(120)  # 任务需要 120 秒才能完成
+            print("Task completed.")
+        except Exception as e:
+            print(f"Error during task execution: {e}")
+```
+
+### 解释：
+
+1. **使用 `ThreadPoolExecutor`**：我们用 `ThreadPoolExecutor` 来代替 `multiprocessing.Process`。这样避免了进程间通信的复杂性，也绕过了 Windows 下序列化 Flask 应用的问题。
+2. **`future.result(timeout=30)`**：这里设置了 30 秒的超时限制。如果任务在规定时间内没有完成，会抛出 `TimeoutError`，你可以根据需要处理超时情况。
+3. **线程而非进程**：因为线程在同一进程中运行，所有的上下文和全局变量（如 Flask 的 `app`）可以直接使用，不需要进行序列化处理。
