@@ -1,6 +1,25 @@
 
 Project Repo: https://github.com/hsiong/project-flask-template
 
+# Flask - SQLAlchemy
+
+## 字符串
+
+以下是不同数据库对 `Text` 类型和 `String` 类型的存储差异：
+
+1. **MySQL**:
+
+- **`VARCHAR(n)`**：是可变长度字符串，最大长度可以是 65,535 字节（根据表的字符集），但实际存储时，只占用内容长度的字节数，再加上额外的 1-2 字节用于存储字符串的长度。
+- **`TEXT`**：`TEXT` 类型用于存储大文本，但通常被认为是大块数据。MySQL 会将 `TEXT` 数据存储在单独的区域（不是在行中），并且会有一些额外的开销。
+
+**性能差异**：如果你只需要存储少量的文本信息，使用 `VARCHAR`（或 `String(n)`）会更高效，因为它是存储在行中的。而 `TEXT` 类型则用于处理非常大的文本数据，会有一些性能和存储开销。
+
+2. **PostgreSQL**:
+
+- **`VARCHAR(n)`** 和 **`TEXT`**：在 PostgreSQL 中，`VARCHAR(n)` 和 `TEXT` 的存储方式几乎相同，它们都存储可变长度的文本数据，唯一的区别是 `VARCHAR(n)` 有长度限制，而 `TEXT` 没有。
+
+**性能差异**：PostgreSQL 中，`VARCHAR(n)` 和 `TEXT` 没有明显的性能差异，选择哪个更多取决于你的设计需求。
+
 # Flask - Json
 
 ## json_tool
