@@ -316,6 +316,28 @@ keys: [ALL, COW, SHEEP]
 
 
 
+## 注意
+
+### json 无法处理 dict:{dict, entity...}的情况
+
+例如, 无法处理
+
+```
+class RedisRecognitionSchema(BaseModel):
+    task: Optional[dict] = {}  # 任务 json，提供默认值为空字符串
+    recognition_list: Optional[List[Recognition]] = []  # 待识别记录 json，提供默认值为空字符串
+```
+
+这种情况只能先转为 dict 即
+
+```
+class RedisRecognitionSchema(BaseModel):
+    task: Optional[dict] = {}  # 任务 json，提供默认值为空字符串
+    recognition_list: Optional[List] = []  # 待识别记录 json，提供默认值为空字符串
+```
+
+获取的时候, 调用 json(), to_model() 等方法
+
 # Flask - Redis
 
 ## Redis 初始化
