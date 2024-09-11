@@ -3,7 +3,11 @@ Project Repo: https://github.com/hsiong/project-flask-template
 
 # Flask - SQLAlchemy
 
-## 字符串
+## 初始化
+
+## 基本类型
+
+### 字符串
 
 以下是不同数据库对 `Text` 类型和 `String` 类型的存储差异：
 
@@ -28,6 +32,78 @@ Project Repo: https://github.com/hsiong/project-flask-template
   - PostgreSQL 没有具体的存储空间上限，只要表没有达到总行大小限制，就可以存储非常大的 JSON 数据。
 
 **性能差异**：PostgreSQL 中，`VARCHAR(n)` 和 `TEXT` 没有明显的性能差异，选择哪个更多取决于你的设计需求。
+
+## 增加一个非数据库的属性
+
+### **使用普通属性**
+
+你可以直接在类中定义一个属性或方法，这个属性不会被存储在数据库中，但你可以在对象实例上访问它。
+
+```
+
+class Task(_Base):
+    '''
+    实体-识别记录表
+    '''
+    __tablename__ = default_config.DATABASE_PREFIX + '_task'
+    
+    id = Column(String(64), primary_key=True)  
+    create_time = Column(String(19), nullable=False, comment="创建时间，格式为YYYY-MM-DD HH:MM:SS")
+    business_id = Column(String(32), unique=False, nullable=False, comment="业务ID")
+    system_code = Column(String(20), nullable=False, comment="系统编码")
+    callback_url = Column(String(255), nullable=False, comment="回调地址")
+    prompt = Column(String(255), nullable=False, comment="任务提示信息")
+    task_status = Column(String(32), nullable=False, comment="任务状态（pending, in_progress, completed, failed）")
+    task_num = Column(Integer, nullable=False, comment="识别总数") 
+    
+    # 增加一个非数据库字段的属性
+    additional_info = None  # 这不会存储在数据库中
+
+    def __init__(self, **kwargs):
+        super(Task, self).__init__(**kwargs)
+        # 可以在构造函数中初始化额外的属性
+        self.additional_info = "This is extra info"
+
+# 示例用法
+task = Task(id="123", create_time="2024-09-05 12:00:00", business_id="123456", system_code="cow", callback_url="https://example.com", prompt="Task prompt", task_status="pending", task_num=0)
+task.additional_info = "New value for additional info"  # 这个属性不会影响数据库
+print(task.additional_info)  # 输出: New value for additional info
+```
+
+### 使用注解
+
+如果你需要创建一个计算属性，可以使用 `@property` 或 `@hybrid_property`，这些属性也不会作为数据库字段存储，只在访问时动态计算。
+
+使用 `@property`：
+
+```
+
+class Task(_Base):
+    __tablename__ = default_config.DATABASE_PREFIX + '_task'
+    
+    id = Column(String(64), primary_key=True)
+    create_time = Column(String(19), nullable=False, comment="创建时间，格式为YYYY-MM-DD HH:MM:SS")
+    business_id = Column(String(32), unique=False, nullable=False, comment="业务ID")
+    system_code = Column(String(20), nullable=False, comment="系统编码")
+    callback_url = Column(String(255), nullable=False, comment="回调地址")
+    prompt = Column(String(255), nullable=False, comment="任务提示信息")
+    task_status = Column(String(32), nullable=False, comment="任务状态（pending, in_progress, completed, failed）")
+    task_num = Column(Integer, nullable=False, comment="识别总数")
+    
+    # 使用 @property 创建一个计算属性
+    @property
+    def additional_info(self):
+        return f"Task {self.id} for system {self.system_code}"
+
+# 示例用法
+task = Task(id="123", create_time="2024-09-05 12:00:00", business_id="123456", system_code="cow", callback_url="https://example.com", prompt="Task prompt", task_status="pending", task_num=0)
+print(task.additional_info)  # 输出: Task 123 for system cow
+```
+
+总结：
+
+- **普通属性**：可以在模型类中直接定义普通的 Python 属性，这不会影响数据库结构。
+- **`@property`** 或 **`@hybrid_property`**：如果需要计算属性，可以使用 `@property` 来动态生成属性，这同样不会影响数据库结构。
 
 # Flask - Json
 
@@ -381,10 +457,7 @@ class RedisRecognitionSchema(BaseModel):
 例如，可以在 Flask 应用的背景任务中定期向 Redis 发送 PING 命令：
 
 ```
-python
 
-
-Copy code
 from flask import Flask
 from flask_redis import FlaskRedis
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -424,10 +497,7 @@ if __name__ == '__main__':
 示例：
 
 ```
-python
 
-
-Copy code
 from flask import Flask
 from flask_redis import FlaskRedis
 
@@ -450,10 +520,7 @@ redis_store.init_app(app)
 如果你希望管理连接池并保持连接活跃，可以通过 `FlaskRedis` 使用连接池。连接池能够有效管理 Redis 的多个连接，并且可以设置连接超时和重试机制。
 
 ```
-python
 
-
-Copy code
 from flask import Flask
 from flask_redis import FlaskRedis
 
@@ -482,10 +549,7 @@ redis_store.init_app(app)
 你可以捕获 Redis 连接异常并在连接失败时进行自动重试：
 
 ```
-python
 
-
-Copy code
 from flask import Flask
 from flask_redis import FlaskRedis
 import redis
