@@ -126,3 +126,24 @@
    ```
 
    这表明系统中安装了多个 CUDA 版本，你可以根据需求选择其中一个版本。
+
+## CUDA 兼容性
+
++ 手动安装 cuda 11.8
+
++ python 3.12 
+
++ cuda nvidia capability: https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#
+  `Table 3 CUDA Toolkit and Corresponding Driver Versions`
+
++ cuda pytorch capability: https://elenacliu-pytorch-cuda-driver.streamlit.app/
+
++ download pytorch: https://download.pytorch.org/whl/torch/
+
++ pytorch torchvision capability: https://pytorch.org/get-started/previous-versions/
+
++ python numpy capability: https://github.com/numpy/numpy/releases
+
+  > v1 newest version: 1.26.4: The Python versions supported by this release are 3.9-3.12
+
++ 
