@@ -718,10 +718,6 @@ First key: ., First value:
 获取第一个键：
 
 ```
-python
-
-
-Copy code
 first_key = next(iter(my_dict.keys()))
 print(f'First key: {first_key}')
 ```
@@ -729,10 +725,7 @@ print(f'First key: {first_key}')
 获取第一个值：
 
 ```
-python
 
-
-Copy code
 first_value = next(iter(my_dict.values()))
 print(f'First value: {first_value}')
 ```
@@ -742,7 +735,7 @@ print(f'First value: {first_value}')
 - 使用 `next(iter(my_dict.items()))` 可以直接获取字典的第一个键值对。
 - `list(my_dict.items())[0]` 是另一种选择，适合你想以索引方式访问时使用。
 
-### 修改字典
+### 添加或修改字典
 
 向字典添加新内容的方法是增加新的键/值对，修改或删除已有键/值对如下实例:
 
@@ -1629,10 +1622,7 @@ class TaskStatusEnum(Enum):
 1. 修改 `ModelType` 枚举，直接在 `Enum` 中绑定处理函数
 
 ```python
-python
 
-
-Copy code
 from enum import Enum
 
 # 定义处理类，负责处理结果
