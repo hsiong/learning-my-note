@@ -3,10 +3,31 @@
 + https://juejin.cn/post/7023751648644169759
 + https://www.ucloud.cn/yun/63313.html
 
-# 域名解析
+# 服务端配置
+
+## frp 查看版本
+
+客户端与服务端版本需要保持一致。
+
+如果你可以访问 `frps` 的可执行文件，直接运行以下命令可以显示版本信息：
+
+```
+./frps -v
+```
+
+或在 Windows 上：
+
+```
+frps.exe -v
+```
+
+## 域名解析
+
+> 前提: 未使用nginx
+
 *.frp A 111.122.233.44(云端服务器ip)
 
-# 服务端
+## 服务端
 frps.ini
 ```
 [common]
@@ -14,7 +35,7 @@ frps.ini
 bind_port = 7000 
 # 设置 http 访问端口为 8080
 vhost_http_port = 8080 
-# 设置域名（保证此域名可用）
+# 设置域名（保证此域名可用）- 不使用域名, 可不设置本处
 subdomain_host = frp.域名
 ```
 
