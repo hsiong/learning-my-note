@@ -1779,6 +1779,14 @@ package_runoob
 
 你可以放置许多函数。你也可以在这些文件里定义Python的类，然后为这些类建一个包。
 
+### Numpy
+
+Release Version: https://github.com/numpy/numpy/releases
+
+v1 newest version: 1.26.4 `The Python versions supported by this release are 3.9-3.12`
+
+
+
 # Python 异常处理
 
 ## python标准异常
