@@ -965,3 +965,46 @@ def _recognize_queue_task(app):
 1. **使用 `ThreadPoolExecutor`**：我们用 `ThreadPoolExecutor` 来代替 `multiprocessing.Process`。这样避免了进程间通信的复杂性，也绕过了 Windows 下序列化 Flask 应用的问题。
 2. **`future.result(timeout=30)`**：这里设置了 30 秒的超时限制。如果任务在规定时间内没有完成，会抛出 `TimeoutError`，你可以根据需要处理超时情况。
 3. **线程而非进程**：因为线程在同一进程中运行，所有的上下文和全局变量（如 Flask 的 `app`）可以直接使用，不需要进行序列化处理。
+
+
+
+# Flask - Request
+
+## 初始化
+
+
+
+## 下载图像
+
+### 获取长宽
+
+```python
+from PIL import Image
+import requests
+from io import BytesIO
+
+image_url = "your_image_url_here"
+response = requests.get(image_url)
+origin_img = Image.open(BytesIO(response.content)).convert("RGB")
+
+# 使用 .size 获取宽度和高度
+ow, oh = origin_img.size  # ow 是宽度，oh 是高度
+```
+
+### 获取长宽, 通道数
+
+```python
+from PIL import Image
+import requests
+from io import BytesIO
+import numpy as np
+
+response = requests.get(image_url) # 从 URL 下载图像
+origin_img = Image.open(BytesIO(response.content)).convert("RGB")
+origin_img = np.array(origin_img)
+
+time2 = time.time()
+print(f'download time:  {time2 - time1}')
+oh, ow, _ = origin_img.shape  # 获取高、宽、通道数
+```
+
