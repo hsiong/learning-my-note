@@ -49,6 +49,8 @@ ps aux|grep frp|grep -v grep|awk '{print $2}'|xargs kill
 
 # 客户端
 > mac 使用 frp_0.46.0_darwin_arm64
+>
+> ⭐️ 注释不能写在代码后, 必须单独另起一行
 ```
 [common]
 # 上面的公网服务器ip

@@ -1318,6 +1318,34 @@ for n in fab(5):
 
 yield 的好处是显而易见的，把一个函数改写为一个 generator 就获得了迭代能力，比起用类的实例保存状态来计算下一个 next() 的值，不仅代码简洁，而且执行流程异常清晰。
 
+### 冒号: 
+
+冒号通常用来引入代码块或分隔条件、定义等。例如
+
+`if prompt and prompt != '': text = prompt`
+
+你提供的代码将 `if` 语句和它的主体放在了同一行，这是 Python 允许的简写形式。如果条件为真，紧跟在冒号后的语句就会执行。
+
+### 三目运算
+
+```python
+value_if_true if condition else value_if_false
+```
+
+语法解释：
+
+- `condition` 是一个返回 `True` 或 `False` 的表达式。
+- 如果 `condition` 为 `True`，则返回 `value_if_true`。
+- 如果 `condition` 为 `False`，则返回 `value_if_false`。
+
+示例：
+
+```python
+age = 18
+status = "Adult" if age >= 18 else "Minor"
+print(status)  # 输出: Adult
+```
+
 ## Python 文件I/O
 
 ### 打印到屏幕
