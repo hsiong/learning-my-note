@@ -8,7 +8,7 @@ rm .`your reg key`
 
 ## rm plist key-id
 
-+ query parent key with `your reg key`
++ query parent key with `your reg key`  xxxkey =  = Dict { xxx number }
 /usr/libexec/PlistBuddy -c "print" ~/Library/Preferences/com.navicat.NavicatPremium.plist 
 
 + rm parent key
