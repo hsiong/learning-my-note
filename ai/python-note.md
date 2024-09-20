@@ -1874,7 +1874,39 @@ Release Version: https://github.com/numpy/numpy/releases
 
 v1 newest version: 1.26.4 `The Python versions supported by this release are 3.9-3.12`
 
+### Time
 
+#### 获取时间段
+
+要判断一个时间是否处于每天的 8:00 到 18:00 之间，你可以将 `capture_time` 与特定的时间进行比较。你可以使用 Python 的 `datetime.time()` 来创建 8:00 和 18:00 这两个时间点，并与 `capture_time` 进行比较。
+
+示例代码：
+
+```
+from datetime import time
+
+# 将 capture_time 转换为时间对象
+capture_time = time_tool.str_to_datetime(recognition.capture_time)
+
+# 定义每天的起始时间和结束时间
+start_time = time(8, 0)   # 8:00 AM
+end_time = time(18, 0)    # 6:00 PM
+
+# 提取 capture_time 的时间部分
+capture_time_only = capture_time.time()
+
+# 判断 capture_time 是否在 8:00 到 18:00 之间
+if start_time <= capture_time_only <= end_time:
+    print("Capture time is within 8:00 to 18:00.")
+else:
+    print("Capture time is outside 8:00 to 18:00.")
+```
+
+解释：
+
+1. **`time(8, 0)` 和 `time(18, 0)`**：分别表示 8:00 AM 和 6:00 PM。
+2. **`capture_time.time()`**：提取 `capture_time` 的时间部分，去掉日期，只保留小时和分钟。
+3. **时间比较**：使用 `<=` 运算符来判断 `capture_time` 是否在 8:00 到 18:00 之间。
 
 # Python 异常处理
 

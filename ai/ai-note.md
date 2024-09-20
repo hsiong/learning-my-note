@@ -183,6 +183,8 @@ prune.l1_unstructured(model.fc, name='weight', amount=0.4)  # 剪去40%的权重
 
 ###  **异步推理（Asynchronous Inference）**
 
+
+
 使用异步推理技术可以让推理和其他处理步骤（例如图像预处理或I/O操作）并行进行，避免等待推理完成后再开始处理其他步骤。
 
 **方法：**
