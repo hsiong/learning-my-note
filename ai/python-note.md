@@ -1914,7 +1914,7 @@ else:
 
 ## Python Excel
 
-### Read & Write Demo
+### Read
 
 ```python
 def test_rhs_excel():
@@ -1936,6 +1936,42 @@ def test_rhs_excel():
 	
 	# 将处理后的 DataFrame 保存到新的 Excel 文件
 	df.to_excel('/Users/vjf/Desktop/Book5_out.xlsx', index=False, header=False)
+```
+
+### Write
+
+```python
+pip install openpyxl
+```
+
+```python
+import pandas as pd
+
+# Specify the output file name
+output_file = 'merged_data.xlsx'
+
+# Create an Excel writer using xlsxwriter engine
+with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
+    # Write the DataFrame to Excel without headers
+    merged_data.to_excel(writer, index=False, header=False, startrow=1)
+    
+    # Access the workbook and worksheet objects
+    workbook  = writer.book
+    worksheet = writer.sheets['Sheet1']
+    
+    # Define a header format without bold
+    header_format = workbook.add_format({'bold': False})
+
+    # Write the headers with the custom format
+    for col_num, value in enumerate(merged_data.columns.values):
+        worksheet.write(0, col_num, value, header_format)
+    
+    # Adjust column widths
+    for idx, col in enumerate(merged_data.columns):
+        # Calculate the maximum length of the column content
+        max_length = max(merged_data[col].astype(str).map(len).max(), len(col))
+        # Set the column width
+        worksheet.set_column(idx, idx, max_length + 2)  # Add extra space
 ```
 
 ### shift_row_left demo
