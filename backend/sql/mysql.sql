@@ -1,10 +1,80 @@
-# mysql 数据类型
+
+
+# 基础
+
+## mysql 数据类型
+
 https://www.runoob.com/mysql/mysql-data-types.html
 
 ## utf8 vs utf8mb4
 https://juejin.cn/post/6844903733034221576
 
+## index
+
+ALTER table plan_task_worker ADD INDEX plan_task_worker_index(worker_id, plan_id);
+DROP INDEX plan_task_worker_index ON plan_task_worker;
+
+## show mysql version 
+
+show variables like '%version%' 
+
+## character set & COLLATE
+
+### "Incorrect string value" when trying to insert UTF-8 
+
+-- Change a database
+ALTER DATABASE [database_name] 
+  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci; 
+-- Change a table
+ALTER TABLE [table_name] 
+  CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+-- Change a column
+ALTER TABLE [table_name] 
+  CHANGE [column_name] [column_name] VARCHAR(255) 
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+### batch modify table collate
+
+### utf8mb4_unicode_ci or utf8mb4_general_ci
+
+### exec the code then paste & exec the result 
+
+SELECT
+    CONCAT(
+        'ALTER TABLE ',
+        TABLE_NAME,
+        ' CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;'
+    )
+FROM
+    information_schema.`TABLES`
+WHERE
+    TABLE_SCHEMA = 'DATABASE_NAME';
+
+
+## this is incompatible with DISTINCT
+
+> https://stackoverflow.com/questions/36829911/how-to-resolve-order-by-clause-is-not-in-select-list-caused-mysql-5-7-with-sel
+>
+> http://xstarcd.github.io/wiki/MySQL/MySQL-sql-mode.html
+
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+-- 重启mysql的话, 需要修改 ini 配置文件
+
+## update case when
+
+UPDATE floral_flower_manager 
+SET rhs_color_name = 
+    CASE flowerColor
+        WHEN 1 THEN '白色'
+        WHEN 2 THEN '白混色'
+        ELSE rhs_color_name -- 保留当前值，防止出现无效的 flowerColor 值
+    END;
+
+# create
+
 ## create DATABASE
+
 CREATE DATABASE `mydb` CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE DATABASE  `wordpress` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -26,6 +96,8 @@ CREATE TABLE table_name
 ## add table comment 
 alter table test1 comment 'comment';
 
+# rename
+
 
 ## rename database 
 dump data, then drop database, create new database
@@ -34,8 +106,10 @@ dump data, then drop database, create new database
 ALTER TABLE old_table_name RENAME TO new_table_name;
 
 ## rename column
-ALTER  TABLE 表名 CHANGE [column] 旧字段名 新字段名 新数据类型;	
+ALTER  TABLE 表名 CHANGE [column] 旧字段名 新字段名 新数据类型;    
 alter  table table1 change column1 column1 varchar(100) DEFAULT 1.2 COMMENT '注释'; -- 正常，此时字段名称没有改变，能修改字段类型、类型长度、默认值、注释
+
+# change
 
 
 ## change column default
@@ -72,8 +146,9 @@ ALTER TABLE t_user ADD PRIMARY KEY(user_id);
 ALTER TABLE t_user ADD CONSTRAINT PK_ID PRIMARY KEY(user_id);
 ALTER TABLE t_user DROP PRIMARY KEY;
 
-## mysql json json_agg
-## https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_json-objectagg
+# mysql json json_agg
+> https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_json-objectagg
+
 SELECT a.*,
         (
             SELECT JSON_ARRAYAGG(JSON_OBJECT(
@@ -87,6 +162,8 @@ FROM plan_operate a
     ${sql}
 ORDER BY a.create_time
 DESC
+
+# Bug - His
 
 ## 不识别mapper.xml文件中的sql的表名和字段，无法点击表名链接到数据源_VictoryVivan的博客-程序员宅基地
 https://www.cxyzjd.com/article/qq_24057133/105679794
@@ -107,48 +184,6 @@ CASE
     ELSE "The quantity is under 30"
 END
 FROM OrderDetails;
-
-# index
-ALTER table plan_task_worker ADD INDEX plan_task_worker_index(worker_id, plan_id);
-DROP INDEX plan_task_worker_index ON plan_task_worker;
-
-# show mysql version 
-show variables like '%version%' 
-
-# character set & COLLATE
-## "Incorrect string value" when trying to insert UTF-8 
--- Change a database
-ALTER DATABASE [database_name] 
-  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci; 
--- Change a table
-ALTER TABLE [table_name] 
-  CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
--- Change a column
-ALTER TABLE [table_name] 
-  CHANGE [column_name] [column_name] VARCHAR(255) 
-  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-## batch modify table collate
-### utf8mb4_unicode_ci or utf8mb4_general_ci
-### exec the code then paste & exec the result 
-SELECT
-	CONCAT(
-		'ALTER TABLE ',
-		TABLE_NAME,
-		' CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;'
-	)
-FROM
-	information_schema.`TABLES`
-WHERE
-	TABLE_SCHEMA = 'DATABASE_NAME';
-
-
-## this is incompatible with DISTINCT
-## https://stackoverflow.com/questions/36829911/how-to-resolve-order-by-clause-is-not-in-select-list-caused-mysql-5-7-with-sel
-## http://xstarcd.github.io/wiki/MySQL/MySQL-sql-mode.html
-SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
-SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
--- 重启mysql的话, 需要修改 ini 配置文件
 
 # Mysql Thread
 # https://www.cnblogs.com/caoshousong/p/10845396.html
@@ -288,24 +323,24 @@ BEGIN
     DECLARE cur CURSOR FOR SELECT column_name FROM maintenance_project_person;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
-    SET @max_score := '';
+​    SET @max_score := '';
 
-    OPEN cur;
-    read_loop:
-    LOOP
-        FETCH cur INTO b;
-        IF done THEN
-            LEAVE read_loop;
-        END IF;
+​    OPEN cur;
+​    read_loop:
+​    LOOP
+​        FETCH cur INTO b;
+​        IF done THEN
+​            LEAVE read_loop;
+​        END IF;
 
-        CALL calculate_max_identity(a, b);
+​        CALL calculate_max_identity(a, b);
 
-    END LOOP;
-    CLOSE cur;
+​    END LOOP;
+​    CLOSE cur;
 
-    SET a = @max_score;
+​    SET a = @max_score;
 
-    RETURN a;
+​    RETURN a;
 END;
 
 SELECT max_identity(p.type)
@@ -335,21 +370,21 @@ https://www.runoob.com/mysql/mysql-operator.html
 ### date_add
 
 select date_add(now(), interval 1 day); - 加1天
- 
+
 select date_add(now(), interval 1 hour); -加1小时
- 
+
 select date_add(now(), interval 1 minute); - 加1分钟
- 
+
 select date_add(now(), interval 1 second); -加1秒
- 
+
 select date_add(now(), interval 1 microsecond);-加1毫秒
- 
+
 select date_add(now(), interval 1 week);-加1周
- 
+
 select date_add(now(), interval 1 month);-加1月
- 
+
 select date_add(now(), interval 1 quarter);-加1季
- 
+
 ### date_sub()
 
 
@@ -361,7 +396,8 @@ cause insert null
 https://www.cnblogs.com/feiwenstyle/p/9531571.html
 SELECT STR_TO_DATE('2023-07-01', '%Y-%m-%d %H:%i:%S');  
 
-## type 4 不一定没有, 只是打个比方, 也就是说我想要的结果要有五个, 如果不够5个则添加多个值进去
+> type 4 不一定没有, 只是打个比方, 也就是说我想要的结果要有五个, 如果不够5个则添加多个值进去
+
 SELECT t.type, COALESCE(s.num, 0) AS num
 FROM (
     SELECT DISTINCT type FROM xxx
