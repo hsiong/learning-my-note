@@ -202,6 +202,10 @@ windows: User level configuration files
 + 1. `C:\Users\lenovo\AppData\Roaming\pip\pip.ini`
 + 2. `C:\Users\lenovo\pip\pip.ini`
 
+## Jupter Notebook
+
+.ipynb 是 Jupyter Notebook 文件的扩展名，代表 "Interactive Python Notebook"。这是一个可以在 Jupyter 环境中运行的交互式文档文件。Jupyter Notebook 是一种支持混合文本、代码和输出的工具，常用于数据科学、机器学习、研究和教育领域。
+
 # Python 基础类型
 
 ## 整型
@@ -1815,7 +1819,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                                         
+>                                                 
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
@@ -1907,6 +1911,87 @@ else:
 1. **`time(8, 0)` 和 `time(18, 0)`**：分别表示 8:00 AM 和 6:00 PM。
 2. **`capture_time.time()`**：提取 `capture_time` 的时间部分，去掉日期，只保留小时和分钟。
 3. **时间比较**：使用 `<=` 运算符来判断 `capture_time` 是否在 8:00 到 18:00 之间。
+
+## Python Excel
+
+### Read & Write Demo
+
+```python
+def test_rhs_excel():
+	# 读取 Excel 文件
+	df = pd.read_excel('/Users/vjf/Desktop/Book5.xlsx', header=None)
+	
+	# 逐行处理第一列
+	for index, value in df[0].items():
+		# 按多个空格分割
+		parts = re.split(r'\s{2,}', str(value))
+		if len(parts) > 1:
+			# 将第二段内容存入第二列
+			df.at[index, 1] = parts[1]
+			# 更新第一列，去掉第二段
+			df.at[index, 0] = parts[0]
+		else:
+			# 如果没有第二段，第二列设为空
+			df.at[index, 1] = None
+	
+	# 将处理后的 DataFrame 保存到新的 Excel 文件
+	df.to_excel('/Users/vjf/Desktop/Book5_out.xlsx', index=False, header=False)
+```
+
+### shift_row_left demo
+
+```python
+
+def shift_row_left(df, index, col, next_col):
+	df_col_length = len(df.columns)
+	
+	# 如果当前列超出边界，结束递归
+	if next_col >= df_col_length:
+		return
+	
+	print(f"行 {index + 1}, 列 {col + 1}: 为{df.iloc[index, col]}，开始左移处理")
+	
+	# 如果当前列为空，则将后面的数据左移
+	if pd.isna(df.iloc[index, col]):
+		
+		# 将该行从 col 列开始的所有值左移一列
+		for i in range(col, df_col_length - 1):
+			df.iloc[index, i] = df.iloc[index, i + 1]
+		
+		# 每移动一次, 最后一列赋空
+		df.iloc[index, df_col_length - 1] = None 
+		
+		next_col = next_col + 1
+		
+		# 递归处理，继续检查当前列
+		shift_row_left(df, index, col, next_col)
+		
+	else:
+		# 如果当前列不为空，则递归处理下一列
+		col = col + 1
+		shift_row_left(df, index, col, col + 1)
+
+
+def test_rhs_excel_remove_none():
+	# 读取 Excel 文件，禁用表头，确保第一行不会作为列名
+	df = pd.read_excel('/Users/vjf/Desktop/Book4.xlsx', header=None)
+	
+	# 创建原数据的副本，确保不对原数据进行修改
+	df_copy = df.copy()
+	
+	# 逐行处理数据
+	for index in range(len(df_copy)):
+		shift_row_left(df_copy, index, 0, 1)
+	# shift_row_left(df_copy, 0, 0, 1)
+	
+	# 将处理后的数据保存到 'Book4_out.xlsx'
+	df_copy.to_excel('/Users/vjf/Desktop/Book4_out.xlsx', index=False, header=False)
+	
+	# 输出提示信息
+	print("处理后的数据已保存为 'Book4_out.xlsx'，原文件未修改。")
+```
+
+
 
 # Python 异常处理
 
@@ -2538,11 +2623,6 @@ print("All tasks have been submitted and completed.")
 			# 将目录的路径和文件名合成一个完整的路径
 			file_path = os.path.join(root, file)
 ```
-
-# Jupter Notebook
-
-.ipynb 是 Jupyter Notebook 文件的扩展名，代表 "Interactive Python Notebook"。这是一个可以在 Jupyter 环境中运行的交互式文档文件。Jupyter Notebook 是一种支持混合文本、代码和输出的工具，常用于数据科学、机器学习、研究和教育领域。
-
 
 
 
