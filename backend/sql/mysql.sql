@@ -7,6 +7,7 @@
 https://www.runoob.com/mysql/mysql-data-types.html
 
 ## utf8 vs utf8mb4
+
 https://juejin.cn/post/6844903733034221576
 
 ## index
@@ -79,6 +80,7 @@ CREATE DATABASE `mydb` CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE DATABASE  `wordpress` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 ## CREATE TABLE
+
 DROP TABLE if exists table_name;
 CREATE TABLE table_name
 (
@@ -94,18 +96,22 @@ CREATE TABLE table_name
   COLLATE = utf8mb4_0900_ai_ci COMMENT ='table_comment';
 
 ## add table comment 
+
 alter table test1 comment 'comment';
 
 # rename
 
 
 ## rename database 
+
 dump data, then drop database, create new database
 
 ## rename table
+
 ALTER TABLE old_table_name RENAME TO new_table_name;
 
 ## rename column
+
 ALTER  TABLE 表名 CHANGE [column] 旧字段名 新字段名 新数据类型;    
 alter  table table1 change column1 column1 varchar(100) DEFAULT 1.2 COMMENT '注释'; -- 正常，此时字段名称没有改变，能修改字段类型、类型长度、默认值、注释
 
@@ -113,20 +119,26 @@ alter  table table1 change column1 column1 varchar(100) DEFAULT 1.2 COMMENT '注
 
 
 ## change column default
+
 ALTER TABLE table2 ALTER COLUMN column2 SET DEFAULT 0;
 
 ## change column type
+
 ALTER TABLE table2 ALTER COLUMN column2 column2_type;
 
 ## delete column
+
 ALTER TABLE tableName DROP columnName；
 
 ## add column
+
 ALTER TABLE tablename ADD columnName columnType constraints;
 
 
 ## change column constraints
+
 ### unique
+
 ALTER TABLE t_user MODIFY user_id INT(10) UNIQUE;
 ALTER TABLE t_user CHANGE user_id user_id INT(10) UNIQUE;
 ALTER TABLE t_user ADD UNIQUE(user_id);
@@ -134,12 +146,16 @@ ALTER TABLE t_user ADD UNIQUE KEY(user_id);
 ALTER TABLE t_user ADD CONSTRAINT UN_ID UNIQUE(user_id);
 ALTER TABLE t_user ADD CONSTRAINT UN_ID UNIQUE KEY(user_id);
 ALTER TABLE t_user DROP INDEX user_id;
+
 ### not null
+
 ALTER TABLE table2 MODIFY column2 column column_type NOT NULL;
 ALTER TABLE t_user CHANGE user_id user_id INT(10) NOT NULL;
 1)ALTER TABLE t_user MODIFY user_id INT(10);
 2)ALTER TABLE t_user CHANGE user_id user_id INT(10);
+
 ### PRIMARY KEY 
+
 ALTER TABLE t_user MODIFY user_id INT(10) PRIMARY KEY;
 ALTER TABLE t_user CHANGE user_id user_id INT(10) PRIMARY KEY;
 ALTER TABLE t_user ADD PRIMARY KEY(user_id);
@@ -147,6 +163,7 @@ ALTER TABLE t_user ADD CONSTRAINT PK_ID PRIMARY KEY(user_id);
 ALTER TABLE t_user DROP PRIMARY KEY;
 
 # mysql json json_agg
+
 > https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_json-objectagg
 
 SELECT a.*,
@@ -166,17 +183,21 @@ DESC
 # Bug - His
 
 ## 不识别mapper.xml文件中的sql的表名和字段，无法点击表名链接到数据源_VictoryVivan的博客-程序员宅基地
+
 https://www.cxyzjd.com/article/qq_24057133/105679794
 
 ## mybatis donot support json_agg
+
 https://blog.csdn.net/qq_44075194/article/details/126194672
 adding the annotation @InterceptorIgnore(tenantLine = "true") to the mapper may solve this problem .
 
 ## mysql count length
+
 https://blog.csdn.net/longzhiwen888/article/details/46562157
 SELECT leixing ,count(leixing) ,length(leixing) from pxb_post where length(leixing)>20 group by leixing order by length(leixing) desc;
 
 ## case when 
+
 SELECT OrderID, Quantity,
 CASE
     WHEN Quantity > 30 THEN "The quantity is greater than 30"
@@ -186,33 +207,43 @@ END
 FROM OrderDetails;
 
 # Mysql Thread
+
 # https://www.cnblogs.com/caoshousong/p/10845396.html
+
 ## show thread
+
 show status like  'Threads%';
 
 ## show max thread 
+
 show variables like '%max_connection%'; 
 
 ## set max thread
+
 set global max_connections=1000;        重新设置最大连接数
 
 ## change password
+
 set PASSWORD=PASSWORD('newPwd');
 plush privileges;
 
 ## remote connect
+
 use mysql;
 select host,user from user;
 create user 'root'@'%' identified by 'newPwd';
 
 ## grant remote user db
+
 GRANT privileges[SELECT,INSERT,ALL...] ON databasename.tablename[or *] TO 'username'@'%'
 
 
 ## SHOW lower case
+
 show global variables like '%lower_case%';
 
 ## MySQL 报Public Key Retrieval is not allowed 错误问题解决
+
 https://blog.csdn.net/qq_48234103/article/details/120769173
 
 docker exec -it mysql /bin/bash
@@ -222,12 +253,15 @@ ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '密码';
 
 
 ## MySQL数据库中删除not null约束的方法
+
 ALTER TABLE 表名 MODIFY COLUMN 字段名 column_type NULL
 
 ## delete foreign key
+
 alter table tableName drop foreign key foreignKeyName;
 
 ## multi structure
+
 SELECT *,
        (
            SELECT JSON_ARRAYAGG(JSON_OBJECT(
@@ -263,12 +297,14 @@ FROM maintenance_catalog g
 WHERE g.level = 0;
 
 # window function
+
 SELECT DISTINCT 
        t.project_name, 
 MAX(t.type) OVER (PARTITION BY t.id)
 FROM tableName;
 
 ## group_concat 用法 -- https://blog.csdn.net/harry5508/article/details/102481017
+
 将group by产生的同一个分组中的值连接起来，返回一个字符串结果。
 SELECT
     user_no,
@@ -281,6 +317,7 @@ GROUP BY
 
 
 # distinguish varchar/char/text
+
 https://joyohub.com/2020/07/04/mysql/mysql-string/
 
 Considering system performance, we do not suggest using text TYPE in mysql
@@ -288,6 +325,7 @@ Considering system performance, we do not suggest using text TYPE in mysql
 Query effiency: char > varchar > text
 
 # procedure
+
 SET @a := 'creator';
 CALL calculate_max_identity(@a, 'tech');
 SELECT @a AS num_out;
@@ -309,10 +347,12 @@ BEGIN
 END;
 
 ## MySQL 存储过程传参之in, out, inout 参数用法
+
 https://blog.csdn.net/guugle2010/article/details/40513347
 INOUT, 理解为指针, 入参同时改变自身的值
 
 # function
+
 DROP FUNCTION max_identity;
 CREATE FUNCTION max_identity(column_name VARCHAR(255))
     RETURNS VARCHAR(255)
@@ -349,12 +389,15 @@ FROM maintenance_project_person p
 > [01000][1265] Data truncated for column 'max_identity(p.type)' at row 1
 
 # mysql if
+
 https://blog.51cto.com/u_13236892/5751254
 
 # mysql code comment
+
 单行注释符"#"，#注释符后直接加注释内容 #这里是注释内容，查询database_name库table_name表里面的数据 ...
 单行注释符"--"， -- 注释符后需要加一个空格，注释才能生效 ...
 多行注释符"/* */",/*用于注释内容的开头，*/用于注释内容的结尾  
+
 > 注意, 在mybatis mapper中, 只能使用多行注释
 
 ## query table info
@@ -362,11 +405,13 @@ https://blog.51cto.com/u_13236892/5751254
 SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dms_app_dev';
 
 ## MySQL 运算符
+
 https://www.runoob.com/mysql/mysql-operator.html
 
 + - * / %
 
 ## Mysql Date
+
 ### date_add
 
 select date_add(now(), interval 1 day); - 加1天
@@ -389,10 +434,12 @@ select date_add(now(), interval 1 quarter);-加1季
 
 
 ## default value not working
+
 cause insert null 
 
 
 ### mysql str_to_date 字符串转换为日期, 最小到日
+
 https://www.cnblogs.com/feiwenstyle/p/9531571.html
 SELECT STR_TO_DATE('2023-07-01', '%Y-%m-%d %H:%i:%S');  
 
@@ -423,10 +470,12 @@ ON t.type = s.type
 ORDER BY t.type;
 
 ## replace table data
+
 TRUNCATE TABLE table_current;
 INSERT INTO table_current SELECT * FROM table_backup;
 
 ## left join  条件写在 where 和 on 上的区别
+
 Key Difference:
 ON Clause: 
 In LEFT JOIN, rows from the left table are always included; Affects how rows are joined. the condition affects whether the right table's columns are NULL or contain data.'
@@ -434,6 +483,7 @@ WHERE Clause:
 Rows that don not meet the condition are excluded from the result, Affects the final result set. potentially reducing the number of rows from the left table in the final output.
 
 ## 我想要的结果要有多个, 如果不够多个则添加多个值进去
+
 SELECT t.type, COALESCE(s.num, 0) AS num
 FROM (
     SELECT DISTINCT type FROM xxx
@@ -459,4 +509,6 @@ ON t.type = s.type
 ORDER BY t.type;
 
 ## Delete from time
+
 DELETE FROM dsps_disease_knowledge WHERE create_time > 'YYYY-MM-DD HH:MM:SS';
+
