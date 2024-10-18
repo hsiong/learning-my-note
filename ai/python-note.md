@@ -202,6 +202,12 @@ windows: User level configuration files
 + 1. `C:\Users\lenovo\AppData\Roaming\pip\pip.ini`
 + 2. `C:\Users\lenovo\pip\pip.ini`
 
+### 清除缓存
++ 查看 pip 缓存目录
+```
+ pip cache dir 
+```
+
 ## Jupter Notebook
 
 .ipynb 是 Jupyter Notebook 文件的扩展名，代表 "Interactive Python Notebook"。这是一个可以在 Jupyter 环境中运行的交互式文档文件。Jupyter Notebook 是一种支持混合文本、代码和输出的工具，常用于数据科学、机器学习、研究和教育领域。
