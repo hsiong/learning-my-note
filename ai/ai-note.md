@@ -13,7 +13,6 @@
 + https://github.com/hsiong/project-modelarts.git
 + 基于MindSpore的ChatGLM微调原创: https://github.com/mindspore-lab/mindformers/blob/master/docs/model_cards/glm.md
 
-+ 
 
 # tts
 + suno: https://app.suno.ai/create/
@@ -384,4 +383,4 @@ ort_session = ort.InferenceSession(onnx_model_path, session_options, providers=[
 
   > v1 newest version: 1.26.4: The Python versions supported by this release are 3.9-3.12
 
-+ 
+
