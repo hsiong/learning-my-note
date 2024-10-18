@@ -180,35 +180,11 @@ FROM plan_operate a
 ORDER BY a.create_time
 DESC
 
-# Bug - His
 
-## 不识别mapper.xml文件中的sql的表名和字段，无法点击表名链接到数据源_VictoryVivan的博客-程序员宅基地
-
-https://www.cxyzjd.com/article/qq_24057133/105679794
-
-## mybatis donot support json_agg
-
-https://blog.csdn.net/qq_44075194/article/details/126194672
-adding the annotation @InterceptorIgnore(tenantLine = "true") to the mapper may solve this problem .
-
-## mysql count length
-
-https://blog.csdn.net/longzhiwen888/article/details/46562157
-SELECT leixing ,count(leixing) ,length(leixing) from pxb_post where length(leixing)>20 group by leixing order by length(leixing) desc;
-
-## case when 
-
-SELECT OrderID, Quantity,
-CASE
-    WHEN Quantity > 30 THEN "The quantity is greater than 30"
-    WHEN Quantity = 30 THEN "The quantity is 30"
-    ELSE "The quantity is under 30"
-END
-FROM OrderDetails;
 
 # Mysql Thread
 
-# https://www.cnblogs.com/caoshousong/p/10845396.html
+https://www.cnblogs.com/caoshousong/p/10845396.html
 
 ## show thread
 
@@ -296,34 +272,6 @@ SELECT *,
 FROM maintenance_catalog g
 WHERE g.level = 0;
 
-# window function
-
-SELECT DISTINCT 
-       t.project_name, 
-MAX(t.type) OVER (PARTITION BY t.id)
-FROM tableName;
-
-## group_concat 用法 -- https://blog.csdn.net/harry5508/article/details/102481017
-
-将group by产生的同一个分组中的值连接起来，返回一个字符串结果。
-SELECT
-    user_no,
-    GROUP_CONCAT( DISTINCT role_name ) AS role_name 
-FROM
-    report_user_role_info 
-GROUP BY
-    user_no;
-
-
-
-# distinguish varchar/char/text
-
-https://joyohub.com/2020/07/04/mysql/mysql-string/
-
-Considering system performance, we do not suggest using text TYPE in mysql
-
-Query effiency: char > varchar > text
-
 # procedure
 
 SET @a := 'creator';
@@ -388,11 +336,63 @@ FROM maintenance_project_person p
 
 > [01000][1265] Data truncated for column 'max_identity(p.type)' at row 1
 
-# mysql if
+## window - function
+
+SELECT DISTINCT 
+       t.project_name, 
+MAX(t.type) OVER (PARTITION BY t.id)
+FROM tableName;
+
+> group_concat 用法 -- https://blog.csdn.net/harry5508/article/details/102481017
+
+将group by产生的同一个分组中的值连接起来，返回一个字符串结果。
+SELECT
+    user_no,
+    GROUP_CONCAT( DISTINCT role_name ) AS role_name 
+FROM
+    report_user_role_info 
+GROUP BY
+    user_no;
+
+# Bug - His
+
+## 不识别mapper.xml文件中的sql的表名和字段，无法点击表名链接到数据源_VictoryVivan的博客-程序员宅基地
+
+https://www.cxyzjd.com/article/qq_24057133/105679794
+
+## mybatis donot support json_agg
+
+https://blog.csdn.net/qq_44075194/article/details/126194672
+adding the annotation @InterceptorIgnore(tenantLine = "true") to the mapper may solve this problem .
+
+## mysql count length
+
+https://blog.csdn.net/longzhiwen888/article/details/46562157
+SELECT leixing ,count(leixing) ,length(leixing) from pxb_post where length(leixing)>20 group by leixing order by length(leixing) desc;
+
+## case when 
+
+SELECT OrderID, Quantity,
+CASE
+    WHEN Quantity > 30 THEN "The quantity is greater than 30"
+    WHEN Quantity = 30 THEN "The quantity is 30"
+    ELSE "The quantity is under 30"
+END
+FROM OrderDetails;
+
+## distinguish varchar/char/text
+
+https://joyohub.com/2020/07/04/mysql/mysql-string/
+
+Considering system performance, we do not suggest using text TYPE in mysql
+
+Query effiency: char > varchar > text
+
+## mysql if
 
 https://blog.51cto.com/u_13236892/5751254
 
-# mysql code comment
+## mysql code comment
 
 单行注释符"#"，#注释符后直接加注释内容 #这里是注释内容，查询database_name库table_name表里面的数据 ...
 单行注释符"--"， -- 注释符后需要加一个空格，注释才能生效 ...
@@ -511,4 +511,3 @@ ORDER BY t.type;
 ## Delete from time
 
 DELETE FROM dsps_disease_knowledge WHERE create_time > 'YYYY-MM-DD HH:MM:SS';
-
