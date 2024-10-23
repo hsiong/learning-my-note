@@ -152,6 +152,25 @@ $ flask --app flaskr run --debug
 + 对象列表 `return [message.dict() for message in messages]`
 
 
+## 全局配置请求头
+
+```python
+app = Flask(__name__)
+
+# 全局配置响应头
+@app.after_request
+def apply_cors_headers(response):
+    # 设置全局的 Content-Type 为 application/json
+    response.headers['Content-Type'] = 'application/json'
+    
+    # 添加其他自定义头部信息
+    response.headers['X-Global-Header'] = 'MyGlobalHeaderValue'
+    
+    return response
+```
+
+
+
 # Flask - SQLAlchemy
 
 ## 初始化
