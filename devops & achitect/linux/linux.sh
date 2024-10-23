@@ -262,6 +262,9 @@ curl httpbin.org/ip
 ++ apk 安装 curl 指令
 apk add curl
 
++++ curl 查看请求头
+改用 -i 选项，这样既可以发送 POST 请求，又能显示响应头和响应体。
+
 ++ apk 安装 telnet
 apk add busybox-extras
 
