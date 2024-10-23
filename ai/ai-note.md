@@ -384,3 +384,30 @@ ort_session = ort.InferenceSession(onnx_model_path, session_options, providers=[
   > v1 newest version: 1.26.4: The Python versions supported by this release are 3.9-3.12
 
 
+
+# Mac
+
+## Torch
+
+````
+```
+python --version
+pip uninstall torchvision torchaudio
+pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1
+
+pip uninstall numpy
+pip install numpy==1.26.4 # 模型使用的老版本 numpy
+
+pip install -r requirements-mac.txt # pip install -e .
+```
+````
+
+## Onnx
+
+```python
+if system == "Darwin":  # macOS (M1/M1 Pro)
+    providers = ['CoreMLExecutionProvider', 'CPUExecutionProvider']
+```
+
+
+
