@@ -194,12 +194,24 @@ https://www.cnblogs.com/newAndHui/p/14767675.html
 
 + 传入参数, 不考虑
 
-1.  java list 初始化赋值
+32.  java list 初始化赋值
 ```
 List<String> stringList = Arrays.asList("a", "b", "c");
 ```
 
-1.  java listener 中, 不会显示异常, 需要手动捕获异常
+33.  java listener 中, 不会显示异常, 需要手动捕获异常
+34.  ` Fatal error compiling: java.lang.NoSuchFieldError: Class com.sun.tools.javac.tree.JCTree$JCImport does not have member field 'com.sun.tools.javac.tree.JCTree qualid'`
+最新的 j22 导致的问题, 降级为 j19
++ 检查 java -version 和 $JAVA_HOME; 
++ 检查 mvn 指令
+  ```
+  which mvn
+  ls -l /opt/homebrew/bin/mvn 
+  cd /opt/homebrew/bin
+  cd ../Cellar/maven/3.9.8/bin/    
+  sublime mvn
+  ```
+  替换 `JAVA_HOME="${JAVA_HOME:-/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home}" exec "/opt/homebrew/Cellar/maven/3.9.8/libexec/bin/mvn"  "$@" ` 为 ` /opt/homebrew/Cellar/openjdk/19.0.1/libexec/openjdk.jdk/Contents/Home  exec "/opt/homebrew/Cellar/maven/3.9.8/libexec/bin/mvn"  "$@" `
 
 # java reg
 > Referenece
