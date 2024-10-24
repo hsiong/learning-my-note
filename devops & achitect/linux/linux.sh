@@ -289,3 +289,6 @@ curl myip.ipip.net
 
 # how to install ubuntu
 https://github.com/hsiong/project-init-ubuntu-linux
+
++ Something has gone serously wrong: SBAT self-check failed: Security Policy Violation
+  进入Bios设置。进入后找到Secure Boot(开机安全）项，关闭开机安全项(或叫安全启动)
