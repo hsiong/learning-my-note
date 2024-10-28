@@ -128,6 +128,9 @@ Editor -> File Types -> Python -> add `*.py`
 ### pycharm format
 unclick Keep when reformatting -> Line breaks
 
+### hide code author
+ Inlay Hints -> unclick Code Author
+
 ### 生成返回值对象快捷键(实现类似java var的效果)
 
 在编写一行JAVA语句时，有返回值的方法已经决定了返回对象的类型和泛型类型，我们只需要给这个对象起个名字就行。
