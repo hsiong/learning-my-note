@@ -8,6 +8,7 @@
 - [push exist file to new git repo](#push-exist-file-to-new-git-repo)
 - [git pr command](#git-pr-command)
 - [not a git repository (or any of the parent directories): .git](#not-a-git-repository-or-any-of-the-parent-directories-git)
+- [mac 升级 git](#mac-升级-git)
 
 <!-- # 一.常见问题 -->
 
@@ -46,6 +47,7 @@ unset ALL_PROXY ###
 
 # 回退 git 版本
 git reset --soft HEAD~1
+
 
 # vscode commit msg
 ![image](https://user-images.githubusercontent.com/37357447/180382244-bafdc0a8-af43-4cb0-a908-abae03ccdb31.png)
@@ -94,3 +96,34 @@ git clone <repo_path>
 # then copy the new .git dir to the old repository dir
 
 ```
+
+# mac 升级 git
+你正在使用 macOS 系统自带的 Git 版本。通常这个版本比较旧，而且 macOS 系统更新时才会升级它。因此，如果你已经通过 Homebrew 或从官网安装了更新版本的 Git，那么你可能需要调整系统的环境变量，让终端优先使用更新的 Git。
+
+### 检查 Git 安装路径
+
+首先，让我们确认 Homebrew 安装的 Git 的实际路径。可以通过以下命令来查找 Homebrew 安装的 Git 的确切位置：
+
+```
+brew --prefix git
+```
+
+这会返回 Git 的安装目录。
+
+### 清除旧的别名
+
+如果之前设置的别名导致了问题，你可以临时移除这个别名来测试 Git 是否可以正常工作。可以在终端中运行：
+
+```
+unalias git
+```
+
+### 更新别名
+
+如果你找到了正确的 Git 路径，记得更新你之前设置的别名。
+
+```
+# git
+alias git="xxx /bin/git"
+```
+
