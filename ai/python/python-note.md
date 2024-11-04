@@ -2439,6 +2439,8 @@ print(detect_file)
 + 选择你的 pytest 配置。
 + 在 Additional Arguments 字段中添加 -s。
 
+## format code & optimize code
+-> tool -> Actions on save -> click `Optimize imports`
 
 
 ##   count = 0  output_directory = 'captured_frames_' + count    报错
