@@ -2442,7 +2442,6 @@ print(detect_file)
 ## format code & optimize code
 -> tool -> Actions on save -> click `Optimize imports`
 
-
 ##   count = 0  output_directory = 'captured_frames_' + count    报错
 
 你在代码中遇到错误，可能是因为将整数变量 `count` 直接与字符串连接，导致类型不匹配的问题。你需要将整数 `count` 转换为字符串格式。可以使用 `str()` 函数将整数转换为字符串。
