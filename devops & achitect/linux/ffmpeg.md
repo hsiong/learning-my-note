@@ -91,3 +91,29 @@ def capture_frame_from_hls(url, output_dir, interval=300):
 
 ```
 
+# 一直在 reading 会占用视频流资源吗? 会占用带宽吗? 
+
+Yes, continuously reading from a video stream, such as an HLS (HTTP Live Streaming) stream, will consume both the server's resources and your network bandwidth. When your code continuously reads from the stream—even if you're only extracting frames at specific intervals—FFmpeg needs to process the entire stream to reach the desired time points. This means it downloads and decodes all the video data up to those points.
+
+### **Impact on Resources and Bandwidth**
+
+- **Bandwidth Consumption**: FFmpeg downloads the entire video stream data up to the point where it extracts a frame. This continuous downloading consumes bandwidth equivalent to streaming the video continuously.
+- **Server Resource Usage**: Keeping a persistent connection to the streaming server consumes server resources. If multiple clients do this simultaneously, it can increase the load on the server.
+
+### **Why Is FFmpeg Always Reading?**
+
+In your current implementation, FFmpeg starts reading from the beginning of the stream and continues reading until it reaches the specified intervals to extract frames. Since you're using an HLS stream, which is typically used for live streaming, FFmpeg must process the incoming data continuously to maintain synchronization with the live feed.
+
+### **Solutions to Reduce Resource Consumption**
+
+To minimize bandwidth and resource usage, consider the following approaches:
+
+#### **1. Capture Frames Periodically by Reconnecting**
+
+Instead of maintaining a continuous connection to the stream, you can:
+
+- **Connect to the stream** just before you need to capture a frame.
+- **Capture a single frame** immediately upon connection.
+- **Disconnect** from the stream until the next capture time.
+
+##### 
