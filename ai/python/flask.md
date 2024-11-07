@@ -1220,6 +1220,30 @@ print(f'download time:  {time2 - time1}')
 oh, ow, _ = origin_img.shape  # 获取高、宽、通道数
 ```
 
+# 循环依赖 circular import
+
+## 优化注释
+
+-> Python Integrated Tools -> Docstring format -> `reStructuredText`
+
+```python
+    :param task: 任务对象
+    :type task: flaskr.entity.task_entity.Task
+```
+
+## 重写 `_init_()` , 延迟加载
+
+```python
+    def __init__(self, task_service: TaskService):
+        self.repo = RecognitionRepository()
+        self.task_service = task_service  # 相关调用, 避免循环依赖
+```
+
+```python
+app.task_service = TaskService()  # 任务服务
+app.recognition_service = RecognitionService(app.task_service)  # 识别服务
+```
+
 # 参考链接
 
 + Flask API开发的最佳实践: https://juejin.cn/post/7112607171312877576
