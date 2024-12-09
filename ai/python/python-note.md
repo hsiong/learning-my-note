@@ -1538,8 +1538,11 @@ import os
 source_file = 'path/to/source/file.txt'
 
 # 获取文件的目录和文件名
-file_dir = os.path.dirname(source_file)
-file_name = os.path.basename(source_file)
+file_dir = os.path.dirname(source_file) 
+file_name = os.path.basename(source_file) 
+
+# 获取父级文件名
+file_name = os.path.basename(os.path.dirname(source_file) ) 
 
 print(f'文件目录: {file_dir}')
 print(f'文件名: {file_name}')
@@ -2635,6 +2638,9 @@ print(detect_file)
 
 ## format code & optimize code
 -> tool -> Actions on save -> click `Optimize imports`
+
+## 关闭 auto format
+无解
 
 ##   count = 0  output_directory = 'captured_frames_' + count    报错
 
