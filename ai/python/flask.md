@@ -1222,7 +1222,7 @@ oh, ow, _ = origin_img.shape  # 获取高、宽、通道数
 
 # 循环依赖 circular import
 
-## 优化注释
+## pycharm 优化注释: 注释显示引用
 
 -> Python Integrated Tools -> Docstring format -> `reStructuredText`
 
