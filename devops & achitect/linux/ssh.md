@@ -48,6 +48,10 @@ https://www.jianshu.com/p/b294e9da09ad
 
   `vim ~/.ssh/known_hosts`, 删除 domain 对应的记录
 
+## install uniVPN in Ubuntu
++ download uniVPN 
++ `chmod -x xxx.run`
++ `sudo ./xxx.run`
 
 ## ssh remote connection refused
 + 检查 ssh 状态
