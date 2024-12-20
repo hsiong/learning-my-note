@@ -1,8 +1,14 @@
 https://github.com/hsiong/learning-kubernetes
 
+# ubuntu 安装 kubectl - Using snap
+sudo apt-get install snapd
+sudo snap install kubectl --classic
+
 # mac 安装 kubectl  并导入 config
 + 安装
 brew install kubectl
+
+# 初始化
 + 验证
 kubectl version --client
 + 创建 config 文件
@@ -11,6 +17,14 @@ touch ~/.kube/config
 + 导入 config 文件
 vim ~/.kube/config
 chmod 600 ~/.kube/config
++ 测试与集群的连通性
+kubectl cluster-info
+
+## 获取 k8s-config
+https://docs.kubesphere.com.cn/v4.0/10-toolbox/02-view-a-kubeconfig-file/
+
+## using k8s with vpn
+
 
 # 常用操作
 + 检查所有命名空间
