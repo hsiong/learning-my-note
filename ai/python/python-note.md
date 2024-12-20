@@ -118,6 +118,7 @@ Editor -> File Types -> Python -> add `*.py`
 ### pycharm-codeium异常
 + version 采用 1.8.0
 + 中文乱码, 修改 Color Scheme Font - Font -> Microsoft Yahei UI
++ 提示过慢: click detect proxy
 
 ### pycharm the file in the editor is not runnable
 转到 Project: 你的项目名 > Project Interpreter。
@@ -217,13 +218,13 @@ windows: User level configuration files
 
 # Python 基础类型
 
-## 整型
+## 整型 int
 
-## 浮点型
+## 浮点型 float
 
-## 布尔型
+## 布尔型 bool
 
-## 字符串
+## 字符串 str
 
 ### Python 字符串连接
 
@@ -471,7 +472,7 @@ if class_name in prompt: # 检查 prompt 是否包含 class_name
 
 
 
-## 列表
+## 列表 list
 
 创建一个列表，只要把逗号分隔的不同的数据项使用方括号括起来即可。如下所示：
 
@@ -574,7 +575,7 @@ Python包含以下方法:
 | 8    | [list.reverse()](https://www.runoob.com/python/att-list-reverse.html) 反向列表中元素 |
 | 9    | [list.sort(cmp=None, key=None, reverse=False)](https://www.runoob.com/python/att-list-sort.html) 对原列表进行排序 |
 
-## 元组
+## 元组 ()
 
 Python 的元组与列表类似，不同之处在于元组的元素不能修改。
 
@@ -634,9 +635,183 @@ x, y = 1, 2
 print "Value of x , y : ", x,y
 ```
 
-## 集合
+## 集合 set
+`set` 是一种内置的数据结构，用于存储**唯一**的、**无序的**、**不可变的元素**。它非常适合用于需要快速去重或进行集合运算（如并集、交集等）的场景。
 
-## 字典
+------
+
+### **基本特性**
+
+- **无序性**：集合中的元素没有顺序，因此无法通过索引访问。
+- **唯一性**：集合中的每个元素都是唯一的，重复的元素会被自动移除。
+- **元素的不可变性**：集合中的元素必须是不可变的（如整数、字符串、元组），但集合本身是可变的，可以动态添加或删除元素。
+
+------
+
+### **创建集合**
+
+集合可以通过两种方式创建：
+
+1. 使用大括号 `{}`。
+2. 使用 `set()` 函数。
+
+```
+# 用大括号创建集合
+my_set = {1, 2, 3, 4}
+
+# 用 set() 函数创建集合
+another_set = set([1, 2, 3, 4])
+
+# 创建空集合
+empty_set = set()  # 注意：{} 表示空字典，而不是空集合
+```
+
+### **集合的主要方法和操作**
+
+#### **1) 添加元素**
+
+- 使用 `add()` 方法向集合中添加单个元素。
+- 使用 `update()` 方法向集合中添加多个元素。
+
+```python
+my_set = {1, 2, 3}
+my_set.add(4)          # 添加单个元素
+my_set.update([5, 6])  # 添加多个元素
+print(my_set)          # 输出：{1, 2, 3, 4, 5, 6}
+```
+
+#### **2) 删除元素**
+
+- `remove()`：移除指定元素，如果不存在会抛出 `KeyError`。
+- `discard()`：移除指定元素，不存在则不报错。
+- `pop()`：随机移除并返回集合中的一个元素。
+- `clear()`：清空集合。
+
+```python
+my_set = {1, 2, 3, 4}
+my_set.remove(2)       # 移除 2
+my_set.discard(5)      # 不报错
+removed_element = my_set.pop()  # 随机移除一个元素
+my_set.clear()         # 清空集合
+print(my_set)          # 输出：set()
+```
+
+#### **3) 检查元素**
+
+- 使用 `in` 和 `not in` 判断元素是否存在。
+
+```python
+my_set = {1, 2, 3}
+print(2 in my_set)    # 输出：True
+print(4 not in my_set) # 输出：True
+```
+
+#### **4) 集合运算**
+
+集合支持多种运算，如并集、交集、差集等。
+
+| 运算                                 | 方法/符号                       | 示例          |
+| ------------------------------------ | ------------------------------- | ------------- |
+| **并集**（Union）                    | `union()` 或 `                  | `             |
+| **交集**（Intersection）             | `intersection()` 或 `&`         | `set1 & set2` |
+| **差集**（Difference）               | `difference()` 或 `-`           | `set1 - set2` |
+| **对称差集**（Symmetric Difference） | `symmetric_difference()` 或 `^` | `set1 ^ set2` |
+
+#### 示例
+
+```python
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+
+# 并集
+print(set1 | set2)  # 输出：{1, 2, 3, 4, 5}
+
+# 交集
+print(set1 & set2)  # 输出：{3}
+
+# 差集
+print(set1 - set2)  # 输出：{1, 2}
+
+# 对称差集
+print(set1 ^ set2)  # 输出：{1, 2, 4, 5}
+```
+
+#### **5) 子集和超集**
+
+- `issubset()`：检查是否是另一个集合的子集。
+- `issuperset()`：检查是否是另一个集合的超集。
+- `isdisjoint()`：检查两个集合是否没有交集。
+
+```python
+set1 = {1, 2, 3}
+set2 = {1, 2}
+set3 = {4, 5}
+
+print(set2.issubset(set1))  # 输出：True
+print(set1.issuperset(set2))  # 输出：True
+print(set1.isdisjoint(set3))  # 输出：True
+```
+
+------
+
+###  **集合的遍历**
+
+集合可以通过 `for` 循环遍历。
+
+```python
+my_set = {1, 2, 3}
+for item in my_set:
+    print(item)
+```
+
+------
+
+### 集合的应用场景
+
+#### **1) 去重**
+
+集合的主要特点之一是去除重复元素。
+
+```python
+numbers = [1, 2, 2, 3, 4, 4, 5]
+unique_numbers = set(numbers)  # 去重
+print(unique_numbers)  # 输出：{1, 2, 3, 4, 5}
+```
+
+#### **2) 集合运算**
+
+集合运算可以用来快速求解交集、并集等。
+
+#### **3) 快速查找**
+
+由于集合基于哈希表实现，`in` 操作的时间复杂度是 O(1)，适合用于快速查找。
+
+```python
+my_set = {1, 2, 3}
+print(2 in my_set)  # 输出：True
+```
+
+------
+
+### **注意事项**
+
+1. **空集合**：用 `{}` 定义的是空字典，空集合必须用 `set()`。
+
+   ```python
+   empty_dict = {}
+   empty_set = set()
+   print(type(empty_dict))  # 输出：<class 'dict'>
+   print(type(empty_set))   # 输出：<class 'set'>
+   ```
+   
+2. **集合的元素必须是不可变的**：例如，数字、字符串和元组可以作为集合的元素，但列表和字典不行。
+
+   ```python
+   my_set = {1, 2, (3, 4)}
+   # my_set = {1, 2, [3, 4]}  # 会报错
+   ```
+
+## 字典 dict
 
 可以理解成java-map
 
@@ -677,6 +852,68 @@ Traceback (most recent call last):
   File "test.py", line 5, in <module>
     print "tinydict['Alice']: ", tinydict['Alice']
 KeyError: 'Alice'
+```
+
+### 遍历字典
+
+#### 1. 遍历字典的键
+
+使用 `for key in dict` 或 `for key in dict.keys()` 遍历字典的所有键：
+
+```python
+my_dict = {'a': 1, 'b': 2, 'c': 3}
+
+for key in my_dict:
+    print(f"Key: {key}")
+# 或
+for key in my_dict.keys():
+    print(f"Key: {key}")
+```
+
+**输出**:
+
+```makefile
+Key: a
+Key: b
+Key: c
+```
+
+------
+
+#### 2. 遍历字典的值
+
+使用 `for value in dict.values()` 遍历字典的所有值：
+
+```python
+for value in my_dict.values():
+    print(f"Value: {value}")
+```
+
+**输出**:
+
+```
+Value: 1
+Value: 2
+Value: 3
+```
+
+------
+
+#### 3. 遍历字典的键值对
+
+使用 `for key, value in dict.items()` 遍历键值对：
+
+```python
+for key, value in my_dict.items():
+    print(f"Key: {key}, Value: {value}")
+```
+
+**输出**:
+
+```yaml
+Key: a, Value: 1
+Key: b, Value: 2
+Key: c, Value: 3
 ```
 
 ### 获取第一个元素
@@ -1831,7 +2068,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                                                     
+>                                                                 
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
@@ -2650,7 +2887,7 @@ print(detect_file)
 
 ```python
 
-Copy code
+
 count = 0
 output_directory = 'captured_frames_' + str(count)
 ```
@@ -2659,7 +2896,7 @@ output_directory = 'captured_frames_' + str(count)
 
 ```python
 
-Copy code
+
 count = 0
 output_directory = 'captured_frames_' + str(count)
 print(output_directory)  # 输出: captured_frames_0
