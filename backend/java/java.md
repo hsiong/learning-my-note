@@ -1628,8 +1628,7 @@ Sorted Set
 1. test=$(expr "$filename" : "$libsReg")的返回值是false; 如需使用该
 2. expr match "$file" "rfty"; expr: syntax error
 原因: macos不支持expr match语法, 请使用 expr "$file" : "rfty"代替
-3. linux通过端口查看进程：netstat -nap | grep 端口号  或lsof:if 端口号
-4. 快捷路径/usr/local/bin/redis-server; /usr/local/Cellar/dex2jar/2.0
+1. 快捷路径/usr/local/bin/redis-server; /usr/local/Cellar/dex2jar/2.0
 
 # 第五章 Spring-Boot
 ## 5.1 Spring-Boot经验
