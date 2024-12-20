@@ -34,6 +34,11 @@ ps aux | grep java | awk '{if(NR>=2) print $2 ","}' |xargs |sed 's/ //g' | sed -
 + java_home
 /usr/libexec/java_home -V
 
+# show port
++ sudo netstat -nap | grep 端口号 
++ sudo lsof:if 端口号
+> attention: you should use sudo lsof -i:8080 otherwise you may get nothing
+
 # kill process
 + kill process by name
 name=java
