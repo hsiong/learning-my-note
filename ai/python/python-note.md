@@ -120,6 +120,34 @@ Editor -> File Types -> Python -> add `*.py`
 + 中文乱码, 修改 Color Scheme Font - Font -> Microsoft Yahei UI
 + 提示过慢: click detect proxy
 
+### pycharm 应用设置 proxy
+
+> 在运行配置中设置环境变量
+
+1. **打开 PyCharm**。
+
+2. 打开运行配置：
+
+   - 点击右上角的运行/调试配置下拉菜单，选择 "Edit Configurations"。
+
+3. **选择你的运行配置**，或者新建一个配置。
+
+4. 设置代理环境变量：
+
+   - 在 "Environment Variables" 中，添加以下内容：
+
+     ```
+     HTTP_PROXY=http://username:password@proxy_host:proxy_port
+     HTTPS_PROXY=http://username:password@proxy_host:proxy_port
+     ```
+
+     示例：
+
+     ```
+     HTTP_PROXY=http://user:pass@127.0.0.1:8080
+     HTTPS_PROXY=http://user:pass@127.0.0.1:8080
+     ```
+
 ### pycharm the file in the editor is not runnable
 转到 Project: 你的项目名 > Project Interpreter。
 
