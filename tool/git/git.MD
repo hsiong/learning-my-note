@@ -9,6 +9,9 @@
 - [git pr command](#git-pr-command)
 - [not a git repository (or any of the parent directories): .git](#not-a-git-repository-or-any-of-the-parent-directories-git)
 - [mac 升级 git](#mac-升级-git)
+    - [检查 Git 安装路径](#检查-git-安装路径)
+    - [清除旧的别名](#清除旧的别名)
+    - [更新别名](#更新别名)
 
 <!-- # 一.常见问题 -->
 
@@ -19,6 +22,8 @@
  git config --global https.proxy http://127.0.0.1:1080
  git config --global http.proxy http://127.0.0.1:1080
 ```
+
+> 注意: 然后重启! 
 
 ### 1.2 方法2
 如未生效
