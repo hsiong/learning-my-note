@@ -218,6 +218,8 @@ pip install -r requirements.txt
 
 > 注意: 国外源会出现很多问题, 尤其是 代理 的问题
 
+> pip proxy 代理: pip config set global.proxy http://127.0.0.1:10808
+
 ### 默认源
 https://pypi.org/simple
 
