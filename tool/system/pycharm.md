@@ -175,6 +175,18 @@ select `Help -> Edit Custom VM Options` add below:
 >
 > terminal 执行的 python 进程, 包括 flask 、request 等操作, 都会收到代理的影响, 所以最优解是将远程地址加入代理配置
 
+
+
+### git local changes
+
+unclick `Commit` -> `Use non-modal commit interface`
+
+
+
+### inspections
+
++ unclick `Incorrect call arguments`
+
 ### 插件
 
 + Material Theme UI
@@ -183,9 +195,9 @@ select `Help -> Edit Custom VM Options` add below:
 + Indent Rainbow
 + Rainbow Brackets
 
-> Indent Rainbow: Unclick Do NOT rainbowify files with more than ... lines
+> Indent Rainbow: Unclick `Do NOT rainbowify files with more than ... lines`
 >
-> codeium: Unclick Chat Inlay Hints
+> codeium: Unclick `Chat Inlay Hints`
 
 
 
@@ -205,3 +217,4 @@ select `Help -> Edit Custom VM Options` add below:
 + 打开 PyCharm 的运行配置（Run > Edit Configurations）。
 + 选择你的 pytest 配置。
 + 在 Additional Arguments 字段中添加 -s。
+
