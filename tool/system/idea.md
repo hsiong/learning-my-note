@@ -142,4 +142,4 @@ https://plugins.jetbrains.com/plugin/16988-restful-fast-request--api-buddy/versi
 idea 2023.2.6  main menu -> file -> file open actions -> open projec actions -> new -> file
 
 ### pycharm
-详见 python.md
+详见 pycharm.md
