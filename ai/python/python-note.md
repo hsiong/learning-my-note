@@ -2673,6 +2673,11 @@ def extract_json(text):
 	raise UserWarning('JSON解析错误')
 ```
 
+## python request 设置超时
+```python
+    response = requests.post(url, json=json, headers=headers, timeout=120)
+```
+
 ## python 遍历 某目录下的包和文件, 并获取地址
 ```python
 
