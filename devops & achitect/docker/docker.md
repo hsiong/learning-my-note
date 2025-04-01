@@ -831,3 +831,23 @@ CMD sh -c "envsubst '\\\$MY_VARIABLE' < /etc/nginx/conf.d/default.conf.template 
 + 最后, 容器运行时指定特定的参数
 docker run -e MY_VARIABLE=my_value <image_name>
 
+##  docker: Error response from daemon: could not select device driver "" with capabilities: [[gpu]].
+ docker 默认不支持 gpu, 需要安装 nvidia-docker2
+
+```shell
+
+nvidia-smi
+
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | \
+sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+sed 's#deb #deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] #' | \
+sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+sudo rm /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo cat /etc/docker/daemon.json
+sudo systemctl restart docker
+
+```
