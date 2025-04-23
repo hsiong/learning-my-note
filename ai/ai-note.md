@@ -254,6 +254,16 @@ ort_session = ort.InferenceSession(onnx_model_path, session_options, providers=[
 
 如果你的CUDA、cuDNN或PyTorch版本之间存在不兼容问题，可能会导致GPU性能没有充分发挥。确保你的CUDA版本与PyTorch和ONNX运行时兼容。
 
+#### install cuda
++ install cuda
++ system enviroment: Path add
+```
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.0\bin
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.0\libnvvp
+```
++ restart
++ check: `nvcc -V`
+
 # object-detect
 ## 病虫害
 + 作物病虫害识别数据集资源合集: https://zhuanlan.zhihu.com/p/451142782
