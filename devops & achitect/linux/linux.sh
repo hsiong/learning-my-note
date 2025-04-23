@@ -39,6 +39,12 @@ ps aux | grep java | awk '{if(NR>=2) print $2 ","}' |xargs |sed 's/ //g' | sed -
 + sudo lsof:if 端口号
 > attention: you should use sudo lsof -i:8080 otherwise you may get nothing
 
++ 过滤出某个ip的相关进程
+sudo lsof -i @ip/address
+
++ 根据进程id查询进程
+ps -fp portId ∂ui
+
 # kill process
 + kill process by name
 name=java
@@ -291,6 +297,9 @@ ip addr show
 
 + 获取公网ip
 curl myip.ipip.net 
+
+
+
 
 # how to install ubuntu
 https://github.com/hsiong/project-init-ubuntu-linux
