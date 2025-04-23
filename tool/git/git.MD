@@ -8,10 +8,13 @@
 - [push exist file to new git repo](#push-exist-file-to-new-git-repo)
 - [git pr command](#git-pr-command)
 - [not a git repository (or any of the parent directories): .git](#not-a-git-repository-or-any-of-the-parent-directories-git)
+- [GitHub历史版本回退](#github历史版本回退)
+- [强制推送 force](#强制推送-force)
+- [git 抛弃本地提交](#git-抛弃本地提交)
 - [mac 升级 git](#mac-升级-git)
-    - [检查 Git 安装路径](#检查-git-安装路径)
-    - [清除旧的别名](#清除旧的别名)
-    - [更新别名](#更新别名)
+  - [检查 Git 安装路径](#检查-git-安装路径)
+  - [清除旧的别名](#清除旧的别名)
+  - [更新别名](#更新别名)
 
 <!-- # 一.常见问题 -->
 
@@ -102,10 +105,26 @@ git clone <repo_path>
 
 ```
 
+# GitHub历史版本回退
+https://blog.csdn.net/u013201439/article/details/80140863
+
+注意: 本地不要合并啥的历史; 直接剪出某个版本, 然后 push
+
+git push -f -u origin master
+
+# 强制推送 force
+git push -f -u origin branch
+
+# git 抛弃本地提交
+git fetch origin
+
+git reset --hard origin/main
+
+
 # mac 升级 git
 你正在使用 macOS 系统自带的 Git 版本。通常这个版本比较旧，而且 macOS 系统更新时才会升级它。因此，如果你已经通过 Homebrew 或从官网安装了更新版本的 Git，那么你可能需要调整系统的环境变量，让终端优先使用更新的 Git。
 
-### 检查 Git 安装路径
+## 检查 Git 安装路径
 
 首先，让我们确认 Homebrew 安装的 Git 的实际路径。可以通过以下命令来查找 Homebrew 安装的 Git 的确切位置：
 
@@ -115,7 +134,7 @@ brew --prefix git
 
 这会返回 Git 的安装目录。
 
-### 清除旧的别名
+## 清除旧的别名
 
 如果之前设置的别名导致了问题，你可以临时移除这个别名来测试 Git 是否可以正常工作。可以在终端中运行：
 
@@ -123,7 +142,7 @@ brew --prefix git
 unalias git
 ```
 
-### 更新别名
+## 更新别名
 
 如果你找到了正确的 Git 路径，记得更新你之前设置的别名。
 
