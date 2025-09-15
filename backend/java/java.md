@@ -1722,8 +1722,8 @@ TIMESTAMP类型有专有的自动更新特性。
     > f. 特殊情况, mysql 认为全表更快的时候
     > g. order by / group by 的字段也需要避免上述情况
 
-4.  应尽量避免 in 操作, 若实在需要使用, 控制 in 元素在1000个以内
-5.  避免使用 select * / count(*) / sum(*) 等方法
+4. 应尽量避免 in 操作, 若实在需要使用, 控制 in 元素在1000个以内
+5. 避免使用 select * / count(*) / sum(*) 等方法
     > 原因: 
     > + count(*) 会统计值为 null 的行, 
     > + sum(*) 会出现 nul 值, 需要考虑 NPE 问题
@@ -1731,8 +1731,110 @@ TIMESTAMP类型有专有的自动更新特性。
     >   + a. 增加查询分析器解析成本
     >   + b. 增减字段容易与 resultMap 配置不一致
     >   + c. 多余字段增加网络开销
-6.  参考[2.1 基础类型](#21-基础类型), 应尽量准确选择长度正确的数据类型'
-7.  永远小标驱动大表（小的数据集驱动大的数据集）
+6. 参考[2.1 基础类型](#21-基础类型), 应尽量准确选择长度正确的数据类型'
+7. 永远小标驱动大表（小的数据集驱动大的数据集）
+
+### mysql 有哪些索引   以及如何优化命中
+
+#### 1. MySQL 常见索引类型
+
+##### 🔹 1.1 B-Tree 索引（最常用）
+
+- **默认索引类型**（InnoDB/ MyISAM）。
+
+- 适用于：等值查询、范围查询、前缀匹配、排序。
+
+- 示例：
+
+  ```
+  CREATE INDEX idx_user_name ON users(name);
+  SELECT * FROM users WHERE name = 'Alice';
+  ```
+
+##### 🔹 1.2 Hash 索引
+
+- **Memory 引擎**支持。
+
+- 等值查询效率高（O(1)）。
+
+- 缺点：不支持范围查询 / 排序。
+
+- 示例：
+
+  ```
+  CREATE INDEX idx_user_id USING HASH ON users(id);
+  ```
+
+##### 🔹 1.3 全文索引（FULLTEXT）
+
+- **MyISAM、InnoDB** 引擎支持。
+
+- 面向长文本字段（`CHAR`、`VARCHAR`、`TEXT`）。
+
+- 底层用 **倒排索引**，支持 BM25。
+
+- 示例：
+
+  ```
+  CREATE FULLTEXT INDEX idx_content ON articles(content);
+  SELECT * FROM articles WHERE MATCH(content) AGAINST('database' IN NATURAL LANGUAGE MODE);
+  ```
+
+##### 🔹 1.4 空间索引（SPATIAL）
+
+- MyISAM / InnoDB 支持。
+
+- 面向 GIS 数据类型（`POINT`, `GEOMETRY`）。
+
+- 用 R-Tree 存储。
+
+- 示例：
+
+  ```
+  CREATE SPATIAL INDEX idx_location ON places(location);
+  ```
+
+##### 🔹 1.5 主键索引（Primary Key）
+
+- InnoDB：**聚簇索引**（Clustered Index），数据按主键顺序存放。
+- MyISAM：主键索引和数据分离。
+
+##### 🔹 1.6 唯一索引（UNIQUE）
+
+- 保证字段唯一性，查询效率接近普通 B-Tree 索引。
+
+- 示例：
+
+  ```
+  CREATE UNIQUE INDEX idx_email ON users(email);
+  ```
+
+##### 🔹 1.7 组合索引（Composite Index）
+
+- 索引多个列，遵循 **最左前缀原则**。
+
+- 示例：
+
+  ```
+  CREATE INDEX idx_name_age ON users(name, age);
+  ```
+
+- 查询优化：
+
+  ```
+  SELECT * FROM users WHERE name = 'Alice' AND age = 20;  -- 命中索引
+  SELECT * FROM users WHERE age = 20;                     -- 不能完全命中
+  ```
+
+------
+
+#### 2. 工具与诊断
+
+- `EXPLAIN`：查看 SQL 是否走索引。
+- `SHOW INDEX FROM table;`：查看索引结构。
+- 慢查询日志：分析未命中索引的 SQL。
+
+###### 
 
 ## 2.4 mysql锁
 [参考资料1](https://www.modb.pro/db/41502): https://www.modb.pro/db/41502  
@@ -2146,7 +2248,254 @@ public class ThreadPoolOssConfig {
 }
 ```
 
+## Spring 动态代理
 
+#### 1. 什么是 Spring 动态代理
+
+- **动态代理（Dynamic Proxy）** = **在运行时动态生成代理对象**，拦截方法调用，在执行目标方法前后增加一些“增强逻辑”（Advice）。
+- Spring AOP（面向切面编程）的核心就是基于动态代理实现的。
+
+你写的代码里类似：
+
+```
+@Service
+public class UserService {
+    public void createUser(String name) {
+        System.out.println("Creating user: " + name);
+    }
+}
+```
+
+如果加了一个切面（@Aspect），Spring 最终会给你返回一个 **代理对象**，而不是原始的 `UserService`。
+
+------
+
+#### 2. Spring 动态代理的两种实现方式
+
+##### 2.1 JDK 动态代理（基于接口）
+
+- 依赖 `java.lang.reflect.Proxy` 和 `InvocationHandler`。
+- 要求目标类 **必须实现接口**。
+- 核心机制：
+  - `Proxy.newProxyInstance()` 生成代理对象。
+  - 方法调用被 `InvocationHandler.invoke()` 拦截。
+
+示例：
+
+```
+public interface UserService {
+    void createUser(String name);
+}
+
+public class UserServiceImpl implements UserService {
+    public void createUser(String name) {
+        System.out.println("Creating user: " + name);
+    }
+}
+
+public class LogInvocationHandler implements InvocationHandler {
+    private Object target;
+
+    public LogInvocationHandler(Object target) {
+        this.target = target;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("Before method: " + method.getName());
+        Object result = method.invoke(target, args);
+        System.out.println("After method: " + method.getName());
+        return result;
+    }
+}
+
+// 使用
+UserService target = new UserServiceImpl();
+UserService proxy = (UserService) Proxy.newProxyInstance(
+        target.getClass().getClassLoader(),
+        target.getClass().getInterfaces(),
+        new LogInvocationHandler(target));
+
+proxy.createUser("Alice");
+```
+
+------
+
+##### 2.2 CGLIB 动态代理（基于继承）
+
+- 不依赖接口，直接生成目标类的子类。
+- 使用字节码增强库 **CGLIB（Code Generation Library）**。
+- 通过继承方式覆盖方法，实现拦截。
+
+示例：
+
+```
+public class UserService {
+    public void createUser(String name) {
+        System.out.println("Creating user: " + name);
+    }
+}
+
+public class LogMethodInterceptor implements MethodInterceptor {
+    @Override
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        System.out.println("Before method: " + method.getName());
+        Object result = proxy.invokeSuper(obj, args);
+        System.out.println("After method: " + method.getName());
+        return result;
+    }
+}
+
+// 使用 Enhancer 创建代理
+Enhancer enhancer = new Enhancer();
+enhancer.setSuperclass(UserService.class);
+enhancer.setCallback(new LogMethodInterceptor());
+UserService proxy = (UserService) enhancer.create();
+proxy.createUser("Alice");
+```
+
+------
+
+#### 3. Spring 如何选择 JDK / CGLIB
+
+- 如果目标类实现了接口，Spring 默认使用 **JDK 动态代理**。
+
+- 如果目标类没有接口，Spring 自动启用 **CGLIB**。
+
+- 也可以通过配置强制指定：
+
+  ```
+  spring:
+    aop:
+      proxy-target-class: true   # 强制使用 CGLIB
+  ```
+
+------
+
+#### 4. Spring 动态代理的应用
+
+- **AOP 切面**：`@Aspect @Around @Before @After`。
+- **事务管理**：`@Transactional`，实际上是通过代理增强实现的。
+- **安全控制**：`@PreAuthorize`，方法执行前鉴权。
+- **远程调用**：Spring Cloud/OpenFeign 也是基于动态代理生成客户端。
+
+------
+
+#### 5. 动态代理 vs 静态代理
+
+| 特点            | 静态代理               | 动态代理               |
+| --------------- | ---------------------- | ---------------------- |
+| 代理类生成      | 编译时写死             | 运行时动态生成         |
+| 灵活性          | 低                     | 高                     |
+| 开发成本        | 需要为每个目标类写代理 | 一套通用逻辑，自动代理 |
+| Spring 使用场景 | 几乎不用               | 核心机制               |
+
+------
+
+#### 6. 总结
+
+- Spring AOP 本质上是 **动态代理 + 切面编程**。
+- **有接口 → JDK Proxy**，**无接口 → CGLIB**。
+- 动态代理的关键在于：**方法调用被拦截 → 增强逻辑织入 → 再调用目标方法**。
+
+## Spring AOP 与 AspectJ 区别
+
+#### 🌱 例子 1：拦截 **普通对象**（非 Spring Bean）
+
+**Spring AOP：**
+ 只能拦截 **Spring 容器管理的 Bean**。如果你自己 `new` 一个对象，是拦不住的：
+
+```
+@Service
+public class UserService {
+    public void createUser() {
+        System.out.println("create user");
+    }
+}
+
+public class TestApp {
+    public static void main(String[] args) {
+        UserService userService = new UserService(); // 直接 new 出来
+        userService.createUser(); // ❌ Spring AOP 拦不住
+    }
+}
+```
+
+**AspectJ：**
+ 因为它直接修改字节码，不管是不是 Spring 管理的对象，都能拦截：
+
+```
+@Aspect
+public class LogAspect {
+    @Before("execution(* com.example.UserService.createUser(..))")
+    public void before() {
+        System.out.println(">>> Before createUser");
+    }
+}
+```
+
+👉 运行后：`>>> Before createUser` 会打印出来。
+
+------
+
+#### 🌱 例子 2：拦截 **构造函数**
+
+**Spring AOP：**
+ 只能拦截方法，构造函数无能为力。
+
+**AspectJ：**
+ 可以直接拦截 `new`：
+
+```
+@Aspect
+public class ConstructorAspect {
+    @Before("execution(com.example.UserService.new(..))")
+    public void beforeConstructor() {
+        System.out.println(">>> Before UserService constructor");
+    }
+}
+```
+
+👉 只要执行 `new UserService()`，AspectJ 就能切入，而 Spring AOP 不行。
+
+------
+
+#### 🌱 例子 3：拦截 **字段访问**
+
+**Spring AOP：**
+ 不能拦截 `obj.field` 的读写。
+
+**AspectJ：**
+ 可以拦截字段 `get/set` 操作：
+
+```
+@Aspect
+public class FieldAspect {
+    @Before("get(int com.example.UserService.age)")
+    public void beforeGet() {
+        System.out.println(">>> Before get age");
+    }
+
+    @Before("set(int com.example.UserService.age)")
+    public void beforeSet() {
+        System.out.println(">>> Before set age");
+    }
+}
+```
+
+👉 每次读/写 `userService.age` 时，都会触发切面逻辑。
+
+------
+
+#### 🌱 总结差异（结合例子）
+
+| 能力                    | Spring AOP            | AspectJ                 |
+| ----------------------- | --------------------- | ----------------------- |
+| 拦截 Spring Bean 方法   | ✅                     | ✅                       |
+| 拦截非 Spring Bean 方法 | ❌                     | ✅                       |
+| 拦截构造函数            | ❌                     | ✅                       |
+| 拦截字段访问            | ❌                     | ✅                       |
+| 实现方式                | 动态代理（JDK/CGLIB） | 编译期/加载期修改字节码 |
 
 # 第六章 Spring-cloud-alibaba
 
