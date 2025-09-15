@@ -1,7 +1,17 @@
-
 initial
 
-```shell
+## middleware
+
++ modify config `middleware.env`
+
+  ```
+  PIP_MIRROR_URL=https://pypi.tuna.tsinghua.edu.cn/simple
+  ```
+
++ shell
+
+```sh
+
 cd docker
 cp middleware.env.example middleware.env
 cp docker-compose.middleware.yaml docker-compose.middleware.copy.yaml
@@ -10,7 +20,56 @@ sudo rm -rf ./volumes/* && sudo rm -rf ../api/storage
 
 ps aux | grep celery | grep -v grep | awk '{print $2}' | xargs kill -9
 sudo docker compose -f docker-compose.middleware.copy.yaml  up -d
+```
 
+
+
+## web
+
++ ` cp .env.example .env.local`
+
++ Modify the values of these environment variables according to your requirements
+
+  ```
+  NEXT_PUBLIC_CSP_WHITELIST=https://marketplace.dify.ai localhost
+  ```
+
+  
+
++ shell
+
+  ```shell
+  cd ../web
+  brew install node@22
+  brew unlink node@16
+  brew link --overwrite node@22
+  echo 'export PATH="/opt/homebrew/opt/node@22/bin:$PATH"' >> ~/.zshrc
+  source ~/.zshrc
+  
+  rm -rf node_modules pnpm-lock.yaml package-lock.json
+  pnpm config set proxy http://127.0.0.1:7890
+  pnpm config set https-proxy http://127.0.0.1:7890
+  pnpm config set registry https://registry.npmmirror.com/
+  pnpm install
+  pnpm run build
+  pnpm start
+  
+  
+  # don't use proxy
+  # install plugin from local & wait to install
+  ```
+
+## api-repo
+
++ modify config
+
+  ```sh
+  SQLALCHEMY_ECHO=true # sql log
+  ```
+
++ repo
+
+```sh
 pip install uv
 uv pip install -r pyproject.toml  --group storage --group tools --group vdb --group dev
 #pip install poetry
@@ -22,31 +81,9 @@ cd  ../api
 flask db upgrade
 celery -A app.celery worker -P gevent -c 1 --loglevel INFO -Q dataset,generation,mail,ops_trace
 flask run --host 0.0.0.0 --port=5001 --debug
+```
 
-cd ../web
-brew install node@22
-brew unlink node@16
-brew link --overwrite node@22
-echo 'export PATH="/opt/homebrew/opt/node@22/bin:$PATH"' >> ~/.zshrc
-source ~/.zshrc
-
-rm -rf node_modules pnpm-lock.yaml package-lock.json
-pnpm config set proxy http://127.0.0.1:7890
-pnpm config set https-proxy http://127.0.0.1:7890
-pnpm config set registry https://registry.npmmirror.com/
-pnpm install
-pnpm run build
-pnpm start
-
-
-
-# don't use proxy
-# install plugin from local & wait to install
-````
-
-
-
-## PyCharm 运行 Celery worker
+### PyCharm 运行 Celery worker
 
 1. **点开右上角的小三角旁边的下拉 → Edit Configurations…**
 
@@ -73,3 +110,5 @@ pnpm start
    - **Python interpreter**：
 
      - 选择你的虚拟环境 Python
+
+### PyCharm 运行 app
