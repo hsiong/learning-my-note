@@ -176,3 +176,8 @@ https://www.cnblogs.com/hi3254014978/p/15585732.html
 ## drag with three finger
 -> use trackpad for dragging
 -> Dragging style: Three Finger Drag
+
+## Mac 如何显示隐藏文件以及如何隐藏文件？
+在 Mac 上有时候我们想查看一些隐藏文件，怎么办呢？只需要输入快捷键
+
+Command + Shift + . 
