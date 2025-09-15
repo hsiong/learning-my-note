@@ -494,6 +494,7 @@ https://www.jianshu.com/p/717bc27141c4
 构建服务器应用程序的一个简单模型是：每当一个请求到达就创建一个新线程，然后在新线程中为请求服务。实际上对于原型开发这种方法工作得很好，但如果试图部署以这种方式运行的服务器应用程序，那么这种方法的严重不足就很明显。每个请求对应一个线程（thread-per-request）方法的不足之一是：为每个请求创建一个新线程的开销很大；为每个请求创建新线程的服务器在创建和销毁线程上花费的时间和消耗的系统资源要比花在处理实际的用户请求的时间和资源更多。  
 除了创建和销毁线程的开销之外，活动的线程也消耗系统资源。在一个 JVM 里创建太多的线程可能会导致系统由于过度消耗内存而用完内存或“切换过度”。为了防止资源不足，服务器应用程序需要一些办法来限制任何给定时刻处理的请求数目。  
 线程池为线程生命周期开销问题和资源不足问题提供了解决方案。通过对多个任务重用线程，线程创建的开销被分摊到了多个任务上。其好处是，因为在请求到达时线程已经存在，所以无意中也消除了线程创建所带来的延迟。这样，就可以立即为请求服务，使应用程序响应更快。而且，通过适当地调整线程池中的线程数目，也就是当请求的数目超过某个阈值时，就强制其它任何新到的请求一直等待，直到获得一个线程来处理为止，从而可以防止资源不足。  
+
 #### 使用线程池的风险
 1. 死锁  
 任何多线程应用程序都有死锁风险。当一组进程或线程中的每一个都在等待一个只有该组中另一个进程才能引起的事件时，我们就说这组进程或线程死锁。  
@@ -604,13 +605,246 @@ https://zhuanlan.zhihu.com/p/532827958
 
 https://juejin.cn/post/6976893903223914527
 
+ https://blog.csdn.net/YoungLee16/article/details/88398045
+
++ 在@SpringBootApplication启动类当中添加注解@EnableAsync注解。
++ 异步方法使用注解@[Async](https://so.csdn.net/so/search?q=Async&spm=1001.2101.3001.7020)的返回值只能为void或者Future。
++ 需要走Spring的代理类。因为@Transactional和@Async注解的实现都是基于Spring的AOP，而AOP的实现是基于动态代理模式实现的。那么注解失效的原因就很明显了，有可能因为调用方法的是对象本身而不是代理对象，因为没有经过Spring容器。
+
 #### 线程池业务隔离, 状态监控与状态调优
+
+##### 业务隔离
 
 https://www.jianshu.com/p/6f6e2bcb8128
 
+在不同的业务方法中国呢使用@Async注解传入不同的实例name来使用不同的线程池实例
+
+##### 状态监控
+
+ThreadPoolExecutor提供了beforeExecute, afterExecute 等钩子方法，我们可以可以在钩子方法中对线程池任务的执行时间上报CAT,代码片段如下：
 
 
 
+```dart
+    @Override
+    protected void beforeExecute(Thread t, Runnable r) {
+        String threadName = Thread.currentThread().getName();
+        Transaction transaction = Cat.newTransaction(threadPoolName, runnableNameMap.get(r.getClass().getSimpleName()));
+        transactionMap.put(threadName, transaction);
+        super.beforeExecute(t, r);
+    }
+
+    @Override
+    protected void afterExecute(Runnable r, Throwable t) {
+        super.afterExecute(r, t);
+        String threadName = Thread.currentThread().getName();
+        Transaction transaction = transactionMap.get(threadName);
+        transaction.setStatus(Message.SUCCESS);
+        if (t != null) {
+            Cat.logError(t);
+            transaction.setStatus(t);
+        }
+        transaction.complete();
+        transactionMap.remove(threadName);
+    }
+```
+
+通过使用CAT的StatusExtension，可以定时将线程池的运行时状态数据发送到CAT并生成柱状图，相关实现代码如下：
+
+
+
+```dart
+    public StatusExtension registerStatusExtension(ThreadPoolProperties prop, Object object) {
+        NaughtyThreadPoolTaskExecutor executor = (NaughtyThreadPoolTaskExecutor) object;
+        StatusExtension statusExtension =  new StatusExtension() {
+            @Override
+            public String getId() {
+                return "thread.pool.info." + prop.getThreadPoolName();
+            }
+
+            @Override
+            public String getDescription() {
+                return "线程池监控";
+            }
+
+            @Override
+            public Map<String, String> getProperties() {
+                AtomicLong rejectCount = getRejectCount(prop.getThreadPoolName());
+
+                Map<String, String> pool = new HashMap<>();
+              pool.put("activeCount", String.valueOf(executor.getActiveCount()));
+                    pool.put("keepAliveTime", String.valueOf(executor.getKeepAliveSeconds()));
+                    int coreSize = executor.getCorePoolSize();
+                    int maxSize = executor.getMaxPoolSize();
+                    if (coreSize!=0){
+                        pool.put("active/core", String.valueOf(Float.valueOf(executor.getActiveCount())/Float.valueOf(coreSize)));
+                    }
+                    if (maxSize!=0){
+                        pool.put("active/max", String.valueOf(Float.valueOf(executor.getActiveCount())/Float.valueOf(maxSize)));
+                    }
+                    pool.put("coreSize", String.valueOf(executor.getCorePoolSize()));
+                    pool.put("maxSize", String.valueOf(executor.getMaxPoolSize()));
+                    ThreadPoolExecutor threadPoolExecutor = executor.getThreadPoolExecutor();
+                    pool.put("completedTaskCount", String.valueOf(threadPoolExecutor.getCompletedTaskCount()));
+                    pool.put("largestPoolSize", String.valueOf(threadPoolExecutor.getLargestPoolSize()));
+                    pool.put("taskCount", String.valueOf(threadPoolExecutor.getTaskCount()));
+                    pool.put("rejectCount", String.valueOf(rejectCount == null ? 0 : rejectCount.get()));
+                    pool.put("queueSize", String.valueOf(threadPoolExecutor.getQueue().size()));
+                return pool;
+            }
+        };
+        StatusExtensionRegister.getInstance().register(statusExtension);
+        return statusExtension;
+    }
+```
+
+各项监控指标的说明如下：（以下部分观点可能需要经过进一步的验证，仅供大家参考）
+
+- active/coreSize ：活动线程数和核心线程数的比值， 其中active = executor.getActiveCount()，表示所有运行中的工作线程的数量，这个比值反应线程池的线程活跃状态，如果一直维持在一个很低的水平，则说明线程池需要进行缩容；如果长时间维持一个很大的数值，说明活跃度好，线程池利用率高。
+- active/maxSize ：活动线程数和最大线程数的比值，这个值可以配合上面的 active/coreSize 来看，当active/coreSize大于100%的时候，如果active/maxSize维持在一个较低的值，则说明当前线程池的负载偏低，如果大于60%或者更高，则说明线程池过载，需要及时调整线程池容量配置。
+- completedTaskCount：执行完毕的工作线程的总数，包含历史所有。
+- largestPoolSize：历史上线程池容量触达过的最大值
+- rejectCount：被拒绝的线程的数量，如果大量线程被拒绝，则说明当前线程池已经溢出了，需要及时调整线程池配置
+- queueSize：队列中工作线程的数量，如果大量的线程池在排队，说明coreSize已经不够用了，可以根据实际情况来调整，对于执行时间要求很严格的业务场景，可能需要通过提升coreSize来减少排队情况。
+
+#### 结束后发布事件, 比如通知
+
+#### 1. 创建一个自定义的 ThreadPoolExecutor, 重写 afterExecute()
+
+```
+// 创建一个自定义的 ThreadPoolExecutor
+                ThreadPoolExecutor executor = new ThreadPoolExecutor(
+                        this.getCorePoolSize(),
+                        this.getMaxPoolSize(),
+                        this.getKeepAliveSeconds(),
+                        TimeUnit.SECONDS,
+                        this.getQueueCapacity() == 0 ? new SynchronousQueue<>() : new LinkedBlockingQueue<>(this.getQueueCapacity()),
+                        threadFactory,
+                        rejectedExecutionHandler
+                ) {
+                    @Override
+                    protected void afterExecute(Runnable r, Throwable t) {
+                        super.afterExecute(r, t);
+                        if (t == null && r instanceof Future<?>) {
+                            try {
+                                Object result = ((Future<?>) r).get();
+                                System.out.println("任务完成，结果: " + result);
+                            } catch (CancellationException ce) {
+                                System.out.println("任务被取消");
+                            } catch (ExecutionException ee) {
+                                System.out.println("任务执行异常: " + ee.getCause());
+                            } catch (InterruptedException ie) {
+                                Thread.currentThread().interrupt();
+                            }
+                        } else if (t != null) {
+                            System.out.println("任务执行异常: " + t.getMessage());
+                        }
+                    }
+                };
+
+                return executor;
+```
+
+
+
+##### 2.使用 `CompletableFuture`（推荐）
+
+```
+@Async
+public CompletableFuture<String> doWork() throws InterruptedException {
+    Thread.sleep(2000);
+    return CompletableFuture.completedFuture("任务完成");
+}
+```
+
+调用时：
+
+```
+asyncService.doWork().thenAccept(result -> {
+    System.out.println("收到通知: " + result);
+});
+```
+
+✅ 优点：真正异步回调，任务结束后自动通知，不阻塞主线程。
+
+------
+
+##### 3. 统一监听：自定义 AsyncUncaughtExceptionHandler
+
+如果你的 `@Async` 方法是 `void` 返回，可以通过配置统一处理异常或完成通知：
+
+```
+@Configuration
+@EnableAsync
+public class AsyncConfig implements AsyncConfigurer {
+    @Override
+    public Executor getAsyncExecutor() {
+        return Executors.newFixedThreadPool(5);
+    }
+
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return (ex, method, params) -> {
+            System.out.println("异步任务异常: " + ex.getMessage());
+        };
+    }
+}
+```
+
+如果要“通知”，可以在 `afterExecute` 里扩展（类似我之前讲的自定义 `ThreadPoolExecutor`）。
+
+------
+
+##### 4. 事件驱动的方式（推荐）
+
+Spring 本身就支持 **事件机制**（`ApplicationEventPublisher` + `@EventListener`），你可以在异步任务完成时发布事件，订阅者自动收到通知。
+
+示例：
+
+```
+// 定义事件
+public class TaskCompletedEvent extends ApplicationEvent {
+    private final String result;
+    public TaskCompletedEvent(Object source, String result) {
+        super(source);
+        this.result = result;
+    }
+    public String getResult() { return result; }
+}
+
+// 在异步方法里发布事件
+@Service
+public class AsyncService {
+    @Autowired
+    private ApplicationEventPublisher publisher;
+
+    @Async
+    public void doWork() throws InterruptedException {
+        Thread.sleep(2000);
+        publisher.publishEvent(new TaskCompletedEvent(this, "任务完成"));
+    }
+}
+
+// 监听事件
+@Component
+public class TaskCompletedListener {
+    @EventListener
+    public void onTaskCompleted(TaskCompletedEvent event) {
+        System.out.println("收到通知: " + event.getResult());
+    }
+}
+```
+
+✅ 优点：解耦，任务结束后通知逻辑不用写在任务里。
+ ✅ 适合“任务 → 消息总线 → 多个订阅者”场景。
+
+------
+
+##### 5. 总结对比
+
+- **返回 `CompletableFuture`** → 最方便的异步回调，推荐。
+- **事件机制** → 解耦，推荐在 Spring 体系里使用。
+- **AsyncConfigurer.afterExecute** → 适合统一监控，适合全局拦截。
 
 ### JDK 实现
 
@@ -689,6 +923,153 @@ https://blog.51cto.com/u_15736848/5540003
 + LinkedBlockingDeque
 
   链表结构的双向阻塞队列，优势在于多线程入队时，减少一半的竞争。
+
+### Tomcat, WSGI, ASGI, 线程池的关系
+
+#### Tomcat 的基本并发模型
+
+- Tomcat 是一个 **Java Servlet 容器**。
+- 在它的线程池（通常是 **线程池 Executor**）里，**每个 HTTP 请求会分配一个线程** 来处理。
+- 这个线程会执行你的 Servlet / Spring Controller 里的逻辑，然后返回响应。
+
+换句话说：
+
+- **请求级别线程** = 负责该请求的主处理逻辑。
+- 线程池的大小决定了同时能并发处理多少请求。
+
+> 多线程+异步
+>
+> + 使用 asgi => 提供并发
+> + 声明线程池
+> + @Async
+
+
+
+#### WSGI + uvicore
+
+WSGI（Flask）线程并发：请求阻塞线程
+
+```
+# app_flask.py
+from flask import Flask
+import time
+
+app = Flask(__name__)
+
+@app.route("/io")
+def io_block():
+    time.sleep(5)           # 阻塞5秒：线程被占住
+    return "done"
+```
+
+运行（4个worker，每个1线程）：
+
+```
+gunicorn app_flask:app -w 4 --threads 1
+```
+
+同时来10个请求：最多只有4个请求在“干活”，其余排队。
+
+#### 2) ASGI（FastAPI）协程并发：等待不占线程
+
+```
+# app_fastapi_io.py
+from fastapi import FastAPI
+import asyncio
+
+app = FastAPI()
+
+@app.get("/io")
+async def io_nonblocking():
+    await asyncio.sleep(5)  # 非阻塞等待：线程可去处理别的请求
+    return {"ok": True}
+```
+
+运行（1个worker也行）：
+
+```
+uvicorn app_fastapi_io:app --workers 1
+```
+
+同时来10个请求：**5秒后几乎一起返回**，因为等待期间没有占住线程。
+
+> 注意：
+>
+> + ASGI想要“高并发”，你用的库也要非阻塞（如 `httpx.AsyncClient`、`asyncpg` 等）。如果用阻塞库，仍会卡线程，需要 `run_in_executor()` 或换异步驱动。
+>
+> + 用 **信号量 (Semaphore)**控制并发
+>
+>   + ✅ 方案 1：全局中间件限并发
+>
+>   > from fastapi import FastAPI, Request
+>   > import asyncio
+>   >
+>   > app = FastAPI()
+>   > sem = asyncio.Semaphore(5)  # 全局限并发数
+>   >
+>   > @app.middleware("http")
+>   > async def limit_concurrency(request: Request, call_next):
+>   >     async with sem:
+>   >         response = await call_next(request)
+>   >         return response
+>   >
+>   > @app.get("/a")
+>   > async def a():
+>   >     await asyncio.sleep(3)
+>   >     return {"route": "a"}
+>   >
+>   > @app.get("/b")
+>   > async def b():
+>   >     await asyncio.sleep(3)
+>   >     return {"route": "b"}
+>
+>   + ✅ 方案 2：依赖注入（每组路由可自定义限流器）
+>
+>     ```
+>     from fastapi import FastAPI, Depends
+>     import asyncio
+>     
+>     app = FastAPI()
+>     
+>     class ConcurrencyLimiter:
+>         def __init__(self, max_concurrency: int):
+>             self.sem = asyncio.Semaphore(max_concurrency)
+>     
+>         async def __call__(self):
+>             await self.sem.acquire()
+>             try:
+>                 yield
+>             finally:
+>                 self.sem.release()
+>     
+>     # 给不同的路由组设定不同的并发上限
+>     limit5 = ConcurrencyLimiter(5)
+>     limit2 = ConcurrencyLimiter(2)
+>     
+>     @app.get("/fast", dependencies=[Depends(limit5)])
+>     async def fast_endpoint():
+>         await asyncio.sleep(3)
+>         return {"msg": "fast endpoint"}
+>     
+>     @app.get("/slow", dependencies=[Depends(limit2)])
+>     async def slow_endpoint():
+>         await asyncio.sleep(5)
+>         return {"msg": "slow endpoint"}
+>     
+>     ```
+>
+> 👉 这样即使同时来 100 个请求，事件循环里也只会同时“运行”5个，其他的要等信号量释放。
+
+#### 总结
+
+> ✅ **Flask +（g）unicorn**：并发=workers×threads；每个请求占一个线程，直到返回。
+>
+> ✅ **FastAPI + ASGI(uvicorn/hypercorn)**：基于事件循环的协程并发；等待 I/O 时**不占线程**。
+>
+> ❌ **“async 等于 Tomcat + @Async”**：不等价。
+>
+> - `@Async`=把工作丢给**别的线程池**（线程并发）。
+> - `async/await`=在**同一事件循环**里协作式调度（协程并发），等待 I/O 时释放控制权而不是占用线程。
 
 ## 1.6 对象, 反射, 泛型
 
@@ -1788,7 +2169,218 @@ public class ThreadPoolOssConfig {
 ## 9.3 设计模式
 [相关链接](https://github.com/hsiong/design-pattern-Java): https://github.com/hsiong/design-pattern-Java
 
+## 幂等&一致性&ACID&SOLID
+
+### 模式选择
+
+- **单库单表共享 + tenant_id 列（最常见）**
+  - 优点：成本低、扩容简单；劣势：隔离性依赖应用与权限策略。
+  - 关键：所有表加 `tenant_id`、**联合唯一索引**含 `tenant_id`、行级权限（RLS）或应用层过滤。
+- **库/模式（schema）级隔离**
+  - 优点：更强隔离（备份、迁移、配额、性能）；劣势：运维复杂。
+  - 适合大客户或有合规要求的行业客户。
+- **实例级隔离**
+  - 金融/政企极高安全要求；成本最高，适量使用。
+
+### 幂等设计
+
+同一个操作，无论执行一次还是多次，**对系统产生的效果相同**。
+
++ 数据库唯一约束
++ 业务状态机 + 重试机制
++ 消费消息时要加幂等控制
+
+### 数据一致性
+
+在分布式系统中，多个数据副本 / 多个服务之间，数据必须保持一致
+
++ 最终一致性: 分布式事务处理
++ 消息队列消费
++ 补偿机制: 重试机制/死信队列/CDC 订阅同步
+
+举例：开票成功 -> 记账 -> 推送税局；若税局失败，触发“冲红/撤销 + 记账回滚”补偿。
+
+### ACID
+
+**领域**：数据库（尤其是关系型数据库）。
+ **目标**：保证数据的正确性和可靠性。
+
+- **A (Atomicity, 原子性)**：事务要么全部成功，要么全部失败。
+- **C (Consistency, 一致性)**：执行前后，数据必须保持一致。
+- **I (Isolation, 隔离性)**：并发事务互不干扰。
+- **D (Durability, 持久性)**：事务一旦提交就不会丢失。
+
+### SOLID
+
+🔹 2. SOLID —— 面向对象编程设计原则
+
+**领域**：软件工程 / 面向对象编程 (OOP)。
+ **目标**：让代码更易维护、扩展，降低耦合。
+
+- **S (Single Responsibility)**：单一职责原则。
+
+  ```
+  一个服务/模块只做一件事，变化的原因要单一。
+  一个类/服务是可以有多个方法的，只要这些方法的变化原因是一致的。
+  
+  举例：
+  
+  InvoiceService 里有 generateInvoice()、calculateTax()、formatInvoiceNumber() ——它们都是“发票生成”逻辑的一部分，所以放在一起合理。
+  
+  但如果再加 sendNotification()（消息推送逻辑），那就涉及“通知系统”的变化原因，不再是“发票”本身的职责。
+  ```
+
+- **O (Open/Closed)**：开闭原则。
+
+  ```
+  系统应当 对扩展开放，对修改关闭。
+  
+  ✅ Kafka 消费场景
+  
+  ❌ 反例：
+  一个 Kafka 消费者写死了：
+  
+  if (msg.type.equals("invoice")) { ... }  
+  else if (msg.type.equals("payment")) { ... }  
+  
+  
+  以后新加消息类型就得改代码。
+  
+  ✅ 改进：
+  
+  定义接口 MessageHandler。
+  
+  每种消息类型都实现一个 Handler（发票消息、支付消息、税率更新消息）。 => 工厂模式
+  
+  消费端只做 handlerRegistry.get(msg.type).handle(msg)。
+  
+  新加业务，只需要新增类，不用改原有逻辑。
+  ```
+
+  
+
+- **L (Liskov Substitution)**：里氏替换原则。
+
+  ```
+  子类必须能替换父类，不破坏原有逻辑。
+  ➡️ LSP 不是说“有接口就行”，而是强调：子类/实现必须完全遵守父类/接口定义的契约，不破坏预期行为。
+  
+  ✅ 缓存策略场景
+  
+  抽象接口：
+  
+  interface Cache {
+      String get(String key);
+      void put(String key, String value);
+  }
+  
+  
+  实现：
+  
+  RedisCache：基于 Redis。
+  
+  LocalCache：基于 Caffeine。
+  
+  调用方：
+  
+  class InvoiceVerify {
+      private Cache cache;
+      InvoiceVerify(Cache cache) { this.cache = cache; }
+      void verify(String invoice) { ... cache.put(invoice, result); }
+  }
+  
+  
+  任何地方都能随意替换本地缓存/Redis 缓存，不会破坏行为。
+  
+  👉 反例：如果子类在 put() 时偷偷加了「只缓存奇数 Key」的限制，就破坏了契约，调用方就不能透明使用了。
+  这里虽然语法上实现了接口，但行为上已经不符合“put() 就是存储 key-value”的契约了，调用方原本写的 cache.put("2","value") 在其他实现能跑通，在这个实现却炸了。➡️ 这就是违背 LSP。
+  如果真的需要不同的行为（比如“只缓存奇数 key”），那就应该定义新的接口或扩展机制，而不是偷偷改老接口的语义。
+  ```
+
+  
+
+- **I (Interface Segregation)**：接口隔离原则。
+
+  ```
+  小而专一的接口
+  
+  👉 不要设计「大而全」的接口，应该细分。
+  正确理解是：接口要按能力边界来拆分，而不是按模块来分
+  
+  ✅ 文件存储场景
+  
+  ❌ 反例：
+  
+  interface Storage {
+      void saveFile();
+      void getFile();
+      void compress();
+      void encrypt();
+  }
+  
+  
+  如果 MinIO 只支持存取，不支持压缩和加密，就得实现一堆空方法。
+  
+  ✅ 改进：
+  
+  interface FileReadable { void getFile(); }
+  interface FileWritable { void saveFile(); }
+  interface Compressible { void compress(); }
+  interface Encryptable { void encrypt(); }
+  
+  
+  S3 存储只实现读写。
+  
+  HDFS 实现读写 + 压缩。
+  
+  加密存储实现读写 + 加密。
+  
+  👉 好处：不同中间件按需实现，不被迫「多余依赖」。
+  ```
+
+- **D (Dependency Inversion)**：依赖倒置原则。
+
+  ```
+  👉 高层模块不依赖低层模块，而是依赖抽象。
+  
+  ✅ 消息队列场景
+  
+  抽象接口：
+  
+  interface MessageBus {
+      void publish(String topic, String msg);
+      void subscribe(String topic, Consumer<String> handler);
+  }
+  
+  
+  实现类：
+  
+  KafkaBus
+  
+  RabbitMQBus
+  
+  RedisStreamBus
+  
+  上层业务（如发票服务）：
+  
+  class InvoiceService {
+      private MessageBus bus;
+      InvoiceService(MessageBus bus) { this.bus = bus; }
+      void createInvoice(String data) {
+          bus.publish("invoice", data);
+      }
+  }
+  
+  
+  业务层完全不用关心底层是 Kafka 还是 RabbitMQ → 可插拔。
+  
+  👉 好处：便于切换中间件（比如测试环境用 Redis，生产用 Kafka）。
+  ```
+
+  
+
 # 第十章 DevOps
+
 ## 10.1 Jenkins
 ## 10.2 Docker
 ## 10.3 k8s
@@ -1919,6 +2511,65 @@ https://juejin.cn/post/7016498891365302302
 
 https://cloud.tencent.com/developer/article/2131980
 
+## 并发原理
+
+### tomcat 的并发  本质是多线程吗 
+
+对 ✅，Tomcat 的并发**本质就是基于多线程**，不过还要分几种不同的 Connector（连接器）实现模型来理解：
+
+------
+
+#### 1. Tomcat 的核心并发模型
+
+- **每个 HTTP 请求 → 交给一个线程来处理**（典型的阻塞 I/O / BIO 或 NIO + 线程池模型）。
+- 这些线程来自 **Tomcat 的线程池（Executor）**。
+- 所以 Tomcat 的并发能力，取决于：
+  - 可用线程数（`maxThreads`，默认 200）
+  - 请求的处理时间（如果线程被长时间阻塞，就减少了可用线程）
+
+👉 本质就是 **线程并发**。
+
+------
+
+#### 2. Tomcat 的不同 I/O 模式
+
+Tomcat 提供了不同的 Connector 实现：
+
+1. **BIO（阻塞 I/O）**
+   - 一个请求一个线程。
+   - 如果线程阻塞，不能处理别的请求。
+   - 性能差，现代几乎不用。
+2. **NIO（非阻塞 I/O）** ← 默认
+   - 底层用 `Selector` 多路复用 socket。
+   - 但当请求进入应用层（Servlet），还是会交给 **线程池里的一个线程** 来跑。
+   - 所以应用代码里依然是“请求线程模型”。
+3. **NIO2（基于 JDK7 AIO）**
+   - 支持异步 I/O，和 Servlet 3.1 的异步处理配合。
+   - 但应用层如果不用 Servlet 异步特性，依然是“一请求一线程”。
+
+------
+
+#### 3. 与 `@Async` / Servlet 3.0+ Async 的关系
+
+- 默认：请求线程要一直等逻辑跑完，才能返回。
+- 如果你用 Servlet 3.0+ 的 **异步 Servlet** 或 Spring 的 **`@Async`**：
+  - 请求线程可以提前释放回线程池；
+  - 真正的业务逻辑交给后台线程池去跑。
+  - 这就让 Tomcat 更好地利用线程，避免线程被长时间阻塞。
+
+------
+
+#### 4. 对比 Python WSGI / ASGI
+
+- **Tomcat 并发 = 线程池模型**（一请求一线程，除非用异步 Servlet）。
+- **WSGI（Flask + gunicorn）= 进程/线程池模型**，几乎一样，靠 worker 数量支撑并发。
+- **ASGI（FastAPI + uvicorn）= 协程模型**，不是“请求线程”，而是“请求协程”，挂起时不占线程。
+
+------
+
+✅ 结论：
+ Tomcat 的并发模型**核心就是线程池**。即便底层是 NIO/AIO，到了 Servlet 层还是“一请求一线程”。如果要突破这个限制，需要用 **异步 Servlet API** 或 **WebFlux(Netty)** 才能进入事件循环/回调式模型。
+
 ## 后端性能优化的指标
 
 响应时间 并发数目 吞吐量。
@@ -2002,6 +2653,8 @@ https://cloud.tencent.com/developer/article/2131980
 ①以JBosss Cache为代表的需要更新同步的分布式缓存(在所有服务器中保存相同的缓存数据)。
 
 ②以Memcache为代表的互不通信的分布式缓存(应用程序通过一致性Hash等路由算法选择缓存服务器远程访问远程数据，可以会容易的扩容，具有良好的可伸缩性)。
+
+### 回表
 
 ## 异步
 
