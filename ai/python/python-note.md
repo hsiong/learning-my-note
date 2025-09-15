@@ -1921,7 +1921,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                                                                     
+>                                                                         
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
@@ -2129,7 +2129,7 @@ def test_rhs_excel_remove_none():
 	print("处理后的数据已保存为 'Book4_out.xlsx'，原文件未修改。")
 ```
 
-## Python 多线程
+# Python 多线程
 
 多线程编程中可能会遇到资源竞争问题，需要使用线程同步技术，如锁（Lock）来避免资源冲突。
 
@@ -2320,9 +2320,6 @@ print("All tasks have been submitted and completed.")
 + Unexpoected types: xxxx
 
   使用`默认参数`常遇到这个问题, 请当做必备参数处理
-
-  
-
 
 
 # Python 异常处理

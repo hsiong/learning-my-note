@@ -1,3 +1,5 @@
+# 主要区别
+
 **FastAPI** 和 **Flask** 都是用于构建 Web 应用程序的 Python 框架，但它们有一些显著的差异，适合不同的应用场景。以下是它们的主要区别：
 
 ### 1. **框架定位与设计目标**
@@ -44,3 +46,181 @@
 
 - **选择 Flask**：如果项目需求简单、并发量不高，且团队熟悉传统同步编程，可以选择 Flask。
 - **选择 FastAPI**：如果项目需要高性能和异步支持、对类型注解和数据验证需求强烈，并且希望自动化 API 文档，那么 FastAPI 是更适合的选择。
+
+
+
+# 特性介绍
+
+## async
+
+**Python 里的 `async/await` 使用方式**系统地讲清楚。
+
+------
+
+### 1. 什么是 `async/await`
+
+- `async def` 定义的是 **协程函数**，调用时不会立即执行，而是返回一个 **协程对象**。
+- `await` 的作用是 **挂起当前协程**，等待另一个协程完成，并把控制权交还给事件循环。
+- 必须运行在一个 **事件循环** 中，通常由 `asyncio.run()` 或 Web 框架（FastAPI/Starlette/ASGI 服务器）帮你管理。
+
+------
+
+### 2. 基本用法
+
+```
+import asyncio
+
+async def task(name, delay):
+    print(f"{name} 开始")
+    await asyncio.sleep(delay)   # 非阻塞等待
+    print(f"{name} 完成")
+    return name
+
+async def main():
+    # 并发运行多个协程
+    results = await asyncio.gather(
+        task("任务1", 2),
+        task("任务2", 3),
+        task("任务3", 1),
+    )
+    print("结果:", results)
+
+# 启动事件循环
+asyncio.run(main())
+```
+
+**输出（大约 3 秒完成）：**
+
+```
+任务1 开始
+任务2 开始
+任务3 开始
+任务3 完成
+任务1 完成
+任务2 完成
+结果: ['任务1', '任务2', '任务3']
+```
+
+👉 特点：虽然有 3 个耗时操作，但总时间只取决于最长的那个（3 秒），而不是 2+3+1=6 秒。
+
+------
+
+### 3. 常见场景
+
+#### (1) 并发 I/O 操作
+
+适合网络请求、数据库访问等 I/O 密集型任务。
+
+```
+import httpx, asyncio
+
+async def fetch(url):
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(url)
+        return resp.text[:50]
+
+async def main():
+    urls = ["https://www.python.org", "https://www.fastapi.tiangolo.com"]
+    results = await asyncio.gather(*(fetch(u) for u in urls))
+    print(results)
+
+asyncio.run(main())
+```
+
+------
+
+#### (2) 在 FastAPI 里
+
+FastAPI（ASGI 框架）天然支持 `async` 路由：
+
+```
+from fastapi import FastAPI
+import asyncio
+
+app = FastAPI()
+
+@app.get("/demo")
+async def demo():
+    await asyncio.sleep(2)   # 模拟异步 I/O
+    return {"msg": "ok"}
+```
+
+👉 请求会在 **2 秒后返回**，但这 2 秒期间，服务器线程还能处理其他请求。
+
+------
+
+#### (3) 在同步代码里调用协程 - **协作式并发**（concurrency） 
+
+有时候你在同步函数里想调用异步函数，可以用 `asyncio.run` 或 `asyncio.to_thread`：
+
+```
+import asyncio
+
+async def async_task():
+    await asyncio.sleep(1)
+    return "done"
+
+def sync_func():
+    result = asyncio.run(async_task())
+    print(result)
+
+sync_func()
+```
+
+------
+
+### 4. 注意点
+
+- `async/await` **不会**新开线程，而是基于事件循环调度。
+- **不会提前返回结果**，除非你自己写后台任务（如 `BackgroundTasks`、线程池）。
+- 如果调用阻塞库（如 `requests`、`time.sleep`），会卡住事件循环，需要用 `await asyncio.to_thread(...)` 或改用异步库（如 `httpx`、`asyncpg`）。
+
+------
+
+🔑 一句话总结：
+ **Python 里的 `async/await` 是事件循环里的协程机制，能让等待 I/O 的时候不阻塞线程，实现高并发 I/O。**
+ 但它和“后台线程异步”不一样，除非你显式把任务丢到线程池或任务队列，否则响应还是要等逻辑执行完才会返回。
+
+------
+
+要不要我给你写一个 **“阻塞 vs async/await”的对比小实验**（同样 10 个请求，分别用 `time.sleep` 和 `await asyncio.sleep`），这样你一跑就能直观感受到差别？
+
+## 异步多线程
+
+### Flask
+
+```
+executor = ThreadPoolExecutor(max_workers=1)
+
+
+def scheduled_task(app):
+    '''
+    定时任务 - 使用线程池并增加超时设置
+    '''
+    future = executor.submit(_recognize_queue_task, app)
+    
+    try:
+        result = future.result(timeout=60)  # 设置任务超时时间为 30 秒
+    except TimeoutError:
+        print("Task took too long, terminating...")
+```
+
+### FastAPI
+
+```
+import time
+import asyncio
+
+def blocking_task(n):
+    print(f"线程任务{n}开始")
+    time.sleep(1)  # 阻塞
+    print(f"线程任务{n}结束")
+    return n
+
+async def main():
+    results = await asyncio.gather(*(asyncio.to_thread(blocking_task, i) for i in range(5)))
+    print("结果:", results)
+
+asyncio.run(main())
+```
+

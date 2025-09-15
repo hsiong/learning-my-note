@@ -1220,9 +1220,189 @@ print(f'download time:  {time2 - time1}')
 oh, ow, _ = origin_img.shape  # 获取高、宽、通道数
 ```
 
-# 循环依赖 circular import
+# Flask 多线程
 
-## pycharm 优化注释: 注释显示引用
+## 多线程实现
+
+#### 1. Flask 多线程状态与监听
+
+- Flask 本身是一个 Web 框架，运行时依赖 WSGI 服务器（如 `Werkzeug` 内置 server、Gunicorn、uWSGI 等）。
+
+- 在开发模式下，你可以启用多线程：
+
+  ```
+  from flask import Flask
+  
+  app = Flask(__name__)
+  
+  @app.route("/")
+  def hello():
+      return "Hello, Flask with threads!"
+  
+  if __name__ == "__main__":
+      app.run(host="0.0.0.0", port=5000, threaded=True)  # 开启多线程
+  ```
+
+- `threaded=True` 表示 Flask 会为每个请求分配一个线程处理。
+
+- 如果你要监听线程的状态（比如后台任务线程），通常可以通过：
+
+  - **全局线程池管理器**（`concurrent.futures.ThreadPoolExecutor`）
+  - 或者 **队列 / 事件** 来监控。
+
+------
+
+#### 2. Python 多线程实现
+
+常见方法有两种：
+
+### (1) 使用 `threading.Thread`
+
+```
+import threading
+import time
+
+def worker(name):
+    print(f"[子线程] {name} 开始")
+    time.sleep(2)
+    print(f"[子线程] {name} 结束")
+
+t = threading.Thread(target=worker, args=("T1",))
+t.start()
+t.join()  # 等待线程结束
+print("主线程收到子线程完成信号")
+```
+
+#### (2) 使用 `ThreadPoolExecutor`
+
+```
+executor = ThreadPoolExecutor(max_workers=1)
+
+
+def scheduled_task(app):
+    '''
+    定时任务 - 使用线程池并增加超时设置
+    '''
+    future = executor.submit(_recognize_queue_task, app)
+    
+    try:
+        result = future.result(timeout=60)  # 设置任务超时时间为 30 秒
+    except TimeoutError:
+        print("Task took too long, terminating...")
+```
+
+## 多线程状态 flask 监听
+
+###  1. 前置条件
+
+你需要有这几个全局对象：
+
+```
+from flask import Flask, jsonify
+from concurrent.futures import ThreadPoolExecutor
+import threading
+
+app = Flask(__name__)
+executor = ThreadPoolExecutor(max_workers=5)
+
+tasks = {}             # 存放 job_id -> future
+lock = threading.Lock()  # 保证多线程访问安全
+```
+
+当你提交任务时，要往 `tasks` 里登记 `future`：
+
+```
+import uuid
+
+@app.route("/submit")
+def submit():
+    job_id = str(uuid.uuid4())
+    future = executor.submit(lambda: "任务完成")  # 模拟后台任务
+    with lock:
+        tasks[job_id] = future
+    return jsonify({"job_id": job_id})
+```
+
+------
+
+### 2. 状态查询接口
+
+就是你写的 `/admin/tasks`：
+
+```
+@app.route("/admin/tasks")
+def list_tasks():
+    snapshot = {}
+    with lock:
+        for job_id, future in tasks.items():
+            if future.running():
+                snapshot[job_id] = "running"
+            elif future.done():
+                snapshot[job_id] = "done"
+            else:
+                snapshot[job_id] = "pending"
+    return jsonify(snapshot)
+```
+
+这会遍历 `tasks` 里的所有任务，调用 **Future 的状态方法**：
+
+- `future.running()` → 任务正在跑
+- `future.done()` → 任务已完成（成功 or 异常）
+- 其他情况默认标记为 `pending`
+
+## 子线程结束后发送事件（通知）
+
+常见方式有：
+
+### (1) `threading.Event`
+
+```
+import threading
+import time
+
+event = threading.Event()
+
+def worker():
+    print("子线程开始")
+    time.sleep(3)
+    print("子线程结束，发信号")
+    event.set()  # 通知
+
+t = threading.Thread(target=worker)
+t.start()
+
+print("主线程等待子线程完成...")
+event.wait()  # 阻塞等待
+print("主线程收到通知，继续执行")
+```
+
+### (2) 回调机制
+
+如果用 `ThreadPoolExecutor`，你可以在 `Future` 对象上加 `add_done_callback`：
+
+```
+from concurrent.futures import ThreadPoolExecutor
+import time
+
+def task(n):
+    time.sleep(2)
+    return f"任务 {n} 完成"
+
+def notify(future):
+    print("收到子线程通知:", future.result())
+
+with ThreadPoolExecutor(max_workers=2) as executor:
+    future = executor.submit(task, 1)
+    future.add_done_callback(notify)
+```
+
+
+
+# Flask 常见问题
+
+## 循环依赖 circular import
+
+### pycharm 优化注释: 注释显示引用
 
 -> Python Integrated Tools -> Docstring format -> `reStructuredText`
 
@@ -1231,7 +1411,7 @@ oh, ow, _ = origin_img.shape  # 获取高、宽、通道数
     :type task: flaskr.entity.task_entity.Task
 ```
 
-## 重写 `_init_()` , 延迟加载
+### 重写 `_init_()` , 延迟加载
 
 ```python
     def __init__(self, task_service: TaskService):
