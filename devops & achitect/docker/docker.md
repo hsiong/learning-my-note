@@ -31,6 +31,8 @@ This is a proj from Docker base learning to Docker practice.
   - [4.2 搭建本地私有 Docker 仓库](#42-搭建本地私有-docker-仓库)
 - [x](#x)
   - [x.1 Docker 部署 redis](#x1-docker-部署-redis)
+  - [docker - redis](#docker---redis)
+    - [redis change pwd](#redis-change-pwd)
   - [x.2 Docker 部署 postgres](#x2-docker-部署-postgres)
   - [x.x Docker 部署 nginx](#xx-docker-部署-nginx)
 - [配置守护进程](#配置守护进程)
@@ -52,6 +54,7 @@ This is a proj from Docker base learning to Docker practice.
   - [根据前缀删除镜像](#根据前缀删除镜像)
   - [docker  启动 Docker 容器时，如何传入所需的环境变量](#docker--启动-docker-容器时如何传入所需的环境变量)
   - [前端如何动态指定环境变量 -\> 基于 nginx 使用 sub\_filter 替换特定字符串](#前端如何动态指定环境变量---基于-nginx-使用-sub_filter-替换特定字符串)
+  - [docker: Error response from daemon: could not select device driver "" with capabilities: \[\[gpu\]\].](#docker-error-response-from-daemon-could-not-select-device-driver--with-capabilities-gpu)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -548,6 +551,19 @@ docker run -d \
 
 ## x.1 Docker 部署 redis
 docker run -d --name redis -m 200m -p 6379:6379 redis
+
+## docker - redis 
+docker run -d \
+--name redis \
+-p 6379:6379 \
+--network test-net \
+--restart=always \
+redis --requirepass "mypassword"
+###  redis change pwd
+docker exec -it redis /bin/bash
+redis-cli -h 127.0.0.1 -p 6379 -a "mypassword"
+config set requirepass "new_pwd"
+
 
 ## x.2 Docker 部署 postgres
 docker run -d --name postgres -p 5432:5432 -m 1G -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=123456 kartoza/postgis
