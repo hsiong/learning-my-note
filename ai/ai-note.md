@@ -303,4 +303,16 @@ if system == "Darwin":  # macOS (M1/M1 Pro)
 ```
 
 
+# AI Coding
+
+## CC
+
+cd path
+
+/claude
+
+/init
+
+
+
 
