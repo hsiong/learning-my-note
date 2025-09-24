@@ -160,8 +160,38 @@ Build，Execution，Deployment --> Build Tools --> Maven --> Importing --> JDK f
 ## 6. pom.xml distributionManagement 和 repositories 区别
 distributionManagement 用于部署依赖, repositories 用于指定下载依赖
 
+## maven 异常
+```
+ mvn clean deploy -P release                                                                                           [23:44:57]
+The JAVA_HOME environment variable is not defined correctly,
+this environment variable is needed to run this program.
+```
+
+solution:
+```
+ /usr/libexec/java_home -v 17  
+  echo $JAVA_HOME
+```
+```
+sudo ln -sfn /opt/homebrew/Cellar/openjdk@17/17.0.16/libexec/openjdk.jdk \
+  /Library/Java/JavaVirtualMachines/openjdk-17.jdk
+
+ which mvn                                                                                                             [23:48:39]
+
+/opt/homebrew/bin/mvn
+vjf:ynfy-tool-httpconnect/ (mainskip parse_git_dirty) $ cat /opt/homebrew/bin/mvn                                                                                             [23:49:09]
+#!/bin/bash
+export JAVA_HOME=/opt/homebrew/Cellar/openjdk/19.0.1/libexec/openjdk.jdk/Contents/Home
+JAVA_HOME="${JAVA_HOME:-/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home}" exec "/opt/homebrew/Cellar/maven/3.9.8/libexec/bin/mvn"  "$@"
+
+```
+
 ## maven setting.xml 不生效
 检查 mirrors -> mirror -> mirrorOf 标签
 
 ## sonatype timed out
 没走VPN, 使用 safari 试一下
+
+## 发布 maven 仓库
+Pre: https://blog.csdn.net/qq213539/article/details/84312179
+OSSRH -> Central Publishing Portal: https://blog.csdn.net/ryo1060732496/article/details/149292696
