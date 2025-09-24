@@ -79,10 +79,14 @@ https://stackoverflow.com/questions/18393157/assigning-issues-to-yourself-on-git
 4. create a pull request from your branch to upstream project, when you can reference the original issue
 
 
+# remove all github's notification
+curl -X PUT \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: token {token}" \
+  https://api.github.com/notifications
 
-
-
-
+## GitHub Personal Access Token
+token: https://github.com/settings/tokens
 
 
 
