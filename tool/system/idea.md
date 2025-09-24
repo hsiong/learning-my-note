@@ -132,10 +132,37 @@ https://jetbra.in/s
 --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
 --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
 
+## idea-显示git栏
+unclick `Commit` -> `Use non-modal commit interface`
+
+## 选择 jdk 版本
+project -> sdk
+
 + Restful Fast Request - API Buddy 2023.1.7.1
 https://plugins.jetbrains.com/plugin/16988-restful-fast-request--api-buddy/versions/stable/358589
 
 ## shortcut
+
+## 个性化
+### Code Completion Color
+进：Editor → Color Scheme → General → Popups and Hints → Completion
+
+### Test-package-color
+用 File Colors（推荐）
+
+打开 Settings (Preferences) → Appearance & Behavior → File Colors
+
+在右侧点 +，新建规则，选择 All 或者新建一个 Scope 只包含 test 包
+
+设置背景色，并勾选 Use in Project View
+
+这样 Project 栏对应的目录背景会被你自定义颜色覆盖
+
+不受 Theme 限制，可以精确指定颜色
+
+这里就能改补全列表里普通项（前景/背景）、当前选中项（Selection 前景/背景）、以及匹配文本（Matched text）的颜色与效果（粗体、下划线等）。
+
+### 
 
 ### idea
 
