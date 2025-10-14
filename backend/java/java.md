@@ -1658,7 +1658,38 @@ FieldUtils.getAllFieldsList
 92. `java: java.lang.NoSuchFieldError: Class com.sun.tools.javac.tree.JCTree$JCImport does not have member field 'com.sun.tools.javac.tree.JCTree qualid'`
 使用 jdk<= 17
 
-93. 
+93. 多重泛型解析
+```
+        PlateInfoResult<PlateInfo> plateInfoResult = JSON.parseObject(whiteResult, new TypeReference<PlateInfoResult<PlateInfo>>(){});
+```
+```
+    public static <T> T parseResult(String result, Class<T> c) {
+        R<T> r = JSONObject.parseObject(result, new TypeReference<R<T>>(c) {
+        });
+        if (!r.getSuccess()) {
+            throw new IllegalArgumentException(r.getMessage());
+        }
+        return r.getData();
+    }
+```
+94. 泛型获取父类字段
+```
+<!-- maven 依赖 -->
+<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-lang3</artifactId>
+  <version>3.12.0</version>
+</dependency>
+
+// 直接获取包含父类的字段
+List<Field> fields = FieldUtils.getAllFieldsList(paramObj.getClass());
+```
+95. 打印方法名
+```
+String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();  // 打印当前方法名
+String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();  // 打印调用该方法的父级方法名
+```
+
 
 # 第二章 Mysql
 
