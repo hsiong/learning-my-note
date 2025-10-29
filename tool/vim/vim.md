@@ -35,6 +35,7 @@ use the command 3a!<Esc>, then you could see that vim typed !!! in the text
 |Hide Line Number|`:set nonumber`|
 |Scrolling Up|`Ctrl + U`|
 |Scrolling Down|`Ctrl + D`|
+|Copy Line|`yyp`|
 
 
 > Tip: show number permently
