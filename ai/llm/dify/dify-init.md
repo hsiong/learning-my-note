@@ -15,26 +15,27 @@ initial
 cd docker
 cp middleware.env.example middleware.env
 cp docker-compose.middleware.yaml docker-compose.middleware.copy.yaml
-sudo docker compose -f docker-compose.middleware.copy.yaml  down
+docker compose -f docker-compose.middleware.copy.yaml  down
 sudo rm -rf ./volumes/* && sudo rm -rf ../api/storage
 
 ps aux | grep celery | grep -v grep | awk '{print $2}' | xargs kill -9
-sudo docker compose -f docker-compose.middleware.copy.yaml  up -d
+docker compose -f docker-compose.middleware.copy.yaml  up -d
 ```
 
 
 
 ## web
 
-+ ` cp .env.example .env.local`
++ ```
+  cd web
+  cp .env.example .env.local
+  ```
 
 + Modify the values of these environment variables according to your requirements
 
   ```
   NEXT_PUBLIC_CSP_WHITELIST=https://marketplace.dify.ai localhost
   ```
-
-  
 
 + shell
 
@@ -112,3 +113,4 @@ flask run --host 0.0.0.0 --port=5001 --debug
      - 选择你的虚拟环境 Python
 
 ### PyCharm 运行 app
+
