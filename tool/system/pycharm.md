@@ -9,6 +9,7 @@
   + Reformat File: shift_ctrl_cmd_l
   + Optimize Import: ctrl_alt_cmd_o 
 + Unclick PEB 8 coding style violation           
++ mint 有很多键位与pycharm冲突
 
 #### macos
 
@@ -179,7 +180,8 @@ select `Help -> Edit Custom VM Options` add below:
 
 ### git local changes
 
-unclick `Commit` -> `Use non-modal commit interface`
++ unclick `Commit` -> `Use non-modal commit interface`
++ plugin `Modal commit Interface`
 
 
 
@@ -218,3 +220,20 @@ unclick `Commit` -> `Use non-modal commit interface`
 + 选择你的 pytest 配置。
 + 在 Additional Arguments 字段中添加 -s。
 
+## color
++ 其他文件颜色不对
+  change `File Color` - non-project-Files
+  
++ main menu
+  
+  打开 **Settings / Preferences**
+  
+  - 快捷键：`Ctrl + Alt + S`
+  
+  在左侧导航栏中进入
+   **Appearance & Behavior → Appearance**
+  
+  找到右侧的区域：
+   ✅ 勾选 **“Show main menu in a separate toolbar”**
+  
++ unclick `Use project color in main toolbar`
