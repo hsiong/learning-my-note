@@ -1079,34 +1079,34 @@ uvicorn app_fastapi_io:app --workers 1
 >     ```
 >     from fastapi import FastAPI, Depends
 >     import asyncio
->     
+>                     
 >     app = FastAPI()
->     
+>                     
 >     class ConcurrencyLimiter:
 >         def __init__(self, max_concurrency: int):
 >             self.sem = asyncio.Semaphore(max_concurrency)
->     
+>                     
 >         async def __call__(self):
 >             await self.sem.acquire()
 >             try:
 >                 yield
 >             finally:
 >                 self.sem.release()
->     
+>                     
 >     # 给不同的路由组设定不同的并发上限
 >     limit5 = ConcurrencyLimiter(5)
 >     limit2 = ConcurrencyLimiter(2)
->     
+>                     
 >     @app.get("/fast", dependencies=[Depends(limit5)])
 >     async def fast_endpoint():
 >         await asyncio.sleep(3)
 >         return {"msg": "fast endpoint"}
->     
+>                     
 >     @app.get("/slow", dependencies=[Depends(limit2)])
 >     async def slow_endpoint():
 >         await asyncio.sleep(5)
 >         return {"msg": "slow endpoint"}
->     
+>                     
 >     ```
 >
 > 👉 这样即使同时来 100 个请求，事件循环里也只会同时“运行”5个，其他的要等信号量释放。
@@ -1689,6 +1689,140 @@ List<Field> fields = FieldUtils.getAllFieldsList(paramObj.getClass());
 String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();  // 打印当前方法名
 String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();  // 打印调用该方法的父级方法名
 ```
+
+96. LocalDateTime 和 datetime 区别
+类型	是否带时区	本质类型
+LocalDateTime	❌ 不带时区	纯粹的本地日期时间
+Hutool DateTime	✔️ 有时区偏移	实质上是 java.util.Date 的封装（内部保存 UTC 毫秒值）
+
+👉 总结：LocalDateTime 不是一个真实瞬时时间，DateTime 是。
+
+97. Spring 事务传播机制（Transaction Propagation）一共有 7 种策略
+
+| 传播行为                        | 含义                             | 是否需要已有事务 | 事务行为说明                                                 | 常用场景                              |
+| ------------------------------- | -------------------------------- | ---------------- | ------------------------------------------------------------ | ------------------------------------- |
+| **PROPAGATION_REQUIRED** (默认) | 有就加入，没有就创建新事务       | 可有可无         | - 若当前存在事务 → 加入当前事务    - 若不存在 → 创建新事务   | **最常用**；一般业务逻辑              |
+| **PROPAGATION_REQUIRES_NEW**    | 永远创建新事务                   | 不依赖已有事务   | - 挂起当前事务   - 开启一个新事务单独运行                    | **日志记录、补偿、独立提交**          |
+| **PROPAGATION_SUPPORTS**        | 有事务就加入，没有就以非事务运行 | 可有可无         | - 有事务 → 加入事务   - 无事务 → 非事务运行                  | 读取类操作；是否需要事务无所谓        |
+| **PROPAGATION_NOT_SUPPORTED**   | 总是不使用事务                   | 不能有事务       | - 挂起当前事务   - 以非事务方式运行                          | **非核心逻辑、不需要事务的场景**      |
+| **PROPAGATION_NEVER**           | 必须以非事务方式执行             | 不能有事务       | - 若当前存在事务 → 抛异常                                    | 必须无事务，例如事务与非事务强隔离    |
+| **PROPAGATION_MANDATORY**       | 必须在已有事务内运行             | 必须已有事务     | - 无事务 → 抛异常                                            | 必须处于事务上下文，例如 DAO/核心业务 |
+| **PROPAGATION_NESTED**          | 嵌套事务（Savepoint）            | 必须已有事务     | - 使用 Savepoint 实现嵌套   - 内部事务失败可回滚至 savepoint | **局部回滚**、复杂业务流程            |
+
+98. @Resource 和 @Autowire 区别
+
+| 注解           | 来源                 | 默认注入方式                       | 按类型冲突时            | 是否可用 `name` 指定 |
+| -------------- | -------------------- | ---------------------------------- | ----------------------- | -------------------- |
+| **@Autowired** | Spring               | **按类型（byType）**               | 报错（需要 @Qualifier） | 可以用 `@Qualifier`  |
+| **@Resource**  | JSR-250（Java 标准） | **按名称（byName）**优先，再按类型 | 使用 `name` 精确匹配    | 可以用 `name` 属性   |
+
+99. nested exception is org.apache.ibatis.reflection.ReflectionException: Could not set property 'createAt' of 'class tech.ynfy.module.customer360.bean.CustomerProfileCore' with value 'Thu Nov 13 11:40:59 CST 2025' Cause: java.lang.IllegalArgumentException: argument type mismatch ；
+    不能用 hutool.date
+
+100. if ((hot == null && !isTempCustomerIdEmpty) || isCustomerIdEmpty ) { 为什么最右边永远为false ？
+
+     ```
+     先给变量起个简单名字：
+     
+     A = (hot == null)
+     B = isTempCustomerIdEmpty
+     
+     
+     你的 if 条件就是：
+     
+     (A && !B) || B
+     
+     分两种情况看：
+     情况一：B = true（临时客户 ID 为空）
+     
+     右边：B = true
+     
+     左边：A && !B = A && false = false
+     
+     所以整体结果：
+     
+     (false) || true  => true
+     
+     
+     此时 if 一定成立，是右边的 B 决定的。
+     
+     情况二：B = false（临时客户 ID 不为空）
+     
+     右边：B = false
+     
+     左边：A && !B = A && true = A
+     
+     所以整体结果：
+     
+     A || false  => A
+     
+     
+     也就是：
+     
+     hot == null
+     
+     
+     此时 if 成不成立，只看 hot 是否为 null，右边那段 B 一定是 false。
+     ```
+
+101. java && 与 & ||与| 区别
+
+     ```
+     在 Java 中，&& 与 &、|| 与 | 都可以用于逻辑运算，但它们有 重要区别：是否 短路(short-circuit) 以及是否可用于 位运算。
+     
+     ✅ 1. &&（逻辑与） vs &（逻辑与/位与）
+     (1) && —— 逻辑与 + 短路
+     
+     左边为 false 时，右边不会执行（短路）
+     
+     只能用于 boolean
+     
+     示例：
+     
+     boolean result = (a > 0) && (b++ > 0);
+     // 如果 a > 0 为 false，b++ 不会执行
+     
+     (2) & —— 逻辑与（无短路）或位与
+     作为逻辑与（boolean）
+     
+     左边无论真假，右边都会执行（无短路）
+     
+     boolean result = (a > 0) & (b++ > 0);
+     // 不管左边结果是什么，b++ 都会执行
+     
+     作为位与（整数）
+     
+     按位进行 AND 运算
+     
+     int x = 6 & 3;  
+     // 6 = 110, 3 = 011 → 010 = 2
+     
+     🔥 2. ||（逻辑或） vs |（逻辑或/位或）
+     (1) || —— 逻辑或 + 短路
+     
+     左边为 true 时，右边不会执行（短路）
+     
+     boolean result = (a > 0) || (b++ > 0);
+     // 如果 a > 0 为 true，b++ 不会执行
+     
+     (2) | —— 逻辑或（无短路）或位或
+     作为逻辑或（boolean）
+     
+     不短路，左右两边都会执行
+     
+     boolean result = (a > 0) | (b++ > 0);
+     // b++ 总会执行
+     
+     作为位或（整数）
+     
+     按位进行 OR 运算
+     
+     int x = 6 | 3;
+     // 6 = 110, 3 = 011 → 111 = 7
+     
+     ```
+
+  
 
 
 # 第二章 Mysql
@@ -2583,6 +2717,142 @@ public class FieldAspect {
 | 拦截构造函数            | ❌                     | ✅                       |
 | 拦截字段访问            | ❌                     | ✅                       |
 | 实现方式                | 动态代理（JDK/CGLIB） | 编译期/加载期修改字节码 |
+
+## 动态方言: 写一个“动态方言”，让一个分页插件适配 Oracle + Postgres
+
+你现在的诉求是：
+
+- 用 `@DS("postgres")` / `@DS("oracle")` 切库（动态数据源）
+- 两个库都要用 MyBatis-Plus 分页
+- 只有一个 SqlSessionFactory（走动态数据源）
+
+**正确姿势就是：**
+
+> ✔ 只注册一个 `MybatisPlusInterceptor` + 一个 `PaginationInnerInterceptor`
+>  ✔ 然后给它一个“会看当前数据源”的 `IDialect` 实现
+
+### 1. 自定义一个动态方言 `DynamicRoutingDialect`
+
+```
+package tech.ynfy.oracle.mybatis;
+
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
+import com.baomidou.mybatisplus.extension.plugins.pagination.DialectModel;
+import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.IDialect;
+import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.OracleDialect;
+import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.PostgreDialect;
+
+public class DynamicRoutingDialect implements IDialect {
+
+    private final IDialect oracleDialect = new OracleDialect();
+    private final IDialect postgresDialect = new PostgreDialect();
+
+    @Override
+    public DialectModel buildPaginationSql(String originalSql, long offset, long limit) {
+        // 当前数据源名称，比如 "postgres" / "oracle"
+        String ds = DynamicDataSourceContextHolder.peek();
+
+        if ("postgres".equalsIgnoreCase(ds)) {
+            // 走 PG 的分页（LIMIT/OFFSET）
+            return postgresDialect.buildPaginationSql(originalSql, offset, limit);
+        } else {
+            // 默认走 Oracle（ROWNUM）
+            return oracleDialect.buildPaginationSql(originalSql, offset, limit);
+        }
+    }
+}
+```
+
+> ⚠ 注意：
+>
+> - 这里用的是你贴出来的那个 `IDialect` 版本：只实现 `buildPaginationSql`，返回 `DialectModel`。
+> - **不用写 `buildCountSql`，你的版本没有这个方法，也不需要。**
+
+------
+
+### 2. 全局只保留一个 MybatisPlusInterceptor（不要再分 Pg / Oracle 两个 Bean）
+
+来一个统一配置类，比如：
+
+```
+package tech.ynfy.oracle.mybatis;
+
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+// Mapper 扫描可以在别的配置类里分包扫，这里随意
+public class MybatisPlusConfig {
+
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
+        // ★ 把我们自己写的动态方言塞进去
+        paginationInnerInterceptor.setDialect(new DynamicRoutingDialect());
+
+        interceptor.addInnerInterceptor(paginationInnerInterceptor);
+
+        return interceptor;
+    }
+}
+```
+
+> 重要：
+>
+> - **把你之前的 `MybatisPlusPgConfig` 和 `MybatisPlusOracleConfig` 里那些 `MybatisPlusInterceptor` Bean 全部删掉 / 注释掉**
+>    留着只会互相影响。
+> - `@MapperScan` 可以保留，只要不再在那俩配置类里 new 自己的拦截器就行。
+
+------
+
+### 3. 继续用 @DS，一切照旧
+
+你原来的代码：
+
+```
+@GetMapping("/profile/test")
+@DS("postgres")
+public Page<CustomerTag> test() {
+    Page<CustomerTag> page = new Page<>(2, 20);
+    LambdaQueryWrapper<CustomerTag> wrapper = new LambdaQueryWrapper<>();
+    Page<CustomerTag> result = customerTagMapper.selectPage(page, wrapper);
+    return result;
+}
+```
+
+改完配置之后，效果应该是：
+
+- 日志里出现两条 SQL：
+  1. `SELECT COUNT(1) FROM (...) TOTAL` 这种 count 语句
+  2. 一条带 `LIMIT ? OFFSET ?` 的真正查询语句（因为当前 @DS 是 `postgres`）
+- 返回 JSON 里：
+  - `total` 变成真实总数，而不是 0
+  - `pages` = `ceil(total / size)`
+  - `records` 最多 size 条（你给的是 20）
+
+另外你在 Oracle 那边比如：
+
+```
+@DS("oracle")
+public Page<XXX> queryOracle(...) { ... }
+```
+
+就会自动生成你之前看到那种：
+
+```
+SELECT * FROM (
+  SELECT TMP.*, ROWNUM ROW_ID
+  FROM (
+    原始SQL
+  ) TMP
+  WHERE ROWNUM <= ?
+) WHERE ROW_ID > ?
+```
 
 # 第六章 Spring-cloud-alibaba
 
