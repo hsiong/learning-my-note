@@ -80,6 +80,12 @@ Editor => Code Style => Python => `Keep indents on empty lines`
 
 Editor => smart keys => click smart indent pasted lines
 
+### Action on save
++ Reformat code
++ Optimize import
+
+
+
 ### pycharm the file in the editor is not runnable
 
 pycharm 没有识别 python 文件: https://blog.csdn.net/yxb_xb/article/details/118554048
@@ -90,6 +96,10 @@ Editor -> File Types -> Python -> add `*.py`
 + version 采用 1.8.0
 + 中文乱码, 修改 Color Scheme Font - Font -> Microsoft Yahei UI
 + 提示过慢: click detect proxy
++ disalbe `Enable chat inlay hints`
++ disalbe `show selection toolbar`
+
+ > Match case > All letters
 
 ### pycharm 应用设置 proxy
 
@@ -191,7 +201,9 @@ select `Help -> Edit Custom VM Options` add below:
 
 ### 插件
 
-+ Material Theme UI
++ Material Theme UI -> Cpu usage High -> 
+  + Solarized Light Chandrian
+  + Michel's Solarized LightX
 + Atom Material Icons
 + Codeium
 + Indent Rainbow
@@ -234,6 +246,59 @@ select `Help -> Edit Custom VM Options` add below:
    **Appearance & Behavior → Appearance**
   
   找到右侧的区域：
-   ✅ 勾选 **“Show main menu in a separate toolbar”**
+   ✅ **Main menu:**  **“Show main menu in a separate toolbar”**
   
 + unclick `Use project color in main toolbar`
+
+
+## Field injection is not recommended
+
+unclick `Non-recommended field injections`
+
+## 关闭提示  Inferred annotations available. Full signature:
+
+打开设置：**File | Settings…（或 Ctrl+Alt+S）**
+
+进入：**Editor | General | Gutter Icons**
+
+在列表里找类似：
+
+- `Inferred annotations`
+- 或带小 `@` 的条目（和注解相关） `inferred nullability annotation`
+
+把这项前面的勾去掉 → Apply
+
+## ✅ 禁用控制台日志折叠的步骤
+
+找 `Editor` → `General` → 下面有 **`Console`** 和 **`Code Folding`** 两块
+
+在 `Code Folding` 或 `Console` 里，找类似：
+
+- `Fold stack trace lines`
+- 或者 `Fold builder-like methods` / `折叠堆栈行` 一类选项
+
+把它 **取消勾选**，应用 / 确认
+
+## save password
+
+一、先搞清楚：IDEA 是用什么来保存密码的？
+
+在 IntelliJ IDEA 里：
+
+1. 打开：`File` → `Settings` → `Appearance & Behavior` → `System Settings` → `Passwords`
+2. 看看这里选的是哪一个：
+   - **In native Keychain / KeePass / Memory** 之类
+
+**建议设置：**
+
+- 如果你用的是 Linux Mint，一般推荐：
+  - **In native Keychain**（使用系统的 GNOME Keyring / Secret Service）
+  - 或者 **KeePass**（IDEA 自己用一个本地加密数据库保存）
+
+如果你现在选的是 **“In memory only”**，那就会导致：
+
+> 每次重启电脑，所有密码都丢失 —— 这就完全符合你说的现象。
+
+## 勾选当前文件
+
+Project -> Behavior -> Always Select Opened File
