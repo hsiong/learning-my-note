@@ -54,3 +54,34 @@ https://blog.csdn.net/Sensente/article/details/125703890
 
 ## 自动图片替换
 变动大会自动替换, 似乎有算法
+
+
+
+# 流程图
+
+（适用于 Mermaid 11.x、Typora 最新版）
+
+```mermaid
+graph TD
+    A[下游系统/客户端] -->|REST / Knife4j| B[Customer360 API<br/>backend-system]
+
+    subgraph S[API 层]
+        B --> C[Customer360Controller]
+    end
+
+    subgraph Q[查询 / 同步层]
+        C --> D[CrmService<br/>CrmTempService<br/>CrmCommonService]
+        C --> E[Customer360QueryService]
+        C --> F[Customer360Service<br/>DS postgres]
+        C --> G[RestAiService]
+    end
+
+    D --> H[(Oracle CRM 视图<br/>正式 / 渠道)]
+    E --> H
+
+    F --> I[(PostgreSQL<br/>t_customer_* 核心 / 热数据 / 明细)]
+    E --> I
+
+    F --> J[(Redis 缓存)]
+    E --> J
+```
