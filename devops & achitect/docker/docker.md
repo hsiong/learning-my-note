@@ -867,3 +867,106 @@ sudo cat /etc/docker/daemon.json
 sudo systemctl restart docker
 
 ```
+
+# docker-proxy
+
+### 方案 A：容器用 host 网络（简单粗暴）
+
+让 `docker build` 和 `docker run` 都共享宿主机的网络命名空间，这样容器里访问 `127.0.0.1:7897` == 宿主机本身。
+
+**1）改脚本里代理配置：**
+
+```
+ENABLE_PROXY=true
+
+PROXY_HOST="127.0.0.1"
+PROXY_PORT="7897"
+PROXY_URL="http://${PROXY_HOST}:${PROXY_PORT}"
+```
+
+**2）构建镜像时加 `--network=host`：**
+
+把这行：
+
+```
+eval docker build $BUILD_ARGS "$DOCKERFILE_DIR"
+```
+
+改成：
+
+```
+eval docker build --network=host $BUILD_ARGS "$DOCKERFILE_DIR"
+```
+
+**3）运行容器时也加 `--network=host`：**
+
+例如 API 容器启动那里改成：
+
+```
+eval docker run -d \
+  --name "${API_CONTAINER}" \
+  --restart=always \
+  --network=host \
+  -e MODE=api \
+  -e EDITION=SELF_HOSTED \
+  -e DEPLOY_ENV=PRODUCTION \
+  $RUN_PROXY_ENV \
+  "${IMAGE_NAME}"
+```
+
+Worker 一样：
+
+```
+eval docker run -d \
+  --name "${WORKER_CONTAINER}" \
+  --restart=always \
+  --network=host \
+  -e MODE=worker \
+  -e EDITION=SELF_HOSTED \
+  -e DEPLOY_ENV=PRODUCTION \
+  $RUN_PROXY_ENV \
+  "${IMAGE_NAME}"
+```
+
+这样：
+
+- 容器里 `HTTP_PROXY=http://127.0.0.1:7897`
+- build 阶段 / run 阶段都直接打到宿主机的 127.0.0.1:7897
+- 你不用改代理软件配置
+
+## docker compose
+
++ network: host
++ network_mode: host
+
+```
+version: '3.9'
+
+name: vectoradmin
+services:
+  vector-admin:
+    container_name: vector-admin
+    image: vector-admin:latest
+    build:
+      context: ../.
+      dockerfile: ./docker/Dockerfile
+      # 🔴 关键：build 阶段用 host 网络，等价于 docker build --network=host
+      network: host
+      args:
+        HTTP_PROXY: "http://127.0.0.1:7897"
+        HTTPS_PROXY: "http://127.0.0.1:7897"
+    # 运行时如果也要用宿主机 127.0.0.1（比如本机 Postgres / 代理），就加这句：
+    network_mode: host
+
+    volumes:
+      - "./.env:/app/backend/.env"
+      - "../backend/storage:/app/backend/storage"
+      - "../document-processor/hotdir/:/app/document-processor/hotdir"
+    env_file:
+      - .env
+    # ⚠ 有 network_mode: host 就不要 ports 了，ports 会被忽略
+    # ports:
+    #   - "3001:3001"
+
+```
+
