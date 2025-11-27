@@ -1079,34 +1079,34 @@ uvicorn app_fastapi_io:app --workers 1
 >     ```
 >     from fastapi import FastAPI, Depends
 >     import asyncio
->                     
+>                         
 >     app = FastAPI()
->                     
+>                         
 >     class ConcurrencyLimiter:
 >         def __init__(self, max_concurrency: int):
 >             self.sem = asyncio.Semaphore(max_concurrency)
->                     
+>                         
 >         async def __call__(self):
 >             await self.sem.acquire()
 >             try:
 >                 yield
 >             finally:
 >                 self.sem.release()
->                     
+>                         
 >     # 给不同的路由组设定不同的并发上限
 >     limit5 = ConcurrencyLimiter(5)
 >     limit2 = ConcurrencyLimiter(2)
->                     
+>                         
 >     @app.get("/fast", dependencies=[Depends(limit5)])
 >     async def fast_endpoint():
 >         await asyncio.sleep(3)
 >         return {"msg": "fast endpoint"}
->                     
+>                         
 >     @app.get("/slow", dependencies=[Depends(limit2)])
 >     async def slow_endpoint():
 >         await asyncio.sleep(5)
 >         return {"msg": "slow endpoint"}
->                     
+>                         
 >     ```
 >
 > 👉 这样即使同时来 100 个请求，事件循环里也只会同时“运行”5个，其他的要等信号量释放。
@@ -2853,6 +2853,218 @@ SELECT * FROM (
   WHERE ROWNUM <= ?
 ) WHERE ROW_ID > ?
 ```
+
+## 限流管理器
+
+### 一、最简单：基于拦截器或过滤器 + Guava RateLimiter（单机限流）
+
+适合：
+
+- 单机项目
+- 简单接口限流
+- 不要求特别精确的分布式限流
+
+#### 1. 引入依赖
+
+用 Guava 的 `RateLimiter`（令牌桶）来做 QPS 限制：
+
+```
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>32.1.1-jre</version>
+</dependency>
+```
+
+#### 2. 写一个限流管理器（根据接口维度限流）
+
+```
+import com.google.common.util.concurrent.RateLimiter;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Component
+public class ApiRateLimiterManager {
+
+    // key: 接口路径, value: 该接口的限流器
+    private final Map<String, RateLimiter> limiterMap = new ConcurrentHashMap<>();
+
+    /**
+     * 为某个接口配置 QPS
+     */
+    public void initLimiter(String apiKey, double permitsPerSecond) {
+        limiterMap.put(apiKey, RateLimiter.create(permitsPerSecond));
+    }
+
+    /**
+     * 尝试获取令牌，不阻塞，返回是否允许通过
+     */
+    public boolean tryAcquire(String apiKey) {
+        RateLimiter limiter = limiterMap.get(apiKey);
+        if (limiter == null) {
+            // 没配置就默认不限制
+            return true;
+        }
+        return limiter.tryAcquire();
+    }
+}
+```
+
+#### 3. 在项目启动时初始化各接口限流规则
+
+```
+import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Component;
+
+@Component
+public class RateLimiterConfig {
+
+    private final ApiRateLimiterManager apiRateLimiterManager;
+
+    public RateLimiterConfig(ApiRateLimiterManager apiRateLimiterManager) {
+        this.apiRateLimiterManager = apiRateLimiterManager;
+    }
+
+    @PostConstruct
+    public void init() {
+        // 例如：/api/user/login 每秒最多 5 次
+        apiRateLimiterManager.initLimiter("/api/user/login", 5.0);
+        // /api/order/create 每秒 10 次
+        apiRateLimiterManager.initLimiter("/api/order/create", 10.0);
+    }
+}
+```
+
+#### 4. 用拦截器对每次请求做限流判断
+
+```
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+@Component
+public class RateLimitInterceptor implements HandlerInterceptor {
+
+    private final ApiRateLimiterManager apiRateLimiterManager;
+
+    public RateLimitInterceptor(ApiRateLimiterManager apiRateLimiterManager) {
+        this.apiRateLimiterManager = apiRateLimiterManager;
+    }
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        String path = request.getRequestURI();
+
+        // 根据路径限流，也可以做更细，例如 path + 用户ID / IP 等
+        boolean allowed = apiRateLimiterManager.tryAcquire(path);
+
+        if (!allowed) {
+            response.setStatus(429); // Too Many Requests
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write("{\"code\":429,\"msg\":\"请求过于频繁，请稍后再试\"}");
+            return false;
+        }
+
+        return true;
+    }
+}
+```
+
+#### 5. 注册拦截器
+
+```
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private RateLimitInterceptor rateLimitInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(rateLimitInterceptor)
+                .addPathPatterns("/api/**"); // 只拦截业务接口
+    }
+}
+```
+
+> 这样就实现了：**按接口路径限流，超出就返回 429**
+
+------
+
+### 二、按 IP / 用户维度的接口限流
+
+如果你希望：
+
+- 同一 IP 每秒最多访问 10 次
+- 同一用户 ID 每分钟最多请求 30 次
+
+可以在 `tryAcquire` 时把 key 换成 `path + ip` 或 `path + userId`。
+
+示例：在拦截器里构造 key：
+
+```
+String path = request.getRequestURI();
+String ip = request.getRemoteAddr(); // 简单取IP，生产可以做代理头解析
+
+String key = path + ":" + ip;
+
+boolean allowed = apiRateLimiterManager.tryAcquire(key);
+```
+
+然后初始化时可以为某些「维度」设置默认限流，比如每个 key 共用同一个速率（在 `getLimiter` 时如果没有就创建一个默认的）。
+
+------
+
+### 三、用注解 + AOP 做更优雅的接口限流
+
+如果你不想把限流逻辑和 URL 强绑定，可以给方法加注解，比如：
+
+```
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RateLimit {
+    double permitsPerSecond() default 5.0;
+    String key() default "";
+}
+```
+
+然后在 AOP 里：
+
+- 以方法上的 `@RateLimit` 为配置
+- 使用 `方法名 + 自定义 key` 作为限流 key
+- 这样不同 controller 方法可以方便配置限流规则
+
+如果你想我可以下一步帮你把 AOP 版本也写完整。
+
+------
+
+### 四、分布式限流：Redis + Lua（多实例部署必看）
+
+如果部署是多节点（多台机器），Guava 这种本地限流**不精确**。
+ 常用做法：**Redis + Lua 脚本计数**，比如「某接口每分钟最多 100 次」：
+
+### 简单思路：
+
+1. 拦截器里生成 key：`rate_limit:{apiPath}:{currentMinute}`
+2. 每次请求：
+   - Redis INCR 这个 key
+   - 第一次设置 EXPIRE 60 秒
+   - 超过限制就拒绝
+
+这部分代码略微长，如果你需要 Redis 版本，我也可以给你一份可以直接用的示例（带 Lua 脚本，保证操作原子性）。
+
+------
+
+### 五、使用成熟框架：Bucket4j / Resilience4j / Spring Cloud Gateway
 
 # 第六章 Spring-cloud-alibaba
 
