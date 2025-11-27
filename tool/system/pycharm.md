@@ -91,11 +91,12 @@ Editor => smart keys => click smart indent pasted lines
 pycharm 没有识别 python 文件: https://blog.csdn.net/yxb_xb/article/details/118554048
 Editor -> File Types -> Python -> add `*.py`
 
-### pycharm-codeium异常
+### pycharm-codeium异常 代码提示
 
 + version 采用 1.8.0
 + 中文乱码, 修改 Color Scheme Font - Font -> Microsoft Yahei UI
 + 提示过慢: click detect proxy
++ popup->5ms
 + disalbe `Enable chat inlay hints`
 + disalbe `show selection toolbar`
 
@@ -302,3 +303,24 @@ unclick `Non-recommended field injections`
 ## 勾选当前文件
 
 Project -> Behavior -> Always Select Opened File
+
+## 快速找错 error
+
+**方法二：使用 Code → Inspect Code（全项目检查）**
+
+如果你想让 PyCharm **重新扫描整个项目**，可以这样：
+
+### **步骤：**
+
+1. 打开菜单 **Code → Inspect Code…**
+2. 选择检查范围（一般选 *Whole Project*）
+3. 点击 Run
+
+你会得到一个完整报告，列出所有错误、警告和改进建议。
+
+## 打印方法名
+
+直接 cv 方法
+
+## pytest-实时输出
+使用 `-s` 可以关闭输出捕获，让所有 print/log 立即显示。
