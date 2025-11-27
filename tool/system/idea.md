@@ -143,6 +143,9 @@ https://plugins.jetbrains.com/plugin/16988-restful-fast-request--api-buddy/versi
 
 ## shortcut
 
++ Plugin -> Java -> Java Class `ctrl+N`
++ File -> ... -> New -> Create New Directory or Pachage `alt+N`
+
 ## 个性化
 ### Code Completion Color
 进：Editor → Color Scheme → General → Popups and Hints → Completion
