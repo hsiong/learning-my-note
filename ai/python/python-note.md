@@ -1921,7 +1921,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                                                                         
+>                                                                             
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
@@ -2013,6 +2013,27 @@ else:
 1. **`time(8, 0)` 和 `time(18, 0)`**：分别表示 8:00 AM 和 6:00 PM。
 2. **`capture_time.time()`**：提取 `capture_time` 的时间部分，去掉日期，只保留小时和分钟。
 3. **时间比较**：使用 `<=` 运算符来判断 `capture_time` 是否在 8:00 到 18:00 之间。
+
+## Pydantic
+
+### 使用 Pydantic 实现反射
+
+Pydantic 是 Python 中最流行的数据模型库，它的 `Field()` 就像 Java 的 `@Schema`。
+
+```
+from pydantic import BaseModel, Field
+
+class User(BaseModel):
+    name: str = Field(..., description="用户名")
+    age: int = Field(..., description="年龄")
+```
+
+反射读取：
+
+```
+for name, field in User.model_fields.items():
+    print(name, field.description)
+```
 
 ## Python Excel
 
