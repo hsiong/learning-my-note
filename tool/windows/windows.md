@@ -41,6 +41,9 @@ http://leyuanxm.top/
 + switch desktop
 按下“Win+Ctrl+方向键”可以快速切换这两个桌面。
 
-# 联想 bios
-+ f11
-+ 
+# bios
++ 联想 微星 f11
++ 华硕 f12
+
+# notion
++ 无线连接 先按fn 再按4, 快速闪再重新插 2.4Ghz
