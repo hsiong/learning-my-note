@@ -55,6 +55,9 @@ This is a proj from Docker base learning to Docker practice.
   - [docker  启动 Docker 容器时，如何传入所需的环境变量](#docker--启动-docker-容器时如何传入所需的环境变量)
   - [前端如何动态指定环境变量 -\> 基于 nginx 使用 sub\_filter 替换特定字符串](#前端如何动态指定环境变量---基于-nginx-使用-sub_filter-替换特定字符串)
   - [docker: Error response from daemon: could not select device driver "" with capabilities: \[\[gpu\]\].](#docker-error-response-from-daemon-could-not-select-device-driver--with-capabilities-gpu)
+- [docker-proxy](#docker-proxy)
+    - [方案 A：容器用 host 网络（简单粗暴）](#方案-a容器用-host-网络简单粗暴)
+  - [docker compose](#docker-compose)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -708,16 +711,20 @@ networks:
 
 ## docker 修改国内源 
 
-```
-"https://hub-mirror.c.163.com",
-"https://registry.aliyuncs.com",
-"https://registry.docker-cn.com",
-"https://docker.mirrors.ustc.edu.cn"
-```
+https://github.com/dongyubin/DockerHub
 
-sudo service docker restart
-
-docker restart nginx, ...
+```
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<EOF
+{
+  "registry-mirrors": [
+    xxxx
+  ]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
 
 
 ## docker 追加参数
