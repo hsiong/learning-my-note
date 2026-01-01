@@ -310,7 +310,7 @@ Project -> Behavior -> Always Select Opened File
 
 如果你想让 PyCharm **重新扫描整个项目**，可以这样：
 
-### **步骤：**
+ **步骤：**
 
 1. 打开菜单 **Code → Inspect Code…**
 2. 选择检查范围（一般选 *Whole Project*）
@@ -322,5 +322,31 @@ Project -> Behavior -> Always Select Opened File
 
 直接 cv 方法
 
+## pytest: no tests were found
+所有依赖的方式不能有 `main`
+
 ## pytest-实时输出
 使用 `-s` 可以关闭输出捕获，让所有 print/log 立即显示。
+
+## database - open
+`Open results in new tab`
+
+## select opened file 
+1. 方法1: `Behavior` -> unclick `Always Select Opened File` , 手动点
+2. 方法2: `Behavior` -> click `Always Select Opened File`, 点 tab
+
+## rename 不改变引用
++ click `Search for references` and `Search in comments and strings`
+
+# pycharm run/debug  运行保留之前的结果  而不是替换当前窗口
+> pin tab 即可
+
+
+# pycharm 滚动条不展示报错
+> 换 theme 即可
+￼
+
+# Reformat on paste 关闭“粘贴时自动格式化”
+Editor → General → Smart Keys -> Python → Reformat on paste => None
+注意: 全局不管用
+￼
