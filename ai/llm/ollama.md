@@ -10,14 +10,14 @@ curl -fsSL https://ollama.com/install.sh | sh
 
 1. 支持的“国内镜像源”示例
 
-文章里列的是几家可用的镜像 / 中转源：
+https://blog.csdn.net/Water_Jack/article/details/147600755 
+
+列的是几家可用的镜像 / 中转源：
 
 - 阿里云：`https://registry.ollama.ai`（看起来是走了国内加速线路的同域名）
 - DeepSeek 官方镜像：`https://ollama.deepseek.com`
 - 浙江大学镜像站：`https://ollama.zju.edu.cn`
 - 魔搭社区：`https://ollama.modelscope.cn`
-
-> 实际上就是让 Ollama 在访问 `registry.ollama.ai` 时，转到这些镜像站去拉模型。
 
 ------
 
@@ -131,6 +131,8 @@ ollama pull xxx
 
 就算你拉了 10 个 7B / 14B 模型，只要不同时加载，它们只占硬盘，不吃显存。
 
+> ollama 支持断点续传
+
 ### 运行
 
 ```
@@ -158,6 +160,10 @@ Ollama 的行为是：
 ```
 ollama stop qwen2.5:7b-instruct-q4_0
 ```
+
+### 删除
+
+
 
 ### 常驻
 
