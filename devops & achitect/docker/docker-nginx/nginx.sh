@@ -1,3 +1,8 @@
+# nginx 
++ 必须用 docker 部署; 否则各种权限要命
++ 不能放到移动路径, 否则重启后无法访问
+
+
 # 静态资源乱码
  echo " charset utf-8;  " >> ~/docker/xxx/default.config
 
