@@ -20,3 +20,18 @@ codex resume
 /init 
 
 /compact
+
+## 强制更新
+
+npm install -g @openai/codex --registry=https://registry.npmjs.org/
+codex --version    
+codex-cli 0.73.0
+
+## 禁止读取
+编辑 ~/.codex/config.toml, 加一条 blocked 规则（重点）, 在文件里 新增或修改：
+
+```
+[projects."xxx/backend-system/src/main/resources"]
+
+trust_level = "untrusted"
+```
