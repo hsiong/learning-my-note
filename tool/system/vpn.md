@@ -38,3 +38,25 @@ git config --global --get https.proxy
 + https://www.codein.icu/clashtutorial/
 
 planb  直接屏蔽公司接口, 在策略中写 direct 直连
+
+
+
+# rule
+mmstat 是aliyun tongyi的进程, 必须从 Reject 改为 Direct
+``` 
+    - 'DOMAIN-SUFFIX,mmstat.com,DIRECT'   
+    - 'DOMAIN-SUFFIX,cdn-apple.com,龙猫云 - TotoroCloud'
+    - 'DOMAIN-SUFFIX,apple.com,龙猫云 - TotoroCloud'
+    - 'DOMAIN-SUFFIX,apple-cloudkit.com,龙猫云 - TotoroCloud'
+    - 'DOMAIN-SUFFIX,apple-mapkit.com,龙猫云 - TotoroCloud'
+    - 'DOMAIN-SUFFIX,itunes.apple.com,龙猫云 - TotoroCloud'
+    - 'DOMAIN-SUFFIX,microsoft.com,龙猫云 - TotoroCloud'
+    - 'DOMAIN-SUFFIX,openai.com,龙猫云 - TotoroCloud'
+    - 'DOMAIN-SUFFIX,microsoftonline.com,龙猫云 - TotoroCloud'
+    - 'DOMAIN-SUFFIX,azure.com,龙猫云 - TotoroCloud'
+    - 'DOMAIN-KEYWORD,openai,龙猫云 - TotoroCloud'
+    - 'DOMAIN-KEYWORD,chatgpt,龙猫云 - TotoroCloud'
+    - 'DOMAIN-SUFFIX,openai.com,龙猫云 - TotoroCloud'
+    - 'DOMAIN-SUFFIX,chatgpt.com,龙猫云 - TotoroCloud'
+
+```
