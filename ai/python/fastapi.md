@@ -224,3 +224,30 @@ async def main():
 asyncio.run(main())
 ```
 
+# 其他问题
+
+## 禁用自动重启
+
+```
+	# uvicorn.run(
+	# 	"main:app",
+	# 	host="0.0.0.0",
+	# 	port=8001, # lsof -i: $port|awk '{if(NR>=2) print $2}'|xargs kill
+	# 	# reload=True, # 目录里的文件有改动,就自动重启服务。
+	# 	# log_level="debug",
+	# )
+	config = uvicorn.Config("main:app", host="0.0.0.0", port=8001)
+	server = uvicorn.Server(config)
+	import asyncio
+	
+	asyncio.get_event_loop().run_until_complete(server.serve())
+```
+
+❗PyCharm 的调试器 + Python 3.12 + uvicorn 的 asyncio patch 冲突
+
+具体是这句错误：
+
+TypeError: _patch_asyncio.<locals>.run() got an unexpected keyword argument 'loop_factory'
+
+
+这就是 PyCharm debugger 对 asyncio 的 monkey patch（_patch_asyncio）和 Uvicorn 的 asyncio.run() 冲突造成的。
