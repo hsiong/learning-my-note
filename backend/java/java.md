@@ -126,6 +126,22 @@ Java-review-for-audition
       - [🌱 例子 2：拦截 **构造函数**](#-例子-2拦截-构造函数)
       - [🌱 例子 3：拦截 **字段访问**](#-例子-3拦截-字段访问)
       - [🌱 总结差异（结合例子）](#-总结差异结合例子)
+  - [动态方言: 写一个“动态方言”，让一个分页插件适配 Oracle + Postgres](#动态方言-写一个动态方言让一个分页插件适配-oracle--postgres)
+    - [1. 自定义一个动态方言 `DynamicRoutingDialect`](#1-自定义一个动态方言-dynamicroutingdialect)
+    - [2. 全局只保留一个 MybatisPlusInterceptor（不要再分 Pg / Oracle 两个 Bean）](#2-全局只保留一个-mybatisplusinterceptor不要再分-pg--oracle-两个-bean)
+    - [3. 继续用 @DS，一切照旧](#3-继续用-ds一切照旧)
+  - [限流管理器](#限流管理器)
+    - [一、最简单：基于拦截器或过滤器 + Guava RateLimiter（单机限流）](#一最简单基于拦截器或过滤器--guava-ratelimiter单机限流)
+      - [1. 引入依赖](#1-引入依赖)
+      - [2. 写一个限流管理器（根据接口维度限流）](#2-写一个限流管理器根据接口维度限流)
+      - [3. 在项目启动时初始化各接口限流规则](#3-在项目启动时初始化各接口限流规则)
+      - [4. 用拦截器对每次请求做限流判断](#4-用拦截器对每次请求做限流判断)
+      - [5. 注册拦截器](#5-注册拦截器)
+    - [二、按 IP / 用户维度的接口限流](#二按-ip--用户维度的接口限流)
+    - [三、用注解 + AOP 做更优雅的接口限流](#三用注解--aop-做更优雅的接口限流)
+    - [四、分布式限流：Redis + Lua（多实例部署必看）](#四分布式限流redis--lua多实例部署必看)
+    - [简单思路：](#简单思路)
+    - [五、使用成熟框架：Bucket4j / Resilience4j / Spring Cloud Gateway](#五使用成熟框架bucket4j--resilience4j--spring-cloud-gateway)
 - [第六章 Spring-cloud-alibaba](#第六章-spring-cloud-alibaba)
 - [第七章 数据结构与算法](#第七章-数据结构与算法)
 - [第八章 常见的锁及其实现](#第八章-常见的锁及其实现)
@@ -1822,8 +1838,82 @@ Hutool DateTime	✔️ 有时区偏移	实质上是 java.util.Date 的封装（�
      
      ```
 
-  
+102. 千万注意多重泛型, 内部不能再 `List<T>` 否则会成为 `List<List<Module>>`
+```
+package com.mylike.module.yunxi.dto;
 
+import lombok.Data;
+
+/**
+ * 通用 API 响应结构（外层包装）
+ *
+ * @param <T> listData 中每条元素的类型（业务对象）
+ */
+@Data
+public class YunxiApiResponse<T> {
+	
+	/**
+	 * 业务状态码（0 表示成功）
+	 */
+	private Integer code;
+	
+	/**
+	 * 业务提示信息（可能为 null）
+	 */
+	private String message;
+	
+	/**
+	 * 服务端信息，如 IP、端口、traceId
+	 */
+	private String serverInfo;
+	
+	/**
+	 * 业务数据部分
+	 * 内部为分页结构 PageResult<T>
+	 */
+	private PageResult<T> data;
+	
+	/**
+	 * 分页结果封装结构
+	 */
+	@Data
+	public static class PageResult<T> {
+		
+		/**
+		 * 当前页码
+		 */
+		private Integer currentPage;
+		
+		/**
+		 * 每页条数
+		 */
+		private Integer pageSize;
+		
+		/**
+		 * 总记录数
+		 */
+		private Integer totalRows;
+		
+		/**
+		 * 是否为最后一页
+		 */
+		private Boolean lastPage;
+		
+		/**
+		 * 实际数据列表
+		 */
+		private T listData;
+	}
+}
+
+	@PostMapping(value = "/module/m0013/func/g0001")
+	@Operation(summary = "客户商品浏览轨迹")
+	List<TrackDTO> listCustomerBrowseTrack(@RequestBody YunxiReqDTO reqDTO);
+
+```
+
+
+102. 
 
 # 第二章 Mysql
 
