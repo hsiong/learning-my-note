@@ -165,11 +165,23 @@ https://plugins.jetbrains.com/plugin/16988-restful-fast-request--api-buddy/versi
 
 这里就能改补全列表里普通项（前景/背景）、当前选中项（Selection 前景/背景）、以及匹配文本（Matched text）的颜色与效果（粗体、下划线等）。
 
-### 
+### 改“代码里类名/接口名”的颜色（比如 List、xxxDTO）
 
-### idea
+打开 Settings / Preferences（Win/Linux：Ctrl+Alt+S，macOS：⌘,）
+
+进到：Editor → Color Scheme → Java
+
+找这些项改颜色（不同版本名字略有差异）：
+
++ Classes → Class name（类名）
++ Interfaces → Interface name（接口名，比如 List） : 勾选 Italic 效果更好
++ Types / Generics → Type parameter / Generic（泛型相关高亮）
++ Tag
++ todo: Color Scheme -> General -> Code -> TODO defaults
+
+## idea
 
 idea 2023.2.6  main menu -> file -> file open actions -> open projec actions -> new -> file
 
-### pycharm
+## pycharm
 详见 pycharm.md
