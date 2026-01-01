@@ -2790,7 +2790,35 @@ print(output_directory)  # 输出: captured_frames_0
 			file_path = os.path.join(root, file)
 ```
 
+### python read&write
+```
+python3 - <<'EOF'
+import os
 
+SKIP_DIRS = {'.git', 'node_modules', 'target', 'dist', 'build'}
+ALLOW_EXT = {'.java', '.py', '.js', '.ts', '.xml', '.yml', '.yaml'}
+
+for root, dirs, files in os.walk('.'):
+    dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
+
+    for name in files:
+        ext = os.path.splitext(name)[1]
+        if ext not in ALLOW_EXT:
+            continue
+
+        path = os.path.join(root, name)
+
+        try:
+            with open(path, encoding='utf-8') as r:
+                data = r.read()
+        except UnicodeDecodeError:
+            continue
+
+        with open(path, 'w', encoding='utf-8') as w:
+            w.write(data)
+EOF
+
+```
 
 
 
