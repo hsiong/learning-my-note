@@ -1921,7 +1921,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                                                                             
+>                                                                                 
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
@@ -2820,9 +2820,87 @@ EOF
 
 ```
 
+## 在 requests 里，URL 查询参数不要自己拼在 URL 字符串中，而是用 params 这个参数，通过 dict 传入
+```python
+import requests
+
+url = "https://api.dify.ai/v1/datasets/{dataset_id}/documents"
+
+headers = {
+    "Authorization": "Bearer <token>"
+}
+
+params = {
+    "page": 1,
+    "limit": 20
+}
+
+response = requests.get(url, headers=headers, params=params)
+
+print(response.url)      # 看最终请求的 URL
+print(response.status_code)
+print(response.json())
+```
 
 
 
 
 
+## Pytest 相对路径是扫描当前 package 而不是 整个项目
+
+使用的肯定不是 pytest, 安装 pip install pytest
+
+
+
+## import 必须统一使用绝对路径, 不能混用, 否则docker打包要命
+
+### 正常情况下，一万个文件夹该怎么写？
+
+在标准的 Python 项目（哪怕有一万个文件夹）中，我们要引用同一个文件夹里的文件，**不需要**修改 `PYTHONPATH`，而是**修改代码的写法**。
+
+这就是为什么我之前建议你改代码（虽然你现在不想改，但我必须解释清楚原理）：
+
+#### 标准写法 A：相对引用（Relative Import）
+
+在 `/app/prompt/prompt_summary.py` 里，如果不改环境变量，正确的写法是：
+
+Python
+
+```
+# 这里的 . 代表“当前文件夹”
+from .prompt_analyse import *
+```
+
+**含义**：告诉 Python，“别去大厅找了，就在我现在所在的这个二楼房间里找”。 **结果**：无论你有一万个文件夹，只要加上 `.`，Python 就会在当前文件夹找。**这才是解决一万个文件夹的正确方案。**
+
+#### 标准写法 B：绝对引用（Absolute Import）
+
+Python
+
+```
+# 带上文件夹的名字
+from prompt.prompt_analyse import *
+```
+
+**含义**：告诉 Python，“去大厅，找到 prompt 那个房间，再进去找书”。 **结果**：这也是标准做法。
+
+------
+
+### 3. 为什么你的代码必须改环境变量？
+
+**因为你的代码写法是“非标准”的（或者说是 Python 2 时代的遗留风格）。**
+
+你的代码写的是：
+
+Python
+
+```
+from prompt_analyse import *
+```
+
+这句话在 Python 3 里的唯一含义是：**“去根目录（/app）找 `prompt_analyse.py`”**。
+
+但是你的文件明明在 `/app/prompt/` 里！ 所以，你造成了一个**“虽然我人住在二楼，但我非要去大厅找我卧室里的书”**的矛盾局面。
+
+这就是为什么你需要把 `/app/prompt` 也加入到 `PYTHONPATH` —— 相当于你强制告诉图书管理员：“大厅里找不到的话，特许你去二楼找”
 
