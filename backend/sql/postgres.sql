@@ -176,3 +176,5 @@ select now();
 https://zhuanlan.zhihu.com/p/153460511
 TimeZone=Asia/Shanghai
 
+-- cast null timestamp
+CAST(NULL AS timestamp) AS created_at
