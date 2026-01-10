@@ -703,9 +703,41 @@ eval ${WORKER_RUN_CMD}
 echo ">>> Worker 已启动。"
 ```
 
-### 相关问题
+# 常用组件
 
-#### web 部署正常,  localhost:3000不能访问?
+## Code
+
++ code 解析长文要使用 json.dumps(xxx), 否则会导致异常
+
+## Variable Aggregator
+
++ 多变量混合, 用于多流程合并一个值
+
++ 支持多租字段合并
+
++ 支持直接选取输出值, 注意点外侧的值作为入口可能是 `object`
+
++ 不适用于 if-else 分支, 会有异常; 只适用于 fail branch
+
+## Variable Assigner￼  & Conversation Variables
+
+这两个组件必须一起才能使用, 只能用于 `chatflow`
+
++ 用于实现多轮对话上下文
+
+> workflow 新增变量无需 Variable Assigner
+>
+> 用 code 组件即可
+
+## User input
+
+Dify 的工作流支持在流程中暂停，并向用户请求输入。当你需要让用户选择某个选项时，
+
+只需：`添加 User Input 节点`
+
+# 相关问题
+
+## web 部署正常,  localhost:3000不能访问?
 
 + `docker logs -f dify-web`
 
@@ -720,7 +752,7 @@ echo ">>> Worker 已启动。"
   ENV HOSTNAME=0.0.0.0
   ```
 
-#### 登录闪退
+## 登录闪退
 
 + localhost: 3000 或 127.0.0.1:3000 只有一个能正常登录
 
@@ -738,7 +770,7 @@ ENV APP_API_URL=http://127.0.0.1:5001
 
 让所有这些 URL 全部**只从 `.env`** 来控制。
 
-#### worker 启动失败
+## worker 启动失败
 
 + docker logs -f dify-worker
 
@@ -753,7 +785,7 @@ File "/app/api/extensions/storage/opendal_storage.py", line 39, in __init__ self
   -v "$(pwd)/storage:/data/storage"
 ```
 
-#### worker: ValueError: Port could not be cast to integer value as '${REDIS_PORT}
+## worker: ValueError: Port could not be cast to integer value as '${REDIS_PORT}
 
 + docker logs -f dify-worker
 
@@ -770,7 +802,7 @@ sed -i "s/\${REDIS_PORT}/${REDIS_PORT}/g" .env.prod
 docker run -> -e .env.prod
 ```
 
-#### PrivkeyNotFoundError
+## PrivkeyNotFoundError
 
 + docker logs -f dify-api
 
@@ -806,7 +838,7 @@ This error might be due to changing the deployment method or deleting the `api/s
 
   Follow the prompts to reset.
 
-#### dify Client error '404 Not Found' for url 'http://127.0.0.1:5002/plugin
+## dify Client error '404 Not Found' for url 'http://127.0.0.1:5002/plugin
 
 + dify plugin 使用最新版本
 
@@ -819,17 +851,17 @@ This error might be due to changing the deployment method or deleting the `api/s
     image: langgenius/dify-plugin-daemon:main-local-linux-amd64
 ```
 
-#### Bad Request 400: Incorrect decryption
+## Bad Request 400: Incorrect decryption
 
 + rsa 加密异常,  从数据库中删除 secret-key
 + apps -> 根据 name 找到  app_id
 + workflows -> app_id 找到最新的 workflowid,  将`environment_variables` 中删除
 
-#### xxx app is disabled
+## xxx app is disabled
 
 app -> 编辑信息 -> Backend Service API 
 
-#### 更换 api 文档的地址
+## 更换 api 文档的地址
 
 > api -> .env
 
@@ -849,40 +881,6 @@ APP_WEB_URL=http://172.16.69.222:3000
 ```
 
 
-
-# 常用组件
-
-## Code
-
-+ code 解析长文要使用 json.dumps(xxx), 否则会导致异常
-
-## Variable Aggregator
-
-+ 多变量混合, 用于多流程合并一个值
-
-+ 支持多租字段合并
-
-+ 支持直接选取输出值, 注意点外侧的值作为入口可能是 `object`
-
-+ 不适用于 if-else 分支, 会有异常; 只适用于 fail branch
-
-## Variable Assigner￼  & Conversation Variables
-
-这两个组件必须一起才能使用, 只能用于 `chatflow`
-
-+ 用于实现多轮对话上下文
-
-> workflow 新增变量无需 Variable Assigner
->
-> 用 code 组件即可
-
-## User input
-
-Dify 的工作流支持在流程中暂停，并向用户请求输入。当你需要让用户选择某个选项时，
-
-只需：`添加 User Input 节点`
-
-# 相关问题
 
 ## 装不上plugin
 
@@ -928,3 +926,180 @@ environment:
 
 - TEXT_GENERATION_TIMEOUT_MS 定义在 config/index.ts:339，通过 getNumberConfig 读取。它优先取环境变量    NEXT_PUBLIC_TEXT_GENERATION_TIMEOUT_MS，其次取后端暴露的配置项 data-public-text-generation-timeout-ms（参见 types/feature.ts:113 的    DatasetAttr.DATA_PUBLIC_TEXT_GENERATION_TIMEOUT_MS），若都缺失则回退到默认值 60000 毫秒。  
 - 因此，这个 timeout 可以在部署时通过设置 `NEXT_PUBLIC_TEXT_GENERATION_TIMEOUT_MS`（或相应的 dataset 属性）来控制；不设置时默认 60 秒后前端停止等待并显示该提示。
+
+
+
+## Knowledge upload file failed
+
+```
+Context:
+
+   service: fs
+
+   path: upload_files/2dca92d0-9529-4f10-b39f-08c42ee94d83/896c8ecf-b576-45e0-9226-c7eb4676b5fc.md
+
+
+
+Source:
+
+   Permission denied (os error 13)
+
+
+
+2026-01-02 07:06:22,862 INFO [ext_request_logging.py:73] 7223dc8cb1 POST /console/api/files/upload 500 9.918 
+```
+
+将 `upload_files` 权限修改
+
+```
+hsiong:storage_prod/ (main*) $ sudo chmod -R 777 upload_files                                                                                                    [15:21:02]
+[sudo] password for hsiong:         
+```
+
+即可
+
+
+
+## Ollama 暂不支持 rerank
+
+使用 `Xinference` 替代
+
+```
+根据你提供的信息以及目前 Dify 和 Ollama 的架构机制，Dify 目前无法直接通过 Ollama 插件调用 Rerank（重排）模型。
+
+这是因为 Ollama 目前主要暴露的是 Generate (对话) 和 Embeddings (嵌入) 接口，没有原生的 Rerank 接口标准，而 Dify 的 Rerank 模块需要特定的 JSON 数组输入和打分输出格式。
+
+要解决这个问题，你需要采用**“曲线救国”**的方案。以下是三种可行的解决办法，按照推荐程度排序：
+
+方案一：使用 Xinference 部署（最推荐，Dify 原生支持）
+Xinference 是 Dify 官方推荐的本地模型推理后端，它完美支持 Rerank 模型，并且 Dify 界面里直接有 Xinference 的配置入口。
+
+安装 Xinference:
+
+Bash
+
+pip install "xinference[all]"
+启动 Rerank 模型: 使用 Xinference 启动你想要的 Qwen3-Reranker 或 bge-reranker 模型。
+
+Bash
+
+xinference launch --model-name qwen3-reranker-8b --model-type rerank
+(注：如果 Xinference 库中还没更新 Qwen3，可以用通用的 bge-reranker-v2-m3 代替，效果也很稳)
+
+在 Dify 中配置:
+
+进入 Dify -> 设置 -> 模型供应商 -> Xinference。
+
+模型类型选择 Rerank。
+
+输入 Xinference 的地址（例如 http://127.0.0.1:9997）。
+
+Dify 会自动识别已加载的 Rerank 模型。
+```
+
+
+
+## dify 有时候没有反应
+
++ 查看是不是 web端的 `CONSOLE_API_URL` 和 `APP_API_URL` 写了内网地址
+
+
+
+## 清理孤儿/无用文件
+
+> https://github.com/langgenius/dify/pull/18835
+
+方案 A（官方、相对安全）：定时清理 orphaned files
+
+Dify 官方文档提供了两条管理命令：先清理数据库里的孤儿记录，再删存储里的孤儿文件，并提示要先备份、在维护窗口执行；另外“删存储里的孤儿文件”目前只对 OpenDAL 存储生效（`STORAGE_TYPE=opendal`）。[Dify Docs](https://docs.dify.ai/en/self-host/troubleshooting/storage-and-migration)
+
+**手动执行：**
+
+- 清理孤儿记录：
+  - `docker exec -it docker-api-1 flask clear-orphaned-file-records`
+- 删除存储孤儿文件：
+  - `docker exec -it docker-api-1 flask remove-orphaned-files-on-storage`
+
+**定时执行（cron 示例，每天 03:10 跑一次）：**
+
+```
+10 3 * * * docker exec -t docker-api-1 flask clear-orphaned-file-records -f && docker exec -t docker-api-1 flask remove-orphaned-files-on-storage -f
+```
+
+> `-f` 用于跳过确认。
+
+
+
+### 查看有用的文件
+
+```
+WITH files AS (
+			  SELECT id::text AS file_id, key FROM upload_files
+			  UNION ALL
+			  SELECT id::text AS file_id, file_key AS key FROM tool_files
+			  ),
+	 usage AS (
+			  -- 直接等值
+			  SELECT 'message_files.upload_file_id' AS src, mf.id::text AS record_id, mf.upload_file_id::text AS file_id
+			  FROM message_files mf
+
+			  -- 正则提取
+			  UNION ALL SELECT 'documents.data_source_info', d.id::text, m[1]
+			  FROM documents d CROSS JOIN LATERAL regexp_matches(d.data_source_info::text,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'document_segments.content', ds.id::text, m[1]
+			  FROM document_segments ds CROSS JOIN LATERAL regexp_matches(ds.content,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'messages.answer', msg.id::text, m[1]
+			  FROM messages msg CROSS JOIN LATERAL regexp_matches(msg.answer,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'messages.inputs', msg.id::text, m[1]
+			  FROM messages msg CROSS JOIN LATERAL regexp_matches(msg.inputs::text,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'messages.message', msg.id::text, m[1]
+			  FROM messages msg CROSS JOIN LATERAL regexp_matches(msg.message::text,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'workflow_node_executions.process_data', w.id::text, m[1]
+			  FROM workflow_node_executions w CROSS JOIN LATERAL regexp_matches(w.process_data::text,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'workflow_node_executions.outputs', w.id::text, m[1]
+			  FROM workflow_node_executions w CROSS JOIN LATERAL regexp_matches(w.outputs::text,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'conversations.introduction', c.id::text, m[1]
+			  FROM conversations c CROSS JOIN LATERAL regexp_matches(c.introduction,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'conversations.system_instruction', c.id::text, m[1]
+			  FROM conversations c CROSS JOIN LATERAL regexp_matches(c.system_instruction,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'accounts.avatar', a.id::text, m[1]
+			  FROM accounts a CROSS JOIN LATERAL regexp_matches(a.avatar,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'apps.icon', a.id::text, m[1]
+			  FROM apps a CROSS JOIN LATERAL regexp_matches(a.icon,'[0-9a-fA-F-]{36}','g') m
+
+			  UNION ALL SELECT 'sites.icon', s.id::text, m[1]
+			  FROM sites s CROSS JOIN LATERAL regexp_matches(s.icon,'[0-9a-fA-F-]{36}','g') m
+			  )
+SELECT DISTINCT u.src, u.record_id, u.file_id, f.key
+FROM usage u
+		 JOIN files f ON f.file_id = u.file_id
+ORDER BY u.src, u.record_id;
+```
+
+
+
+### 日志文件
+
+> 注意: 日志文件引用了上传文件, 也会认为是引用状态 , `workflow_node_executions`
+
+配置日志文件历史  `.env.*` :
+
+```
+# Enable automatic cleanup of workflow run logs to manage database size
+WORKFLOW_LOG_CLEANUP_ENABLED=true
+# Number of days to retain workflow run logs (default: 30 days)
+WORKFLOW_LOG_RETENTION_DAYS=30
+# Batch size for workflow log cleanup operations (default: 100)
+WORKFLOW_LOG_CLEANUP_BATCH_SIZE=100
+```
+
