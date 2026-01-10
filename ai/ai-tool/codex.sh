@@ -35,3 +35,12 @@ codex-cli 0.73.0
 
 trust_level = "untrusted"
 ```
+
+## permisson error  这个一般是是 git 导致的问题
+sudo chown $(whoami):$(id -gn) ~/.gitconfig
+
+### 不行的话, 使用更强力的办法  https://www.reddit.com/r/OpenAI/comments/1n4gk3w/how_to_adjust_permissions_in_codex_so_i_can_stop/
+codex --dangerously-bypass-approvals-and-sandbox  
+
+
+## 
