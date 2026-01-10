@@ -1,0 +1,30 @@
+.git
+.gitignore
+.venv/
+.claude
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Local environment & secrets
+config/.env*
+
+# Local logs & temp files
+*.log
+logs/
+log/
+*.tmp
+*.swp
+
+# readme
+AGENTS.md
+CLAUDE.md
+README.md
+
+# OS noise
+.DS_Store
