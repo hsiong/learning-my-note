@@ -84,7 +84,8 @@ Editor => smart keys => click smart indent pasted lines
 + Reformat code
 + Optimize import
 
-
+### 必装 plugin !!!!!!!!!!!!!
++ ranbow brackets
 
 ### pycharm the file in the editor is not runnable
 
@@ -328,8 +329,8 @@ Project -> Behavior -> Always Select Opened File
 ## pytest-实时输出
 使用 `-s` 可以关闭输出捕获，让所有 print/log 立即显示。
 
-## database - open
-`Open results in new tab`
+## db/database - open 保留历史记录
+setting -> tools -> Database -> Query Execution -> `Open results in new tab`
 
 ## select opened file 
 1. 方法1: `Behavior` -> unclick `Always Select Opened File` , 手动点
@@ -338,15 +339,82 @@ Project -> Behavior -> Always Select Opened File
 ## rename 不改变引用
 + click `Search for references` and `Search in comments and strings`
 
-# pycharm run/debug  运行保留之前的结果  而不是替换当前窗口
+## pycharm run/debug  运行保留之前的结果  而不是替换当前窗口
 > pin tab 即可
 
 
-# pycharm 滚动条不展示报错
+## pycharm 滚动条不展示报错
 > 换 theme 即可
 ￼
 
-# Reformat on paste 关闭“粘贴时自动格式化”
+## Reformat on paste 关闭“粘贴时自动格式化”
 Editor → General → Smart Keys -> Python → Reformat on paste => None
 注意: 全局不管用
 ￼
+## pycharm 方法注释不会自动加入 param + return
+Setting -> Integrated Tools -> `Docstring format` -> reStructuredText
+
+## cli 激活 pycharm 构建的 env/venv
+`source .venv/bin/activate`
+
+## pycharm 多核运行参数
+
+`nproc` 查看核数,   xx:CICompilerCount 不能大于 `nproc` 的一半
+
+```
+-Xms512m
+-Xmx8g
+-XX:ReservedCodeCacheSize=512m
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=200
+-XX:+ParallelRefProcEnabled
+-XX:CICompilerCount=8
+-Dsun.io.useCanonCaches=false
+
+```
+
+
+
+## Async 纯傻逼;  占IO的地方, 使用子线程来做
+
+async 只适合**单阻塞点**的任务
+
+这就是 Python `async/await` 最恶心的地方：**传染性**和**脆弱性**。
+
+### 结论：
+
+**是的。只要你的 `async def` 里藏了一个同步阻塞操作（比如写文件、或者算 2 秒钟的算法），整个 Worker 线程就会立马卡死。**
+
+- **哪怕你只漏了一处**：这一处在跑的时候，CPU 就在这儿死等。
+- **影响范围**：不仅仅是这个接口，**这一个 Worker 进程负责的所有其他请求（包括 `/ping`、其他用户的请求）全部暂停**，直到这个阻塞操作结束。
+
+### 为什么会这样？（大白话）
+
+- **`async def` (单线程)**：就像**只有一个服务员**。他本来应该是在后厨做菜（IO）的时候去招待别的客人。但因为你写了同步代码（阻塞），相当于强行按着这个服务员在后厨盯着锅，不允许他离开。那大堂里的其他客人都得干等。
+- **普通 `def` (多线程)**：FastAPI 给你派了**一堆服务员（线程池）**。这个服务员卡住了，还有别的服务员去招待其他客人。
+
+### 所以，对于你的场景：
+
+你的代码里既有视频转码（CPU密集），又有文件读写（IO），还有外部请求。如果你非要用 `async`：
+
+1. 你必须把**每一行**耗时代码都改成异步库（aiofiles, aiohttp）。
+2. 或者把**每一行**同步代码都包在 `run_in_threadpool` 里。
+
+**这确实是“脱裤子放屁”，既增加了代码复杂度，又容易埋雷。**
+
+------
+
+### 最优解：别折腾 async 了，全删掉
+
+听我的，直接**退回同步模式**。FastAPI 的同步模式（多线程）性能足够强，完全能扛住你的业务，而且**不管你怎么写阻塞代码，都不会卡死整个服务**。
+
+**怎么改？（三步走）**
+
+1. **把 Controller 和 Service 的 `async` 关键字全删了。**
+2. **把代码里所有的 `await` 全删了。**
+3. **UploadFile 的读取要注意一下**（这是唯一的坑）：
+   - `async` 模式下用：`content = await file.read()`
+   - **同步**模式下用：`content = file.file.read()` (直接调底层文件句柄)
+
+
+
