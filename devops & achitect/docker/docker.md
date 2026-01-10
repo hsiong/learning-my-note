@@ -58,6 +58,7 @@ This is a proj from Docker base learning to Docker practice.
 - [docker-proxy](#docker-proxy)
     - [方案 A：容器用 host 网络（简单粗暴）](#方案-a容器用-host-网络简单粗暴)
   - [docker compose](#docker-compose)
+  - [ARG 和 ENV 的区别](#arg-和-env-的区别)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -977,3 +978,24 @@ services:
 
 ```
 
+## ARG 和 ENV 的区别
+
+
+
+| **特性**     | **ARG (Build Argument)**                    | **ENV (Environment Variable)**                               |
+| ------------ | ------------------------------------------- | ------------------------------------------------------------ |
+| **生效阶段** | 仅在 **`docker build`** (构建镜像) 期间有效 | 在 **`docker build`** 期间有效，且在 **`docker run`** (容器运行) 时也一直存在 |
+| **最终镜像** | **不会**保留在最终镜像中 (构建完就消失)     | **会**保留在最终镜像中，成为容器的环境变量                   |
+| **主要用途** | 传递版本号、下载源、编译参数等中间变量      | 配置程序运行参数 (端口, 数据库地址, 代理配置)                |
+| **覆盖方式** | `docker build --build-arg KEY=VAL`          | `docker run -e KEY=VAL`                                      |
+
+## .env 最佳实践
+
++ `.dockerignore` 加入忽略, 避免修改 `.env.*` 就重新编译整个镜像
++ `docker run` 的时候, 通过 `-p 映射路径`
+
+
+
+## dockerFile 保持运行
+
+`CMD ["tail", "-f", "/dev/null"]`
