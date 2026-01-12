@@ -1921,7 +1921,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                                                                                 
+>                                                                                     
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
@@ -2656,6 +2656,8 @@ person = json.loads(json_string)
    formatted_json_str_general = json.dumps(formatted_json_general, indent=2, ensure_ascii=False)
 ```
 
+> 注意, json.dumps 转为字符串后, 放到 request json 请求体中, 再传给 fastapi/flask 等请求时, 无需再 json.loads, 
+
 ## API 接口改为入参是一个PerMessage对象数组,
 ```python
 
@@ -2904,3 +2906,129 @@ from prompt_analyse import *
 
 这就是为什么你需要把 `/app/prompt` 也加入到 `PYTHONPATH` —— 相当于你强制告诉图书管理员：“大厅里找不到的话，特许你去二楼找”
 
+
+## Async 纯傻逼;  占IO的地方, 使用子线程来做
+
+async 只适合**单阻塞点**的任务
+
+这就是 Python `async/await` 最恶心的地方：**传染性**和**脆弱性**。
+
+### 结论：
+
+**是的。只要你的 `async def` 里藏了一个同步阻塞操作（比如写文件、或者算 2 秒钟的算法），整个 Worker 线程就会立马卡死。**
+
+- **哪怕你只漏了一处**：这一处在跑的时候，CPU 就在这儿死等。
+- **影响范围**：不仅仅是这个接口，**这一个 Worker 进程负责的所有其他请求（包括 `/ping`、其他用户的请求）全部暂停**，直到这个阻塞操作结束。
+
+### 为什么会这样？（大白话）
+
+- **`async def` (单线程)**：就像**只有一个服务员**。他本来应该是在后厨做菜（IO）的时候去招待别的客人。但因为你写了同步代码（阻塞），相当于强行按着这个服务员在后厨盯着锅，不允许他离开。那大堂里的其他客人都得干等。
+- **普通 `def` (多线程)**：FastAPI 给你派了**一堆服务员（线程池）**。这个服务员卡住了，还有别的服务员去招待其他客人。
+
+### 所以，对于你的场景：
+
+你的代码里既有视频转码（CPU密集），又有文件读写（IO），还有外部请求。如果你非要用 `async`：
+
+1. 你必须把**每一行**耗时代码都改成异步库（aiofiles, aiohttp）。
+2. 或者把**每一行**同步代码都包在 `run_in_threadpool` 里。
+
+**这确实是“脱裤子放屁”，既增加了代码复杂度，又容易埋雷。**
+
+------
+
+### 最优解：别折腾 async 了，全删掉
+
+听我的，直接**退回同步模式**。FastAPI 的同步模式（多线程）性能足够强，完全能扛住你的业务，而且**不管你怎么写阻塞代码，都不会卡死整个服务**。
+
+**怎么改？（三步走）**
+
+1. **把 Controller 和 Service 的 `async` 关键字全删了。**
+2. **把代码里所有的 `await` 全删了。**
+3. **UploadFile 的读取要注意一下**（这是唯一的坑）：
+   - `async` 模式下用：`content = await file.read()`
+   - **同步**模式下用：`content = file.file.read()` (直接调底层文件句柄)
+
+
+
+## Finally & Return
+
+在 `finally` 里面写 `return` 会导致返回异常 !!!
+
+**是的，你的直觉非常准！** 😱
+
+在 `finally` 块中写 `return` 语句虽然**语法上是合法的**（Python 不会报错），但在**逻辑上是非常危险的**，通常被称为**“反模式”（Anti-pattern）**。
+
+它会导致两个严重的后果，也就是你担心的“异常”情况：
+
+### 1. 吞噬异常 (Swallowing Exceptions) —— 最危险的后果！
+
+如果 `try` 或 `except` 块中发生了异常，本来应该抛出报错，但如果 `finally` 里有 `return`，**这个异常会被直接丢弃（Swallowed）**，程序会假装什么都没发生，正常返回。
+
+这会导致你**完全无法调试**程序中的错误。
+
+**示例：**
+
+Python
+
+```
+def dangerous_function():
+    try:
+        # 这里发生了严重的除零错误！
+        x = 1 / 0 
+    finally:
+        # 因为这里写了 return
+        return "一切正常"
+
+result = dangerous_function()
+print(result) 
+```
+
+**输出：**
+
+Plaintext
+
+```
+一切正常
+```
+
+**后果：** 本来应该爆出的 `ZeroDivisionError` 不见了。如果这是一个隐藏很深的 Bug，你将永远找不到它，因为程序没有报错。
+
+------
+
+### 2. 覆盖返回值 (Overriding Return Values)
+
+如果 `try` 块中已经成功执行并准备 `return A`，但在执行 `finally` 时遇到了 `return B`，Python 会无视 `A`，强制返回 `B`。
+
+这会让代码逻辑变得极其混乱。
+
+**示例：**
+
+Python
+
+```
+def confused_function():
+    try:
+        return "我是正确的数据"
+    finally:
+        return "我是捣乱的数据"
+
+print(confused_function())
+```
+
+**输出：**
+
+Plaintext
+
+```
+我是捣乱的数据
+```
+
+**后果：** `try` 里的逻辑明明是对的，结果却因为 `finally` 的强势插入，导致返回了错误的结果。
+
+------
+
+### 总结与建议
+
+- **结论：** 在 `finally` 中写 `return` **不会导致程序崩溃**，但它会导致**程序逻辑崩溃**（吞掉报错、篡改结果）。
+- **最佳实践：** **永远不要**在 `finally` 块中使用 `return`、`break` 或 `continue`。
+- **正确用法：** `finally` 只应该用来做资源清理工作（比如关闭文件、关闭数据库连接），不应该用来控制程序的流向。
