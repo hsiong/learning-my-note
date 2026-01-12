@@ -59,6 +59,9 @@ This is a proj from Docker base learning to Docker practice.
     - [方案 A：容器用 host 网络（简单粗暴）](#方案-a容器用-host-网络简单粗暴)
   - [docker compose](#docker-compose)
   - [ARG 和 ENV 的区别](#arg-和-env-的区别)
+  - [.env 最佳实践](#env-最佳实践)
+  - [dockerFile 保持运行](#dockerfile-保持运行)
+  - [docker 日志](#docker-日志)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -999,3 +1002,6 @@ services:
 ## dockerFile 保持运行
 
 `CMD ["tail", "-f", "/dev/null"]`
+
+## docker 日志
+目录千万不能放在移动盘, 否则会占用固定路径
