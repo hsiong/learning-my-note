@@ -735,6 +735,29 @@ Dify 的工作流支持在流程中暂停，并向用户请求输入。当你需
 
 只需：`添加 User Input 节点`
 
+## LLM
+
+一定要勾选 `Enable Reasoning Tag Separation`, 这样才会自动把 `thinking` 内容放到 `reasoning_content` 中
+
+
+
+## Retrieval Knowledge
+
++ `Retrieval Setting` => Multi Knowledge
++ `Edit` => Single Knowledge
+
+需要配置单数据库的召回, 多数据库使用权重
+
+
+
+## Http Request
+
+一定要记着设置
+
++ `Timeout`
++ `Verify SSL Certifacate`
++ `Retry on failure`
+
 # 相关问题
 
 ## web 部署正常,  localhost:3000不能访问?
@@ -927,7 +950,9 @@ environment:
 - TEXT_GENERATION_TIMEOUT_MS 定义在 config/index.ts:339，通过 getNumberConfig 读取。它优先取环境变量    NEXT_PUBLIC_TEXT_GENERATION_TIMEOUT_MS，其次取后端暴露的配置项 data-public-text-generation-timeout-ms（参见 types/feature.ts:113 的    DatasetAttr.DATA_PUBLIC_TEXT_GENERATION_TIMEOUT_MS），若都缺失则回退到默认值 60000 毫秒。  
 - 因此，这个 timeout 可以在部署时通过设置 `NEXT_PUBLIC_TEXT_GENERATION_TIMEOUT_MS`（或相应的 dataset 属性）来控制；不设置时默认 60 秒后前端停止等待并显示该提示。
 
+## 开启 数据管理员 权限
 
+`api .env` =>  `DATASET_OPERATOR_ENABLED=true`
 
 ## Knowledge upload file failed
 
