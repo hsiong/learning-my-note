@@ -227,3 +227,26 @@ xxx service --- API
 + 使用space　而不是tab
 
 
+
+## Knowledge-retrieval
+
+### context
+
+`dify/api/core/workflow/nodes/llm/node.py`
+
+```python
+                context_str = ""
+                original_retriever_resource: list[RetrievalSourceMetadata] = []
+                context_files: list[File] = []
+                for item in context_value_variable.value:
+                    if isinstance(item, str):
+                        context_str += item + "\n"
+                    else:
+                        if "content" not in item:
+                            raise InvalidContextStructureError(f"Invalid context structure: {item}")
+
+                        context_str += item["content"] + "\n"
+												# 转换成 retriever_resource
+                        retriever_resource = self._convert_to_original_retriever_resource(item)
+                        if retriever_resource:
+```
