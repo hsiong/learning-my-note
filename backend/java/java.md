@@ -200,6 +200,9 @@ Java-review-for-audition
   - [代码优化](#代码优化)
   - [存储优化](#存储优化)
 - [滤波器](#滤波器)
+- [新特性](#新特性)
+  - [JDK 21](#jdk-21)
+    - [虚拟线程](#虚拟线程)
 
 + Object & class
 + Encapsulation
@@ -1095,34 +1098,34 @@ uvicorn app_fastapi_io:app --workers 1
 >     ```
 >     from fastapi import FastAPI, Depends
 >     import asyncio
->                         
+>                             
 >     app = FastAPI()
->                         
+>                             
 >     class ConcurrencyLimiter:
 >         def __init__(self, max_concurrency: int):
 >             self.sem = asyncio.Semaphore(max_concurrency)
->                         
+>                             
 >         async def __call__(self):
 >             await self.sem.acquire()
 >             try:
 >                 yield
 >             finally:
 >                 self.sem.release()
->                         
+>                             
 >     # 给不同的路由组设定不同的并发上限
 >     limit5 = ConcurrencyLimiter(5)
 >     limit2 = ConcurrencyLimiter(2)
->                         
+>                             
 >     @app.get("/fast", dependencies=[Depends(limit5)])
 >     async def fast_endpoint():
 >         await asyncio.sleep(3)
 >         return {"msg": "fast endpoint"}
->                         
+>                             
 >     @app.get("/slow", dependencies=[Depends(limit2)])
 >     async def slow_endpoint():
 >         await asyncio.sleep(5)
 >         return {"msg": "slow endpoint"}
->                         
+>                             
 >     ```
 >
 > 👉 这样即使同时来 100 个请求，事件循环里也只会同时“运行”5个，其他的要等信号量释放。
@@ -1913,7 +1916,59 @@ public class YunxiApiResponse<T> {
 ```
 
 
-102. 
+102. `@Resource` 和 `@Autowired` 区别
++ `@Autowired` 按类型优先  默认用这个就行
++ 像 `FeignClient` 之类的用 `name` 来区分的, 必须使用 `@Resource` 来加载
+
+103. 自动 update 时间
+```
+1）实体字段加自动填充标记
+@TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE) // 或 FieldFill.UPDATE
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+@Schema(description = "更新时间")
+private Date updateAt;
+
+
+如果你的列名就是 update_at，建议把 value="update_at" 写上，避免命名策略不一致导致不生效。
+
+2）实现 MetaObjectHandler（关键）
+
+Spring Boot 项目里直接 @Component 即可：
+
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+@Component
+public class MyMetaObjectHandler implements MetaObjectHandler {
+
+    @Override
+    public void insertFill(MetaObject metaObject) {
+        // 插入时同时填充（可选）
+        this.strictInsertFill(metaObject, "updateAt", Date.class, new Date());
+        // 如果你还有 createAt：
+        // this.strictInsertFill(metaObject, "createAt", Date.class, new Date());
+    }
+
+    @Override
+    public void updateFill(MetaObject metaObject) {
+        // 更新时自动刷新更新时间
+        this.strictUpdateFill(metaObject, "updateAt", Date.class, new Date());
+    }
+}
+```
+
+104. maven jdk version 不生效
+
+     千万不要强制设置 mvn 的 jdk, 
+
+105. java `### Cause: java.sql.SQLSyntaxErrorException: ORA-00942: table or view does not exist`
+     考虑上下文的问题, 使用 `@DS` 试试
+106. 
 
 # 第二章 Mysql
 
@@ -3751,3 +3806,65 @@ float[] matrix = {
     0.111f, 0.111f, 0.111f
 };
 您可以根据需要选择这些滤波器矩阵，或者尝试其他矩阵来获得不同的效果。要应用特定的滤波器矩阵，只需将所选矩阵替换示例代码中的矩阵即可。不同的矩阵将产生不同的图像处理效果。
+
+
+
+# 新特性
+
+## JDK 21
+
+### 虚拟线程
+
+用了 **try-with-resources**，方法整体**不会“异步直接返回”**——它会在 `try` 结束时 **`close()` 阻塞等待任务做完**。
+
+```
+try (var es = Executors.newVirtualThreadPerTaskExecutor()) {
+    es.submit(() -> parseImgMsg(entities, profileId)); // 这里很快就返回（提交完成）
+} // try 结束 -> 调用 es.close() -> 会等待已提交任务全部结束
+```
+
+Oracle 的虚拟线程文档明确说了：`try` 块末尾隐式调用的 `ExecutorService.close()` **会等待所有已提交任务终止**。
+ `ExecutorService.close()` 的默认实现也是 **shutdown + awaitTermination 等待完成**。
+
+所以你这段写法的效果更像是：
+
+- 任务确实在**另一个虚拟线程**里跑
+- 但当前线程马上会在 `close()` 处**等它跑完再返回**
+- 由于 `try` 里没有别的工作可并行，整体收益接近 **“同步调用 + 额外开销”**
+
+------
+
+如果你想“异步直接返回”，怎么写？
+
+1) 真·fire-and-forget（不等结果）
+
+```
+Thread.startVirtualThread(() -> parseImgMsg(entities, profileId));
+return;
+```
+
+注意：**虚拟线程永远是 daemon 线程**，不会阻止 JVM 退出；如果你的程序很快结束（比如 main 跑完），任务可能来不及跑完。
+ （在服务端应用一般没问题，因为 JVM 会一直活着。）
+
+2) 返回 `Future` 给调用方决定等不等（更可控）
+
+```
+var es = Executors.newVirtualThreadPerTaskExecutor();
+Future<?> f = es.submit(() -> parseImgMsg(entities, profileId));
+return f; // 调用方需要时 f.get()
+```
+
+但这种要想资源不泄露，你得在合适时机 `close/shutdown`（通常用“共享 executor”，或在应用关闭时统一关）。
+
+------
+
+和“多线程（平台线程/线程池）”的区别是什么？
+
+**虚拟线程依然是多线程**，区别主要在“成本”和“阻塞模型”：
+
+- **平台线程（OS 线程）**：创建/切换成本高，数量上不去；大量 I/O 阻塞时容易把线程池占满。
+- **虚拟线程（JDK 21 起正式）**：非常轻量，适合“一任务一线程”的写法；遇到可挂起的阻塞（如很多 I/O）时，JVM 可以把它挂起，让承载的少量平台线程去跑别的任务，从而支持海量并发。
+
+但也要记住：
+
+- **CPU 密集型**任务（大量计算）用虚拟线程不会“变快”，瓶颈仍是 CPU 核数；这类更看重合理的并行度/线程池大小。
