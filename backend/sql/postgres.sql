@@ -178,3 +178,6 @@ TimeZone=Asia/Shanghai
 
 -- cast null timestamp
 CAST(NULL AS timestamp) AS created_at
+
+-- postgres 直接用 text
+在 pg 中, text 与 varchar 在存储结构没有任何区别, 只是 varchar 有强制长度上限
