@@ -186,7 +186,23 @@ JAVA_HOME="${JAVA_HOME:-/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/H
 
 ```
 
+## mvn/pom.xml 改变 项目jdk  不生效
+
++ 千万不要在  mvn 里面设置 JavaHome!!!!   `which mvn`  `cat xxx/mvn`
+
++ 二 强制在项目中指定 jdk
+
+  ```
+          <java.version>21</java.version>
+          <maven.compiler.source>21</maven.compiler.source>
+          <maven.compiler.target>21</maven.compiler.target>
+          <maven.compiler.release>21</maven.compiler.release>
+  ```
+
+
+
 ## maven setting.xml 不生效
+
 检查 mirrors -> mirror -> mirrorOf 标签
 
 ## sonatype timed out
