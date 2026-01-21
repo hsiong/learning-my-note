@@ -42,5 +42,12 @@ sudo chown $(whoami):$(id -gn) ~/.gitconfig
 ### 不行的话, 使用更强力的办法  https://www.reddit.com/r/OpenAI/comments/1n4gk3w/how_to_adjust_permissions_in_codex_so_i_can_stop/
 codex --dangerously-bypass-approvals-and-sandbox  
 
+## 完成 commit 提交
+```
+完成当前工作区 commit 内容  中文; 注意不是提交, 按功能整理(注意不是代码模块，整个功能链路为一个功能模块), 从改动量大到小排序, 无需指明代码文件; 整理成老板可以看懂的功能内容
+```
 
-## 
+## 新增 curd
+```
+已知新增表如下 xxx..  参考 xxxModule 下的现有代码(不需要全读取，两到三个表相关的bean/mapper)， 在 xxxPath 下新增 curd 代码
+```
