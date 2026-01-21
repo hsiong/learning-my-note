@@ -96,7 +96,11 @@ https://blog.csdn.net/Logicr/article/details/124957505
    - **Applicable in**：选择模板适用的上下文，例如 Java 方法体内。
    - **Template text**：这是模板的主体。你需要使用 `$EXPR$` 代表原始表达式，`$END$` 指定光标最终的停留位置。如果你的模板是用来打印变量值，模板文本可能类似于 `System.out.println($EXPR$);$END$`。
 
-
+## alt+enter
+`keymap`
++ `Go to Referenced Result`
++ `Show Context Actions`
++ `Show Quick-Fixes`
 
 ## 关闭 coverage
 搜索 coverage -> close
