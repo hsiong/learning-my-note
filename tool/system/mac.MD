@@ -181,3 +181,11 @@ https://www.cnblogs.com/hi3254014978/p/15585732.html
 在 Mac 上有时候我们想查看一些隐藏文件，怎么办呢？只需要输入快捷键
 
 Command + Shift + . 
+
+# 远程访问
+
+## muCommander  sftp
+```
+sftp://domain/dir
+sftp://www.test.com/home/ubuntu/backend/dingding-bot
+```
