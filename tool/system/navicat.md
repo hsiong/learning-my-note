@@ -1,21 +1,22 @@
 # mac
 16.0.12
 
-## rm reg key
-
-cd ~/Library/Application\ Support/PremiumSoft\ CyberTech/Navicat\ CC/Navicat\ Premium  &&\
-rm .`your reg key`
-
 ## rm plist key-id
 
-+ query parent key with `your reg key`  xxxkey =  = Dict { xxx number }
++ query parent key with `your reg key`  xxx =  = Dict { .... }  (key = ...)
+  
 /usr/libexec/PlistBuddy -c "print" ~/Library/Preferences/com.navicat.NavicatPremium.plist 
 
 + rm parent key
-/usr/libexec/PlistBuddy -c 'Delete :`your parent key`' ~/Library/Preferences/com.navicat.NavicatPremium.plist
+  
+/usr/libexec/PlistBuddy -c 'Delete :`your parent key`' ~/Library/Preferences/com.navicat.NavicatPremium.plist && cd ~/Library/Application\ Support/PremiumSoft\ CyberTech/Navicat\ CC/Navicat\ Premium  &&\
+rm .`your reg key`
 
 + query parent key
+  
 /usr/libexec/PlistBuddy -c "print" ~/Library/Preferences/com.navicat.NavicatPremium.plist 
+
+## rm reg key
 
 # windows 
 16.0.14
