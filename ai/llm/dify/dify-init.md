@@ -8,6 +8,8 @@
 
   uv 的设计理念是：每个项目独立、可复现、不污染系统环境。所以：它会为每个项目创建一个 .venv/（或者你配置的虚拟环境目录）。依赖全部安装到这个虚拟环境的 lib/pythonX.Y/site-packages 下。激活该虚拟环境后，Python / pip / uv 都只看到项目自己的依赖。这样：不会和系统 Python 冲突；不同项目可以用不同版本的 Flask、Django、Numpy 等；项目可复现（别人 uv sync 一下就能复现环境）。
 
++ dify source编译应有两个项目, dify-dev 仅拉取; dify-prod 用于提交, 每次提交前 rollback
+
 ## middleware
 
 + init
@@ -1128,3 +1130,20 @@ WORKFLOW_LOG_RETENTION_DAYS=30
 WORKFLOW_LOG_CLEANUP_BATCH_SIZE=100
 ```
 
+### 单元测试
+
+```
+uv run pytest \
+  --timeout "${PYTEST_TIMEOUT:-180}" \
+  tests/integration_tests/workflow \
+  tests/integration_tests/tools \
+  tests/test_containers_integration_tests \
+  tests/unit_tests
+```
+
+工作目录里有 .env，DifyConfig 默认会读取它（env_file=.env），即便在测试里用 os.environ.clear()，.env 里的值仍会覆盖默认值。你本地 .env 设置了：
+
+  - SQLALCHEMY_POOL_PRE_PING=true，导致预期的 pool_pre_ping=False 断言失败。
+  - HTTP_REQUEST_MAX_CONNECT_TIMEOUT=300（以及 read/write 6000），导致期望的默认 10/600/600 断言失败
+
+而在线上环境, 是没有 .env 文件的;  所以不应该用 .env 而是应该用 `.env.test`; 所以无法兼顾线上和线下
