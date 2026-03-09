@@ -195,7 +195,8 @@ select `Help -> Edit Custom VM Options` add below:
 + unclick `Commit` -> `Use non-modal commit interface`
 + plugin `Modal commit Interface`
 
-
+# check code 检查代码错误
++ inspect code `alt + 8` 
 
 ### inspections
 
@@ -373,4 +374,5 @@ Setting -> Integrated Tools -> `Docstring format` -> reStructuredText
 
 ```
 
-
+## pydantic: TypeError: BaseModel.validate() takes 2 positional arguments but 3 were given
+使用 pydantic.v1.baseModel 会出现这个问题! 注意, 应都使用 v2 模型, 并统一使用 `Result[CustomerProfileText].model_validate(response)` 类似这样的方法
