@@ -28,6 +28,7 @@ codex --version
 codex-cli 0.73.0
 
 ## 禁止读取
+###
 编辑 ~/.codex/config.toml, 加一条 blocked 规则（重点）, 在文件里 新增或修改：
 
 ```
@@ -35,6 +36,8 @@ codex-cli 0.73.0
 
 trust_level = "untrusted"
 ```
+### 方式2
+每句指令之前加入 - 禁止读取 `*/application.yml` , `*/application-common.yml`, `.fastRequest/*`, `.mvn/*`, `.idea/*`, `config/.env.*;
 
 ## permisson error  这个一般是是 git 导致的问题
 sudo chown $(whoami):$(id -gn) ~/.gitconfig
@@ -51,3 +54,4 @@ codex --dangerously-bypass-approvals-and-sandbox
 ```
 已知新增表如下 xxx..  参考 xxxModule 下的现有代码(不需要全读取，两到三个表相关的bean/mapper)， 在 xxxPath 下新增 curd 代码
 ```
+
