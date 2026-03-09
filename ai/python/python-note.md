@@ -2714,7 +2714,16 @@ def extract_json(text):
     response = requests.post(url, json=json, headers=headers, timeout=120)
 ```
 
+## 获取某接口的调用地址
+
+```
+download_url = str(
+    request.url_for("download_xhs_template", file_name=file_name) # 方法名
+)
+```
+
 ## python 遍历 某目录下的包和文件, 并获取地址
+
 ```python
 
 def walk_directory(directory, parent_name=None, depth=0):
