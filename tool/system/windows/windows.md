@@ -47,3 +47,57 @@ http://leyuanxm.top/
 
 # notion
 + 无线连接 先按fn 再按4, 快速闪再重新插 2.4Ghz
+
+# windows 自动启动 serve_coi 源码 - 任务计划程序
+
+不用 bat，直接让 Windows 调 python。
+
+## 步骤
+
+1️⃣ Win + R
+ 输入：
+
+```
+taskschd.msc
+```
+
+2️⃣ 点击「创建任务」
+
+------
+
+## 常规
+
+- ✔ 使用最高权限运行
+- ✔ 不管用户是否登录都运行（可选）
+
+------
+
+## 触发器
+
+- 选择「启动时」（开机启动）
+   或
+- 「登录时」
+
+建议：延迟 30 秒（更稳）
+
+------
+
+## 操作
+
+程序：
+
+```
+C:\Users\你的用户名\AppData\Local\Programs\Python\Python39\python.exe
+```
+
+参数：
+
+```
+-m serve_coi
+```
+
+起始于：
+
+```
+D:\compress-movie
+```
