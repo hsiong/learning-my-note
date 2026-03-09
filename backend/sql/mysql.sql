@@ -222,11 +222,17 @@ show global variables like '%lower_case%';
 
 https://blog.csdn.net/qq_48234103/article/details/120769173
 
-docker exec -it mysql /bin/bash
 mysql -u root -p
 use mysql
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '密码';
 
+plan2: docker inspect mysql => PASSWORD
+
+## Mysql 是 root 不允许远程登录（MySQL 里账号是 'root'@'localhost'，
+
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '123456';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
 
 ## MySQL数据库中删除not null约束的方法
 
