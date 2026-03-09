@@ -1,3 +1,7 @@
+> 项目地址
+>
+> https://github.com/hsiong/project-flask-base
+
 # 主要区别
 
 **FastAPI** 和 **Flask** 都是用于构建 Web 应用程序的 Python 框架，但它们有一些显著的差异，适合不同的应用场景。以下是它们的主要区别：
