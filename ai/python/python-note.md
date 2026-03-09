@@ -104,6 +104,22 @@ python字符串截取与java不同,
 print "var2[1:5]: ", var2[1:5]
 ```
 
+### 移除不可见 emoj
+
+```python
+import re
+
+text = "震惊，原来这么简单就能提状态🌜坚持一段时间 🟶 整个人 🟷 都透亮好多 🟸藏不住了 🟬 我的私藏 🟭 小方法分享出来 🟮 🟯 救命 🟱 改变居然这么大 🟲谁懂啊 🟰 这种反差 🟡 真的太让人惊喜 🟢每天花十分钟 🧲 整个人状态好太多 🧰"
+
+pattern = re.compile(r"[\U0001F780-\U0001F7FF\u25A0-\u25FF]")
+
+clean_text = pattern.sub("", text)
+
+print(clean_text)
+```
+
+
+
 ### python 续行
 
 + 使用续行符
@@ -323,7 +339,7 @@ if class_name in prompt: # 检查 prompt 是否包含 class_name
 | [string.upper()](https://www.runoob.com/python/att-string-upper.html) | 转换 string 中的小写字母为大写                               |
 | [string.zfill(width)](https://www.runoob.com/python/att-string-zfill.html) | 返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0 |
 
-
+### 
 
 ## 列表 list
 
@@ -1921,7 +1937,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                                                                                     
+>                                                                                         
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
