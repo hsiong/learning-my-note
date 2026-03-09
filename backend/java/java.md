@@ -1967,8 +1967,14 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
      千万不要强制设置 mvn 的 jdk, 
 
 105. java `### Cause: java.sql.SQLSyntaxErrorException: ORA-00942: table or view does not exist`
-     考虑上下文的问题, 使用 `@DS` 试试
-106. 
+    考虑上下文的问题, 使用 `@DS` 试试
+106. resource & autowire
+```
+@Autowired 先根据类型（byType）查找，如果存在多个（Bean）再根据名称（byName）进行查找；
+@Resource 先根据名称（byName）查找，如果（根据名称）查找不到，再根据类型（byType）进行查找。
+注入的是 Mapper 对象，那么使用 @Autowired 编译器会提示报错信息; 
+```
+107. 
 
 # 第二章 Mysql
 
