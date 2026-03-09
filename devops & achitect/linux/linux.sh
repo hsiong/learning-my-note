@@ -298,7 +298,12 @@ ip addr show
 + 获取公网ip
 curl myip.ipip.net 
 
+# zip 
++ 忽略 xx 文件夹
+zip -r zipName.zip dir   -x "dir/*/.git/*"
 
++ zip 进度可视化
+zip -rv zipName.zip dir
 
 
 # how to install ubuntu
@@ -306,3 +311,6 @@ https://github.com/hsiong/project-init-ubuntu-linux
 
 + Something has gone serously wrong: SBAT self-check failed: Security Policy Violation
   进入Bios设置。进入后找到Secure Boot(开机安全）项，关闭开机安全项(或叫安全启动)
+
+# 统计 linux 磁盘使用情况
+du -h --max-depth=1 | sort -hr
