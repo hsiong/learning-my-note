@@ -305,6 +305,10 @@ zip -r zipName.zip dir   -x "dir/*/.git/*"
 + zip 进度可视化
 zip -rv zipName.zip dir
 
++ 查询当前目录下文件夹大小
+du -h --max-depth=1 | sort -hr | head
+
+
 
 # how to install ubuntu
 https://github.com/hsiong/project-init-ubuntu-linux
