@@ -181,10 +181,6 @@ sync_func()
  **Python 里的 `async/await` 是事件循环里的协程机制，能让等待 I/O 的时候不阻塞线程，实现高并发 I/O。**
  但它和“后台线程异步”不一样，除非你显式把任务丢到线程池或任务队列，否则响应还是要等逻辑执行完才会返回。
 
-------
-
-要不要我给你写一个 **“阻塞 vs async/await”的对比小实验**（同样 10 个请求，分别用 `time.sleep` 和 `await asyncio.sleep`），这样你一跑就能直观感受到差别？
-
 ## 异步多线程
 
 ### Flask
@@ -223,6 +219,37 @@ async def main():
 
 asyncio.run(main())
 ```
+
+## Pydantic
+
+### 数值校验 - 在 Pydantic 模型里用 `model_validator`（推荐）
+
+这样校验逻辑仍然放在模型里。
+
+```
+from pydantic import BaseModel, Field, model_validator
+
+class GenerationRequest(BaseModel):
+    generation_type: str = Field(
+        default="xhs",
+        description="生成类型:xhs-小红书，dzdp-大众点评, dy-抖音"
+    )
+    generation_count: int = Field(default=10, description="生成数量")
+
+    @model_validator(mode="after")
+    def check_generation_count(self):
+        if not 1 <= self.generation_count <= 20:
+            raise RuntimeError("generation_count must be between 1 and 20")
+        return self
+```
+
+当参数不符合时会抛：
+
+```
+RuntimeError: generation_count must be between 1 and 20
+```
+
+而不是 422。
 
 # 其他问题
 
