@@ -2717,10 +2717,26 @@ def extract_json(text):
 ## 获取某接口的调用地址
 
 ```
+from fastapi import Request  # 一定要从 fastapi 或 starlette 导入
 download_url = str(
     request.url_for("download_xhs_template", file_name=file_name) # 方法名
 )
 ```
+
+## python random函数 - 获取随机
+
++ 随机获取一组列表
+
+  ```python
+  def random_emojis(n=5):
+      return " ".join(random.choices(emojis, k=n)) 
+  ```
+
++ 随机获取一个
+
+  ```python
+  random.choice(emojis)
+  ```
 
 ## python 遍历 某目录下的包和文件, 并获取地址
 
