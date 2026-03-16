@@ -282,7 +282,7 @@ unclick `Non-recommended field injections`
 
 把它 **取消勾选**，应用 / 确认
 
-## save password
+## save password 记住密码
 
 一、先搞清楚：IDEA 是用什么来保存密码的？
 
