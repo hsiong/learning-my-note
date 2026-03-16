@@ -169,6 +169,48 @@ https://plugins.jetbrains.com/plugin/16988-restful-fast-request--api-buddy/versi
 
 这里就能改补全列表里普通项（前景/背景）、当前选中项（Selection 前景/背景）、以及匹配文本（Matched text）的颜色与效果（粗体、下划线等）。
 
+### Project - git 文件颜色
+
+**Ignored / Unknown**  color: F77669
+
+正确修改未提交文件颜色的位置（2025.3.3）
+
+去这里：
+
+```
+Settings
+ → Version Control
+      → File Status Colors
+```
+
+这里才是 **Project 面板文件名颜色**。
+
+你会看到类似：
+
+| 状态        | 含义       |
+| ----------- | ---------- |
+| Modified    | 修改未提交 |
+| Added       | 新增文件   |
+| Unversioned | 未加入 Git |
+| Deleted     | 删除       |
+| Ignored     | 忽略       |
+
+点击颜色就能改。
+
+------
+
+举个例子（常见配置）
+
+很多开发者会这样改：
+
+| 状态        | 颜色 |
+| ----------- | ---- |
+| Modified    | 蓝色 |
+| Added       | 绿色 |
+| Unversioned | 橙色 |
+| Deleted     | 红色 |
+
+
 ### 改“代码里类名/接口名”的颜色（比如 List、xxxDTO）
 
 打开 Settings / Preferences（Win/Linux：Ctrl+Alt+S，macOS：⌘,）
