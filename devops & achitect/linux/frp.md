@@ -3,6 +3,8 @@
 + https://juejin.cn/post/7023751648644169759
 + https://www.ucloud.cn/yun/63313.html
 
+
+
 # 服务端配置
 
 ## frp 查看版本
@@ -27,22 +29,46 @@ frps.exe -v
 
 *.frp A 111.122.233.44(云端服务器ip)
 
-## 服务端
-frps.ini
+## Nginx 解析
+
+
+
 ```
-[common]
+# frp
+server {
+  listen 80;
+  server_name *.frp.xxx.com; # frp.域名
+  location / {
+      # 将 127.0.0.1 改为 Docker 默认的宿主机网桥 IP  
+      proxy_pass http://172.17.0.1:7001; 
+      # 这个Host的header一定要加，不然转发后frp拿不到通过哪个域名访问的，导致转发失败
+      proxy_set_header   Host             $host;
+      proxy_set_header   X-Real-IP        $remote_addr;
+      proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+  }
+}
+```
+
+
+
+## 服务端
+frps.toml
+```
 # frp server 绑定的端口
-bind_port = 7000 
-# 设置 http 访问端口为 8080
-vhost_http_port = 8080 
+bindPort = 7000
+# 设置 http 访问端口, 与 Nginx 一致
+vhostHTTPPort = 7001
 # 设置域名（保证此域名可用）- 不使用域名, 可不设置本处
-subdomain_host = frp.域名
+subDomainHost = "frp.域名"
+# 设置秘钥, 与 frpc 一致
+auth.method = "token"
+auth.token = "Token"
 ```
 
 ```shell
-./frps -c ./frps.ini  
+./frps -c ./frps.toml  
 # 后台启动
-nohup ./frps -c frps.ini >/dev/null 2>&1 &
+nohup ./frps -c frps.toml >/dev/null 2>&1 &
 # 杀死进程
 ps aux|grep frp|grep -v grep|awk '{print $2}'|xargs kill
 ```
@@ -52,38 +78,49 @@ ps aux|grep frp|grep -v grep|awk '{print $2}'|xargs kill
 >
 > ⭐️ 注释不能写在代码后, 必须单独另起一行
 ```
-[common]
 # 上面的公网服务器ip
-server_addr = 111.122.233.44(云端服务器ip)
-# frp server 绑定的端口，和上面服务端端口相同
-server_port = 7000 
+serverAddr = 111.122.233.44(云端服务器ip)
+# frp server 绑定的端口，和上面服务端 bind_port 端口相同
+serverPort = 7000 
+auth.method = "token"
+auth.token = "Token"
 
 # 端口的方式
 [test2]
 type = tcp
 # 本地 web server 端口
-local_ip = 127.0.0.1
-local_port = 8083
+localIp = "127.0.0.1"
+localPort = 8083
 # 自定义的访问内部ssh端口号
-remote_port = 6000      
+remotePort = 6000      
 
 # domain 的方式
-# 注意: 本方式仅可以在无nginx的条件下运行, 如果使用 nginx, 情况会非常复杂
-[test1]
-type = http
+[[proxies]]
+type = "http"
 # 本地 web server 端口
-local_ip = 127.0.0.1
-local_port = 8083
+localIP = "127.0.0.1"
+localPort = 8083
 # 二级域名名称
-subdomain = test1
+name = "test1"
+subdomain = "test1"
+
+# 第二个代理：ollama -  domain 的方式
+[[proxies]]
+name = "ollama1"
+type = "http"
+localIP = "127.0.0.1"
+localPort = 11434
+subdomain = "ollama"
+# 👇 加上这行魔法代码，让 Ollama 以为是本地人在访问
+hostHeaderRewrite = "127.0.0.1"
 ```
 
 + linux & macbook
 
   ```
-  ./frpc -c frpc.ini  
+  ./frpc -c frpc.toml 
   # 后台启动
-  nohup ./frpc -c frpc.ini >/dev/null 2>&1 &
+  nohup ./frpc -c frpc.toml >/dev/null 2>&1 &
   # 杀死进程
   ps aux|grep frp|grep -v grep|awk '{print $2}'|xargs kill
   ```
