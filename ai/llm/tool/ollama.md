@@ -57,35 +57,27 @@ sudo systemctl restart ollama
 
 ## 配置权重文件路径
 
-```
-sudo EDITOR=vim systemctl edit ollama
-```
-
-修改目录
+> 注意: 新版本不要再改了, 权限会出现问题
 
 ```
-[Unit]
-Description=Ollama Service
-After=network-online.target
-
-[Service]
-ExecStart=/usr/local/bin/ollama serve
-Restart=always
-User=root
-Group=root
-
-# ← 你现在已有的 PATH 配置
-Environment="PATH=/home/hsiong/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
-
-# ← 在这里新增 OLLAMA_MODELS（这一行就是你要加的）
-Environment="OLLAMA_MODELS=/mnt/bigdisk/ollama-models"
-
-[Install]
-WantedBy=multi-user.target
+sudo systemctl status ollama
+# 地址对应上面写的
+sudo vim /etc/systemd/system/ollama.service
 ```
 
-+ 注意: 同时修改 User 和 Group ⭐️⭐️⭐️
-+ 你可以这样确认一下：
+
+
+```
+# 默认目录为
+/data/ollama
+
+# 查看方式
+getent passwd ollama
+#那么默认模型目录通常就是：
+<ollama用户的home>/.ollama/models
+```
+
+
 
 ```
 sudo systemctl daemon-reload
@@ -162,6 +154,10 @@ ollama stop qwen2.5:7b-instruct-q4_0
 ```
 
 ### 删除
+
+```
+ollma 
+```
 
 
 
@@ -795,6 +791,40 @@ reranker 是 pipeline 最慢的模块：
 
 
 
+# Ollama 更新 - linux
+
+## 更新
+
+```
+curl -fsSL https://ollama.com/install.sh | sh 
+```
+
+
+
+## 重新配置权重文件路径
+
+> 新版本不要再重新配置! 
+
+```
+sudo systemctl status ollama
+# 地址对应上面写的
+sudo vim /etc/systemd/system/ollama.service
+```
+
++ 注意: 同时修改 User 和 Group ⭐️⭐️⭐️
++ 你可以这样确认一下：
+
+```
+sudo systemctl daemon-reload
+sudo systemctl restart ollama
+systemctl show ollama | grep OLLAMA_MODELS
+
+```
+
+
+
+
+
 # 其他
 
 ## 分卡运行
@@ -1098,3 +1128,4 @@ INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH = 4096
   ```
 
   
+
