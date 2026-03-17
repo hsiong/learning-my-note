@@ -2886,6 +2886,12 @@ print(response.json())
 ```
 
 
+### pip install 
+
+你确实装了 torch，但报错依然成立，因为这里踩到的是 pip 的 build isolation（构建隔离）。
+```
+pip install --no-build-isolation basicsr==1.4.2
+```
 
 
 
