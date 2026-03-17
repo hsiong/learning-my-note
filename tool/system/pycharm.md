@@ -308,7 +308,7 @@ Project -> Behavior -> Always Select Opened File
 
 ## 快速找错 error
 
-**方法二：使用 Code → Inspect Code（全项目检查）**
+**方法二：使用 Code → Inspect Code（全项目检查）**  ctrl+8
 
 如果你想让 PyCharm **重新扫描整个项目**，可以这样：
 
