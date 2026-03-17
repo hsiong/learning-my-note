@@ -45,3 +45,12 @@ nginx -t
 
 # stop nginx
 systemctl stop nginx
+
+# docker nginx
+
+docker run --name nginx -p 80:80 \                                                                                                                                                                         [11:09:09]
+-v ~/config/nginx/conf:/etc/nginx/conf.d/ \
+-v ~/download:/usr/share/nginx/download \
+-v ~/config/nginx/html:/usr/share/nginx/html/ \
+-v 
+-d nginx
