@@ -156,7 +156,7 @@ ollama stop qwen2.5:7b-instruct-q4_0
 ### 删除
 
 ```
-ollma 
+ollama rm llama3 mistral qwen:7b
 ```
 
 
