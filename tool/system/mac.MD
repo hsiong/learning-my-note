@@ -316,5 +316,14 @@ https://zhpengfei.com/how-to-register-a-us-apple-id-with-a-domestic-phone-number
 
 # find my   提示 airpods  setup incomplete
 
-+ 登录国服账号
-+ 无限重置无限尝试, 直到出现 connect with icloud ~ 
++ 登录国服账号 无效
++ 重启 无效
++ find my = share my location 无效
++ 关闭热点, 启用流量数据 无效
++ forget device - "not your airpodsxxx" - 必须双击两下 白灯闪烁 - connect with icloud  - 重启 ~ find my - 有无本设备 无效
++ 重新登录账号 - 然后连接 airpods  有概率能成功, 依然没唤醒 uwb 
++ find my - play sound 强制连接  不能唤醒
++ play sound 无反应: 重启 location permission
++ 更换账号后, 是没法 uwb 的
+
+> 直接: 连点三下, 重新恢复出厂, 重新配置, 注意: 国行必须国行账号才有uwb
