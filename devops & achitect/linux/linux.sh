@@ -318,3 +318,18 @@ https://github.com/hsiong/project-init-ubuntu-linux
 
 # 统计 linux 磁盘使用情况
 du -h --max-depth=1 | sort -hr
+
+# 匹配隐藏文件
+rm .*.swp
+
+# 给ubuntu读写权限, 通过 acl
+# -m 未来 ; r = 读 ;  w = 写  ; x = 执行 ; X = 仅对目录 / 已有可执行文件
+setfacl -R -d -m u:ubuntu:rwX /home/ubuntu/backend/openclaw/config
+
+# 创建目录, 忽略已存在
+
+mkdir -p xxxdir
+
+# linux 文件夹 nemo/ 直接访问远程地址
+
+sftp://username@ip/path/dir
