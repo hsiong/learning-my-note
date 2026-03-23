@@ -324,8 +324,13 @@ Project -> Behavior -> Always Select Opened File
 
 直接 cv 方法
 
-## pytest: no tests were found
+## Pytest 相对路径是扫描当前 package 而不是 整个项目
+
+使用的肯定不是 pytest, 安装 pip install pytest
+
+## pytest: no tests were found / pytest install 以后 pycharm 不显示 pytest...
 所有依赖的方式不能有 `main`
+integrated tools -> default test runner => pytest
 
 ## pytest-实时输出
 使用 `-s` 可以关闭输出捕获，让所有 print/log 立即显示。
@@ -348,7 +353,7 @@ setting -> tools -> Database -> Query Execution -> `Open results in new tab`
 > 换 theme 即可
 ￼
 
-## Reformat on paste 关闭“粘贴时自动格式化”
+## Reformat on paste 关闭“粘贴时自动格式化” copy
 Editor → General → Smart Keys -> Python → Reformat on paste => None
 注意: 全局不管用
 ￼
