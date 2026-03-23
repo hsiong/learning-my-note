@@ -1973,6 +1973,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 @Autowired 先根据类型（byType）查找，如果存在多个（Bean）再根据名称（byName）进行查找；
 @Resource 先根据名称（byName）查找，如果（根据名称）查找不到，再根据类型（byType）进行查找。
 注入的是 Mapper 对象，那么使用 @Autowired 编译器会提示报错信息; 
+所以! 无脑用 Resouce 就行 ! 
 ```
 107. 
 
