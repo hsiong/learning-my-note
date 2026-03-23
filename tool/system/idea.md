@@ -22,6 +22,16 @@ update to Jrebel 4.2
 
 # Intellij
 
+## → Lambda parameter types changeColor
+
+Settings
+→ Editor
+→ Color Scheme
+→ Language Defaults
+→ Inline hints
+
+Foreground color
+
 ## edit code - color
 
 Editor -> Color Schme -> General/Language Default/Java/Java Addition
