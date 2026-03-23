@@ -2895,9 +2895,7 @@ pip install --no-build-isolation basicsr==1.4.2
 
 
 
-## Pytest 相对路径是扫描当前 package 而不是 整个项目
 
-使用的肯定不是 pytest, 安装 pip install pytest
 
 
 
