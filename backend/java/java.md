@@ -1975,7 +1975,19 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 注入的是 Mapper 对象，那么使用 @Autowired 编译器会提示报错信息; 
 所以! 无脑用 Resouce 就行 ! 
 ```
-107. 
+107. @RequiredArgsConstructor
+
+```
+ 从 Spring 4.3 开始，如果一个类只有一个构造方法，Spring 会自动进行构造器注入，不需要再写 @Autowired。
+
+```
+
+108. @RequiredArgsConstructor 循环依赖,  怎么处理
+    private final @Lazy BService bService;
+
+109. @RequiredArgsConstructor 不支持 @feign 怎么处理
+
+110. 
 
 # 第二章 Mysql
 
