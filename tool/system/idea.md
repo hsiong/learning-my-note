@@ -149,6 +149,9 @@ https://jetbra.in/s
 ## idea-显示git栏
 unclick `Commit` -> `Use non-modal commit interface`
 
+## 隐藏 `change signature`
+hide all `Code Vision` Inlay Hint
+
 ## 选择 jdk 版本
 project -> sdk
 
@@ -238,6 +241,15 @@ Settings
 ## idea
 
 idea 2023.2.6  main menu -> file -> file open actions -> open projec actions -> new -> file
+
+
+# auto build 自动编译 不生效
++ `Build Tools` => `Sync project after changes in the build scripts` => `Any changes`
++ `action on save` => `build project`
++ `maven` => automatically download => source
++ `hotswap` => `reload classes after compilation` => `always`
++ `Compiler` => `build project automatically`
++ 
 
 ## pycharm
 详见 pycharm.md
