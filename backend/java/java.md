@@ -1987,7 +1987,39 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
 109. @RequiredArgsConstructor 不支持 @feign 怎么处理
 
-110. 
+110. @Cacheable  返回 null 或者 raise exception 会缓存吗
+默认会缓存, 需要设置
+```
+    RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+            .disableCachingNullValues();
+```
+
+111. @Cacheable 如何设置有效时间
+```
+
+
+
+Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
+
+    configMap.put("customerProfile",
+            RedisCacheConfiguration.defaultCacheConfig()
+                    .entryTtl(Duration.ofMinutes(30))); // 👈 单独30分钟
+
+    return RedisCacheManager.builder(factory)
+            .withInitialCacheConfigurations(configMap)
+            .build();
+
+
+```
+
+```
+@Cacheable(value = "customerProfile", key = "#customerId + '_' + #tempCustomerId")
+public CustomerProfile getCustomerProfile(String customerId, String tempCustomerId) {
+    ...
+}
+```
+
+112. 
 
 # 第二章 Mysql
 
