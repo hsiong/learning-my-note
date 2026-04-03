@@ -250,3 +250,4 @@ xxx service --- API
                         retriever_resource = self._convert_to_original_retriever_resource(item)
                         if retriever_resource:
 ```
+
