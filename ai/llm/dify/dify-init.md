@@ -75,7 +75,7 @@ https://github.com/langgenius/dify/issues/23365
   echo 'export PATH="/opt/homebrew/opt/node@22/bin:$PATH"' >> ~/.zshrc
   source ~/.zshrc
   sudo fuser -k 3000/tcp #kill port
-  
+  # apt install nodejs
   
   rm -rf node_modules pnpm-lock.yaml package-lock.json
   pnpm install
@@ -1147,3 +1147,9 @@ uv run pytest \
   - HTTP_REQUEST_MAX_CONNECT_TIMEOUT=300（以及 read/write 6000），导致期望的默认 10/600/600 断言失败
 
 而在线上环境, 是没有 .env 文件的;  所以不应该用 .env 而是应该用 `.env.test`; 所以无法兼顾线上和线下
+
+
+
+### File upload is disabled
+
+`Features` -> `File Upload`
