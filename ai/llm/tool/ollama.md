@@ -1,6 +1,6 @@
 # 初始化
 
-## 安装 **Ollama**
+## 安装/安装 **Ollama**
 
 ```
 curl -fsSL https://ollama.com/install.sh | sh
