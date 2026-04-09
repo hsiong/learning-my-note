@@ -66,3 +66,8 @@ mmstat 是aliyun tongyi的进程, 必须从 Reject 改为 Direct
     - 'DOMAIN-SUFFIX,chatgpt.com,龙猫云 - TotoroCloud'
 
 ```
+
+# force update 
+```
+sudo apt install ./Clash.Verge_2.4.7_amd64.deb
+```
