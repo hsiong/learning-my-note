@@ -57,3 +57,9 @@ codex --dangerously-bypass-approvals-and-sandbox
 
 
 ## codex mcp 
+
+codex mcp-server
+
+## codex api ollama
+
+详见 ai/llm/ai-tool/abliterated.md
