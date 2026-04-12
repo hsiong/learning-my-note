@@ -48,6 +48,7 @@ This project is a compilation of my learning journey and experience in various t
 + 企微公众号起号
 + AIGC  梦境
 + AI 炒股
++ harness: openclaw -> claude channel -> hermes
 
 ## Reference to Chinese Version
 
