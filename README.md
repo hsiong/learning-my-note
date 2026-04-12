@@ -4,7 +4,7 @@ A comprehensive repository of learning notes covering AI, Backend, Frontend, Dev
 
 [中文版](./README_cn.md)
 
-## 1. Project Introduction
+## Project Introduction
 
 This project is a compilation of my learning journey and experience in various technical fields. The content includes, but is not limited to:
 
@@ -14,7 +14,7 @@ This project is a compilation of my learning journey and experience in various t
 - **Frontend Development**: JavaScript, React, Vue.
 - **Tools**: Git, Maven, IDE Configurations, Resume Templates, etc.
 
-## 2. Directory Structure
+## Directory Structure
 
 - 📂 [ai/](./ai/) — Artificial Intelligence and Data Science
     - 📁 [llm/](./ai/llm/) — Large Language Models: benchmarks, Dify, and tools (Ollama, vLLM, n8n, sglang).
@@ -43,12 +43,19 @@ This project is a compilation of my learning journey and experience in various t
     - 📁 [resume/](./tool/resume/) — Career: Resume templates and job requirement analysis.
     - 📁 [vim/](./tool/vim/) — Editor: Vim commands and comprehensive guides.
 
-## 3. Reference to Chinese Version
+## 2026 TODO
+
++ 企微公众号起号
++ AIGC  梦境
++ AI 炒股
+
+## Reference to Chinese Version
 
 You can find the detailed Chinese version of this documentation here: [Readme_cn.md](./README_cn.md).
 
 ## Historical Plans
 
+- [Learning Plan - 2025](./Readme-2025.md)
 - [Learning Plan - 2024](./Readme-2024.md)
 - [Learning Plan - 2023](./Readme-2023.md)
 - [Learning Plan - 2022](./Readme-2022.md)
