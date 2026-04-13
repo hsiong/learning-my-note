@@ -308,3 +308,25 @@ TypeError: _patch_asyncio.<locals>.run() got an unexpected keyword argument 'loo
 
 
 这就是 PyCharm debugger 对 asyncio 的 monkey patch（_patch_asyncio）和 Uvicorn 的 asyncio.run() 冲突造成的。
+
+
+
+# 修改 fastAPI 初始并发数
+最常见写法是在 FastAPI 启动阶段设置：
+
+  import anyio.to_thread
+  from fastapi import FastAPI
+
+  def create_app() -> FastAPI:
+        app = FastAPI(title="Aesthetic Customer Value Engine")
+
+        @app.on_event("startup")
+        async def configure_thread_pool():
+                limiter = anyio.to_thread.current_default_thread_limiter()
+                limiter.total_tokens = 100
+
+        return app
+
+
+
+
