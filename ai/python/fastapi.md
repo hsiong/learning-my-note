@@ -6,6 +6,32 @@
 
 **FastAPI** 和 **Flask** 都是用于构建 Web 应用程序的 Python 框架，但它们有一些显著的差异，适合不同的应用场景。以下是它们的主要区别：
 
+## ASGI vs WSGI
+
+机制上和 Flask 不一样，但“能不能并发”不能只看框架名。
+
+  你现在这个是：
+
+  - FastAPI + Uvicorn，属于 ASGI
+  - 路由是同步 def，api/api_generation.py:15
+  - 这种同步路由会被 Starlette 放到线程池里执行，不直接堵住事件循环
+
+  所以它的模型是：
+
+  - async def：走事件循环
+  - def：丢线程池
+
+  而 Flask 传统上是：
+
+  - WSGI
+  - 视图函数就是直接在 WSGI worker 里跑
+  - 并发主要靠 worker 数、线程数、进程数，不存在 ASGI 这层“同步函数自动转线程池”的机制
+
+  所以你这里和 Flask 的关键区别是：
+
+  - FastAPI/Uvicorn 下，同步 def 是“挂在线程池上的”
+  - Flask 下，同步函数通常就是“跑在 WSGI worker 本身里”
+
 ### 1. **框架定位与设计目标**
 
 - **Flask**：Flask 是一个轻量级的微框架，设计上非常灵活，允许开发者根据需要自由地选择扩展库和架构方式。适合需要灵活自定义的 Web 应用和小型、简单的 API 服务。
