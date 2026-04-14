@@ -12,6 +12,16 @@ codex -V
 cd your-project-folder
 codex
 
+### 用 AGENTS.md 反向影响 /init
+vim ~/.codex/AGENTS.md
+```
+## AGENTS.md generation rules
+
+When generating a new AGENTS.md:
+- Always include Below Rules
+```
+
+
 ## 历史对话
 codex resume
 
@@ -63,3 +73,17 @@ codex mcp-server
 ## codex api ollama
 
 详见 ai/llm/ai-tool/abliterated.md
+
+## skills
+
+https://github.com/hsiong/project-codex-skills
+
+## jetbra codex auth
+The file location is:
+
+Linux: ~/.cache/JetBrains/<product><version>/aia/codex/auth.json
+
+macOS: ~/Library/Caches/JetBrains/<product><version>/aia/codex/auth.json
+
+Windows: %LOCALAPPDATA%\JetBrains\<product><version>\aia\codex\auth.json
+
