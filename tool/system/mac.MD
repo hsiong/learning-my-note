@@ -331,3 +331,42 @@ https://zhpengfei.com/how-to-register-a-us-apple-id-with-a-domestic-phone-number
 
 # upgrade to expected version
 https://support.apple.com/en-us/102662
+
+# NSURLErrorServerCertificateUntrusted
+
+If you want to test it anyway, do this:
+
+```
+echo | openssl s_client -connect login.dingtalk.com:443 -servername login.dingtalk.com -showcerts
+```
+
+Copy the **first** certificate block:
+
+```
+-----BEGIN CERTIFICATE-----
+...
+-----END CERTIFICATE-----
+```
+
+Save it as `dingtalk.cer`, then:
+
+- open **Keychain Access**
+- select **System**
+- **File → Import Items…**
+- import `dingtalk.cer`
+- double-click the imported `*.dingtalk.com`
+- expand **Trust**
+- set **When using this certificate** to `Always Trust`
+- close the window and enter your admin password
+
+That is the correct Apple workflow for persistent certificate trust settings in Keychain Access. 
+
+
+# apple pinyin input CAPS 不生效
+ Mac 电脑解决方案 (macOS)
+Mac OS 10.12 后，短按 Caps Lock 默认为切换中英文，长按才切换大写。若要恢复点按锁定：
+打开 系统设置 (System Settings)。
+点击左侧边栏的 键盘 (Keyboard)。
+点击 输入法 (Input Sources) 的选项 (部分系统版本可能在“键盘”设置的高级选项中)。
+找到 “使用大写锁定键切换‘ABC’输入模式”，将其关闭 (取消勾选)。
+注：修改后，按下 Caps Lock 即可切换大小写，灯亮即为大写。
