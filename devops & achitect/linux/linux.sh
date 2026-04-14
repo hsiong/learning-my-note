@@ -333,3 +333,11 @@ mkdir -p xxxdir
 # linux 文件夹 nemo/ 直接访问远程地址
 
 sftp://username@ip/path/dir
+
+# 查找恶意进程 - 与 clash 对应起来
+
+while true; do                                                                                      [18:21:44]
+  date
+  sudo lsof -nP -iTCP:7890 -sTCP:ESTABLISHED
+  sleep 0.1
+done
