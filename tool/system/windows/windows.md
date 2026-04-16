@@ -101,3 +101,11 @@ C:\Users\你的用户名\AppData\Local\Programs\Python\Python39\python.exe
 ```
 D:\compress-movie
 ```
+
+
+
+# Saladict
+
+## Pronunciation
+
+![Screenshot 2026-04-16 at 09.13.12](../svg/Screenshot 2026-04-16 at 09.13.12.png)
