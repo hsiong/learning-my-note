@@ -10,12 +10,13 @@
 The important difference is this:
 
 - **Codex**: `--dangerously-bypass-approvals-and-sandbox` means “no approvals + no sandbox”
-- **Gemini CLI**: approvals and sandbox are **separate controls**. In Gemini, `Ctrl + Y` auto-approves actions, but the docs also say YOLO mode **enables sandbox by default**. 
+- **Gemini CLI**: approvals and sandbox are **separate controls**. 
+  - In Gemini, `Ctrl + Y` auto-approves actions, but the docs also say YOLO mode **enables sandbox by default**. 
 
 So the nearest Gemini-style equivalent is:
 
 ```
-GEMINI_SANDBOX=false gemini
+GEMINI_SANDBOX=false gemini --yolo
 ```
 
 That is the cleanest documented way to get:
@@ -24,3 +25,9 @@ That is the cleanest documented way to get:
 - sandbox disabled via `GEMINI_SANDBOX=false` 
 
 You can also make it persistent in `~/.gemini/settings.json`, because Gemini documents `tools.sandbox` as a setting that can be enabled or disabled.
+
+# change model
+> Manual
+> press `Tab` to remeber choice
+
+
