@@ -71,3 +71,7 @@ mmstat 是aliyun tongyi的进程, 必须从 Reject 改为 Direct
 ```
 sudo apt install ./Clash.Verge_2.4.7_amd64.deb
 ```
+
+# ssh - vpn
+操作:1.在Mac连SSH时加上参数:ssh-R 7890:127.0.0.1:7890 root@你的IP
+2.在VPS 上临时 export:export https_proxy=http://127.0.0.1:7890 。
