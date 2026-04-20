@@ -15,6 +15,7 @@
   - [检查 Git 安装路径](#检查-git-安装路径)
   - [清除旧的别名](#清除旧的别名)
   - [更新别名](#更新别名)
+  - [force checkout](#force-checkout)
 
 <!-- # 一.常见问题 -->
 
@@ -152,4 +153,9 @@ alias git="xxx /bin/git"
 ```
 
 
+## force checkout
 
+```
+
+git fetch origin && git reset --hard origin/main
+```
