@@ -190,7 +190,9 @@ sftp://domain/dir
 sftp://www.test.com/home/ubuntu/backend/dingding-bot
 ```
 
+# 土耳其账号
 
+https://zhuanlan.zhihu.com/p/636440503
 
 
 # 美区账号准备
