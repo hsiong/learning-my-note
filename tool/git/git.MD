@@ -159,3 +159,8 @@ alias git="xxx /bin/git"
 
 git fetch origin && git reset --hard origin/main
 ```
+
+
+
+
+
