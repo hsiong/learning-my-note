@@ -20,6 +20,18 @@ On **macOS**, the **default model storage path** is:
 
 # mlx
 
+## models 
+
+https://ollama.com/library/qwen3.5/tags?utm_source=chatgpt.com
+
+So:
+
+- **Definitely MLX-looking by name:** `*-mlx-bf16`
+- **Strong MLX-era Apple-Silicon variants:** `nvfp4`, `mxfp8`
+- **Do not infer from name alone:** `int4`, `q4_K_M` 
+
+## how run
+
 on Apple Silicon, **the reliable way to confirm MLX is the server log**, not `ollama ps`. `ollama ps` only tells you whether the model is resident in **GPU memory, CPU memory, or both**; it does **not** identify the execution engine. Ollama’s docs explicitly describe `ollama ps` as a GPU/CPU residency check, and on macOS the logs live in `~/.ollama/logs/server.log`. 
 
 Use this:

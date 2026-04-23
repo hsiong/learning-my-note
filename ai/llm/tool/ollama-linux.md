@@ -1146,7 +1146,61 @@ sudo systemctl daemon-reload
 sudo systemctl restart ollama
 sudo systemctl status ollama
 ```
-  
 
-  
+## macOS/Linux/Windows storage paths
+
+
+For a normal local install, `ollama pull` stores model data under the **models directory**:
+
+- **macOS:** `~/.ollama/models`
+- **Linux:** `/usr/share/ollama/.ollama/models`
+- **Windows:** `C:\Users\%username%\.ollama\models` 
+
+hat is the documented way to move the pulled model storage elsewhere. 
+
+```
+
+ls ~/.ollama/models
+ls ~/.ollama/models/blobs | head
+ls ~/.ollama/models/manifests
+```
+
+
+
+## ollama 
+
+```
+MODEL="qwen3.5:35b-a3b-coding-nvfp4"                                                                 [9:02:46]
+
+curl -s http://localhost:11434/api/generate -d "{
+  \"model\": \"$MODEL\",
+  \"prompt\": \"Write a 400-word explanation of how DNS works.\",
+  \"stream\": false,
+  \"options\": {
+    \"temperature\": 0,
+    \"seed\": 42,
+    \"num_predict\": 512
+  }
+}" | jq '
+{
+  model,
+  prompt_tokens: .prompt_eval_count,
+  output_tokens: .eval_count,
+  prefill_tps: ((.prompt_eval_count * 1000000000) / .prompt_eval_duration),
+  decode_tps: ((.eval_count * 1000000000) / .eval_duration),
+  end_to_end_tps: ((.eval_count * 1000000000) / .total_duration),
+  load_ms: (.load_duration / 1000000),
+  total_ms: (.total_duration / 1000000)
+}'
+{
+  "model": "qwen3.5:35b-a3b-coding-nvfp4",
+  "prompt_tokens": 23,
+  "output_tokens": 512,
+  "prefill_tps": 38.38199050254333,
+  "decode_tps": 37.36011141929962,
+  "end_to_end_tps": 35.664065952888464,
+  "load_ms": 51.099167,
+  "total_ms": 14356.187
+}
+```
 
