@@ -36,23 +36,41 @@ on Apple Silicon, **the reliable way to confirm MLX is the server log**, not `ol
 
 Use this:
 
-```
-# terminal 1
-tail -f ~/.ollama/logs/server.log | grep -i mlx
+### Fast one-liner for a concrete model
 
-# terminal 2
-ollama run qwen3.5:27b-mlx-bf16
-# or
-ollama run qwen3.5:35b-a3b-mlx-bf16
-
-# terminal 3
-ollama ps
-```
-
-If it is really taking the MLX path, the log should contain markers like:
+For `qwen3.5:35b-a3b`:
 
 ```
-starting mlx runner subprocess
-MLX engine initialized
-mlx runner is ready
+LOG=~/.ollama/logs/server.log
+START_LINE=$(wc -l < "$LOG")
+ollama run qwen3.5:35b-a3b
+# after it starts or errors, Ctrl+C if needed, then:
+sed -n "$((START_LINE+1)),\$p" "$LOG" | egrep -i 'mlx|runner|model=qwen3\.5:35b-a3b'
 ```
+
+For `qwen3.5:35b-a3b-nvfp4`:
+
+```
+LOG=~/.ollama/logs/server.log
+START_LINE=$(wc -l < "$LOG")
+ollama run qwen3.5:35b-a3b-nvfp4
+sed -n "$((START_LINE+1)),\$p" "$LOG" | egrep -i 'mlx|runner|model=qwen3\.5:35b-a3b-nvfp4'
+```
+
+For `qwen3.5:27b-q4_K_M`:
+
+```
+LOG=~/.ollama/logs/server.log
+START_LINE=$(wc -l < "$LOG")
+ollama run qwen3.5:27b-q4_K_M
+sed -n "$((START_LINE+1)),\$p" "$LOG" | egrep -i 'mlx|runner|model=qwen3\.5:27b-q4_K_M'
+```
+
+# benchmark
+
+##  qwen3.5:35b-a3b-q4_K_M  vs  qwen3.5:35b-a3b-nvfp4 
+
+
+
+
+## qwen3.5:27b-q4_K_M vs qwen3.5:27b-nvfp4

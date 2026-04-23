@@ -1091,6 +1091,10 @@ Dify Config:
 INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH = 4096
 ```
 
+```
+http://domain:11434/api/embed
+```
+
 
 
 ## USB ollama pull 无响应
