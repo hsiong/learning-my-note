@@ -1133,5 +1133,20 @@ INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH = 4096
   # sudo ip link set dev enx56f85e3448e4 mtu 1380
   ```
 
+
+## support non-localhost addresses
+
+```
+sudo vim /etc/systemd/system/ollama.service 
+
+[Service]
+Environment="OLLAMA_HOST=0.0.0.0:11434;PATH=/home/hsiong/...
+
+sudo systemctl daemon-reload
+sudo systemctl restart ollama
+sudo systemctl status ollama
+```
+  
+
   
 
