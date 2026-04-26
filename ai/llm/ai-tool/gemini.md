@@ -30,4 +30,7 @@ You can also make it persistent in `~/.gemini/settings.json`, because Gemini doc
 > Manual
 > press `Tab` to remeber choice
 
+## hide line number
+`/settings` -> `show line numbers` -> false
+
 

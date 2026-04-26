@@ -68,9 +68,57 @@ sed -n "$((START_LINE+1)),\$p" "$LOG" | egrep -i 'mlx|runner|model=qwen3\.5:27b-
 
 # benchmark
 
+
+```
+
+benchmark_mlx(){
+    local MODEL="$1"
+    curl -s http://localhost:11434/api/generate -d "{
+    \"model\": \"$MODEL\",
+    \"prompt\": \"Write a 400-word explanation of how DNS works.\",
+    \"stream\": false,
+    \"options\": {
+        \"temperature\": 0,
+        \"seed\": 42,
+        \"num_predict\": 512
+    }
+    }" | jq '
+    {
+    model,
+    prompt_tokens: .prompt_eval_count,
+    output_tokens: .eval_count,
+    prefill_tps: ((.prompt_eval_count * 1000000000) / .prompt_eval_duration),
+    decode_tps: ((.eval_count * 1000000000) / .eval_duration),
+    end_to_end_tps: ((.eval_count * 1000000000) / .total_duration),
+    load_ms: (.load_duration / 1000000),
+    total_ms: (.total_duration / 1000000)
+    }'
+}
+
+```
+
 ##  qwen3.5:35b-a3b-q4_K_M  vs  qwen3.5:35b-a3b-nvfp4 
 
+benchmark_mlx qwen3.5:35b-a3b
 
+benchmark_mlx qwen3.5:35b-a3b-nvfp4 
+
+```
+
+vjf:~/ $ benchmark_mlx qwen3.5:35b-a3b-nvfp4                                                                  [9:25:20]
+{
+  "model": "qwen3.5:35b-a3b-nvfp4",
+  "prompt_tokens": 23,
+  "output_tokens": 512,
+  "prefill_tps": 39.46702074143974,
+  "decode_tps": 37.32180886415558,
+  "end_to_end_tps": 35.664877484729644,
+  "load_ms": 52.41725,
+  "total_ms": 14355.860334
+}
+
+```
 
 
 ## qwen3.5:27b-q4_K_M vs qwen3.5:27b-nvfp4
+
