@@ -36,6 +36,9 @@ use the command 3a!<Esc>, then you could see that vim typed !!! in the text
 |Scrolling Up|`Ctrl + U`|
 |Scrolling Down|`Ctrl + D`|
 |Copy Line|`yyp`|
+|find|`/xxx`|
+|Replace only in the current line|`:%s/foo/bar/gc`|
+|Replace all|`:%s/foo/bar/g`|
 
 
 > Tip: show number permently

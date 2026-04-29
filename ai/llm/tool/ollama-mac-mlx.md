@@ -36,34 +36,29 @@ on Apple Silicon, **the reliable way to confirm MLX is the server log**, not `ol
 
 Use this:
 
-### Fast one-liner for a concrete model
-
-For `qwen3.5:35b-a3b`:
-
-```
-LOG=~/.ollama/logs/server.log
-START_LINE=$(wc -l < "$LOG")
-ollama run qwen3.5:35b-a3b
-# after it starts or errors, Ctrl+C if needed, then:
-sed -n "$((START_LINE+1)),\$p" "$LOG" | egrep -i 'mlx|runner|model=qwen3\.5:35b-a3b'
 ```
 
-For `qwen3.5:35b-a3b-nvfp4`:
+check_mlx() {
+  local model="$1"
+  local log="$HOME/.ollama/logs/server.log"
+  local start
 
-```
-LOG=~/.ollama/logs/server.log
-START_LINE=$(wc -l < "$LOG")
-ollama run qwen3.5:35b-a3b-nvfp4
-sed -n "$((START_LINE+1)),\$p" "$LOG" | egrep -i 'mlx|runner|model=qwen3\.5:35b-a3b-nvfp4'
-```
+  start=$(wc -l < "$log")
+  echo "=== running: $model ==="
 
-For `qwen3.5:27b-q4_K_M`:
+  # ollama run "$model" "hello" >/dev/null
+   ollama run "$model" "hello"
 
-```
-LOG=~/.ollama/logs/server.log
-START_LINE=$(wc -l < "$LOG")
-ollama run qwen3.5:27b-q4_K_M
-sed -n "$((START_LINE+1)),\$p" "$LOG" | egrep -i 'mlx|runner|model=qwen3\.5:27b-q4_K_M'
+  echo "=== new log lines for: $model ==="
+  sed -n "$((start+1)),\$p" "$log" \
+    | grep -F 'starting mlx runner subprocess' \
+    | grep -F "model=$model"
+}
+
+check_mlx qwen3.5:27b-nvfp4
+check_mlx qwen3.5:35b-a3b
+check_mlx qwen3.5:35b-a3b-nvfp4
+
 ```
 
 # benchmark

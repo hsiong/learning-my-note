@@ -113,6 +113,8 @@ localPort = 11434
 subdomain = "ollama"
 # 👇 加上这行魔法代码，让 Ollama 以为是本地人在访问
 hostHeaderRewrite = "127.0.0.1"
+# disabled
+enabled = false
 ```
 
 + linux & macbook

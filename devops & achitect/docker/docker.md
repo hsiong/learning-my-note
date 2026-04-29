@@ -62,6 +62,7 @@ This is a proj from Docker base learning to Docker practice.
   - [.env 最佳实践](#env-最佳实践)
   - [dockerFile 保持运行](#dockerfile-保持运行)
   - [docker 日志](#docker-日志)
+    - [获取 docker 指定内容, 排查 ip](#获取-docker-指定内容-排查-ip)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -1005,3 +1006,15 @@ services:
 
 ## docker 日志
 目录千万不能放在移动盘, 否则会占用固定路径
+
+### 获取 docker 指定内容, 排查 ip
+
+```
+docker logs hik-vision 2>&1 \
+    | grep "/hik/face/add" \
+    | sed -n 's/^\([0-9-]*T[0-9:]*\):[0-9.]*[^;]*.*IP: \([^;]*\);.*/\1 \2/p' \
+    | awk '{print substr($1,1,16), $2}' \
+    | sort \
+    | uniq -c \
+    | sort -k2,2 -k1,1nr
+```
