@@ -16,6 +16,7 @@
   - [清除旧的别名](#清除旧的别名)
   - [更新别名](#更新别名)
   - [force checkout](#force-checkout)
+  - [git 移除](#git-移除)
 
 <!-- # 一.常见问题 -->
 
@@ -160,7 +161,8 @@ alias git="xxx /bin/git"
 git fetch origin && git reset --hard origin/main
 ```
 
-
+## git 移除
+git restore --staged xxx
 
 
 
