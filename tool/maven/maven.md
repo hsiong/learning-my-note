@@ -212,3 +212,46 @@ JAVA_HOME="${JAVA_HOME:-/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/H
 ## 发布 maven 仓库
 Pre: https://blog.csdn.net/qq213539/article/details/84312179
 OSSRH -> Central Publishing Portal: https://blog.csdn.net/ryo1060732496/article/details/149292696
+
++ gpg password: 自己设置的本地 gpg
+  
++ 发布
+```
+mvn deploy -P release
+```
+
++ SNAPSHOT & Release
+```
+version 带有 -SNAPSHOT 不需要 gpg 密钥, 也不会发布到 Release 环境
+```
+
+### gpg 忘了密码
+
++ 查看已有的key
+` gpg --list-secret-keys --keyid-format LONG ` 
+
++ 新建新的 key
+`  gpg --full-generate-key ` 
+
++ 删除老的 key
+```
+
+key=xxx
+gpg --delete-secret-keys "$key"
+gpg --delete-keys "$key"
+
+```
+
++ 发布新的 key
+```
+ gpg --keyserver keyserver.ubuntu.com --send-keys "$key"
+ gpg --keyserver hkp://keys.openpgp.org --send-keys "$key"
+```
+
++ 查询公域 key
+```
+ gpg --keyserver keyserver.ubuntu.com --recv-keys "$key"
+```
+
++ keys.openpgp email 确认一次
+
