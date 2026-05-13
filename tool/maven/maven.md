@@ -209,9 +209,14 @@ JAVA_HOME="${JAVA_HOME:-/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/H
 ## sonatype timed out
 没走VPN, 使用 safari 试一下
 
-## 发布 maven 仓库
-Pre: https://blog.csdn.net/qq213539/article/details/84312179
+## 发布 maven 仓库  
+
+
 OSSRH -> Central Publishing Portal: https://blog.csdn.net/ryo1060732496/article/details/149292696
+
++  https://central.sonatype.com/
+
++ 验证 Namespace
 
 + gpg password: 自己设置的本地 gpg
   
@@ -255,3 +260,4 @@ gpg --delete-keys "$key"
 
 + keys.openpgp email 确认一次
 
+<u>deprecated: https://blog.csdn.net/qq213539/article/details/84312179</u>
