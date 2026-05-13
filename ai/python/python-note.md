@@ -3077,3 +3077,14 @@ Plaintext
 - **结论：** 在 `finally` 中写 `return` **不会导致程序崩溃**，但它会导致**程序逻辑崩溃**（吞掉报错、篡改结果）。
 - **最佳实践：** **永远不要**在 `finally` 块中使用 `return`、`break` 或 `continue`。
 - **正确用法：** `finally` 只应该用来做资源清理工作（比如关闭文件、关闭数据库连接），不应该用来控制程序的流向。
+
+
+# pip sync
+
+```
+
+source .env/bin/activate
+pip install pip-tools
+pip-sync requirements.txt
+
+```

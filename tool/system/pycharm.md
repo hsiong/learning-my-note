@@ -2,6 +2,9 @@
 
 ## Pycharm
 
+# check code 检查代码错误
++ code -> inspect code `alt + 8` 
+
 ### 快捷键
 
 + pycharm 不会自动 auto-import, 所以需要使用下列三个快捷键之一
@@ -195,8 +198,7 @@ select `Help -> Edit Custom VM Options` add below:
 + unclick `Commit` -> `Use non-modal commit interface`
 + plugin `Modal commit Interface`
 
-# check code 检查代码错误
-+ inspect code `alt + 8` 
+
 
 ### inspections
 

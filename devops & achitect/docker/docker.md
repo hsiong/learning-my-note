@@ -63,6 +63,7 @@ This is a proj from Docker base learning to Docker practice.
   - [dockerFile 保持运行](#dockerfile-保持运行)
   - [docker 日志](#docker-日志)
     - [获取 docker 指定内容, 排查 ip](#获取-docker-指定内容-排查-ip)
+  - [docker nvidia](#docker-nvidia)
 
 # 序言
 本项目为个人的 Docker 笔记, 为学习 k8s 做铺垫.
@@ -1017,4 +1018,14 @@ docker logs hik-vision 2>&1 \
     | sort \
     | uniq -c \
     | sort -k2,2 -k1,1nr
+```
+
+## docker nvidia
+
+```
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+
+docker run xxx --gpus all  xxx
+docker run xxx --gpus '"device=0,2"' xxx
 ```

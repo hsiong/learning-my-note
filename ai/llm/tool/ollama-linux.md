@@ -1171,7 +1171,7 @@ ls ~/.ollama/models/manifests
 
 
 
-## ollama 
+## ollama test
 
 ```
 MODEL="qwen3.5:35b-a3b-coding-nvfp4"                                                                 [9:02:46]
@@ -1208,3 +1208,22 @@ curl -s http://localhost:11434/api/generate -d "{
 }
 ```
 
+## codex ollama remote
+
+CODEX_OSS_BASE_URL="http://<REMOTE_OLLAMA_IP>:11434/v1" \
+codex --dangerously-bypass-approvals-and-sandbox --oss -m qwen3.6:27b
+
+### codex ollama remote - hide oss
+cat >> ~/.codex/config.toml <<'EOF'
+
+[model_providers.remote_ollama]
+name = "Remote Ollama <REMOTE_OLLAMA_IP>"
+base_url = "http://<REMOTE_OLLAMA_IP>:11434/v1"
+wire_api = "responses"
+
+[profiles.qwen36_27b_remote]
+model = "qwen3.6:27b"
+model_provider = "remote_ollama"
+EOF
+
+codex --profile qwen36_27b_remote --dangerously-bypass-approvals-and-sandbox
