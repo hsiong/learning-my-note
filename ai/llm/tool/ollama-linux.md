@@ -1196,6 +1196,9 @@ curl -s http://localhost:11434/api/generate -d "{
   load_ms: (.load_duration / 1000000),
   total_ms: (.total_duration / 1000000)
 }'
+
+
+
 {
   "model": "qwen3.5:35b-a3b-coding-nvfp4",
   "prompt_tokens": 23,
