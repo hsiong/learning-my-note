@@ -54,3 +54,11 @@ docker run --name nginx -p 80:80 \                                              
 -v ~/config/nginx/html:/usr/share/nginx/html/ \
 -v 
 -d nginx
+
+# error
+
+## 403 
+> file permission error
+
+find html/employee -type d -exec chmod 755 {} \;
+find html/employee -type f -exec chmod 644 {} \;
