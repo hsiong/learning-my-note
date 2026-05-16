@@ -341,3 +341,5 @@ while true; do                                                                  
   sudo lsof -nP -iTCP:7890 -sTCP:ESTABLISHED
   sleep 0.1
 done
+
+# mv dir
