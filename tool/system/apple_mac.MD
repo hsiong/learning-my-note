@@ -247,7 +247,7 @@ https://zhpengfei.com/how-to-register-a-us-apple-id-with-a-domestic-phone-number
 
 建议生成美国免税州地址，推荐**俄勒冈州（Oregon）、特拉华州（Delaware）** 或**蒙大拿州（Montana）** 等免税州。生成的美国地址复制到配送地址。
 
-我使用的这个https://www.fakepersongenerator.com/Random/generate_address生成
+我使用的这个https://www.fakepersongenerator.com/Random/generate_address 生成
 
 ![58443a0c1fc38a66281d0cd5f3e910c1 - zhpengfei.com](https://zhpengfei.com/wp-content/uploads/2023/08/58443a0c1fc38a66281d0cd5f3e910c1-1024x141.png)生成美国免税州地址
 
