@@ -342,4 +342,6 @@ while true; do                                                                  
   sleep 0.1
 done
 
-# mv dir
+## tail
+tail -n 100 ~/sing-box/logs/sing-box.log
+tail -f xxxx
