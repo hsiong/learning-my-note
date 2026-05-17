@@ -300,7 +300,7 @@ Paste this full config:
 
 ```
 {
-  "log": {
+	"log": {
     "level": "info",
     "timestamp": true
   },
@@ -347,9 +347,38 @@ Paste this full config:
     }
   ],
   "route": {
+    "rule_set": [
+      {
+        "type": "local",
+        "tag": "proxy-rules",
+        "format": "source",
+        "path": "./rules/proxy-rules.json"
+      },
+      {
+        "type": "local",
+        "tag": "direct-rules",
+        "format": "source",
+        "path": "./rules/direct-rules.json"
+      }
+    ],
+    "rules": [
+      {
+        "rule_set": [
+          "proxy-rules"
+        ],
+        "action": "route",
+        "outbound": "anyreality-out"
+      },
+      {
+        "rule_set": [
+          "direct-rules"
+        ],
+        "action": "route",
+        "outbound": "direct"
+      }
+    ],
     "final": "anyreality-out",
     "auto_detect_interface": true
-  }
 }
 ```
 
@@ -575,6 +604,130 @@ sing-box version
 mkdir -p ~/.single-box
 vim ~/.single-box/client.json
 ```
+
+## Linux: user system service Autostart
+
+Use this for desktop Linux.
+
+### 1. Check config
+
++ log -> client.json
+
+  ```
+    "log": {
+      "disabled": false,
+      "level": "info",
+      "output": "/home/hsiong/.sing-box/logs/sing-box.log",
+      "timestamp": true
+    },
+  ```
+
+  
+
+```
+command -v sing-box
+vim ~/.sing-box/client.json
+sing-box check -c ~/.sing-box/client.json
+
+```
+
+### 2. Create service
+
+```
+mkdir -p ~/.config/systemd/user
+vim ~/.config/systemd/user/sing-box-client.service
+```
+
+Paste:
+
+```
+[Unit]
+Description=sing-box client
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/.sing-box
+ExecStart=/usr/bin/sing-box run -c %h/.sing-box/client.json
+Restart=always
+RestartSec=3
+LimitNOFILE=1048576
+
+[Install]
+WantedBy=default.target
+```
+
+If your path is not `/usr/bin/sing-box`, replace it with:
+
+```
+command -v sing-box
+```
+
+For example:
+
+```
+ExecStart=/usr/local/bin/sing-box run -c %h/sing-box/client.json
+```
+
+### 3. Start and auto-start
+
+```
+systemctl --user daemon-reload
+systemctl --user enable --now sing-box-client
+systemctl --user status sing-box-client --no-pager
+```
+
+### 5. Logs / restart / stop
+
+```
+journalctl --user -u sing-box-client -o cat -f
+```
+
+Restart:
+
+```
+systemctl --user restart sing-box-client
+```
+
+Stop:
+
+```
+systemctl --user stop sing-box-client
+```
+
+Disable:
+
+```
+systemctl --user disable sing-box-client
+```
+
+### restart - sh
+
+```
+#!/usr/bin/env bash
+
+set -e
+
+LABEL="com.user.sing-box"
+LOG_FILE="$HOME/.sing-box/logs/sing-box.log"
+
+systemctl --user stop sing-box-client
+systemctl --user daemon-reload
+systemctl --user enable --now sing-box-client
+systemctl --user restart sing-box-client
+
+tail -f "$LOG_FILE"
+```
+
+
+
+```
+sudo ln -sf ~/.sing-box/sing-box-restart.sh /usr/local/bin/sing-box-restart
+hash -r
+```
+
+
 
 # Client - Windows
 
