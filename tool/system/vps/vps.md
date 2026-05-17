@@ -377,10 +377,12 @@ Paste this full config:
         "outbound": "direct"
       }
     ],
-    "final": "anyreality-out",
+    "final": "direct",
     "auto_detect_interface": true
 }
 ```
+
+` "final": "direct"`  `"final"` is the **default outbound tag** when no route rule matches. 
 
 The `mixed` inbound is a local SOCKS/HTTP proxy, and sing-box supports `set_system_proxy` on Linux, Windows, and macOS. 
 
