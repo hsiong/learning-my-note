@@ -3,6 +3,16 @@
 2. https://www.youtube.com/watch?v=ZprAy8lhBiY
 3. 咸鱼6.块买个卡
 
+2026.05.22
+
+```
+│ Gemini CLI is transitioning to the new Antigravity CLI for Google One and unpaid tier (Gemini Code Assist for individuals) users.                   │
+│ What's Changing: We are unifying our tools into a single, multi-agent platform called Antigravity, with Antigravity CLI now available. Gemini CLI   │
+│ will stop serving requests for Google One and unpaid tiers starting June 18th. Please migrate to Antigravity CLI before this date to avoid          │
+│ disruption to your workflow.                                                                                                                        │
+│ To learn more visit: https://goo.gle/gemini-cli-migration      
+```
+
 2025.12.19
 
 # gemini  auto-approval  &  sandbox disabled
