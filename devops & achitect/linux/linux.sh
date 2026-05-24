@@ -345,3 +345,7 @@ done
 ## tail
 tail -n 100 ~/sing-box/logs/sing-box.log
 tail -f xxxx
+
+## truncating file
+
+truncate -s 0 "$LOG_FILE"
