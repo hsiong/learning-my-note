@@ -760,6 +760,20 @@ Dify 的工作流支持在流程中暂停，并向用户请求输入。当你需
 + `Verify SSL Certifacate`
 + `Retry on failure`
 
+> › 如何设置 http request 组件 的 Read Timeout 最大值 ?
+  HTTP_REQUEST_MAX_CONNECT_TIMEOUT=10
+  HTTP_REQUEST_MAX_READ_TIMEOUT=600
+  HTTP_REQUEST_MAX_WRITE_TIMEOUT=600
+
+> 如何上传 file
+  form-data type: file
+
+> file-upload limit
+  + file-upload is disabled ==> Features ==> `file upload`
+  + file-limit ==> ==> Features ==> `file upload` ==> `Settings`
+    + file-size-limit
+    + file-type-limit
+
 # 相关问题
 
 ## web 部署正常,  localhost:3000不能访问?
