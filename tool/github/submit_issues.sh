@@ -4,7 +4,7 @@
 GITHUB_TOKEN="ghp_xxx"
 
 # 目标仓库 (格式: owner/repo)
-REPO="hsiong/java-base-singledb"
+REPO="hsiong/project-fast-api"
 
 # API 端点
 API_URL="https://api.github.com/repos/$REPO/issues"
@@ -33,17 +33,34 @@ fi
 echo "开始读取并提交 $ISSUE_DIR 中的 issue 草稿..."
 echo "================================================="
 
+parse_title_from_filename() {
+    local filename="$1"
+    local name="${filename##*/}"
+    local prefix
+    local rest
+
+    name="${name%.md}"
+    if [[ "$name" == *"-"* ]]; then
+        prefix="${name%%-*}"
+        rest="${name#*-}"
+        rest="${rest//-/ }"
+        printf "%s: %s\n" "$prefix" "$rest"
+    else
+        printf "%s\n" "${name//-/ }"
+    fi
+}
+
 for file in "$ISSUE_DIR"/*.md; do
     if [ ! -f "$file" ]; then
         echo "没有找到 markdown 文件。"
         break
     fi
 
-    # 提取标题 (读取第一行并去除开头的 "# ")
-    TITLE=$(head -n 1 "$file" | sed 's/^# *//')
+    # 文件名由标题 replaceFirst(":", "-").replace(" ", "-") 生成，这里反向解析标题
+    TITLE=$(parse_title_from_filename "$file")
     
-    # 提取正文 (从第三行开始读取，跳过标题和空行)
-    BODY=$(tail -n +3 "$file")
+    # 标题来自文件名，正文保留 markdown 文件完整内容
+    BODY=$(cat "$file")
 
     echo "正在提交: $TITLE"
 
