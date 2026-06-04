@@ -1174,7 +1174,7 @@ ls ~/.ollama/models/manifests
 ## ollama test
 
 ```
-MODEL="qwen3.5:35b-a3b-coding-nvfp4"                                                                 [9:02:46]
+MODEL="qwen3.5:35b-a3b-coding-nvfp4" 
 
 curl -s http://localhost:11434/api/generate -d "{
   \"model\": \"$MODEL\",
