@@ -62,7 +62,7 @@ Editor -> Color Schme -> General/Language Default/Java/Java Addition
     + Text
   + key word
   + Constructor declaration = Method declaration
-  + Inherited method = Method call = Static imported method call
+  + Inherit    ed method = Method call = Static imported method call
   + Parameter != Reassigned parameter != Local variable
   + Local variable = Reassigned local variable
   + unclick Semantic highlighting
