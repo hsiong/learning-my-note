@@ -35,6 +35,9 @@ Foreground color
 ## edit code - color
 
 Editor -> Color Schme -> General/Language Default/Java/Java Addition
+
+> in demo -> click code -> jump to scheme
+
 + General 
   + Hyperlink
   + Unused code
