@@ -40,3 +40,7 @@ antigravity --dangerously-skip-permissions
 ## skill
 
 ln -s ~/.agent/skills ~/.gemini  
+
+## shell exec 
+
+antigravity -p 'your prompt'
