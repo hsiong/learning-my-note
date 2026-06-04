@@ -100,7 +100,7 @@ benchmark_mlx qwen3.5:35b-a3b-nvfp4
 
 ```
 
-vjf:~/ $ benchmark_mlx qwen3.5:35b-a3b-nvfp4                                                                  [9:25:20]
+vjf:~/ $ benchmark_mlx qwen3.5:35b-a3b-nvfp4  
 {
   "model": "qwen3.5:35b-a3b-nvfp4",
   "prompt_tokens": 23,
@@ -117,3 +117,131 @@ vjf:~/ $ benchmark_mlx qwen3.5:35b-a3b-nvfp4                                    
 
 ## qwen3.5:27b-q4_K_M vs qwen3.5:27b-nvfp4
 
+MODEL="qwen3.6:27b-nvfp4" 
+
+curl -s http://localhost:11434/api/generate -d "{
+  \"model\": \"$MODEL\",
+  \"prompt\": \"Write a 400-word explanation of how DNS works.\",
+  \"stream\": false,
+  \"options\": {
+    \"temperature\": 0,
+    \"seed\": 42,
+    \"num_predict\": 512
+  }
+}" | jq '
+{
+  model,
+  prompt_tokens: .prompt_eval_count,
+  output_tokens: .eval_count,
+  prefill_tps: ((.prompt_eval_count * 1000000000) / .prompt_eval_duration),
+  decode_tps: ((.eval_count * 1000000000) / .eval_duration),
+  end_to_end_tps: ((.eval_count * 1000000000) / .total_duration),
+  load_ms: (.load_duration / 1000000),
+  total_ms: (.total_duration / 1000000)
+}'
+
+vjf:~/ $ MODEL="qwen3.6:27b-nvfp4"                                                                           [10:31:02]
+
+curl -s http://localhost:11434/api/generate -d "{
+  \"model\": \"$MODEL\",
+  \"prompt\": \"Write a 400-word explanation of how DNS works.\",
+  \"stream\": false,
+  \"options\": {
+    \"temperature\": 0,
+    \"seed\": 42,
+    \"num_predict\": 512
+  }
+}" | jq '
+{
+  model,
+  prompt_tokens: .prompt_eval_count,
+  output_tokens: .eval_count,
+  prefill_tps: ((.prompt_eval_count * 1000000000) / .prompt_eval_duration),
+  decode_tps: ((.eval_count * 1000000000) / .eval_duration),
+  end_to_end_tps: ((.eval_count * 1000000000) / .total_duration),
+  load_ms: (.load_duration / 1000000),
+  total_ms: (.total_duration / 1000000)
+}'
+
+{
+  "model": "qwen3.6:27b-nvfp4",
+  "prompt_tokens": 23,
+  "output_tokens": 512,
+  "prefill_tps": 33.082975518777914,
+  "decode_tps": 9.083484789612687,
+  "end_to_end_tps": 8.960171107481946,
+  "load_ms": 77.90075,
+  "total_ms": 57141.765917
+}
+vjf:~/ $    
+
+
+```
+# 4090
+hsiong:~/ $ MODEL="qwen3.6:27b"                                      [16:40:22]
+
+curl -s http://localhost:11434/api/generate -d "{
+  \"model\": \"$MODEL\",
+  \"prompt\": \"Write a 400-word explanation of how DNS works.\",
+  \"stream\": false,
+  \"options\": {
+    \"temperature\": 0,
+    \"seed\": 42,
+    \"num_predict\": 512
+  }
+}" | jq '
+{
+  model,
+  prompt_tokens: .prompt_eval_count,
+  output_tokens: .eval_count,
+  prefill_tps: ((.prompt_eval_count * 1000000000) / .prompt_eval_duration),
+  decode_tps: ((.eval_count * 1000000000) / .eval_duration),
+  end_to_end_tps: ((.eval_count * 1000000000) / .total_duration),
+  load_ms: (.load_duration / 1000000),
+  total_ms: (.total_duration / 1000000)
+}'
+{
+  "model": "qwen3.6:27b",
+  "prompt_tokens": 23,
+  "output_tokens": 512,
+  "prefill_tps": 321.3582309022602,
+  "decode_tps": 22.257912825045448,
+  "end_to_end_tps": 17.405351889262565,
+  "load_ms": 6122.53058,
+  "total_ms": 29416.239514
+}
+hsiong:~/ $ MODEL="qwen3.6:27b"                                      [16:53:51]
+
+curl -s http://localhost:11434/api/generate -d "{
+  \"model\": \"$MODEL\",
+  \"prompt\": \"Write a 400-word explanation of how DNS works.\",
+  \"stream\": false,
+  \"options\": {
+    \"temperature\": 0,
+    \"seed\": 42,
+    \"num_predict\": 512
+  }
+}" | jq '
+{
+  model,
+  prompt_tokens: .prompt_eval_count,
+  output_tokens: .eval_count,
+  prefill_tps: ((.prompt_eval_count * 1000000000) / .prompt_eval_duration),
+  decode_tps: ((.eval_count * 1000000000) / .eval_duration),
+  end_to_end_tps: ((.eval_count * 1000000000) / .total_duration),
+  load_ms: (.load_duration / 1000000),
+  total_ms: (.total_duration / 1000000)
+}'
+{
+  "model": "qwen3.6:27b",
+  "prompt_tokens": 23,
+  "output_tokens": 512,
+  "prefill_tps": 266.8017069973214,
+  "decode_tps": 23.405946428833428,
+  "end_to_end_tps": 22.990027295301903,
+  "load_ms": 127.551718,
+  "total_ms": 22270.525973
+}
+hsiong:~/ $
+
+```
