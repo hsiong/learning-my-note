@@ -253,3 +253,6 @@ idea 2023.2.6  main menu -> file -> file open actions -> open projec actions -> 
 
 ## pycharm
 详见 pycharm.md
+
+## plugin
+tempermonkey: MyJBLS: https://greasyfork.org/en/scripts/489057-myjbls/code
