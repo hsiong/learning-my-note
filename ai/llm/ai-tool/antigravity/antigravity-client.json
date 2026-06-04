@@ -28,7 +28,7 @@
       "domain_resolver": "dns-bootstrap"
     }
   ],
-  "final": "dns-remote"
+  "final": "dns-bootstrap"
 }, 
   "inbounds": [
     {
