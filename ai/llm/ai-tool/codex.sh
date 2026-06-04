@@ -87,3 +87,46 @@ macOS: ~/Library/Caches/JetBrains/<product><version>/aia/codex/auth.json
 
 Windows: %LOCALAPPDATA%\JetBrains\<product><version>\aia\codex\auth.json
 
+## statusline
+
++ five-hour-limit
++ weekly-limit
+
+## image 2.0 shell exec
+
+hermes: https://mp.weixin.qq.com/s/npmrEL8vpnavUm1A8-u-2w
+
+codex exec \
+  -m gpt-5.5 \
+  -c model_reasoning_effort="medium" \
+  --image "/Users/vjf/Desktop/ref1.png" \
+  --image "/Users/vjf/Desktop/ref2.jpg" \
+  --skip-git-repo-check \
+  --ephemeral \
+  --sandbox workspace-write \
+  "$PROMPT"
+
+> --ephemeral means: run this Codex task without saving the Codex session/rollout records to disk.
+> --image "/Users/vjf/Desktop/ref2.jpg" means: reference the image file "/Users/vjf/Desktop/ref2.jpg" in the task prompt.
+    > You can also do this in one flag:   --image "/Users/vjf/Desktop/ref1.png,/Users/vjf/Desktop/ref2.jpg" \
+> size: Generate a new image at size 1536x864.  
+    '''
+    4) Valid size rules
+
+    For gpt-image-2, arbitrary resolutions such as 1536x864 are supported, but width and height must both be divisible by 16, the aspect ratio must be between 1:3 and 3:1, resolutions above 2560x1440 are experimental, and the current maximum supported resolution is 3840x2160.【turn185857view4†L1036-L1043】
+
+    So these are valid examples:
+
+    1024x1024
+    1536x1024
+    1536x864
+    1024x1536
+    2048x2048
+
+    These are invalid examples:
+
+    1000x1000
+    1920x1080
+    4000x2000
+    '''
+
