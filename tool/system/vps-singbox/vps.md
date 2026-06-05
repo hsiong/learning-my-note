@@ -755,6 +755,570 @@ vim "$env:USERPROFILE\sing-box\client.json"
 
 
 
+# Client - IOS
+
+From **zero to one** means you need **two repositories**, not only `sing-box-for-apple`:
+
+```
+1. SagerNet/sing-box
+   -> builds new Libbox.xcframework with AnyTLS support
+
+2. SagerNet/sing-box-for-apple
+   -> iOS/macOS/tvOS Xcode app project, SFI is the iPhone app
+```
+
+`sing-box-for-apple` is the Apple GUI/client source. The official repo describes it as an experimental iOS/macOS/tvOS client for sing-box. 
+ `AnyTLS` requires sing-box **1.12.0+**, so you must build a new `Libbox.xcframework` from the main `sing-box` repo; otherwise iPhone will still report `unknown outbound type: anytls`. 
+
+Below is the full process.
+
+------
+
+## 0. Install full Xcode first
+
+Right now you do **not** have Xcode:
+
+```
+ls -ld /Applications/Xcode.app
+# No such file or directory
+```
+
+Command Line Tools are not enough. You need full Xcode because this is an iOS Xcode project.
+
+Install **Xcode** from App Store or Apple Developer Downloads. After installation, check:
+
+```
+ls -ld /Applications/Xcode.app
+```
+
+Expected:
+
+```
+/Applications/Xcode.app
+```
+
+Then switch to full Xcode:
+
+```
+sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+sudo xcodebuild -license accept
+sudo xcodebuild -runFirstLaunch
+```
+
+Check:
+
+```
+xcode-select -p
+xcodebuild -version
+```
+
+Expected:
+
+```
+/Applications/Xcode.app/Contents/Developer
+```
+
+Not:
+
+```
+/Library/Developer/CommandLineTools
+```
+
+------
+
+## 1. Install base tools
+
+Your Go is already okay:
+
+```
+go version go1.25.4 darwin/arm64
+```
+
+Install other tools:
+
+```
+brew install git go jq xcbeautify
+```
+
+Check:
+
+```
+git --version
+go version
+xcodebuild -version
+```
+
+------
+
+## 2. Directory structure
+
+Use your directory:
+
+```
+$HOME/Projects/apple
+```
+
+Final structure will be:
+
+```
+$HOME/Projects/apple/sing-box
+$HOME/Projects/apple/sing-box-for-apple
+```
+
+------
+
+## 3. Create one full bootstrap script
+
+```
+vim ~/build_sfi_from_zero.sh
+```
+
+Paste this:
+
+```
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Projects/apple"
+SING_BOX_DIR="$ROOT/sing-box"
+APPLE_DIR="$ROOT/sing-box-for-apple"
+
+echo "=================================================="
+echo "1. Check full Xcode"
+echo "=================================================="
+
+if [[ ! -d "/Applications/Xcode.app" ]]; then
+  echo "ERROR: /Applications/Xcode.app not found."
+  echo
+  echo "Install full Xcode first:"
+  echo "  App Store -> search Xcode -> Install"
+  echo
+  echo "Command Line Tools are not enough for iOS build."
+  exit 1
+fi
+
+sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+
+echo "xcode-select:"
+xcode-select -p
+
+echo
+echo "Xcode version:"
+xcodebuild -version
+
+echo
+echo "Go version:"
+go version
+
+echo
+echo "=================================================="
+echo "2. Prepare root directory"
+echo "=================================================="
+
+mkdir -p "$ROOT"
+cd "$ROOT"
+
+echo
+echo "=================================================="
+echo "3. Clone or update sing-box core"
+echo "=================================================="
+
+if [[ ! -d "$SING_BOX_DIR/.git" ]]; then
+  git clone https://github.com/SagerNet/sing-box.git "$SING_BOX_DIR"
+else
+  git -C "$SING_BOX_DIR" fetch --all --tags
+fi
+
+echo
+echo "=================================================="
+echo "4. Clone or update sing-box-for-apple"
+echo "=================================================="
+
+if [[ ! -d "$APPLE_DIR/.git" ]]; then
+  git clone --recurse-submodules https://github.com/SagerNet/sing-box-for-apple.git "$APPLE_DIR"
+else
+  git -C "$APPLE_DIR" fetch --all
+  git -C "$APPLE_DIR" submodule update --init --recursive
+fi
+
+echo
+echo "=================================================="
+echo "5. Select sing-box core version >= 1.12"
+echo "=================================================="
+
+cd "$SING_BOX_DIR"
+
+LATEST_TAG="$(
+  git tag --sort=-v:refname \
+    | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+    | head -1
+)"
+
+if [[ -z "$LATEST_TAG" ]]; then
+  echo "ERROR: no sing-box release tag found."
+  exit 1
+fi
+
+echo "Using sing-box core tag: $LATEST_TAG"
+git checkout "$LATEST_TAG"
+
+echo
+echo "Current sing-box core:"
+git describe --tags --always
+
+echo
+echo "=================================================="
+echo "6. Build Libbox.xcframework"
+echo "=================================================="
+
+make lib_install
+make lib_apple
+
+echo
+echo "=================================================="
+echo "7. Locate Libbox.xcframework"
+echo "=================================================="
+
+FOUND_LIBBOX="$(find "$SING_BOX_DIR" -maxdepth 6 -type d -name 'Libbox.xcframework' | head -1 || true)"
+
+if [[ -z "$FOUND_LIBBOX" ]]; then
+  echo "ERROR: Libbox.xcframework not found after make lib_apple."
+  echo
+  echo "Debug manually:"
+  echo "  cd $SING_BOX_DIR"
+  echo "  make lib_install"
+  echo "  make lib_apple"
+  exit 1
+fi
+
+echo "Found Libbox:"
+echo "$FOUND_LIBBOX"
+
+echo
+echo "=================================================="
+echo "8. Copy Libbox.xcframework into sing-box-for-apple"
+echo "=================================================="
+
+rm -rf "$APPLE_DIR/Libbox.xcframework"
+cp -R "$FOUND_LIBBOX" "$APPLE_DIR/Libbox.xcframework"
+
+ls -ld "$APPLE_DIR/Libbox.xcframework"
+
+echo
+echo "=================================================="
+echo "9. Show Xcode schemes"
+echo "=================================================="
+
+cd "$APPLE_DIR"
+xcodebuild -list -project sing-box.xcodeproj
+
+echo
+echo "=================================================="
+echo "DONE"
+echo "=================================================="
+echo
+echo "Next:"
+echo "  open $APPLE_DIR/sing-box.xcodeproj"
+echo
+echo "Then in Xcode:"
+echo "  Scheme: SFI"
+echo "  Device: your iPhone"
+echo "  Set Signing Team"
+echo "  Change Bundle IDs"
+echo "  Run"
+```
+
+Save:
+
+```
+:wq
+```
+
+Run:
+
+```
+chmod +x ~/build_sfi_from_zero.sh
+~/build_sfi_from_zero.sh
+```
+
+The main `sing-box` Makefile includes `lib_apple`, which builds Libbox for Apple targets, and `sing-box-for-apple` has a Makefile target for iOS using scheme `SFI`. 
+
+------
+
+## 4. Open Xcode
+
+```
+open $HOME/Projects/apple/sing-box-for-apple/sing-box.xcodeproj
+```
+
+In Xcode:
+
+```
+Top scheme selector -> SFI
+Device selector -> your iPhone
+```
+
+If your iPhone does not show:
+
+```
+iPhone Settings
+-> Privacy & Security
+-> Developer Mode
+-> On
+-> Restart iPhone
+```
+
+Then connect by USB and tap:
+
+```
+Trust This Computer
+```
+
+------
+
+## 5. Change signing and Bundle IDs
+
+In Xcode left sidebar:
+
+```
+sing-box project
+-> Targets
+```
+
+Set your Apple Team and unique Bundle IDs for all relevant targets.
+
+Use something like:
+
+```
+SFI:
+  com.vjf.sfi
+
+Extension:
+  com.vjf.sfi.Extension
+
+FileProviderExtension:
+  com.vjf.sfi.FileProviderExtension
+
+IntentsExtension:
+  com.vjf.sfi.IntentsExtension
+
+WidgetExtension:
+  com.vjf.sfi.WidgetExtension
+```
+
+For each target:
+
+```
+Signing & Capabilities
+-> Team: your Apple Developer team
+-> Automatically manage signing: enabled
+```
+
+Important: VPN/Network Extension signing may require a paid Apple Developer account. Apple lists Network Extensions and Personal VPN as capability-controlled items. 
+
+------
+
+## 6. Build and install to iPhone
+
+In Xcode:
+
+```
+Product -> Clean Build Folder
+Run
+```
+
+Or press:
+
+```
+Cmd + R
+```
+
+If it succeeds, SFI installs on your iPhone.
+
+------
+
+## 7. Minimal AnyTLS iPhone test config
+
+Do **not** import your huge rules first. First confirm AnyTLS works.
+
+```
+vim ~/client-ios-anytls-test.json
+```
+
+Paste this and replace values:
+
+```
+{
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "timestamp": true
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": [
+        "198.18.0.1/30"
+      ],
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "system"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "anytls",
+      "tag": "anyreality-out",
+      "server": "YOUR_SERVER_IP",
+      "server_port": 443,
+      "password": "YOUR_PASSWORD",
+      "idle_session_check_interval": "30s",
+      "idle_session_timeout": "30s",
+      "min_idle_session": 5,
+      "tls": {
+        "enabled": true,
+        "server_name": "www.microsoft.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "YOUR_PUBLIC_KEY",
+          "short_id": "YOUR_SHORT_ID"
+        }
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "inbound": [
+          "tun-in"
+        ],
+        "action": "sniff",
+        "timeout": "1s"
+      },
+      {
+        "ip_is_private": true,
+        "action": "route",
+        "outbound": "direct"
+      }
+    ],
+    "final": "anyreality-out"
+  }
+}
+```
+
+Save:
+
+```
+:wq
+```
+
+Send to iPhone:
+
+```
+AirDrop client-ios-anytls-test.json
+-> Open with SFI
+-> Import profile
+-> Start
+-> Allow VPN permission
+```
+
+------
+
+## 8. If it still says `unknown outbound type: anytls`
+
+That means your iPhone app is still linked to old Libbox.
+
+Check core repo:
+
+```
+cd $HOME/Projects/apple/sing-box
+git describe --tags
+```
+
+It must be `v1.12.0` or newer because AnyTLS is only supported since 1.12.0. 
+
+Then rebuild:
+
+```
+cd $HOME/Projects/apple/sing-box
+make lib_apple
+
+rm -rf $HOME/Projects/apple/sing-box-for-apple/Libbox.xcframework
+
+FOUND_LIBBOX="$(find $HOME/Projects/apple/sing-box -maxdepth 6 -type d -name 'Libbox.xcframework' | head -1)"
+cp -R "$FOUND_LIBBOX" $HOME/Projects/apple/sing-box-for-apple/Libbox.xcframework
+```
+
+Then in Xcode:
+
+```
+Product -> Clean Build Folder
+Run
+```
+
+------
+
+## 9. If Xcode fails on signing
+
+Common errors:
+
+```
+Provisioning profile doesn't include Network Extension
+Personal VPN capability missing
+Network Extension capability not available
+```
+
+That means your Apple account cannot sign the VPN extension. You need:
+
+```
+Apple Developer Program account
+Network Extension / Personal VPN capability
+Correct Bundle IDs for app + extension
+```
+
+The code may be correct; signing is the blocker.
+
+------
+
+## 10. Full checklist
+
+Run in this order:
+
+```
+# 1. After installing Xcode
+sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+sudo xcodebuild -license accept
+sudo xcodebuild -runFirstLaunch
+
+# 2. Clone + build Libbox + prepare Apple project
+~/build_sfi_from_zero.sh
+
+# 3. Open project
+open $HOME/Projects/apple/sing-box-for-apple/sing-box.xcodeproj
+```
+
+Then Xcode:
+
+```
+Scheme: SFI
+Device: iPhone
+Signing Team: your team
+Bundle IDs: change to your own
+Cmd + R
+```
+
+This is the complete route: **install Xcode -> clone sing-box -> clone sing-box-for-apple -> build Libbox.xcframework with AnyTLS support -> copy it into Apple project -> sign/build/install SFI to iPhone**.
+
 # Log limit
 
 ## macOS
