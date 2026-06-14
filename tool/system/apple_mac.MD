@@ -390,3 +390,8 @@ ping0.cc
 
 在电脑上操作: 因为手机操作需要输入真实的付款方式
 
+> 手机上登陆一次, 才能在电脑上选择 ‘None’ 然后换区
+
+## Apple Store 土耳其礼品卡直购指南
+https://zhuanlan.zhihu.com/p/602512116
+https://www.v2ex.com/t/1206961?p=1
