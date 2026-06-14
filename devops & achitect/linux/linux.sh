@@ -349,3 +349,9 @@ tail -f xxxx
 ## truncating file
 
 truncate -s 0 "$LOG_FILE"
+
+# kill pycharm & idea
+
+pkill -f idea
+
+pkill -f pycharm
