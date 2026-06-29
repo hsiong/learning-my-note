@@ -78,7 +78,9 @@ client
 ```
 {
   "log": {
-    "level": "trace",
+    "disabled": false,
+    "level": "info",
+    "output": "./logs/sing-box.log",
     "timestamp": true
   },
   "dns": {
@@ -97,17 +99,39 @@ client
       "type": "mixed",
       "tag": "mixed-in",
       "listen": "127.0.0.1",
-      "listen_port": 7890
+      "listen_port": 7897
+    },
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": [
+        "172.19.0.1/30"
+      ],
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "mixed",
+      "route_exclude_address": [
+        "10.0.0.0/8",
+        "172.16.0.0/12",
+        "192.168.0.0/16",
+        "169.254.0.0/16",
+        "fc00::/7",
+        "fe80::/10"
+      ]
     }
   ],
   "outbounds": [
     {
+      "domain_resolver": "dns-bootstrap",
       "type": "anytls",
       "tag": "anytls-out",
-      "server": "server_ip",
+      "server": "ip",
       "server_port": 443,
-      "password": "password",
-      "min_idle_session": 0,
+      "password": "pwd",
+      "idle_session_check_interval": "30s",
+      "idle_session_timeout": "30s",
+      "min_idle_session": 2,
       "tls": {
         "enabled": true,
         "server_name": "www.microsoft.com",
@@ -117,10 +141,58 @@ client
           "fingerprint": "chrome"
         }
       }
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "block",
+      "tag": "block"
     }
   ],
   "route": {
-    "final": "anytls-out"
+      "default_domain_resolver": "dns-bootstrap",
+    "rule_set": [
+      {
+        "type": "local",
+        "tag": "proxy-rules",
+        "format": "source",
+        "path": "/home/hsiong/.sing-box/rules/proxy-rules.json"
+      },
+      {
+        "type": "local",
+        "tag": "direct-rules",
+        "format": "source",
+        "path": "/home/hsiong/.sing-box/rules/direct-rules.json"
+      }
+    ],
+    "rules": [
+          {
+            "rule_set": [
+              "proxy-rules"
+            ],
+            "action": "route",
+            "outbound": "anytls-out"
+          },
+          {
+            "rule_set": [
+              "direct-rules"
+            ],
+            "action": "route",
+            "outbound": "direct"
+          },
+          {
+            "ip_cidr": [
+              "0.0.0.0/0",
+              "::/0"
+            ],
+            "action": "route",
+            "outbound": "direct"
+          }
+        ],
+    "final": "anytls-out",
+    "auto_detect_interface": true
   }
 }
 ```
