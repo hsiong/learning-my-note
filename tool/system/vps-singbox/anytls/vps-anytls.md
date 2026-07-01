@@ -576,6 +576,8 @@ hash -r
 
 # Client - Linux
 
+> Note: TUN mode could result in high CPU usage.
+
 ## 2.1 Install sing-box
 
 For Ubuntu / Debian / Fedora / Arch / OpenWrt style systems:
