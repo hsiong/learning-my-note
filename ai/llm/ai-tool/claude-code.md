@@ -3,14 +3,14 @@ https://zhuanlan.zhihu.com/p/1928918331810886674
 # install
 
 ```
-curl -fsSL https://download.aicodemirror.com/env_deploy/env-install.sh | bash
-npm uninstall -g @anthropic-ai/claude-code
-npm install -g @anthropic-ai/claude-code
-curl -fsSL https://download.aicodemirror.com/env_deploy/env-deploy.sh | bash -s -- "你的API_KEY"
+curl -fsSL https://claude.ai/install.sh | bash
 claude -v
 ```
 
 
+```
+ ln -s ~/.agents/skills ~/.claude    
+```
 
 
 ## init
