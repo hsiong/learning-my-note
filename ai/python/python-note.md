@@ -1937,7 +1937,7 @@ from modname import *
 >
 >     ```python
 >     import openai_exec
->                                                                                         
+>                                                                                             
 >     # Press the green button in the gutter to run the script.
 >     if __name__ == '__main__':
 >         msg: List[openai_exec.PerMessage] = []
