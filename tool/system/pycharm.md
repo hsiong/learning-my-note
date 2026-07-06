@@ -387,3 +387,5 @@ Setting -> Integrated Tools -> `Docstring format` -> reStructuredText
 ## source-root
 
 python 项目一定要注意 source-root 要是根目录
+
+`Project Structure` -> `Content Root`
