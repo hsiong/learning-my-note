@@ -62,3 +62,10 @@ docker run --name nginx -p 80:80 \                                              
 
 find html/employee -type d -exec chmod 755 {} \;
 find html/employee -type f -exec chmod 644 {} \;
+
+## 413 Request Entity Too Large
+server {
+  listen 80;
+  #server_name *.frp.xxx.com;
+  client_max_body_size 100M; # fix 413 Request Entity Too Large
+  ...
