@@ -1230,3 +1230,13 @@ model_provider = "remote_ollama"
 EOF
 
 codex --profile qwen36_27b_remote --dangerously-bypass-approvals-and-sandbox
+
+## ollama - long context
+
+vim Modelfile.qwen3.6-27b-64k
+```
+FROM qwen3.6:27b
+PARAMETER num_ctx 65536
+```
+
+ollama create qwen3.6:27b-64k -f Modelfile.qwen3.6-27b-64k
