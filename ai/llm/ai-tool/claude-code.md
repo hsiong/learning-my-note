@@ -73,5 +73,5 @@ btc -> gomoney -> apple -> claude
 
 # distill
 
-+ https://huggingface.co/empero-ai/Qwable-9B-Claude-Fable-5   
 + https://huggingface.co/empero-ai/Qwythos-9B-Claude-Mythos-5-1M
++ https://huggingface.co/empero-ai/Qwable-9B-Claude-Fable-5   
