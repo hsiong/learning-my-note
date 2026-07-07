@@ -65,6 +65,10 @@ codex --dangerously-bypass-approvals-and-sandbox
 已知新增表如下 xxx..  参考 xxxModule 下的现有代码(不需要全读取，两到三个表相关的bean/mapper)， 在 xxxPath 下新增 curd 代码
 ```
 
+## codex mcp 
+
+codex mcp-server
+
 ## codex close codex_apps
 
 sublime ~/.codex/config.toml
@@ -73,10 +77,6 @@ sublime ~/.codex/config.toml
 apps = false
 ```
 
-
-## codex mcp 
-
-codex mcp-server
 
 ## codex api ollama
 
