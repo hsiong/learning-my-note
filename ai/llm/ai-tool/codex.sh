@@ -138,3 +138,15 @@ codex exec \
     4000x2000
     '''
 
+# reinstall 
+
+npm uninstall -g @openai/codex
+npm install -g @openai/codex@0.142.5
+
+codex --version
+which -a codex
+
+## mac reinstall
+brew uninstall --cask codex
+npm install -g @openai/codex@0.142.5
+codex --version
