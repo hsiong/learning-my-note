@@ -16,7 +16,7 @@
   - [清除旧的别名](#清除旧的别名)
   - [更新别名](#更新别名)
   - [force checkout](#force-checkout)
-  - [git 移除](#git-移除)
+  - [git 移除文件](#git-移除文件)
 
 <!-- # 一.常见问题 -->
 
@@ -115,6 +115,7 @@ https://blog.csdn.net/u013201439/article/details/80140863
 git push -f -u origin master
 
 # 强制推送 force
+---- 先移除某次提交, 然后
 git push -f -u origin branch
 
 # git 抛弃本地提交
@@ -161,7 +162,7 @@ alias git="xxx /bin/git"
 git fetch origin && git reset --hard origin/main
 ```
 
-## git 移除
+## git 移除文件
 git restore --staged xxx
 
 
