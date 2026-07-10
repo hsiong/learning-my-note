@@ -75,3 +75,9 @@ btc -> gomoney -> apple -> claude
 
 + https://huggingface.co/empero-ai/Qwythos-9B-Claude-Mythos-5-1M
 + https://huggingface.co/empero-ai/Qwable-9B-Claude-Fable-5   
+
+# reset 
+
+rm ~/.claude.json
+rm ~/.claude/.claude.json
+rm ~/.claude/backup
