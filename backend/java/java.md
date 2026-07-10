@@ -1098,34 +1098,34 @@ uvicorn app_fastapi_io:app --workers 1
 >     ```
 >     from fastapi import FastAPI, Depends
 >     import asyncio
->                             
+>                                 
 >     app = FastAPI()
->                             
+>                                 
 >     class ConcurrencyLimiter:
 >         def __init__(self, max_concurrency: int):
 >             self.sem = asyncio.Semaphore(max_concurrency)
->                             
+>                                 
 >         async def __call__(self):
 >             await self.sem.acquire()
 >             try:
 >                 yield
 >             finally:
 >                 self.sem.release()
->                             
+>                                 
 >     # 给不同的路由组设定不同的并发上限
 >     limit5 = ConcurrencyLimiter(5)
 >     limit2 = ConcurrencyLimiter(2)
->                             
+>                                 
 >     @app.get("/fast", dependencies=[Depends(limit5)])
 >     async def fast_endpoint():
 >         await asyncio.sleep(3)
 >         return {"msg": "fast endpoint"}
->                             
+>                                 
 >     @app.get("/slow", dependencies=[Depends(limit2)])
 >     async def slow_endpoint():
 >         await asyncio.sleep(5)
 >         return {"msg": "slow endpoint"}
->                             
+>                                 
 >     ```
 >
 > 👉 这样即使同时来 100 个请求，事件循环里也只会同时“运行”5个，其他的要等信号量释放。
@@ -1203,823 +1203,6 @@ Date dates = new SimpleDateFormat(“yyyyMM”).parse(cycle);
 Instant instant = dates.toInstant();
 ZoneId zoneId = ZoneId.systemDefault();
 LocalDate localDate = instant.atZone(zoneId).toLocalDate();
-
-## Java经验
-
-1. refDefine-class的问题如果来自于引用, 可能是jar包冲突; 本地的class找不到再确定是不是maven-compile出了问题
-2. 
-
-```/**
-         * enum类自带一个values()方法, 获取该类中的所有enum
-         * 
-         * enum变量自带两属性
-         * name: 即变量名toString 如RequestMethod.GET.name()即为"name"
-         * ordinal: 在enum类中的顺序, 从0开始
-         */
-
-  enum 获取索引位置: ConstantEnum.values()[i].ordinal()
-```
-
-3. 对象必须做非空判断, 避免NPE
-4. list或分页不要使用copyproperties方法, 在一定数量的时候, copyproperties会导致查询很慢; 建议使用mapper查询直接返回vo, 在vo中直接set值
-5. Restful本地调用127.0.0.1:xxxx, 但是这种的问题在于, 一个服务依赖于一个服务, 而不是分布式服务集群; (所以引入Feign解耦)
-6. 引入代码规范的意义, 实现风险可控
-7. 学会做差异化设计, 产品差异化, 服务差异化
-
-```
-import static com.xxx.xxxStaticFinal.*;
-直接引用所有常量
-```
-
-8. 抛出异常必须精准报错, 知道是哪个方法, 哪个字段报错
-
-9. 第三方接口数据必须全部保存, 尤其是涉及到支付
-
-10. // 不可用 clazz.getDeclaredConstructor().newInstance(); 因为这样不会加载 spring - autowired   this.factory = SpringUtils.getBean(clazz);
-
-11. 数据库建议关闭 5432 对外端口, 需要连接时, ssh 连过去    然后再写 postgres sql; 并且使用内网端口, 可以节省外网 io 
-
-12. 测试/生产与本地环境共用 redis, 会导致断点调试异常
-
-13. fileter
-
-14. 除了新增功能, 修改共用数据库之前必须通知 dba, 或者做好备份, 严禁直接修改数据库, 引起生产事故
-
-15. 自定义命令行参数  `--myParam='test'`
-
-16. Response 获取 byte[]
-
-    ```java
-    InputStream inputStream = response.body().asInputStream();
-    return IOUtils.toByteArray(inputStream);    
-    ```
-
-17. @Async 使用 https://blog.csdn.net/YoungLee16/article/details/88398045
-
-    + 在@SpringBootApplication启动类当中添加注解@EnableAsync注解。
-    + 异步方法使用注解@[Async](https://so.csdn.net/so/search?q=Async&spm=1001.2101.3001.7020)的返回值只能为void或者Future。
-    + 需要走Spring的代理类。因为@Transactional和@Async注解的实现都是基于Spring的AOP，而AOP的实现是基于动态代理模式实现的。那么注解失效的原因就很明显了，有可能因为调用方法的是对象本身而不是代理对象，因为没有经过Spring容器。
-
-18. 命名规范 https://www.jhelp.net/p/Dq0h3U69SZfAAGhP
-19. Java使用HMAC-SHA256算法实现接口认证  https://www.jianshu.com/p/365c2b3811d9
-20. constant string too long
-java string 支持传递长字段, 但是初始化时不支持 10kb 以上字符串, 所以只能通过读取文件或者http方式获取长字段, 比如
-```java
-    public static String sendLongAudio() {
-        // 指定要读取的文件路径
-        String filePath = "path";
-
-        String out = "";
-        try {
-            // 创建文件读取器
-            FileReader fileReader = new FileReader(filePath);
-
-            // 创建缓冲字符流
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            // 逐行读取文件内容
-            String line = "";
-            while ((line = bufferedReader.readLine()) != null) {
-                out = line;
-            }
-
-            // 关闭文件读取器
-            bufferedReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return out;
-    }
-```
-21. 获取方法名 `Thread.currentThread().getStackTrace()[1].getMethodName();`
-
-22. java 传入特定参数
-java 启动时传入参数 `java -jar xxx.jar --spring.profiles.active=prod`
-
-
-23.  返回前端 @Configuration 修饰的类, 会报异常
-@Configuration注解用于定义配置类，通常不会直接返回给前端。如果您尝试将带有@Configuration注解的类直接返回给前端，可能会导致异常或不符合预期的行为。
-
-```
-
-@RestController
-@RequestMapping("/api")
-public class MyController {
-
-    @Value("${your-config-key}")
-    private String configValue;
-
-    @GetMapping("/config")
-    public String getConfig() {
-        return configValue;
-    }
-}
-```
-
-24.  immutables
-https://reflectoring.io/immutables-library/
-
-25. System.out.println 格式化输出
-基础的格式化输出：
-System.out.printf("Hello %s!%n", "World");
-
-26. 如何在 springboot 启动时 查询数据库 
-最简单最笨的方法, 放在 spring-boot runApplication 内执行, 避免 mybatis 加载顺序导致执行失败
-```java
-    public static void main(String[] args) {
-        SpringApplication.run(ServerApplication.class,args);
-
-        init();
-    }
-    
-    public static void init() {
-      // 查询数据库
-    }
-```
-
-27. @Bean 问题, 问题其实是 @Resource 和 @Bean 是同一个对象, 不能同时用, 否则会导致加载失败
-```
-
-已知代码如下, 系统启动时, 将 AuthenticationClient 自动注入, 执行 clientOptions.setAppId(appid),  appid 为空, 应如何修改
-
-@ConfigurationProperties(prefix = "iam")
-@Component
-@Setter
-@Slf4j
-public class AuthingService {
-
-    private String appid;
-
-    private String appsceret;
-
-    private String apphost;
-
-    private String redirectUrl;
-
-    @Bean
-    public AuthenticationClient getAuthenticationClient() {
-        // 使用 AppId 和 AppHost 进行初始化
-        AuthenticationClientOptions clientOptions = new AuthenticationClientOptions();
-        clientOptions.setAppId(appid);
-        clientOptions.setAppSecret(appsceret);
-        clientOptions.setAppHost(apphost);
-        clientOptions.setRedirectUri(redirectUrl);
-
-        AuthenticationClient authenticationClient = null;
-        try {
-            authenticationClient = new AuthenticationClient(clientOptions);
-        } catch (Exception e) {
-            log.error("AuthenticationClient 初始化失败: " + e.getMessage(), e);
-        }
-        return authenticationClient;
-    }
-}
-
-```
-
-28. InetAddress.getLocalHost().getHostName() took 5006 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
-+ Edit the /etc/hosts file. `sudo nano /etc/hosts`
-+ Ensure there's an entry for 127.0.0.1 and your hostname:
-```
-127.0.0.1       localhost your_hostname
-::1             localhost your_hostname
-```
-Replace your_hostname with the actual hostname of your machine. If you don't know your hostname, you can usually get it by typing `hostname` in the terminal.
-
-29. cn.hutool.core.bean.BeanUtils.copyProperties   忽略空值
-`CopyOptions.create().setIgnoreNullValue(true);`
-
-
-30. 建立新的 module
-new module -> jakartaEE , REST service & Application server -> unclick all dependencies
-
-31. JDK21报错NoSuchFieldError: Class com.sun.tools.javac.tree.JCTree$JCImport does not have member fie
-https://blog.csdn.net/G971005287W/article/details/133350154
-升级lombok
-
-32. feign.RetryableException: null executing GET http://****/cr**t/e**/cre****ount/2**8060
-https://www.cnblogs.com/zxporz/p/13094614.html
-
-33. spring-boot application get env config
-```java
-    ConfigurableApplicationContext application = SpringApplication.run(xxxApplication.class, args);
-		Environment env = application.getEnvironment();
-		String port = env.getProperty("server.port");
-```
-
-34. java 从 url  获取bufferImage
-```java
-// 定义你的图片资源URL
-            URL url = new URL("http://www.example.com/image.jpg");
-            // 读取并创建一个BufferedImage对象
-            BufferedImage image = ImageIO.read(url);
-```
-
-35. @Service 单例模式获取实例
-```java
-getApplicationContext().getBean(clazz)
-```
-
-这种方法有几个优点：
-
-+ **与Spring容器保持一致**：直接使用Spring的ApplicationContext确保了你获取的bean是Spring容器所管理的，包括所有的依赖注入和容器特性。
-+ **灵活性**：你可以动态地根据类名或bean的名称来获取实例，这使得代码更加灵活。
-+ **适用于复杂场景**：在一些复杂的场景下，如动态决定要使用哪个bean的情况，这种方法非常有用。
-
-也有一些潜在的缺点或需要注意的点：
-
-+ 违背依赖注入原则：直接从ApplicationContext获取bean违背了依赖注入的原则，即依赖应该被注入到使用它们的对象中，而不是由对象自己去寻找依赖。
-+ 代码耦合：这种方法使你的代码与Spring框架紧密耦合，这可能会使得单元测试变得更加困难，因为你需要在测试时配置Spring ApplicationContext。
-+ 性能考虑：频繁地从ApplicationContext获取bean可能会影响性能，特别是在大型应用中。
-
-
-36. nacos是通过 http 还是 grpc 方式?
-    Spring Cloud Nacos 集成通常通过 HTTP（或 HTTPS）域名访问的方式与 Nacos Server 进行通信，而不是通过 gRPC。
-
-37. equals 和 == 区别
-+ == 运算符:
-
-用途：比较两个变量的引用地址，即它们是否指向内存中的同一个位置。
-基本类型：对于基本数据类型（如 int, char, double 等），== 比较的是值本身。
-对象：对于对象引用（如 String, Long 等包装类），== 比较的是它们是否是同一个对象的引用（即是否指向同一内存地址）。
-
-+ .equals() 方法:
-
-用途：通常用于比较两个对象的内容或值是否相等。
-重写：Object 类的 .equals() 方法默认行为是比较引用，但很多类（如 String, Integer 等）重写了这个方法，提供了内容比较的逻辑。
-对象：对于自定义对象，如果需要根据对象的状态（即它的字段值）判断相等性，通常需要重写 .equals() 方法。
-
-`结论: 除了基本类型以外, 无脑用 .equals() 即可`
-
-38. The bean 'xxx.FeignClientSpecification' could not be registered. A bean with that name has already been defined and overriding is disabled.
-说明有同一个 feign 已经注册, 考虑依赖包内冲突, 
-+ 推荐使用扩展Feign客户端
-  这个客户端也应该指定相同的服务名（sys），但它可以有一个不同的Java类名和/或一个不同的contextId，这样Spring就能区分这两个不同的Feign客户端实例。
-  ```java
-  @FeignClient(name = "sys", contextId = "customFeignClient", /* 自定义配置 */)
-  ```
-+ 覆盖使用 `spring.main.allow-bean-definition-overriding=true`, 但是这样会让整个项目都允许同名覆盖
-
-39.  Boolean defaultValue = "b'0'"  默认值是true 还是 false
-The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a false value. In many programming contexts, a binary value of 0 typically represents false, while 1 represents true. Therefore, in this case, the default value is false.
-
-40. SpelEvaluationException: EL1001E: Type conversion problem, cannot convert from xxxParam to java.lang.String
-SPEL 表达式不能直接接收某个entity作为入参, 只能是字符串
-
-41. EL表达式
-`${env.name}`
-
-42. Boolean defaultValue = "b'0'"  默认值是true 还是 false
-The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a false value. In many programming contexts, a binary value of 0 typically represents false, while 1 represents true. Therefore, in this case, the default value is false.
-0否1是
-
-43. 服务器处理异常:Handler dispatch failed; nested exception is java.lang.AssertionError: class xxx TableInfo不存在！
-selectAll 方法的入参必须是 table-entity
-
-44. 使用 `@TableField(typeHandler = JacksonTypeHandler.class)` 只能存数据, 不能查数据
-我们只需要在实体类中加上@TableName(value =xxx, autoResultMap = true)后面的autoResultMap 即可。
-
-45. java string 大写第一位
-```java
-public String capitalizeFirstLetter(String str) {
-    if (str == null || str.isEmpty()) {
-        return str;
-    }
-    return str.substring(0, 1).toUpperCase() + str.substring(1);
-}
-```
-
-46. string 转驼峰
-```java
-public String toCamelCase(String str) {
-    if (str == null || str.isEmpty()) {
-        return str;
-    }
-
-    StringBuilder camelCaseStr = new StringBuilder();
-    boolean makeNextUpperCase = false;
-
-    for (char c : str.toCharArray()) {
-        if (Character.isSpaceChar(c)) {
-            makeNextUpperCase = true;
-        } else if (makeNextUpperCase) {
-            camelCaseStr.append(Character.toUpperCase(c));
-            makeNextUpperCase = false;
-        } else {
-            camelCaseStr.append(Character.toLowerCase(c));
-        }
-    }
-
-    return camelCaseStr.toString();
-}
-```
-
-47. spring cloud gateway 网关配置, uriname与pathname一致
-会导致路由无法访问, 建议使用不同的、描述性的命名来区分URI和路径断言。
-
-48. 0 0 23 * * ?   这个 cron 表达式什么意思
-这个具体的表达式 0 0 23 * * ? 由六个部分组成，每个部分的含义如下：
-0 - 秒（表示在分钟的开始时刻）
-0 - 分钟（表示在小时的开始时刻）
-23 - 小时（表示一天中的 23 点）
-* - 日（表示每天）
-* - 月（表示每月）
-? - 星期（? 表示不指定，在 Cron 表达式中，日和星期这两个字段通常有一个要设为 ?）
-
-49. springboot 排除某些类
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, ...})
-
-50. springboot-component 排除某些类
-```java
-@ComponentScan(basePackages = "com.example.package",
-               excludeFilters = @ComponentScan.Filter(
-                   type = FilterType.ASSIGNABLE_TYPE,
-                   value = MyExcludedClass.class
-               ))
-```
-
-51. MultipartFile获取 base64
-```java
-    base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
-```
-
-52. java 有多个 project   maven如何打包指定的jar
-cd 到指定目录, 再 mvn package
-
-53. java 继承注解
-使用@Inherited元注解
-
-54. bigdecimal java 如何保存两位小数
-BigDecimal roundedNumber = number.setScale(2, RoundingMode.HALF_UP);
-
-55. MultipartFile file1 怎么改名
-`file.transferTo(destinationFile);`
-
-56. 条件构造器作为参数进行更新
-```
-UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-updateWrapper.eq("name","shimin");
- 
-User user = new User();
-user.setAge(18);
- 
-Integer rows = userMapper.update(user, updateWrapper);
-```
-
-57.  feign.FeignException$ServiceUnavailable: [503/404] during [POST] to [http://service/api] [param]: [Load balancer does not contain an instance for the service service-oss]
-关闭 HTTP VPN, 重启所有服务
-
-58. 如果Application类包所在的位置也很关键，SpringBoot项目的Bean装配默认规则是根据Application类所在的包位置从上往下扫描！Application类是指SpringBoot项目入口类。也就是我的Service层所在的包必须在com.example.mydemo或其子包下，否则Service层中的Bean不会被扫描到
-59. web-shiro原理是通过将userName封在jwt-token中, 然后在shiro-realm的doGetAuthenticationInfo()方法鉴权, 最后通过new SimpleAuthenticationInfo(loginUser, token, getName())将loginUser封在shiro-principal中
-60. @NotNull(message = "封面不能为空") 标签只能判断null值, 不能判断size为0的list
-61. post接口 @RequestBody才能接json; ios端用post接中文
-62. 多表高级查询, 使用FieldsUtil.getFieldsWithAlias(stuDTO, "stu"); 该方法不会拼接delFlag; 同时列表页的简单查询, 请使用单表查询
-63. 使用高级查询, 要么remove排序字段, 然后自己手动写排序, 要么就用他的排序
-64. DynamicDataSourceContextHolder.push("master"); 不支持在事务下切换数据源
-65. idea的项目, 记得从项目里删掉jrebel.xml, 他会导致一堆问题
-66. 和第三方对接的准则, 一定要把第三方系统的信息保存完整
-67. SOA架构, 在shell脚本中, 一定要先监控server2是否运行, 然后server2运行再部署server1, 部署后监控server1部署成功, 再部署server2; 保证至少一台服务器在运行中;
-68. 127.0.0.1 某些端口可能没有打开, 所以无法直接访问
-69. 打包时忽略某些模块的办法
-```
-    <modules>
-<!--      <module>module1</module>
-      <module>module2</module>-->
-      <module>module3</module>
-    </modules>
-```
-70.  @CacheEvict(value = {BCardConstant.SYS_CONFIG_PARK_LIST} 只会删除该key, 而不会删除子key; 所以如需删除子key, 需要使用redis模糊删除
-71.  
-![image](https://user-images.githubusercontent.com/37357447/150462539-dd732910-266a-4f9c-bb06-71924f43108d.png)
-72.  shiro 如果想用全局异常捕获处理shiro异常, 在JwtFilter-executeLogin方法中使用try-catch-throw即可; 否则会自动抛出AuthenticationException异常, 而交给spring-filter容器处理
-73.  在代码中 获取项目名
-``` java
-    @Autowired
-    ServletContext servletContext;
-
-    @RequestMapping("/project-name")
-    public void getProjectName(HttpServletResponse response) throws IOException {
-        String projectName = servletContext.getContextPath();
-        response.getWriter().write("Project Name: " + projectName);
-    }
-  
-```
-74.  spring validation
-```
-https://blog.csdn.net/kylin_tam/article/details/116276610
-@Min => num
-
-@Max => num
-
-@Size(min=, max=) => list
-
-@Length(min=, max=) => String
-```
-75.  Java 实现断点传输: https://blog.csdn.net/u011250186/article/details/128322350
-76.  按需加载 - @Condition
-    https://blog.csdn.net/xcy1193068639/article/details/81491071
-```java
-public class LinuxCondition implements Condition {
- 
-    @Override
-    public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
- 
-        Environment environment = conditionContext.getEnvironment();
- 
-        String property = environment.getProperty("os.name");
-        if (property.contains("Linux")){
-            return true;
-        }
-        return false;
-    }
-}
-```
-77.  按需加载 - @ConditionalOnProperty
-```java
-@ConditionalOnProperty(name = "token.check", havingValue = "false")
-```
-
-78.  `@JsonIgnore` 要使用 jackson 提供的 @JsonIgnore 才生效
-79.  json 大写变量处理, 使用注解 `@JsonProperty("SN")`
-80. md5 格式验证: 确保它是一个长度为32的字符串，且只包含十六进制字符（0-9和a-f或A-F）
-81. spring boot怎么创建指定name的bean: 使用 `@Bean(name="beanname")`
-82. try-catch-finally执行顺序(https://juejin.cn/post/7104448863297077284)
-try->catch->finally, 
-+ 无论有无return, 都按照此顺序
-+ 若 return 是个指针, 则 finally 的操作会影响 return 的结果
-83.  Maven打包指定项目的JAR
-cd module -> mvn clean package
-84. java 分隔斜杠
-反斜杠 \\ 是一个特殊字符，用于转义。因此，如果你想要按照单个反斜杠来分割字符串，你需要使用四个反斜杠 \\\\ 来表示一个普通的反斜杠字符。
-String fileName = originalFilename.split("\\\\")[0];
-85. java feign 指定 Content-Type
-需要使用 consumes = "application/x-www-form-urlencoded", 在 header 中指定无效
-86. java重要特性与思想: 反射, 递归, 泛型
-87. java 转义
-+ ""需要转义, 所以 \"\" 代表是 "", 但是在字符串中, 要识别"", 最后效果应该是 "\"\"", 所以还需要生成一个\, 所以你的input实际是 "\\\""
-+ 注意: {}不需要转义
-88. 指定 json 键值
-+ 常用 @JsonProperty(value="xxx"), 包括不限于 @RequestBody 等spring注解
-+ alibabaFastjson 使用  @JSONField(name = "xxx")
-89. feign get 请求发送入参
-```java
-	Map<String, String> list(@RequestParam("projectName") String projectName, @RequestParam("codeList") List<String> code);
-```
-90. mybatis plus 更新时不忽略 null
-```
-通常 mybatis plus 策略都是更新 null 值忽略,
-若想更新某个值为 null, 则选择 @TableField(updateStrategy = FieldStrategy.IGNORED)
-```
-91. t.getClass().getDeclaredFields() 无法获取到父级的属性, 需要自己实现递归父级, 或者使用下述方法
-FieldUtils.getAllFieldsList
-
-92. `java: java.lang.NoSuchFieldError: Class com.sun.tools.javac.tree.JCTree$JCImport does not have member field 'com.sun.tools.javac.tree.JCTree qualid'`
-使用 jdk<= 17
-
-93. 多重泛型解析
-```
-        PlateInfoResult<PlateInfo> plateInfoResult = JSON.parseObject(whiteResult, new TypeReference<PlateInfoResult<PlateInfo>>(){});
-```
-```
-    public static <T> T parseResult(String result, Class<T> c) {
-        R<T> r = JSONObject.parseObject(result, new TypeReference<R<T>>(c) {
-        });
-        if (!r.getSuccess()) {
-            throw new IllegalArgumentException(r.getMessage());
-        }
-        return r.getData();
-    }
-```
-94. 泛型获取父类字段
-```
-<!-- maven 依赖 -->
-<dependency>
-  <groupId>org.apache.commons</groupId>
-  <artifactId>commons-lang3</artifactId>
-  <version>3.12.0</version>
-</dependency>
-
-// 直接获取包含父类的字段
-List<Field> fields = FieldUtils.getAllFieldsList(paramObj.getClass());
-```
-95. 打印方法名
-```
-String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();  // 打印当前方法名
-String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();  // 打印调用该方法的父级方法名
-```
-
-96. LocalDateTime 和 datetime 区别
-类型	是否带时区	本质类型
-LocalDateTime	❌ 不带时区	纯粹的本地日期时间
-Hutool DateTime	✔️ 有时区偏移	实质上是 java.util.Date 的封装（内部保存 UTC 毫秒值）
-
-👉 总结：LocalDateTime 不是一个真实瞬时时间，DateTime 是。
-
-97. Spring 事务传播机制（Transaction Propagation）一共有 7 种策略
-
-| 传播行为                        | 含义                             | 是否需要已有事务 | 事务行为说明                                                 | 常用场景                              |
-| ------------------------------- | -------------------------------- | ---------------- | ------------------------------------------------------------ | ------------------------------------- |
-| **PROPAGATION_REQUIRED** (默认) | 有就加入，没有就创建新事务       | 可有可无         | - 若当前存在事务 → 加入当前事务    - 若不存在 → 创建新事务   | **最常用**；一般业务逻辑              |
-| **PROPAGATION_REQUIRES_NEW**    | 永远创建新事务                   | 不依赖已有事务   | - 挂起当前事务   - 开启一个新事务单独运行                    | **日志记录、补偿、独立提交**          |
-| **PROPAGATION_SUPPORTS**        | 有事务就加入，没有就以非事务运行 | 可有可无         | - 有事务 → 加入事务   - 无事务 → 非事务运行                  | 读取类操作；是否需要事务无所谓        |
-| **PROPAGATION_NOT_SUPPORTED**   | 总是不使用事务                   | 不能有事务       | - 挂起当前事务   - 以非事务方式运行                          | **非核心逻辑、不需要事务的场景**      |
-| **PROPAGATION_NEVER**           | 必须以非事务方式执行             | 不能有事务       | - 若当前存在事务 → 抛异常                                    | 必须无事务，例如事务与非事务强隔离    |
-| **PROPAGATION_MANDATORY**       | 必须在已有事务内运行             | 必须已有事务     | - 无事务 → 抛异常                                            | 必须处于事务上下文，例如 DAO/核心业务 |
-| **PROPAGATION_NESTED**          | 嵌套事务（Savepoint）            | 必须已有事务     | - 使用 Savepoint 实现嵌套   - 内部事务失败可回滚至 savepoint | **局部回滚**、复杂业务流程            |
-
-98. @Resource 和 @Autowire 区别
-
-| 注解           | 来源                 | 默认注入方式                       | 按类型冲突时            | 是否可用 `name` 指定 |
-| -------------- | -------------------- | ---------------------------------- | ----------------------- | -------------------- |
-| **@Autowired** | Spring               | **按类型（byType）**               | 报错（需要 @Qualifier） | 可以用 `@Qualifier`  |
-| **@Resource**  | JSR-250（Java 标准） | **按名称（byName）**优先，再按类型 | 使用 `name` 精确匹配    | 可以用 `name` 属性   |
-
-99. nested exception is org.apache.ibatis.reflection.ReflectionException: Could not set property 'createAt' of 'class tech.ynfy.module.customer360.bean.CustomerProfileCore' with value 'Thu Nov 13 11:40:59 CST 2025' Cause: java.lang.IllegalArgumentException: argument type mismatch ；
-    不能用 hutool.date
-
-100. if ((hot == null && !isTempCustomerIdEmpty) || isCustomerIdEmpty ) { 为什么最右边永远为false ？
-
-     ```
-     先给变量起个简单名字：
-     
-     A = (hot == null)
-     B = isTempCustomerIdEmpty
-     
-     
-     你的 if 条件就是：
-     
-     (A && !B) || B
-     
-     分两种情况看：
-     情况一：B = true（临时客户 ID 为空）
-     
-     右边：B = true
-     
-     左边：A && !B = A && false = false
-     
-     所以整体结果：
-     
-     (false) || true  => true
-     
-     
-     此时 if 一定成立，是右边的 B 决定的。
-     
-     情况二：B = false（临时客户 ID 不为空）
-     
-     右边：B = false
-     
-     左边：A && !B = A && true = A
-     
-     所以整体结果：
-     
-     A || false  => A
-     
-     
-     也就是：
-     
-     hot == null
-     
-     
-     此时 if 成不成立，只看 hot 是否为 null，右边那段 B 一定是 false。
-     ```
-
-101. java && 与 & ||与| 区别
-
-     ```
-     在 Java 中，&& 与 &、|| 与 | 都可以用于逻辑运算，但它们有 重要区别：是否 短路(short-circuit) 以及是否可用于 位运算。
-     
-     ✅ 1. &&（逻辑与） vs &（逻辑与/位与）
-     (1) && —— 逻辑与 + 短路
-     
-     左边为 false 时，右边不会执行（短路）
-     
-     只能用于 boolean
-     
-     示例：
-     
-     boolean result = (a > 0) && (b++ > 0);
-     // 如果 a > 0 为 false，b++ 不会执行
-     
-     (2) & —— 逻辑与（无短路）或位与
-     作为逻辑与（boolean）
-     
-     左边无论真假，右边都会执行（无短路）
-     
-     boolean result = (a > 0) & (b++ > 0);
-     // 不管左边结果是什么，b++ 都会执行
-     
-     作为位与（整数）
-     
-     按位进行 AND 运算
-     
-     int x = 6 & 3;  
-     // 6 = 110, 3 = 011 → 010 = 2
-     
-     🔥 2. ||（逻辑或） vs |（逻辑或/位或）
-     (1) || —— 逻辑或 + 短路
-     
-     左边为 true 时，右边不会执行（短路）
-     
-     boolean result = (a > 0) || (b++ > 0);
-     // 如果 a > 0 为 true，b++ 不会执行
-     
-     (2) | —— 逻辑或（无短路）或位或
-     作为逻辑或（boolean）
-     
-     不短路，左右两边都会执行
-     
-     boolean result = (a > 0) | (b++ > 0);
-     // b++ 总会执行
-     
-     作为位或（整数）
-     
-     按位进行 OR 运算
-     
-     int x = 6 | 3;
-     // 6 = 110, 3 = 011 → 111 = 7
-     
-     ```
-
-102. 千万注意多重泛型, 内部不能再 `List<T>` 否则会成为 `List<List<Module>>`
-```
-package com.mylike.module.yunxi.dto;
-
-import lombok.Data;
-
-/**
- * 通用 API 响应结构（外层包装）
- *
- * @param <T> listData 中每条元素的类型（业务对象）
- */
-@Data
-public class YunxiApiResponse<T> {
-	
-	/**
-	 * 业务状态码（0 表示成功）
-	 */
-	private Integer code;
-	
-	/**
-	 * 业务提示信息（可能为 null）
-	 */
-	private String message;
-	
-	/**
-	 * 服务端信息，如 IP、端口、traceId
-	 */
-	private String serverInfo;
-	
-	/**
-	 * 业务数据部分
-	 * 内部为分页结构 PageResult<T>
-	 */
-	private PageResult<T> data;
-	
-	/**
-	 * 分页结果封装结构
-	 */
-	@Data
-	public static class PageResult<T> {
-		
-		/**
-		 * 当前页码
-		 */
-		private Integer currentPage;
-		
-		/**
-		 * 每页条数
-		 */
-		private Integer pageSize;
-		
-		/**
-		 * 总记录数
-		 */
-		private Integer totalRows;
-		
-		/**
-		 * 是否为最后一页
-		 */
-		private Boolean lastPage;
-		
-		/**
-		 * 实际数据列表
-		 */
-		private T listData;
-	}
-}
-
-	@PostMapping(value = "/module/m0013/func/g0001")
-	@Operation(summary = "客户商品浏览轨迹")
-	List<TrackDTO> listCustomerBrowseTrack(@RequestBody YunxiReqDTO reqDTO);
-
-```
-
-
-102. `@Resource` 和 `@Autowired` 区别
-+ `@Autowired` 按类型优先  默认用这个就行
-+ 像 `FeignClient` 之类的用 `name` 来区分的, 必须使用 `@Resource` 来加载
-
-103. 自动 update 时间
-```
-1）实体字段加自动填充标记
-@TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE) // 或 FieldFill.UPDATE
-@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-@JSONField(format = "yyyy-MM-dd HH:mm:ss")
-@Schema(description = "更新时间")
-private Date updateAt;
-
-
-如果你的列名就是 update_at，建议把 value="update_at" 写上，避免命名策略不一致导致不生效。
-
-2）实现 MetaObjectHandler（关键）
-
-Spring Boot 项目里直接 @Component 即可：
-
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.stereotype.Component;
-
-import java.util.Date;
-
-@Component
-public class MyMetaObjectHandler implements MetaObjectHandler {
-
-    @Override
-    public void insertFill(MetaObject metaObject) {
-        // 插入时同时填充（可选）
-        this.strictInsertFill(metaObject, "updateAt", Date.class, new Date());
-        // 如果你还有 createAt：
-        // this.strictInsertFill(metaObject, "createAt", Date.class, new Date());
-    }
-
-    @Override
-    public void updateFill(MetaObject metaObject) {
-        // 更新时自动刷新更新时间
-        this.strictUpdateFill(metaObject, "updateAt", Date.class, new Date());
-    }
-}
-```
-
-104. maven jdk version 不生效
-
-     千万不要强制设置 mvn 的 jdk, 
-
-105. java `### Cause: java.sql.SQLSyntaxErrorException: ORA-00942: table or view does not exist`
-    考虑上下文的问题, 使用 `@DS` 试试
-106. resource & autowire
-```
-@Autowired 先根据类型（byType）查找，如果存在多个（Bean）再根据名称（byName）进行查找；
-@Resource 先根据名称（byName）查找，如果（根据名称）查找不到，再根据类型（byType）进行查找。
-注入的是 Mapper 对象，那么使用 @Autowired 编译器会提示报错信息; 
-所以! 无脑用 Resouce 就行 ! 
-```
-107. @RequiredArgsConstructor
-
-```
- 从 Spring 4.3 开始，如果一个类只有一个构造方法，Spring 会自动进行构造器注入，不需要再写 @Autowired。
-
-```
-
-108. @RequiredArgsConstructor 循环依赖,  怎么处理
-    private final @Lazy BService bService;
-
-109. @RequiredArgsConstructor 不支持 @feign 怎么处理
-
-110. @Cacheable  返回 null 或者 raise exception 会缓存吗
-默认会缓存, 需要设置
-```
-    RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-            .disableCachingNullValues();
-```
-
-111. @Cacheable 如何设置有效时间
-```
-
-
-
-Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
-
-    configMap.put("customerProfile",
-            RedisCacheConfiguration.defaultCacheConfig()
-                    .entryTtl(Duration.ofMinutes(30))); // 👈 单独30分钟
-
-    return RedisCacheManager.builder(factory)
-            .withInitialCacheConfigurations(configMap)
-            .build();
-
-
-```
-
-```
-@Cacheable(value = "customerProfile", key = "#customerId + '_' + #tempCustomerId")
-public CustomerProfile getCustomerProfile(String customerId, String tempCustomerId) {
-    ...
-}
-```
-
-112. 
 
 # 第二章 Mysql
 
@@ -3919,3 +3102,902 @@ return f; // 调用方需要时 f.get()
 但也要记住：
 
 - **CPU 密集型**任务（大量计算）用虚拟线程不会“变快”，瓶颈仍是 CPU 核数；这类更看重合理的并行度/线程池大小。
+
+
+
+
+
+# Java经验
+
+1. refDefine-class的问题如果来自于引用, 可能是jar包冲突; 本地的class找不到再确定是不是maven-compile出了问题
+2. 
+
+```/**
+         * enum类自带一个values()方法, 获取该类中的所有enum
+         * 
+         * enum变量自带两属性
+         * name: 即变量名toString 如RequestMethod.GET.name()即为"name"
+         * ordinal: 在enum类中的顺序, 从0开始
+         */
+
+  enum 获取索引位置: ConstantEnum.values()[i].ordinal()
+```
+
+3. 对象必须做非空判断, 避免NPE
+4. list或分页不要使用copyproperties方法, 在一定数量的时候, copyproperties会导致查询很慢; 建议使用mapper查询直接返回vo, 在vo中直接set值
+5. Restful本地调用127.0.0.1:xxxx, 但是这种的问题在于, 一个服务依赖于一个服务, 而不是分布式服务集群; (所以引入Feign解耦)
+6. 引入代码规范的意义, 实现风险可控
+7. 学会做差异化设计, 产品差异化, 服务差异化
+
+```
+import static com.xxx.xxxStaticFinal.*;
+直接引用所有常量
+```
+
+8. 抛出异常必须精准报错, 知道是哪个方法, 哪个字段报错
+
+9. 第三方接口数据必须全部保存, 尤其是涉及到支付
+
+10. // 不可用 clazz.getDeclaredConstructor().newInstance(); 因为这样不会加载 spring - autowired   this.factory = SpringUtils.getBean(clazz);
+
+11. 数据库建议关闭 5432 对外端口, 需要连接时, ssh 连过去    然后再写 postgres sql; 并且使用内网端口, 可以节省外网 io 
+
+12. 测试/生产与本地环境共用 redis, 会导致断点调试异常
+
+13. fileter
+
+14. 除了新增功能, 修改共用数据库之前必须通知 dba, 或者做好备份, 严禁直接修改数据库, 引起生产事故
+
+15. 自定义命令行参数  `--myParam='test'`
+
+16. Response 获取 byte[]
+
+    ```java
+    InputStream inputStream = response.body().asInputStream();
+    return IOUtils.toByteArray(inputStream);    
+    ```
+
+17. @Async 使用 https://blog.csdn.net/YoungLee16/article/details/88398045
+
+    + 在@SpringBootApplication启动类当中添加注解@EnableAsync注解。
+    + 异步方法使用注解@[Async](https://so.csdn.net/so/search?q=Async&spm=1001.2101.3001.7020)的返回值只能为void或者Future。
+    + 需要走Spring的代理类。因为@Transactional和@Async注解的实现都是基于Spring的AOP，而AOP的实现是基于动态代理模式实现的。那么注解失效的原因就很明显了，有可能因为调用方法的是对象本身而不是代理对象，因为没有经过Spring容器。
+
+18. 命名规范 https://www.jhelp.net/p/Dq0h3U69SZfAAGhP
+
+19. Java使用HMAC-SHA256算法实现接口认证  https://www.jianshu.com/p/365c2b3811d9
+
+20. constant string too long
+    java string 支持传递长字段, 但是初始化时不支持 10kb 以上字符串, 所以只能通过读取文件或者http方式获取长字段, 比如
+
+```java
+    public static String sendLongAudio() {
+        // 指定要读取的文件路径
+        String filePath = "path";
+
+        String out = "";
+        try {
+            // 创建文件读取器
+            FileReader fileReader = new FileReader(filePath);
+
+            // 创建缓冲字符流
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            // 逐行读取文件内容
+            String line = "";
+            while ((line = bufferedReader.readLine()) != null) {
+                out = line;
+            }
+
+            // 关闭文件读取器
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+```
+
+21. 获取方法名 `Thread.currentThread().getStackTrace()[1].getMethodName();`
+
+22. java 传入特定参数
+    java 启动时传入参数 `java -jar xxx.jar --spring.profiles.active=prod`
+
+
+23.  返回前端 @Configuration 修饰的类, 会报异常
+     @Configuration注解用于定义配置类，通常不会直接返回给前端。如果您尝试将带有@Configuration注解的类直接返回给前端，可能会导致异常或不符合预期的行为。
+
+```
+@RestController
+@RequestMapping("/api")
+public class MyController {
+
+    @Value("${your-config-key}")
+    private String configValue;
+
+    @GetMapping("/config")
+    public String getConfig() {
+        return configValue;
+    }
+}
+```
+
+24.  immutables
+     https://reflectoring.io/immutables-library/
+
+25.  System.out.println 格式化输出
+     基础的格式化输出：
+     System.out.printf("Hello %s!%n", "World");
+
+26.  如何在 springboot 启动时 查询数据库 
+     最简单最笨的方法, 放在 spring-boot runApplication 内执行, 避免 mybatis 加载顺序导致执行失败
+
+```java
+    public static void main(String[] args) {
+        SpringApplication.run(ServerApplication.class,args);
+
+        init();
+    }
+    
+    public static void init() {
+      // 查询数据库
+    }
+```
+
+27. @Bean 问题, 问题其实是 @Resource 和 @Bean 是同一个对象, 不能同时用, 否则会导致加载失败
+
+```
+已知代码如下, 系统启动时, 将 AuthenticationClient 自动注入, 执行 clientOptions.setAppId(appid),  appid 为空, 应如何修改
+
+@ConfigurationProperties(prefix = "iam")
+@Component
+@Setter
+@Slf4j
+public class AuthingService {
+
+    private String appid;
+
+    private String appsceret;
+
+    private String apphost;
+
+    private String redirectUrl;
+
+    @Bean
+    public AuthenticationClient getAuthenticationClient() {
+        // 使用 AppId 和 AppHost 进行初始化
+        AuthenticationClientOptions clientOptions = new AuthenticationClientOptions();
+        clientOptions.setAppId(appid);
+        clientOptions.setAppSecret(appsceret);
+        clientOptions.setAppHost(apphost);
+        clientOptions.setRedirectUri(redirectUrl);
+
+        AuthenticationClient authenticationClient = null;
+        try {
+            authenticationClient = new AuthenticationClient(clientOptions);
+        } catch (Exception e) {
+            log.error("AuthenticationClient 初始化失败: " + e.getMessage(), e);
+        }
+        return authenticationClient;
+    }
+}
+
+```
+
+28. InetAddress.getLocalHost().getHostName() took 5006 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+
++ Edit the /etc/hosts file. `sudo nano /etc/hosts`
++ Ensure there's an entry for 127.0.0.1 and your hostname:
+
+```
+127.0.0.1       localhost your_hostname
+::1             localhost your_hostname
+```
+
+Replace your_hostname with the actual hostname of your machine. If you don't know your hostname, you can usually get it by typing `hostname` in the terminal.
+
+29. cn.hutool.core.bean.BeanUtils.copyProperties   忽略空值
+    `CopyOptions.create().setIgnoreNullValue(true);`
+
+
+30. 建立新的 module
+    new module -> jakartaEE , REST service & Application server -> unclick all dependencies
+
+31. JDK21报错NoSuchFieldError: Class com.sun.tools.javac.tree.JCTree$JCImport does not have member fie
+    https://blog.csdn.net/G971005287W/article/details/133350154
+    升级lombok
+
+32. feign.RetryableException: null executing GET http://****/cr**t/e**/cre****ount/2**8060
+    https://www.cnblogs.com/zxporz/p/13094614.html
+
+33. spring-boot application get env config
+
+```java
+    ConfigurableApplicationContext application = SpringApplication.run(xxxApplication.class, args);
+		Environment env = application.getEnvironment();
+		String port = env.getProperty("server.port");
+```
+
+34. java 从 url  获取bufferImage
+
+```java
+// 定义你的图片资源URL
+            URL url = new URL("http://www.example.com/image.jpg");
+            // 读取并创建一个BufferedImage对象
+            BufferedImage image = ImageIO.read(url);
+```
+
+35. @Service 单例模式获取实例
+
+```java
+getApplicationContext().getBean(clazz)
+```
+
+这种方法有几个优点：
+
++ **与Spring容器保持一致**：直接使用Spring的ApplicationContext确保了你获取的bean是Spring容器所管理的，包括所有的依赖注入和容器特性。
++ **灵活性**：你可以动态地根据类名或bean的名称来获取实例，这使得代码更加灵活。
++ **适用于复杂场景**：在一些复杂的场景下，如动态决定要使用哪个bean的情况，这种方法非常有用。
+
+也有一些潜在的缺点或需要注意的点：
+
++ 违背依赖注入原则：直接从ApplicationContext获取bean违背了依赖注入的原则，即依赖应该被注入到使用它们的对象中，而不是由对象自己去寻找依赖。
++ 代码耦合：这种方法使你的代码与Spring框架紧密耦合，这可能会使得单元测试变得更加困难，因为你需要在测试时配置Spring ApplicationContext。
++ 性能考虑：频繁地从ApplicationContext获取bean可能会影响性能，特别是在大型应用中。
+
+
+36. nacos是通过 http 还是 grpc 方式?
+    Spring Cloud Nacos 集成通常通过 HTTP（或 HTTPS）域名访问的方式与 Nacos Server 进行通信，而不是通过 gRPC。
+
+37. equals 和 == 区别
+
++ == 运算符:
+
+用途：比较两个变量的引用地址，即它们是否指向内存中的同一个位置。
+基本类型：对于基本数据类型（如 int, char, double 等），== 比较的是值本身。
+对象：对于对象引用（如 String, Long 等包装类），== 比较的是它们是否是同一个对象的引用（即是否指向同一内存地址）。
+
++ .equals() 方法:
+
+用途：通常用于比较两个对象的内容或值是否相等。
+重写：Object 类的 .equals() 方法默认行为是比较引用，但很多类（如 String, Integer 等）重写了这个方法，提供了内容比较的逻辑。
+对象：对于自定义对象，如果需要根据对象的状态（即它的字段值）判断相等性，通常需要重写 .equals() 方法。
+
+`结论: 除了基本类型以外, 无脑用 .equals() 即可`
+
+38. The bean 'xxx.FeignClientSpecification' could not be registered. A bean with that name has already been defined and overriding is disabled.
+    说明有同一个 feign 已经注册, 考虑依赖包内冲突, 
+
++ 推荐使用扩展Feign客户端
+  这个客户端也应该指定相同的服务名（sys），但它可以有一个不同的Java类名和/或一个不同的contextId，这样Spring就能区分这两个不同的Feign客户端实例。
+
+  ```java
+  @FeignClient(name = "sys", contextId = "customFeignClient", /* 自定义配置 */)
+  ```
+
++ 覆盖使用 `spring.main.allow-bean-definition-overriding=true`, 但是这样会让整个项目都允许同名覆盖
+
+39.  Boolean defaultValue = "b'0'"  默认值是true 还是 false
+     The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a false value. In many programming contexts, a binary value of 0 typically represents false, while 1 represents true. Therefore, in this case, the default value is false.
+
+40.  SpelEvaluationException: EL1001E: Type conversion problem, cannot convert from xxxParam to java.lang.String
+     SPEL 表达式不能直接接收某个entity作为入参, 只能是字符串
+
+41.  EL表达式
+     `${env.name}`
+
+42.  Boolean defaultValue = "b'0'"  默认值是true 还是 false
+     The default value b'0' as shown in Boolean defaultValue = "b'0'" indicates a false value. In many programming contexts, a binary value of 0 typically represents false, while 1 represents true. Therefore, in this case, the default value is false.
+     0否1是
+
+43.  服务器处理异常:Handler dispatch failed; nested exception is java.lang.AssertionError: class xxx TableInfo不存在！
+     selectAll 方法的入参必须是 table-entity
+
+44.  使用 `@TableField(typeHandler = JacksonTypeHandler.class)` 只能存数据, 不能查数据
+     我们只需要在实体类中加上@TableName(value =xxx, autoResultMap = true)后面的autoResultMap 即可。
+
+45.  java string 大写第一位
+
+```java
+public String capitalizeFirstLetter(String str) {
+    if (str == null || str.isEmpty()) {
+        return str;
+    }
+    return str.substring(0, 1).toUpperCase() + str.substring(1);
+}
+```
+
+46. string 转驼峰
+
+```java
+public String toCamelCase(String str) {
+    if (str == null || str.isEmpty()) {
+        return str;
+    }
+
+    StringBuilder camelCaseStr = new StringBuilder();
+    boolean makeNextUpperCase = false;
+
+    for (char c : str.toCharArray()) {
+        if (Character.isSpaceChar(c)) {
+            makeNextUpperCase = true;
+        } else if (makeNextUpperCase) {
+            camelCaseStr.append(Character.toUpperCase(c));
+            makeNextUpperCase = false;
+        } else {
+            camelCaseStr.append(Character.toLowerCase(c));
+        }
+    }
+
+    return camelCaseStr.toString();
+}
+```
+
+47. spring cloud gateway 网关配置, uriname与pathname一致
+    会导致路由无法访问, 建议使用不同的、描述性的命名来区分URI和路径断言。
+
+48. 0 0 23 * * ?   这个 cron 表达式什么意思
+    这个具体的表达式 0 0 23 * * ? 由六个部分组成，每个部分的含义如下：
+    0 - 秒（表示在分钟的开始时刻）
+    0 - 分钟（表示在小时的开始时刻）
+    23 - 小时（表示一天中的 23 点）
+
+* - 日（表示每天）
+* - 月（表示每月）
+    ? - 星期（? 表示不指定，在 Cron 表达式中，日和星期这两个字段通常有一个要设为 ?）
+
+49. springboot 排除某些类
+    @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, ...})
+
+50. springboot-component 排除某些类
+
+```java
+@ComponentScan(basePackages = "com.example.package",
+               excludeFilters = @ComponentScan.Filter(
+                   type = FilterType.ASSIGNABLE_TYPE,
+                   value = MyExcludedClass.class
+               ))
+```
+
+51. MultipartFile获取 base64
+
+```java
+    base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
+```
+
+52. java 有多个 project   maven如何打包指定的jar
+    cd 到指定目录, 再 mvn package
+
+53. java 继承注解
+    使用@Inherited元注解
+
+54. bigdecimal java 如何保存两位小数
+    BigDecimal roundedNumber = number.setScale(2, RoundingMode.HALF_UP);
+
+55. MultipartFile file1 怎么改名
+    `file.transferTo(destinationFile);`
+
+56. 条件构造器作为参数进行更新
+
+```
+UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+updateWrapper.eq("name","shimin");
+ 
+User user = new User();
+user.setAge(18);
+ 
+Integer rows = userMapper.update(user, updateWrapper);
+```
+
+57.  feign.FeignException$ServiceUnavailable: [503/404] during [POST] to [http://service/api] [param]: [Load balancer does not contain an instance for the service service-oss]
+     关闭 HTTP VPN, 重启所有服务
+
+58.  如果Application类包所在的位置也很关键，SpringBoot项目的Bean装配默认规则是根据Application类所在的包位置从上往下扫描！Application类是指SpringBoot项目入口类。也就是我的Service层所在的包必须在com.example.mydemo或其子包下，否则Service层中的Bean不会被扫描到
+59.  web-shiro原理是通过将userName封在jwt-token中, 然后在shiro-realm的doGetAuthenticationInfo()方法鉴权, 最后通过new SimpleAuthenticationInfo(loginUser, token, getName())将loginUser封在shiro-principal中
+60.  @NotNull(message = "封面不能为空") 标签只能判断null值, 不能判断size为0的list
+61.  post接口 @RequestBody才能接json; ios端用post接中文
+62.  多表高级查询, 使用FieldsUtil.getFieldsWithAlias(stuDTO, "stu"); 该方法不会拼接delFlag; 同时列表页的简单查询, 请使用单表查询
+63.  使用高级查询, 要么remove排序字段, 然后自己手动写排序, 要么就用他的排序
+64.  DynamicDataSourceContextHolder.push("master"); 不支持在事务下切换数据源
+65.  idea的项目, 记得从项目里删掉jrebel.xml, 他会导致一堆问题
+66.  和第三方对接的准则, 一定要把第三方系统的信息保存完整
+67.  SOA架构, 在shell脚本中, 一定要先监控server2是否运行, 然后server2运行再部署server1, 部署后监控server1部署成功, 再部署server2; 保证至少一台服务器在运行中;
+68.  127.0.0.1 某些端口可能没有打开, 所以无法直接访问
+69.  打包时忽略某些模块的办法
+
+```
+    <modules>
+<!--      <module>module1</module>
+      <module>module2</module>-->
+      <module>module3</module>
+    </modules>
+```
+
+70.  @CacheEvict(value = {BCardConstant.SYS_CONFIG_PARK_LIST} 只会删除该key, 而不会删除子key; 所以如需删除子key, 需要使用redis模糊删除
+71.  ![image](https://user-images.githubusercontent.com/37357447/150462539-dd732910-266a-4f9c-bb06-71924f43108d.png)
+72.  shiro 如果想用全局异常捕获处理shiro异常, 在JwtFilter-executeLogin方法中使用try-catch-throw即可; 否则会自动抛出AuthenticationException异常, 而交给spring-filter容器处理
+73.  在代码中 获取项目名
+
+``` java
+    @Autowired
+    ServletContext servletContext;
+
+    @RequestMapping("/project-name")
+    public void getProjectName(HttpServletResponse response) throws IOException {
+        String projectName = servletContext.getContextPath();
+        response.getWriter().write("Project Name: " + projectName);
+    }
+  
+```
+
+74.  spring validation
+
+```
+https://blog.csdn.net/kylin_tam/article/details/116276610
+@Min => num
+
+@Max => num
+
+@Size(min=, max=) => list
+
+@Length(min=, max=) => String
+```
+
+75.  Java 实现断点传输: https://blog.csdn.net/u011250186/article/details/128322350
+76.  按需加载 - @Condition
+     https://blog.csdn.net/xcy1193068639/article/details/81491071
+
+```java
+public class LinuxCondition implements Condition {
+ 
+    @Override
+    public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
+ 
+        Environment environment = conditionContext.getEnvironment();
+ 
+        String property = environment.getProperty("os.name");
+        if (property.contains("Linux")){
+            return true;
+        }
+        return false;
+    }
+}
+```
+
+77.  按需加载 - @ConditionalOnProperty
+
+```java
+@ConditionalOnProperty(name = "token.check", havingValue = "false")
+```
+
+78.  `@JsonIgnore` 要使用 jackson 提供的 @JsonIgnore 才生效
+79.  json 大写变量处理, 使用注解 `@JsonProperty("SN")`
+80.  md5 格式验证: 确保它是一个长度为32的字符串，且只包含十六进制字符（0-9和a-f或A-F）
+81.  spring boot怎么创建指定name的bean: 使用 `@Bean(name="beanname")`
+82.  try-catch-finally执行顺序(https://juejin.cn/post/7104448863297077284)
+     try->catch->finally, 
+
++ 无论有无return, 都按照此顺序
++ 若 return 是个指针, 则 finally 的操作会影响 return 的结果
+
+83.  Maven打包指定项目的JAR
+     cd module -> mvn clean package
+84.  java 分隔斜杠
+     反斜杠 \\ 是一个特殊字符，用于转义。因此，如果你想要按照单个反斜杠来分割字符串，你需要使用四个反斜杠 \\\\ 来表示一个普通的反斜杠字符。
+     String fileName = originalFilename.split("\\\\")[0];
+85.  java feign 指定 Content-Type
+     需要使用 consumes = "application/x-www-form-urlencoded", 在 header 中指定无效
+86.  java重要特性与思想: 反射, 递归, 泛型
+87.  java 转义
+
++ ""需要转义, 所以 \"\" 代表是 "", 但是在字符串中, 要识别"", 最后效果应该是 "\"\"", 所以还需要生成一个\, 所以你的input实际是 "\\\""
++ 注意: {}不需要转义
+
+88. 指定 json 键值
+
++ 常用 @JsonProperty(value="xxx"), 包括不限于 @RequestBody 等spring注解
++ alibabaFastjson 使用  @JSONField(name = "xxx")
+
+89. feign get 请求发送入参
+
+```java
+	Map<String, String> list(@RequestParam("projectName") String projectName, @RequestParam("codeList") List<String> code);
+```
+
+90. mybatis plus 更新时不忽略 null
+
+```
+通常 mybatis plus 策略都是更新 null 值忽略,
+若想更新某个值为 null, 则选择 @TableField(updateStrategy = FieldStrategy.IGNORED)
+```
+
+91. t.getClass().getDeclaredFields() 无法获取到父级的属性, 需要自己实现递归父级, 或者使用下述方法
+    FieldUtils.getAllFieldsList
+
+92. `java: java.lang.NoSuchFieldError: Class com.sun.tools.javac.tree.JCTree$JCImport does not have member field 'com.sun.tools.javac.tree.JCTree qualid'`
+    使用 jdk<= 17
+
+93. 多重泛型解析
+
+```
+        PlateInfoResult<PlateInfo> plateInfoResult = JSON.parseObject(whiteResult, new TypeReference<PlateInfoResult<PlateInfo>>(){});
+```
+
+```
+    public static <T> T parseResult(String result, Class<T> c) {
+        R<T> r = JSONObject.parseObject(result, new TypeReference<R<T>>(c) {
+        });
+        if (!r.getSuccess()) {
+            throw new IllegalArgumentException(r.getMessage());
+        }
+        return r.getData();
+    }
+```
+
+94. 泛型获取父类字段
+
+```
+<!-- maven 依赖 -->
+<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-lang3</artifactId>
+  <version>3.12.0</version>
+</dependency>
+
+// 直接获取包含父类的字段
+List<Field> fields = FieldUtils.getAllFieldsList(paramObj.getClass());
+```
+
+95. 打印方法名
+
+```
+String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();  // 打印当前方法名
+String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();  // 打印调用该方法的父级方法名
+```
+
+96. LocalDateTime 和 datetime 区别
+    类型	是否带时区	本质类型
+    LocalDateTime	❌ 不带时区	纯粹的本地日期时间
+    Hutool DateTime	✔️ 有时区偏移	实质上是 java.util.Date 的封装（内部保存 UTC 毫秒值）
+
+👉 总结：LocalDateTime 不是一个真实瞬时时间，DateTime 是。
+
+97. Spring 事务传播机制（Transaction Propagation）一共有 7 种策略
+
+| 传播行为                        | 含义                             | 是否需要已有事务 | 事务行为说明                                                 | 常用场景                              |
+| ------------------------------- | -------------------------------- | ---------------- | ------------------------------------------------------------ | ------------------------------------- |
+| **PROPAGATION_REQUIRED** (默认) | 有就加入，没有就创建新事务       | 可有可无         | - 若当前存在事务 → 加入当前事务    - 若不存在 → 创建新事务   | **最常用**；一般业务逻辑              |
+| **PROPAGATION_REQUIRES_NEW**    | 永远创建新事务                   | 不依赖已有事务   | - 挂起当前事务   - 开启一个新事务单独运行                    | **日志记录、补偿、独立提交**          |
+| **PROPAGATION_SUPPORTS**        | 有事务就加入，没有就以非事务运行 | 可有可无         | - 有事务 → 加入事务   - 无事务 → 非事务运行                  | 读取类操作；是否需要事务无所谓        |
+| **PROPAGATION_NOT_SUPPORTED**   | 总是不使用事务                   | 不能有事务       | - 挂起当前事务   - 以非事务方式运行                          | **非核心逻辑、不需要事务的场景**      |
+| **PROPAGATION_NEVER**           | 必须以非事务方式执行             | 不能有事务       | - 若当前存在事务 → 抛异常                                    | 必须无事务，例如事务与非事务强隔离    |
+| **PROPAGATION_MANDATORY**       | 必须在已有事务内运行             | 必须已有事务     | - 无事务 → 抛异常                                            | 必须处于事务上下文，例如 DAO/核心业务 |
+| **PROPAGATION_NESTED**          | 嵌套事务（Savepoint）            | 必须已有事务     | - 使用 Savepoint 实现嵌套   - 内部事务失败可回滚至 savepoint | **局部回滚**、复杂业务流程            |
+
+98. @Resource 和 @Autowire 区别
+
+| 注解           | 来源                 | 默认注入方式                       | 按类型冲突时            | 是否可用 `name` 指定 |
+| -------------- | -------------------- | ---------------------------------- | ----------------------- | -------------------- |
+| **@Autowired** | Spring               | **按类型（byType）**               | 报错（需要 @Qualifier） | 可以用 `@Qualifier`  |
+| **@Resource**  | JSR-250（Java 标准） | **按名称（byName）**优先，再按类型 | 使用 `name` 精确匹配    | 可以用 `name` 属性   |
+
+99. nested exception is org.apache.ibatis.reflection.ReflectionException: Could not set property 'createAt' of 'class tech.ynfy.module.customer360.bean.CustomerProfileCore' with value 'Thu Nov 13 11:40:59 CST 2025' Cause: java.lang.IllegalArgumentException: argument type mismatch ；
+    不能用 hutool.date
+
+100. if ((hot == null && !isTempCustomerIdEmpty) || isCustomerIdEmpty ) { 为什么最右边永远为false ？
+
+     ```
+     先给变量起个简单名字：
+     
+     A = (hot == null)
+     B = isTempCustomerIdEmpty
+     
+     
+     你的 if 条件就是：
+     
+     (A && !B) || B
+     
+     分两种情况看：
+     情况一：B = true（临时客户 ID 为空）
+     
+     右边：B = true
+     
+     左边：A && !B = A && false = false
+     
+     所以整体结果：
+     
+     (false) || true  => true
+     
+     
+     此时 if 一定成立，是右边的 B 决定的。
+     
+     情况二：B = false（临时客户 ID 不为空）
+     
+     右边：B = false
+     
+     左边：A && !B = A && true = A
+     
+     所以整体结果：
+     
+     A || false  => A
+     
+     
+     也就是：
+     
+     hot == null
+     
+     
+     此时 if 成不成立，只看 hot 是否为 null，右边那段 B 一定是 false。
+     ```
+
+101. java && 与 & ||与| 区别
+
+     ```
+     在 Java 中，&& 与 &、|| 与 | 都可以用于逻辑运算，但它们有 重要区别：是否 短路(short-circuit) 以及是否可用于 位运算。
+     
+     ✅ 1. &&（逻辑与） vs &（逻辑与/位与）
+     (1) && —— 逻辑与 + 短路
+     
+     左边为 false 时，右边不会执行（短路）
+     
+     只能用于 boolean
+     
+     示例：
+     
+     boolean result = (a > 0) && (b++ > 0);
+     // 如果 a > 0 为 false，b++ 不会执行
+     
+     (2) & —— 逻辑与（无短路）或位与
+     作为逻辑与（boolean）
+     
+     左边无论真假，右边都会执行（无短路）
+     
+     boolean result = (a > 0) & (b++ > 0);
+     // 不管左边结果是什么，b++ 都会执行
+     
+     作为位与（整数）
+     
+     按位进行 AND 运算
+     
+     int x = 6 & 3;  
+     // 6 = 110, 3 = 011 → 010 = 2
+     
+     🔥 2. ||（逻辑或） vs |（逻辑或/位或）
+     (1) || —— 逻辑或 + 短路
+     
+     左边为 true 时，右边不会执行（短路）
+     
+     boolean result = (a > 0) || (b++ > 0);
+     // 如果 a > 0 为 true，b++ 不会执行
+     
+     (2) | —— 逻辑或（无短路）或位或
+     作为逻辑或（boolean）
+     
+     不短路，左右两边都会执行
+     
+     boolean result = (a > 0) | (b++ > 0);
+     // b++ 总会执行
+     
+     作为位或（整数）
+     
+     按位进行 OR 运算
+     
+     int x = 6 | 3;
+     // 6 = 110, 3 = 011 → 111 = 7
+     
+     ```
+
+102. 千万注意多重泛型, 内部不能再 `List<T>` 否则会成为 `List<List<Module>>`
+
+```
+package com.mylike.module.yunxi.dto;
+
+import lombok.Data;
+
+/**
+ * 通用 API 响应结构（外层包装）
+ *
+ * @param <T> listData 中每条元素的类型（业务对象）
+ */
+@Data
+public class YunxiApiResponse<T> {
+	
+	/**
+	 * 业务状态码（0 表示成功）
+	 */
+	private Integer code;
+	
+	/**
+	 * 业务提示信息（可能为 null）
+	 */
+	private String message;
+	
+	/**
+	 * 服务端信息，如 IP、端口、traceId
+	 */
+	private String serverInfo;
+	
+	/**
+	 * 业务数据部分
+	 * 内部为分页结构 PageResult<T>
+	 */
+	private PageResult<T> data;
+	
+	/**
+	 * 分页结果封装结构
+	 */
+	@Data
+	public static class PageResult<T> {
+		
+		/**
+		 * 当前页码
+		 */
+		private Integer currentPage;
+		
+		/**
+		 * 每页条数
+		 */
+		private Integer pageSize;
+		
+		/**
+		 * 总记录数
+		 */
+		private Integer totalRows;
+		
+		/**
+		 * 是否为最后一页
+		 */
+		private Boolean lastPage;
+		
+		/**
+		 * 实际数据列表
+		 */
+		private T listData;
+	}
+}
+
+	@PostMapping(value = "/module/m0013/func/g0001")
+	@Operation(summary = "客户商品浏览轨迹")
+	List<TrackDTO> listCustomerBrowseTrack(@RequestBody YunxiReqDTO reqDTO);
+
+```
+
+
+102. `@Resource` 和 `@Autowired` 区别
+
++ `@Autowired` 按类型优先  默认用这个就行
++ 像 `FeignClient` 之类的用 `name` 来区分的, 必须使用 `@Resource` 来加载
+
+103. 自动 update 时间
+
+```
+1）实体字段加自动填充标记
+@TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE) // 或 FieldFill.UPDATE
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+@Schema(description = "更新时间")
+private Date updateAt;
+
+
+如果你的列名就是 update_at，建议把 value="update_at" 写上，避免命名策略不一致导致不生效。
+
+2）实现 MetaObjectHandler（关键）
+
+Spring Boot 项目里直接 @Component 即可：
+
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+@Component
+public class MyMetaObjectHandler implements MetaObjectHandler {
+
+    @Override
+    public void insertFill(MetaObject metaObject) {
+        // 插入时同时填充（可选）
+        this.strictInsertFill(metaObject, "updateAt", Date.class, new Date());
+        // 如果你还有 createAt：
+        // this.strictInsertFill(metaObject, "createAt", Date.class, new Date());
+    }
+
+    @Override
+    public void updateFill(MetaObject metaObject) {
+        // 更新时自动刷新更新时间
+        this.strictUpdateFill(metaObject, "updateAt", Date.class, new Date());
+    }
+}
+```
+
+104. maven jdk version 不生效
+
+     千万不要强制设置 mvn 的 jdk, 
+
+105. java `### Cause: java.sql.SQLSyntaxErrorException: ORA-00942: table or view does not exist`
+
+    考虑上下文的问题, 使用 `@DS` 试试
+
+106. resource & autowire
+
+```
+@Autowired 先根据类型（byType）查找，如果存在多个（Bean）再根据名称（byName）进行查找；
+@Resource 先根据名称（byName）查找，如果（根据名称）查找不到，再根据类型（byType）进行查找。
+注入的是 Mapper 对象，那么使用 @Autowired 编译器会提示报错信息; 
+所以! 无脑用 Resouce 就行 ! 
+```
+
+107. @RequiredArgsConstructor
+
+```
+ 从 Spring 4.3 开始，如果一个类只有一个构造方法，Spring 会自动进行构造器注入，不需要再写 @Autowired。
+
+```
+
+108. @RequiredArgsConstructor 循环依赖,  怎么处理
+
+    private final @Lazy BService bService;
+
+109. @RequiredArgsConstructor 不支持 @feign 怎么处理
+
+110. @Cacheable  返回 null 或者 raise exception 会缓存吗
+     默认会缓存, 需要设置
+
+```
+    RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+            .disableCachingNullValues();
+```
+
+111. @Cacheable 如何设置有效时间
+
+```
+
+
+Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
+
+    configMap.put("customerProfile",
+            RedisCacheConfiguration.defaultCacheConfig()
+                    .entryTtl(Duration.ofMinutes(30))); // 👈 单独30分钟
+
+    return RedisCacheManager.builder(factory)
+            .withInitialCacheConfigurations(configMap)
+            .build();
+
+
+```
+
+```
+@Cacheable(value = "customerProfile", key = "#customerId + '_' + #tempCustomerId")
+public CustomerProfile getCustomerProfile(String customerId, String tempCustomerId) {
+    ...
+}
+```
+
+112. unable to find valid certification path to requested target
+
+     ````
+     (certificate_unknown) PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification
+       path to requested target executing POST https://
+     
+     
+     =>现平台使用私有根证书  iSecure Center / BIC-GN-ROOT-V1，JVM 默认不信任
+     => 指定 feign  跳过证书验证 => 指定 HttpClientConfiguration
+     
+     ```
+      // 仅海康平台使用信任全部证书策略，避免影响其他 Feign 客户端。                                                                                                                                                            
+         45 +                                SSLContext sslContext = SSLContexts.custom()                                                                                                                                                                              
+         46 +                                        .loadTrustMaterial(TrustAllStrategy.INSTANCE)                                                                                                                                                                     
+         47 +                                        .build();                                                                                                                                                                                                         
+         48 +                                sslSocketFactoryBuilder                                                                                                                                                                                                   
+         49 +                                        .setSslContext(sslContext)                                                                                                                                                                                        
+         50 +                                        .setHostnameVerifier(NoopHostnameVerifier.INSTANCE); 
+     
+     
+     ````
+
+     
+
+113. 
+
