@@ -14,8 +14,16 @@ On **macOS**, the **default model storage path** is:
 ~/.ollama/models
 ```
 
+# config
 
 
+## singbox
+
+```
+      "process_path_regex": [
+        "^/Applications/Ollama\\.app/Contents/Resources/ollama$"
+      ]
+```
 
 
 # mlx
