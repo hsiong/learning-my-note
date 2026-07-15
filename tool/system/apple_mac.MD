@@ -395,3 +395,53 @@ ping0.cc
 ## Apple Store 土耳其礼品卡直购指南
 https://zhuanlan.zhihu.com/p/602512116
 https://www.v2ex.com/t/1206961?p=1
+
+
+
+
+
+# 常见问题
+
+## 合盖休眠
+
+A MacBook normally goes to sleep immediately when the lid is closed.
+
+The exception is clamshell mode: if the MacBook is connected to power, an external display, and an external keyboard or mouse, it can continue running with the lid closed.
+
+## 电源键休眠
+
+```
+Sleep On Power Button 1
+```
+
+This indicates that macOS is allowed to enter sleep mode when the power button is pressed:
+
+- `1`: Enabled
+- `0`: Disabled
+
+However, on MacBooks with Touch ID, briefly pressing the power button may sometimes only lock the screen. The exact behavior also depends on the macOS version and how the button is pressed. Pressing and holding the button displays the shutdown options or forces the Mac to shut down.
+
+##  电池模式的自动睡眠被设成了仅 1 分钟 这个怎么设置 ?   
+
+电池模式的自动睡眠被设成了仅 1 分钟 这个怎么设置 ?               
+
+>  输入 Mac 登录密码后生效。检查设置：
+>
+> `  pmset -g custom`
+>
+>   在 Battery Power 下应看到：
+>
+>   sleep 15                   
+
+> 注意: displaysleep  <= sleep, 否则 sleep 无效                                                                                                                                                                                                                                        
+
+• 用终端设置最直接。将电池模式自动睡眠改为 15 分钟：
+
+`  sudo pmset -b sleep 20`
+
+  参数说明：
+
+  - -b：只修改电池模式
+  - sleep 15：闲置 15 分钟后系统睡眠
+  - 如果希望电池模式永不自动睡眠，可设为 sleep 0，但会明显增加耗电
+
