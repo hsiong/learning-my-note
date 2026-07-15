@@ -75,3 +75,44 @@ Codex MCP 官方暴露的是这两个核心工具：
 7. 最后输出完整 transcript
 
 这已经是你要的“Antigravity 里发起、Codex 参与多轮对话”的最直接做法。
+
+
+
+Antigravity should call the MCP tool with arguments equivalent to:
+
+```
+{
+  "mcpServers": {
+    "codex-sol-high": {
+      "command": "codex",
+      "args": [
+        "-m",
+        "gpt-5.6-sol",
+        "-c",
+        "model_reasoning_effort=high",
+        "mcp-server"
+      ]
+    },
+    "codex-55-xhigh": {
+      "command": "codex",
+      "args": [
+        "-m",
+        "gpt-5.5",
+        "-c",
+        "model_reasoning_effort=xhigh",
+        "mcp-server"
+      ]
+    },
+    "codex-luna-medium": {
+      "command": "codex",
+      "args": [
+        "-m",
+        "gpt-5.6-luna",
+        "-c",
+        "model_reasoning_effort=medium",
+        "mcp-server"
+      ]
+    }
+  }
+}
+```
