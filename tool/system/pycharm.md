@@ -150,6 +150,17 @@ unclick Keep when reformatting -> Line breaks
 
  Inlay Hints -> unclick Code Author
 
+### change hint color
++ python type 
+
+```
+Settings
+→ Editor
+→ Color Scheme
+→ Language Defaults
+→ Inline hints → Default
+```
+
 ### 生成返回值对象快捷键(实现类似java var的效果)
 
 在编写一行JAVA语句时，有返回值的方法已经决定了返回对象的类型和泛型类型，我们只需要给这个对象起个名字就行。
@@ -389,3 +400,15 @@ Setting -> Integrated Tools -> `Docstring format` -> reStructuredText
 python 项目一定要注意 source-root 要是根目录
 
 `Project Structure` -> `Content Root`
+
+
+## close recent project's branch name
+
+```
+PyCharm → Settings… / Preferences…
+→ Advanced Settings
+→ Version Control
+→ Show branch names in the list of recent projects
+→ Never
+
+```
