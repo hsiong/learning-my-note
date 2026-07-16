@@ -329,6 +329,9 @@ https://zhpengfei.com/how-to-register-a-us-apple-id-with-a-domestic-phone-number
 + 更换账号后, 是没法 uwb 的
 
 > 直接: 连点三下, 重新恢复出厂, 重新配置, 注意: 国行必须国行账号才有uwb
+> connect with icloud   
+> 连着wifi
+> find my iphone 全部打开
 
 
 # upgrade to expected version
