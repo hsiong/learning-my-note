@@ -181,7 +181,7 @@ Both tools return the same dictionary structure.
 
 ### test in codex
 
-`codex mcp get mcp-claude`
+#### codex mcp get mcp-claude
 
 ```
 codex 
@@ -193,7 +193,8 @@ you would see
     • Tools: claude_reply, claude_start
 ```
 
-+ Complete multi-turn test with Fable 5
+#### Complete multi-turn test with Fable 5
+
 ```
 Call claude_start using:
 
@@ -203,7 +204,7 @@ Call claude_start using:
 - permission_mode: plan
 - max_turns: 1
 - prompt:
-  Remember test_number=7391. What model are you—Sonnet, Fable, or Opus? What is your effort setting?
+  Remember test_number=7391. What model are you—Sonnet, Fable, or Opus?
 
 after print, Call claude_reply using:
 
@@ -218,33 +219,7 @@ after print, Call claude_reply using:
 print each call returned session_id and return result
 ```
 
-#### `max_turns: 1` partial result recovery
-
-In plan mode, Claude can emit a complete text response and then call
-`ExitPlanMode`. The tool call consumes the only available turn, so Claude Code
-ends with `error_max_turns` and leaves the final result field empty.
-
-The MCP wrapper consumes Claude Code's `stream-json` output. When the final
-result is empty but an earlier assistant event already contains text, the
-wrapper returns that text and sets:
-
-```json
-{
-  "result": "The text Claude emitted before the tool call",
-  "partial_result_recovered": true,
-  "is_error": true,
-  "terminal_reason": "max_turns",
-  "subtype": "error_max_turns",
-  "exit_code": 1
-}
-```
-
-This preserves the caller's `max_turns: 1` limit and does not convert the CLI
-failure into a false success. Callers can use the recovered text while still
-checking `partial_result_recovered`, `is_error`, and `terminal_reason`. The same
-`session_id` remains resumable with `claude_reply`.
-
-#### Verify model and effort from Claude Code telemetry
+#### Verify model and effort
 
 Do not use Claude's natural-language answer as evidence of the active effort
 level. A reply such as `medium` can be incorrect even when the CLI sent
@@ -296,6 +271,34 @@ do not copy the complete telemetry event because it contains unrelated local
 account and environment metadata. If no matching file exists under
 `~/.claude/telemetry`, Claude Code did not retain a failed telemetry batch for
 that session, so this local inspection method is unavailable for that run.
+
+### other issues
+
+#### `max_turns: 1` partial result recovery
+
+In plan mode, Claude can emit a complete text response and then call
+`ExitPlanMode`. The tool call consumes the only available turn, so Claude Code
+ends with `error_max_turns` and leaves the final result field empty.
+
+The MCP wrapper consumes Claude Code's `stream-json` output. When the final
+result is empty but an earlier assistant event already contains text, the
+wrapper returns that text and sets:
+
+```json
+{
+  "result": "The text Claude emitted before the tool call",
+  "partial_result_recovered": true,
+  "is_error": true,
+  "terminal_reason": "max_turns",
+  "subtype": "error_max_turns",
+  "exit_code": 1
+}
+```
+
+This preserves the caller's `max_turns: 1` limit and does not convert the CLI
+failure into a false success. Callers can use the recovered text while still
+checking `partial_result_recovered`, `is_error`, and `terminal_reason`. The same
+`session_id` remains resumable with `claude_reply`.
 
 
 ## Cli
@@ -364,7 +367,6 @@ claude -p \
 > ```
 >
 > # 
-
 
 
 
