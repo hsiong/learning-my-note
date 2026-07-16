@@ -2,6 +2,7 @@
 
 + support specifying a model
 + support multi-turn conversations via `ThreadId`
++ support optional incremental output polling
 
 ## custom MCP
 
@@ -179,6 +180,91 @@ Both tools return the same dictionary structure.
 }
 ```
 
+### claude_stream_start
+
+Starts a new Claude conversation in the background and immediately returns a
+`task_id`. It accepts the same inputs and defaults as `claude_start`.
+
+```
+{
+  "task_id": "73f3ea66-bc66-4fa0-90c7-992ef57fd608",
+  "session_id": "c13715fe-e387-4ba3-958f-d11db8829047",
+  "status": "running",
+  "cwd": "/home/user/project"
+}
+```
+
+`task_id` identifies this background invocation. `session_id` still identifies
+the Claude conversation and can be passed to `claude_reply` after the stream
+task finishes.
+
+### claude_stream_poll
+
+Returns only text that has not been returned by an earlier poll for the same
+task.
+
+Inputs
+
+| Parameter | Type  | Required | Meaning                                    |
+| --------- | ----- | -------- | ------------------------------------------ |
+| `task_id` | `str` | Yes      | Task ID returned by `claude_stream_start`  |
+
+```
+{
+  "task_id": "73f3ea66-bc66-4fa0-90c7-992ef57fd608",
+  "session_id": "c13715fe-e387-4ba3-958f-d11db8829047",
+  "status": "running",
+  "text": "New text emitted since the previous poll"
+}
+```
+
+Each poll consumes its returned `text`. Calling it again before Claude emits
+more text returns an empty string. `status` is `running`, `completed`, or
+`failed`. A failed task also returns an `error` field.
+
+### claude_stream_result
+
+Returns the final compact result for a background invocation. If Claude is
+still running, this call waits until it finishes, so polling is optional.
+
+Inputs
+
+| Parameter | Type  | Required | Meaning                                    |
+| --------- | ----- | -------- | ------------------------------------------ |
+| `task_id` | `str` | Yes      | Task ID returned by `claude_stream_start`  |
+
+The response contains `task_id`, `status`, and the same final result fields as
+`claude_start`:
+
+```
+{
+  "task_id": "73f3ea66-bc66-4fa0-90c7-992ef57fd608",
+  "status": "completed",
+  "session_id": "c13715fe-e387-4ba3-958f-d11db8829047",
+  "result": "Claude's final response",
+  "partial_result_recovered": false,
+  "is_error": false,
+  "terminal_reason": "completed",
+  "subtype": "success",
+  "usage": {},
+  "model_usage": {},
+  "total_cost_usd": 0.0123,
+  "cwd": "/home/user/project"
+}
+```
+
+The final result is removed from the MCP server after it is returned, so call
+`claude_stream_result` once per `task_id`. Stream tasks are stored in memory;
+restarting the MCP server invalidates unfinished and uncollected task IDs.
+
+Typical flow:
+
+```
+claude_stream_start -> claude_stream_poll (zero or more times)
+                    -> claude_stream_result
+                    -> claude_reply (optional, using session_id)
+```
+
 ### test in codex
 
 #### codex mcp get mcp-claude
@@ -190,7 +276,27 @@ codex
 you would see 
   • mcp-claude
     • Auth: Unsupported
-    • Tools: claude_reply, claude_start
+    • Tools: claude_reply, claude_start, claude_stream_poll,
+             claude_stream_result, claude_stream_start
+```
+
+#### Complete streaming test
+
+```
+Call claude_stream_start using:
+
+- cwd: the current absolute working directory
+- model: claude-sonnet-5
+- effort: high
+- permission_mode: plan
+- max_turns: 1
+- prompt:
+  Explain the purpose of the current project in three short paragraphs.
+
+Save task_id and session_id from the response.
+Call claude_stream_poll with task_id until status is completed or failed.
+Print the text returned by each poll without repeating earlier text.
+Call claude_stream_result once with task_id and print its final result.
 ```
 
 #### Complete multi-turn test with Fable 5
@@ -367,7 +473,6 @@ claude -p \
 > ```
 >
 > # 
-
 
 
 
