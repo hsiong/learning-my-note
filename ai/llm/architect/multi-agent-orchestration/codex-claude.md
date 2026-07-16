@@ -472,18 +472,129 @@ claude -p \
 > MY_VARIABLE = "value"
 > ```
 >
-> # 
 
 
 
+## kill claude mcp
+
+```
+   操作                    MCP 服务    Claude 长任务
+  ──────────────────────  ──────────  ────────────────────────────────────────
+   正常退出 Codex          通常退出    流式任务通常被清理，但同步任务不够可靠
+  ──────────────────────  ──────────  ────────────────────────────────────────
+   kill MCP_PID            退出        不保证同步退出
+  ──────────────────────  ──────────  ────────────────────────────────────────
+   杀 MCP 进程组           退出        一并退出
+  ──────────────────────  ──────────  ────────────────────────────────────────
+   到达 timeout_seconds    继续运行    被代码 kill
+```
+
+  - mcp-claude.py 是 MCP 服务进程，每个 Codex 会话通常启动一个，即使闲置也一直存在。
+  -   关闭 Codex 终端后的行为：
+        
+      - 正常退出 Codex：STDIO 关闭，MCP 服务会退出；流任务被取消时，代码会主动 kill Claude 子进程，见 mcp-claude.py:430 和 mcp-claude.py:441。
+      - 强制杀掉、系统崩溃等异常退出：不能绝对保证子进程立即消失，需要用上面的命令复查。
+      - 当前流任务只保存在 MCP 进程内存中，见 mcp-claude.py:44。MCP 一旦退出，task_id 和未领取结果都会丢失，文档也明确说明了这一点：/Users/vjf/Projects/github/
+        learning-my-note/ai/llm/architect/multi-agent-orchestration/codex-claude.md:258。
 
 
 
+进入目录：
+
+```bash
+
+cd ~/Projects/github/learning-my-note/ai/llm/architect/multi-agent-orchestration/mcp-claude
+
+```
 
 
 
+查看 MCP 数量：
+
+```bash
+
+pgrep -f '[m]cp-claude\.py' | wc -l
+
+```
 
 
 
+查看具体进程和运行时间：
+
+```bash
+
+ps -axo pid,ppid,etime,command | rg '[m]cp-claude\.py'
+
+```
 
 
+
+查看当前真正执行中的 Claude 长任务
+
+```bash
+
+ps -axo pid,ppid,etime,command | rg '[c]laude -p'
+
+```
+
+
+
+杀掉 MCP：
+
+```bash
+
+pkill -TERM -f '[m]cp-claude\.py'
+
+```
+
+
+
+如果普通终止无效，再强制杀掉：
+
+```bash
+
+pkill -KILL -f '[m]cp-claude\.py'
+
+```
+
+
+
+但是，只杀 MCP 进程不一定能清理正在运行的 Claude 子进程。
+
+更稳妥的方式是杀掉整个 MCP 进程组。当前环境中，MCP 的 PGID 等于自己的 PID，可以连同 Claude 子进程一起终止：
+
+```bash
+
+for pid in $(pgrep -f '[m]cp-claude\.py'); do
+
+  pgid="$(ps -o pgid= -p "$pid" | tr -d ' ')"
+
+
+
+  if [ "$pgid" = "$pid" ]; then
+
+    kill -TERM -- "-$pgid"
+
+  else
+
+    echo "跳过 PID=$pid：PGID=$pgid，不是独立进程组"
+
+  fi
+
+done
+
+```
+
+这会终止：
+
+```text
+
+mcp-claude.py
+
+└── claude -p
+
+    └── Claude 启动的其他子进程
+
+```
+
+不会杀掉手动启动且不属于这些进程组的 Claude。
