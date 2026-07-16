@@ -51,4 +51,6 @@ HTTPS_PROXY_TOML="$("$VENV_PYTHON" -c 'import json, sys; print(json.dumps(sys.ar
   echo
   echo '[mcp_servers.mcp-claude.env]'
   echo "CLAUDE_BIN = $CLAUDE_BIN_TOML"
+  echo "https_proxy = $HTTPS_PROXY_TOML"
+  echo "HTTPS_PROXY = $HTTPS_PROXY_TOML"
 } >> "$CODEX_CONFIG"
