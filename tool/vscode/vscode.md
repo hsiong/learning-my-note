@@ -29,3 +29,24 @@ https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#sco
 搜索 `workbench.editorAssociations`
 
 `"*.md"`改为`"*.md": "default"`
+
+# shortcut
+
+## go to file
+
+Open the keybindings file with `vim`:
+
+```
+vim ~/.config/Code/User/keybindings.json
+```
+
+macOS:
+
+```
+vim "$HOME/Library/Application Support/Code/User/keybindings.json"
+```
+
+    {
+    "key": "shift shift",
+    "command": "workbench.action.quickOpen"
+    },
