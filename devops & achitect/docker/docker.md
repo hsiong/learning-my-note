@@ -1029,3 +1029,7 @@ sudo systemctl restart docker
 docker run xxx --gpus all  xxx
 docker run xxx --gpus '"device=0,2"' xxx
 ```
+
+## error parsing config file ~/.docker/config.json invalid character '%'
+
+printf '{}\n' > ~/.docker/config.json
