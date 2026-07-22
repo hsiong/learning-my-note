@@ -18,12 +18,12 @@ General → Login Items & Extensions 和 Network → Filters
 
 # Antigravity cli
 
-https://www.antigravity.google/download#antigravity-cli
+curl -fsSL https://antigravity.google/cli/install.sh | bash
 
-echo 'export PATH="/Users/xxx/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
+echo 'export PATH="~/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
 
 > mac
-ln -sf /Users/xxx/.local/bin/agy /Users/xxx/.local/bin/antigravity
+ln -sf ~/.local/bin/agy ~/.local/bin/antigravity
 mac - antigravity - tun
 
 > linux
