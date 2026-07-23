@@ -444,7 +444,7 @@ However, on MacBooks with Touch ID, briefly pressing the power button may someti
 
   参数说明：
 
-  - -b：只修改电池模式
+  - -b：只修改电池模式; -c: charger / AC power; -a: all power modes
   - sleep 15：闲置 15 分钟后系统睡眠
   - 如果希望电池模式永不自动睡眠，可设为 sleep 0，但会明显增加耗电
 
