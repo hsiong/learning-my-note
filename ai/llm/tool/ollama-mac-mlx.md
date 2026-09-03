@@ -16,6 +16,14 @@ On **macOS**, the **default model storage path** is:
 
 # config
 
+## proxy
+```
+  launchctl setenv HTTPS_PROXY http://127.0.0.1:7890                                                                                                                                                                
+  launchctl setenv HTTP_PROXY  http://127.0.0.1:7890                                                                                                                                                                
+  launchctl setenv NO_PROXY    127.0.0.1,localhost                                                                                                                                                                  
+  launchctl setenv OLLAMA_MAX_TRANSFER_STREAMS 16
+```
+
 
 ## singbox
 

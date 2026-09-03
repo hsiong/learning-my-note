@@ -590,9 +590,14 @@ sing-box version
 ## 2.2 Create client config
 
 ```
-mkdir -p ~/.single-box
-vim ~/.single-box/client.json
+mkdir -p ~/.sing-box/logs
+touch ~/.sing-box/logs/sing-box.log
+vim ~/.sing-box/client.json
 ```
+
+> Attention: 
+>
+> linux path: start with  `/home/xxx`, Not `/Users/xxx`
 
 ## Linux: user system service Autostart
 
@@ -600,13 +605,10 @@ Use this for desktop Linux.
 
 ### 1. Check config
 
-
-
 ```
 command -v sing-box
 vim ~/.sing-box/client.json
 sing-box check -c ~/.sing-box/client.json
-
 ```
 
 ### 2. Create service
@@ -614,7 +616,6 @@ sing-box check -c ~/.sing-box/client.json
 ```
 mkdir -p ~/.config/systemd/user
 sudo vim /etc/systemd/system/sing-box-client.service
-vim ~/.config/systemd/user/sing-box-client.service
 ```
 
 Paste:
@@ -640,7 +641,7 @@ WantedBy=multi-user.target
 If your path is not `/usr/bin/sing-box`, replace it with:
 
 ```
-command -v sing-box
+command -v sing-box # get path
 ```
 
 For example:
@@ -648,6 +649,33 @@ For example:
 ```
 ExecStart=/usr/local/bin/sing-box run -c %h/sing-box/client.json
 ```
+
+> user: 
+>
+> ```
+> # vim ~/.config/systemd/user/sing-box-client.service # user
+> ```
+>
+> 
+>
+> Restart:
+>
+> ```
+> systemctl --user restart sing-box-client
+> ```
+>
+> Stop:
+>
+> ```
+> systemctl --user stop sing-box-client
+> ```
+>
+> Disable:
+>
+> ```
+> systemctl --user disable sing-box-client
+> ```
+>
 
 ### 3. Start and auto-start
 
@@ -663,43 +691,22 @@ sudo systemctl status sing-box-client --no-pager
 journalctl --user -u sing-box-client -o cat -f
 ```
 
-Restart:
-
-```
-systemctl --user restart sing-box-client
-```
-
-Stop:
-
-```
-systemctl --user stop sing-box-client
-```
-
-Disable:
-
-```
-systemctl --user disable sing-box-client
-```
-
 ### restart - sh
 
 ```
 #!/usr/bin/env bash
-
 set -e
-
 if [[ "${EUID}" -ne 0 ]]; then
   exec sudo "$0" "$@"
 fi
 
 LABEL="com.user.sing-box"
-LOG_FILE="$HOME/.sing-box/logs/sing-box.log"
+LOG_FILE="/home/hsiong/.sing-box/logs/sing-box.log"
 
 systemctl stop sing-box-client
 systemctl daemon-reload
 systemctl enable --now sing-box-client
 systemctl restart sing-box-client
-
 tail -f "$LOG_FILE"
 ```
 
