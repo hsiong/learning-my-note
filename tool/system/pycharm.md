@@ -1,8 +1,6 @@
 
 
-## Pycharm
-
-# check code 检查代码错误
+### check code 检查代码错误
 + code -> inspect code `alt + 8` 
 
 ### 快捷键
@@ -101,7 +99,7 @@ Editor -> File Types -> Python -> add `*.py`
 + 中文乱码, 修改 Color Scheme Font - Font -> Microsoft Yahei UI
 + 提示过慢: click detect proxy
 + popup->5ms
-+ disalbe `Enable chat inlay hints`
++ disable `Enable chat inlay hints`
 + disalbe `show selection toolbar`
 
  > Match case > All letters
@@ -251,19 +249,6 @@ select `Help -> Edit Custom VM Options` add below:
 ## color
 + 其他文件颜色不对
   change `File Color` - non-project-Files
-  
-+ main menu
-  
-  打开 **Settings / Preferences**
-  
-  - 快捷键：`Ctrl + Alt + S`
-  
-  在左侧导航栏中进入
-   **Appearance & Behavior → Appearance**
-  
-  找到右侧的区域：
-   ✅ **Main menu:**  **“Show main menu in a separate toolbar”**
-  
 + unclick `Use project color in main toolbar`
 
 
