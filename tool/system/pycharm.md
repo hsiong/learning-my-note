@@ -1,4 +1,10 @@
+# Init
 
+## First
+
+do as `idea.md` -> init
+
+# Other
 
 ### check code 检查代码错误
 + code -> inspect code `alt + 8` 
