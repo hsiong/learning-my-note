@@ -1452,8 +1452,7 @@ If you want Linux to check hourly too, create a timer, but for sing-box logs, da
 # Other
 
 ## Change password
-1. 查找服务端配置文件位置（通常在 /etc/sing-box/config.json 或 /usr/local/etc/sing-        
-    box/config.json）：                                                                        
+1. 查找服务端配置文件位置（通常在 /etc/sing-box/config.json 或 /usr/local/etc/sing-box/config.json）：                                                                        
     
 
 查找正在运行的配置文件路径                                                             
@@ -1466,7 +1465,14 @@ ps aux | grep sing-box
 
     nano /etc/sing-box/config.json                                                           
 
-  3. 找到 inbounds 下 type: "anytls" 的段落，将其中的旧密码替换为新密码：                    
+  3. 找到 inbounds 下 type: "anytls" 的段落，将其中的旧密码替换为新密码：        
+
+```            
+# 生成密码
+openssl rand -base64 24
+```
+
+
 
     {                                                                                        
       "type": "anytls",                                                                      
