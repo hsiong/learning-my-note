@@ -1,4 +1,4 @@
-# Intellij
+# Init
 
 ## 关闭二级菜单
 
@@ -29,6 +29,19 @@ Old version:
 + old version:
 
   unclick `Commit` -> `Use non-modal commit interface`
+
+## unclick `Reopen projects on startup`
+
+1. 打开设置界面
+   - Windows/Linux：快捷键 `Ctrl+Alt+S`，或顶部菜单 `File → Settings`
+   - macOS：快捷键 `Cmd+,`，或顶部菜单 `PyCharm → Settings`
+2. 按路径进入：**Appearance & Behavior（外观与行为） → System Settings（系统设置）**
+3. 在「Project（项目）」分组中，**取消勾选 Reopen projects on startup（启动时重新打开项目）**CSDN博...
+4. 点击 `Apply` → `OK` 保存，重启 PyCharm 即可生效。
+
+
+
+# Other
 
 ## → Lambda parameter types changeColor
 
