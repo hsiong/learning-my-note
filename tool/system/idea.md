@@ -1,26 +1,34 @@
-## idea 2021.2及以后设置全局搜索结果不限制为100 原创
-https://blog.51cto.com/u_15344989/4762223
-
-advanced setting -> Maximum number of results to show in Find in Path/Show Usages preview: 100 -> 10000
-
-## Code Completion
-https://www.cnblogs.com/javastack/p/11230120.html
-
-# Jrebel
-
-## Jrebel 4.2 
-https://blog.csdn.net/totoropcbeta/article/details/128225587
-
-## JRebel:Cannot reactivate, offline seat in use.
-https://blog.csdn.net/u013066244/article/details/102895342
-```
-rm -rf ~/.jrebel
-```
-
-## Jrebel Startup Guide
-update to Jrebel 4.2
-
 # Intellij
+
+## 关闭二级菜单
+
+2026.2 version: 
+
+`Appearence -> UI Opition -> Main menu -> Above Main Toolbar`
+
+Old version: 
+
+> 打开 **Settings / Preferences**
+>
+> - 快捷键：`Ctrl + Alt + S`
+>
+> 在左侧导航栏中进入
+>  **Appearance & Behavior → Appearance**
+>
+> 找到右侧的区域：
+>  ✅ **Main menu:**  **“Show main menu in a separate toolbar”**
+
+`New UI -> Click Show main menu in a separate toolbar` 
+
+## idea-显示git栏
+
++ new version:
+
+  旧的模态弹窗并没有彻底删除，而是变成了可选插件，可在高级设置中手动开启： 打开设置 → **Advanced Settings（高级设置） → Version Control（版本控制）** 勾选 **Use modal commit interface for Git and Mercurial** 启用后即可恢复旧版的弹窗式提交界面。
+
++ old version:
+
+  unclick `Commit` -> `Use non-modal commit interface`
 
 ## → Lambda parameter types changeColor
 
@@ -91,12 +99,15 @@ Editor -> Color Schme -> General/Language Default/Java/Java Addition
 使用"Optimize Imports"：如果你的项目中有未使用的导入语句，IDEA的"Optimize Imports"功能可以帮助你自动移除未使用的导入。你可以通过按下Ctrl + Alt + O（Windows/Linux）或Cmd + Option + O（Mac）来调用该功能。
 
 ## IDEA 关闭/开启引用提示Usages
+
 https://blog.csdn.net/Logicr/article/details/124957505
 
 ## IDEA 优化 .var 提示
+
 > Postfix Completion -> var, 并且禁用 val varl 等
 
 ## .var 禁用 final
+
 .var 之后, 取消勾选 declare final, 就不会生成 final 关键字了
 ![Screenshot 2023-12-11 at 15 27 25](https://github.com/hsiong/learning-my-note/assets/37357447/26912836-5c4f-4152-9d2a-9f644394b0f2)
 
@@ -110,56 +121,48 @@ https://blog.csdn.net/Logicr/article/details/124957505
    - **Template text**：这是模板的主体。你需要使用 `$EXPR$` 代表原始表达式，`$END$` 指定光标最终的停留位置。如果你的模板是用来打印变量值，模板文本可能类似于 `System.out.println($EXPR$);$END$`。
 
 ## alt+enter
+
 `keymap`
+
 + `Go to Referenced Result`
 + `Show Context Actions`
 + `Show Quick-Fixes`
 
 ## 关闭 coverage
+
 搜索 coverage -> close
 
 ## IDEA中Ctrl+Shift+F快捷键被占用 - windows
+
 https://www.jianshu.com/p/bdd0c27810ed
 
 windows 自带输入法, 默认开启了简繁切换热键
 
 ## 新版本IDEA，在XML文件中没有SQL关键字提示 
+
 https://youtrack.jetbrains.com/issue/IDEA-320526
 禁用了相关插件的问题, 初步判定为禁用了 spring web 和 persistence framework 插件导致的
 
 ## IDEA sql 不提示表
+
 检查数据库端口和地址
 
 ## FastRequest 关闭升级提示
+
 在插件内, 关闭升级提示
 
 ## Android studio 字体很奇怪
+
 Editor -> Color Scheme -> Color Scheme Font
 Font: JetBrains Mono
 Size: 13.0
 Line height: 1.6
 
-## 关闭二级菜单
-New UI -> Click Show main menu in a separate toolbar
-
-## idea - 破
-https://jetbra.in/s
-
--javaagent:/Path/ja-netfilter.jar=jetbrains
---add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
---add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
-
-## idea-显示git栏
-unclick `Commit` -> `Use non-modal commit interface`
-
 ## 隐藏 `change signature`
+
 hide all `Code Vision` Inlay Hint
 
-## 选择 jdk 版本
-project -> sdk
 
-+ Restful Fast Request - API Buddy 2023.1.7.1
-https://plugins.jetbrains.com/plugin/16988-restful-fast-request--api-buddy/versions/stable/358589
 
 ## shortcut
 
@@ -167,10 +170,13 @@ https://plugins.jetbrains.com/plugin/16988-restful-fast-request--api-buddy/versi
 + File -> ... -> New -> Create New Directory or Pachage `alt+N`
 
 ## 个性化
+
 ### Code Completion Color
+
 进：Editor → Color Scheme → General → Popups and Hints → Completion
 
 ### Test-package-color
+
 用 File Colors（推荐）
 
 打开 Settings (Preferences) → Appearance & Behavior → File Colors
@@ -241,12 +247,40 @@ Settings
 + Tag
 + todo: Color Scheme -> General -> Code -> TODO defaults
 
-## idea
+## idea 2021.2及以后设置全局搜索结果不限制为100 原创
 
-idea 2023.2.6  main menu -> file -> file open actions -> open projec actions -> new -> file
+https://blog.51cto.com/u_15344989/4762223
+
+advanced setting -> Maximum number of results to show in Find in Path/Show Usages preview: 100 -> 10000
+
+## Code Completion
+https://www.cnblogs.com/javastack/p/11230120.html
+
+## 插件
+
+project -> sdk
+
++ Restful Fast Request - API Buddy 2023.1.7.1
+  https://plugins.jetbrains.com/plugin/16988-restful-fast-request--api-buddy/versions/stable/358589
+
+# Jrebel
+
+## Jrebel 4.2 
+https://blog.csdn.net/totoropcbeta/article/details/128225587
+
+## JRebel:Cannot reactivate, offline seat in use.
+https://blog.csdn.net/u013066244/article/details/102895342
+```
+rm -rf ~/.jrebel
+```
+
+## Jrebel Startup Guide
+update to Jrebel 4.2
 
 
-# auto build 自动编译 不生效
+
+
+## auto build 自动编译 不生效
 + `Build Tools` => `Sync project after changes in the build scripts` => `Any changes`
 + `action on save` => `build project`
 + `maven` => automatically download => source
