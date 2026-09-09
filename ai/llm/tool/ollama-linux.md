@@ -6,78 +6,27 @@
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-## 配置国内源
-
-1. 支持的“国内镜像源”示例
-
-https://blog.csdn.net/Water_Jack/article/details/147600755 
-
-列的是几家可用的镜像 / 中转源：
-
-- 阿里云：`https://registry.ollama.ai`（看起来是走了国内加速线路的同域名）
-- DeepSeek 官方镜像：`https://ollama.deepseek.com`
-- 浙江大学镜像站：`https://ollama.zju.edu.cn`
-- 魔搭社区：`https://ollama.modelscope.cn`
-
-------
-
-2. Linux / macOS 配置 `config.json`
+查看日志
 
 ```
-mkdir -p ~/.ollama
-
-cat << 'EOF' > ~/.ollama/config.json
-{
-  "registry": {
-    "mirrors": {
-      "registry.ollama.ai": "https://ollama.modelscope.cn"
-    }
-  }
-}
-EOF
-```
-
-如果你想用别的镜像，替换成例如：
-
-```
-{
-  "registry": {
-    "mirrors": {
-      "registry.ollama.ai": "https://ollama.deepseek.com"
-    }
-  }
-}
-```
-
-然后重启 Ollama 服务让配置生效：
-
-```
-sudo systemctl restart ollama
-```
-
-## 配置权重文件路径
-
-> 注意: 新版本不要再改了, 权限会出现问题
-
-```
-sudo systemctl status ollama
-# 地址对应上面写的
-sudo vim /etc/systemd/system/ollama.service
+journalctl -e -u ollama
 ```
 
 
 
-```
-# 默认目录为
-/data/ollama
+## 配置国内源 & 权重路径
 
-# 查看方式
-getent passwd ollama
-#那么默认模型目录通常就是：
-<ollama用户的home>/.ollama/models
+```
+sudo pkill -9 ollama
+SYSTEMD_EDITOR=vim sudo systemctl edit ollama
 ```
 
+```
+[Service]
+Environment="OLLAMA_MODELS=/usr/model"
+```
 
+国内源都失效了, 暂不考虑
 
 ```
 sudo systemctl daemon-reload
@@ -88,7 +37,7 @@ systemctl show ollama | grep OLLAMA_MODELS
 
 ## 基本操作
 
-### 启动
+### 前台启动
 
 ```
 ollama serve
