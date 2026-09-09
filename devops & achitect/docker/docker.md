@@ -556,9 +556,9 @@ docker run -d \
 
 
 
-# x
+# 部署
 
-## x.1 Docker 部署 redis
+## Docker 部署 redis
 docker run -d --name redis -m 200m -p 6379:6379 redis
 
 ## docker - redis 
@@ -569,15 +569,16 @@ docker run -d \
 --restart=always \
 redis --requirepass "mypassword"
 ###  redis change pwd
+
 docker exec -it redis /bin/bash
 redis-cli -h 127.0.0.1 -p 6379 -a "mypassword"
 config set requirepass "new_pwd"
 
 
-## x.2 Docker 部署 postgres
+## Docker 部署 postgres
 docker run -d --name postgres -p 5432:5432 -m 1G -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=123456 kartoza/postgis
 
-## x.x Docker 部署 nginx
+## Docker 部署 nginx
 
 > Docker 部署 nginx 需要指定以下内容:
 > 1. 指定名字, 方便日后的管理
