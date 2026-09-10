@@ -1453,7 +1453,7 @@ If you want Linux to check hourly too, create a timer, but for sing-box logs, da
 
 ## Change password
 1. 查找服务端配置文件位置（通常在 /etc/sing-box/config.json 或 /usr/local/etc/sing-box/config.json）：                                                                        
-    
+   
 
 查找正在运行的配置文件路径                                                             
 
@@ -1526,12 +1526,13 @@ openssl rand -base64 24
   + server 
 
     ```
+    apt install iperf3 -y
     ufw allow 5201/tcp
     iperf3 -s -p 5201
     ```
-
+  
   + client
-
+  
     ```
     
       iperf3 -c 65.49.211.27 -p 5201 -R -t 20
@@ -1539,14 +1540,14 @@ openssl rand -base64 24
       iperf3 -c 65.49.211.27 -p 5201 -R -P 4 -t 20
     
     ```
-
+  
   + remove 
-
+  
     ```
     apt remove iperf3 
     ufw delete allow 5201/tcp
     ```
-
+  
     
 
 # Antigravity
