@@ -1,5 +1,12 @@
 # Init
 
+## close minimap
+
+`setting->minimap`
+
+## close welcome
+unclick `show the wlcom scrren in non-model mode`
+
 ## 关闭二级菜单
 
 2026.2 version: 
