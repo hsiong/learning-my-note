@@ -68,9 +68,19 @@ ALTER USER hsiong WITH PASSWORD '你的随机密码';
 
 CREATE USER hsiong WITH SUPERUSER PASSWORD '你的密码';
 
-> attention: can't delete super user
+```
+### attention: can't delete super user
+```
 
+## 2.2+ 
 
+操作                                             作用                                                                                                          
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+nvidia-ctk runtime configure --runtime=docker    在 Docker 配置中注册 NVIDIA 容器运行环境，让容器能够访问宿主机 GPU 和驱动
+───────────────────────────────────────────────  ───────────────────────────────────────────────────────────────────────────
+systemctl restart docker                         重启 Docker，使配置生效
+───────────────────────────────────────────────  ───────────────────────────────────────────────────────────────────────────
+docker run --gpus all ...                        启动具体容器时，为它开放 GPU 访问权限
 
 
 
