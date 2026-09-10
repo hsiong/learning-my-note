@@ -74,11 +74,22 @@ CREATE USER hsiong WITH SUPERUSER PASSWORD '你的密码';
 
 ## 2.2+ 
 
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+sudo apt update
+sudo apt install -y nvidia-container-toolkit
+
 操作                                             作用                                                                                                          
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-nvidia-ctk runtime configure --runtime=docker    在 Docker 配置中注册 NVIDIA 容器运行环境，让容器能够访问宿主机 GPU 和驱动
+sudo nvidia-ctk runtime configure --runtime=docker    在 Docker 配置中注册 NVIDIA 容器运行环境，让容器能够访问宿主机 GPU 和驱动
 ───────────────────────────────────────────────  ───────────────────────────────────────────────────────────────────────────
-systemctl restart docker                         重启 Docker，使配置生效
+sudo systemctl daemon-reload
+sudo systemctl restart docker                         重启 Docker，使配置生效
+───────────────────────────────────────────────  ───────────────────────────────────────────────────────────────────────────
+docker info | grep -i runtimes | grep nvidia                  验证
 ───────────────────────────────────────────────  ───────────────────────────────────────────────────────────────────────────
 docker run --gpus all ...                        启动具体容器时，为它开放 GPU 访问权限
 
