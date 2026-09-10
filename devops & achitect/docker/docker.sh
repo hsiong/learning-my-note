@@ -46,6 +46,7 @@ docker run --name nginx \
 
 ## 2.2 docker - postgres 
 docker run -d \
+--restart always \
 --name postgres \
 -p 5432:5432 \
 -e POSTGRES_USER=hsiong \
