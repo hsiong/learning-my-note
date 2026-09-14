@@ -35,6 +35,55 @@ systemctl show ollama | grep OLLAMA_MODELS
 
 ```
 
+## 内网访问
+
+### 步骤 2：写入 override.conf 环境变量配置
+
+创建并编辑覆盖配置文件，强制 Ollama 监听所有网卡的 11434 端口：
+
+```
+sudo nano /etc/systemd/system/ollama.service.d/override.conf
+```
+
+在文件中粘贴以下内容：
+
+```
+[Service]
+Environment="OLLAMA_HOST=0.0.0.0:11434"
+```
+
+- 按 `Ctrl+O` → 回车 保存
+- 按 `Ctrl+X` 退出编辑器
+
+> 
+> 习惯用 vim 的话，把 `nano` 替换成 `vim` 即可。
+
+### 步骤 3：重载配置并重启 Ollama
+
+修改 systemd 后必须重载守护进程，再重启服务让配置生效：
+
+```
+# 重载 systemd 配置
+sudo systemctl daemon-reload
+
+# 重启 Ollama 服务
+sudo systemctl restart ollama
+```
+
+### 步骤 4：验证监听是否生效
+
+执行以下命令确认 Ollama 已经监听 `0.0.0.0:11434`：
+
+```
+ss -tuln | grep 11434
+```
+
+✅ 正常输出示例（代表所有网卡都已监听）：
+
+```
+LISTEN 0      4096       0.0.0.0:11434      0.0.0.0:*
+```
+
 ## 基本操作
 
 ### 前台启动
