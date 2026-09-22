@@ -3088,3 +3088,9 @@ pip install pip-tools
 pip-sync requirements.txt
 
 ```
+
+## pip remove global custom dept
+
+```
+pip3 list --user --format=freeze | xargs -r pip uninstall --break-system-packages -y
+```
