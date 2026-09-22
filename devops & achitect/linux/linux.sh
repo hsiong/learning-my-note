@@ -355,3 +355,9 @@ truncate -s 0 "$LOG_FILE"
 pkill -f idea
 
 pkill -f pycharm
+
+# pycharm lock 
+hsiong:pycharm-2026.2.1/ $ find ~ -name ".lock" -type f 2>/dev/null | grep -i pycharm
+
+/home/hsiong/.config/JetBrains/PyCharm2026.2/.lock
+hsiong:pycharm-2026.2.1/ $ rm -rf /home/hsiong/.config/JetBrains/PyCharm2026.2/.lock                 
