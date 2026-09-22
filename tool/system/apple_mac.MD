@@ -449,3 +449,10 @@ However, on MacBooks with Touch ID, briefly pressing the power button may someti
   - sleep 15：闲置 15 分钟后系统睡眠
   - 如果希望电池模式永不自动睡眠，可设为 sleep 0，但会明显增加耗电
 
+## usb 复制后, 多了 .xxx 同名文件
+
+```
+TARGET_DIR="/media/hsiong/USB STICK/报告"
+
+find "$TARGET_DIR" -type f \( -name "._*" -o -name ".DS_Store" \) -delete
+```
