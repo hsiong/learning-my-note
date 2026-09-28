@@ -456,3 +456,8 @@ TARGET_DIR="/media/hsiong/USB STICK/报告"
 
 find "$TARGET_DIR" -type f \( -name "._*" -o -name ".DS_Store" \) -delete
 ```
+
+
+## dictionary
+
+在 macOS 上，把光标放在任意单词上，按 **Control + Command + D**，会直接在光标下方弹出 Dictionary 的释义浮层，无需切换 App—— 这就是系统级 "快速唤醒词典" 的默认快捷键。
