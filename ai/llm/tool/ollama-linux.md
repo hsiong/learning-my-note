@@ -49,6 +49,12 @@ sudo nano /etc/systemd/system/ollama.service.d/override.conf
 
 ```
 [Service]
+Environment="OLLAMA_MODELS=/usr/model/ollama_model"
+Environment="OLLAMA_HF_MIRROR=https://modelscope.cn"
+
+Environment="OLLAMA_CONTEXT_LENGTH=131072"
+Environment="OLLAMA_FLASH_ATTENTION=1"
+Environment="OLLAMA_KV_CACHE_TYPE=q8_0"
 Environment="OLLAMA_HOST=0.0.0.0:11434"
 ```
 
